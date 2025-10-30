@@ -10,11 +10,8 @@
     cd electris.net
 #### Then, install dependencies
     bun install
-#### Lastly, to try the website, do:
+#### Finally, to try the website, do:
     bun run dev
-#### OR, to try NewHome, do:
-    bun run dev:newhome
-#### If everything went right, you will see an address in the terminal console to access the page.<br>You will also see "development" in the sidebar footer.
 
 ## Submitting Improvements
 
@@ -23,7 +20,7 @@
 ## Subdomains:
 ### For the Public
 
-#### [new.electris.net](https://new.electris.net) (NOT AVAILABLE YET)
+#### [new.electris.net](https://new.electris.net)
 ##### The NewHome page of our website.
 
 #### [canary.electris.net](https://canary.electris.net)
