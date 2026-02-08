@@ -3,7 +3,6 @@
   import { afterNavigate } from '$app/navigation';
   import { hoverConfigStore, type HoverConfig } from '$lib/stores/hoverConfig';
 
-  let resetCursorFunction: () => void;
   let circleElement: HTMLElement | null = null;
 
   const mouse = { x: 0, y: 0 };
@@ -29,6 +28,23 @@
   let wordHoverPadding = 0.8;
 
   let hoverConfigs: HoverConfig[] = [];
+  const hoveredElements = new Set<HTMLElement>();
+  let lastColorElement: HTMLElement | null = null;
+
+  function updateCursorColor(element: HTMLElement | null, config?: HoverConfig) {
+    if (!circleElement) return;
+
+    if (element && config?.wrapText) {
+      if (lastColorElement === element) return;
+      lastColorElement = element;
+      const color = window.getComputedStyle(element).color;
+      circleElement.style.borderColor = color;
+    } else {
+      if (lastColorElement === null) return;
+      lastColorElement = null;
+      circleElement.style.borderColor = '';
+    }
+  }
   
   function vhToPx(vh: number): number {
     return (vh / 100) * window.innerHeight;
@@ -193,7 +209,7 @@
             continue;
           }
         } else if (filterConfig.ignorePunctuation) {
-          const match = word.match(/[\p{L}\p{N}\s\[\]{}|\\\/\-_+=<>~`@#$%^&*()'"]+/u);
+          const match = word.match(/[\p{L}\p{N}\s\[\]{}|\\\/\-_+=<>~`@#$%^&*()'"”]+/u);
           if (match) {
             cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
@@ -201,7 +217,7 @@
             actualEnd = actualStart + cleanWord.length;
           }
         } else if (filterConfig.ignoreCharacters) {
-          const match = word.match(/[\p{L}\p{N}.,;:!?'"()-]+/u);
+          const match = word.match(/[\p{L}\p{N}.,;:!?"'()-]+/u);
           if (match) {
             cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
@@ -248,27 +264,14 @@
     };
   }
 
-  const hoveredElements = new Set<HTMLElement>();
-
   function shouldAllowRotation(): boolean {
     if (!circleElement) return true;
-    
     if (isTransitioning) return false;
+    if (lockedConfig?.preventRotation) return false;
     
-    const isLocked = circleElement.classList.contains('hovered-lock');
-    const hasRectangularShape = circleElement.classList.contains('hovered-menu-item') || 
-                                circleElement.classList.contains('hovered-footer') ||
-                                circleElement.classList.contains('hovered-new-search') ||
-                                hoverConfigs.some(config => 
-                                  config.wrapText && 
-                                  circleElement?.classList.contains(config.className)
-                                );
-    
-    return !isLocked || !hasRectangularShape;
-  }
+    if (lockedElement) return false;
 
-  function isHoveringMenuItems(): boolean {
-    return circleElement?.classList.contains('hovered-menu-item') || false;
+    return true;
   }
 
   function handleTouchStart(e: TouchEvent) {
@@ -289,74 +292,50 @@
     isTouchActive = false;
   }
 
-  function getElementCenter(element: HTMLElement, config?: HoverConfig): { x: number, y: number } {
-    let targetElement = element;
+  function getTrackingElement(element: HTMLElement, config: HoverConfig): HTMLElement {
+    if (config.trackingTarget) {
+      const target = element.querySelector(config.trackingTarget) as HTMLElement;
+      if (target) return target;
+    }
+    return element;
+  }
+
+  function getTargetCenter(element: HTMLElement, config: HoverConfig): { x: number, y: number, width?: number, height?: number } {
+    if (config.wrapText && currentWord) {
+      const bounds = getWordHoverBounds();
+      return { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height };
+    }
+
+    let target = getTrackingElement(element, config);
     let offsetX = 0;
     let offsetY = 0;
 
-    if (config?.className === 'hovered-pin') {
-      return getPinCenter(element);
-    }
-
-    if (config?.wrapText) {
-      const wordBounds = getWordHoverBounds();
-      return { x: wordBounds.x, y: wordBounds.y };
-    }
-
-    if (config?.customPositioning) {
+    if (config.customPositioning) {
       const customTarget = document.querySelector(config.customPositioning.targetSelector) as HTMLElement;
       if (customTarget) {
-        targetElement = customTarget;
+        target = customTarget;
       }
       offsetX = config.customPositioning.offsetX ? vwToPx(config.customPositioning.offsetX) : 0;
       offsetY = config.customPositioning.offsetY ? vhToPx(config.customPositioning.offsetY) : 0;
     }
 
-    const rect = targetElement.getBoundingClientRect();
+    let rect = target.getBoundingClientRect();
+    
+    // Safety check. If tracked element has no size (not rendered yet), fallback to the locked element
+    if (rect.width === 0 && rect.height === 0 && target !== element) {
+        target = element;
+        rect = target.getBoundingClientRect();
+    }
+
     let centerX = rect.left + rect.width / 2 + offsetX;
     let centerY = rect.top + rect.height / 2 + offsetY;
 
-    if (targetElement.closest('.newhome-search')) {
-      const searchWrapper = targetElement.closest('.search-wrapper');
-      if (searchWrapper) {
-        const searchRect = searchWrapper.getBoundingClientRect();
-        centerX = searchRect.left + searchRect.width / 2;
-        centerY = searchRect.top + searchRect.height / 2;
-        centerY -= vhToPx(0.1);
-      }
-    }
-
-    return { x: centerX, y: centerY };
-  }
-
-  function getCurrentLockedPosition(): { x: number, y: number } {
-    if (!lockedElement || !lockedConfig) {
-      return { x: circle.x, y: circle.y };
-    }
-    
-    return getElementCenter(lockedElement, lockedConfig);
-  }
-
-  function getPinCenter(element: HTMLElement): { x: number, y: number } {
-    const rect = element.getBoundingClientRect();
-    let centerX = rect.left + rect.width / 2;
-    let centerY = rect.top + rect.height / 2;
-  
-    const pinLink = element.querySelector('.pin-link');
-    if (pinLink) {
-      const computedStyle = window.getComputedStyle(pinLink);
-      const transform = computedStyle.transform;
-      if (transform && transform !== 'none') {
-        const matrix = new DOMMatrix(transform);
-        centerY += matrix.m42;
-      }
-    }
-  
-    return { x: centerX, y: centerY };
+    return { x: centerX, y: centerY, width: rect.width, height: rect.height };
   }
 
   function dispatchCustomEvent(eventName: string, element: HTMLElement, config?: HoverConfig, index?: number) {
-    const center = getElementCenter(element, config);
+    if (!config) return;
+    const center = getTargetCenter(element, config);
     const detail: any = { x: center.x, y: center.y };
     if (index !== undefined) {
       detail.index = index;
@@ -408,9 +387,9 @@
     }
   }
 
-  function getApplicableConfigsForPosition(x: number, y: number): { config: HoverConfig, element: HTMLElement, matchResult: any }[] {
+  function getApplicableConfigsForPosition(x: number, y: number): { config: HoverConfig, element: HTMLElement }[] {
     const elements = document.elementsFromPoint(x, y);
-    const configElementPairs: { config: HoverConfig, element: HTMLElement, matchResult: any }[] = [];
+    const configElementPairs: { config: HoverConfig, element: HTMLElement }[] = [];
 
     for (const el of elements) {
       const htmlElement = el as HTMLElement;
@@ -424,8 +403,7 @@
         if (matchResult.matches && matchResult.element) {
           configElementPairs.push({
             config,
-            element: matchResult.element,
-            matchResult
+            element: matchResult.element
           });
         }
       }
@@ -433,17 +411,61 @@
 
     const elementsWithCustomOverrides = new Set<HTMLElement>();
     
+    // Default configs are the first ones in the store usually, 
+    // but a better way is to identify if they were added via useHoverConfig
+    // Since we don't have an explicit flag, we can assume configs that aren't the broad defaults
+    // or those that have specific selectors are overrides.
+    
     configElementPairs.forEach(({ config, element }) => {
-      if (config.type && config.type.length > 0) {
+      // If it's a custom config (has type OR it's not one of the broad defaults)
+      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      if ((config.type && config.type.length > 0) || !isDefault) {
         elementsWithCustomOverrides.add(element);
       }
     });
 
     const filteredPairs = configElementPairs.filter(({ config, element }) => {
-      if (config.type && config.type.length > 0) {
+      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      if ((config.type && config.type.length > 0) || !isDefault) {
         return true;
       }
+      const hasDescendantWithOverride = Array.from(elementsWithCustomOverrides).some(overrideElement => {
+        return element.contains(overrideElement) && element !== overrideElement;
+      });
 
+      return !hasDescendantWithOverride;
+    });
+
+    return filteredPairs;
+  }
+
+  function getApplicableConfigsForTarget(target: HTMLElement): { config: HoverConfig, element: HTMLElement }[] {
+    const configElementPairs: { config: HoverConfig, element: HTMLElement }[] = [];
+
+    for (const config of hoverConfigs) {
+      const matchResult = elementMatchesConfig(target, config);
+      if (matchResult.matches && matchResult.element) {
+        configElementPairs.push({
+          config,
+          element: matchResult.element
+        });
+      }
+    }
+
+    const elementsWithCustomOverrides = new Set<HTMLElement>();
+    
+    configElementPairs.forEach(({ config, element }) => {
+      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      if ((config.type && config.type.length > 0) || !isDefault) {
+        elementsWithCustomOverrides.add(element);
+      }
+    });
+
+    const filteredPairs = configElementPairs.filter(({ config, element }) => {
+      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      if ((config.type && config.type.length > 0) || !isDefault) {
+        return true;
+      }
       const hasDescendantWithOverride = Array.from(elementsWithCustomOverrides).some(overrideElement => {
         return element.contains(overrideElement) && element !== overrideElement;
       });
@@ -456,39 +478,30 @@
 
   function hasEnabledWrapText(config: HoverConfig): boolean {
     if (!config.wrapText) return false;
-    
     const words = config.wrapText.words ?? false;
     const sentences = config.wrapText.sentences ?? false;
-    
-    if (words === false && sentences === false) {
-      return false;
-    }
-    
     return words || sentences;
   }
 
   function getWordAtPositionWithHierarchy(x: number, y: number): { element: HTMLElement, bounds: DOMRect, text: string, config: HoverConfig } | null {
     const applicableConfigs = getApplicableConfigsForPosition(x, y);
-    const customConfigs = applicableConfigs.filter(({ config }) => config.type && config.type.length > 0);
     
-    if (customConfigs.length > 0) {
-      const hasEnabledWrapTextInCustomConfigs = customConfigs.some(({ config }) => hasEnabledWrapText(config));
-      if (!hasEnabledWrapTextInCustomConfigs) {
-        return null;
-      }
-    }
-    
-    const wordWrapConfigs = applicableConfigs.filter(({ config }) => hasEnabledWrapText(config));
+    // Sort configs so that more specific ones (like those with 'type' or more specific selectors) come first
+    const sortedConfigs = applicableConfigs.sort((a, b) => {
+      const aIsCustom = (a.config.type && a.config.type.length > 0) ? 1 : 0;
+      const bIsCustom = (b.config.type && b.config.type.length > 0) ? 1 : 0;
+      
+      if (aIsCustom !== bIsCustom) return bIsCustom - aIsCustom;
 
-    if (wordWrapConfigs.length === 0) return null;
-
-    const sortedConfigs = wordWrapConfigs.sort((a, b) => {
-      const aIsCustom = a.config.type && a.config.type.length > 0 ? 1 : 0;
-      const bIsCustom = b.config.type && b.config.type.length > 0 ? 1 : 0;
-      return bIsCustom - aIsCustom;
+      // If both or neither have custom types, prioritize based on wrapText presence and specificity
+      const aHasWrap = a.config.wrapText ? 1 : 0;
+      const bHasWrap = b.config.wrapText ? 1 : 0;
+      return bHasWrap - aHasWrap;
     });
 
     for (const { config, element } of sortedConfigs) {
+      if (!hasEnabledWrapText(config)) continue;
+      
       const word = getWordAtPosition(x, y, config.wrapText, element);
       if (word) {
         return {
@@ -518,24 +531,20 @@
             circleElement?.classList.remove(currentConfigClass);
           }
           
-          const hasOtherLockedHover = hoverConfigs.some(otherConfig => 
-            otherConfig.lockPosition && 
-            !otherConfig.wrapText && 
-            circleElement?.classList.contains(otherConfig.className)
-          );
-          
-          if (!hasOtherLockedHover) {
-            lockedElement = null;
-            lockedConfig = null;
-            wasLocked = true;
-            isTransitioning = true;
-            transitionStartTime = performance.now();
-            circleElement?.classList.remove('hovered-lock');
-            
-            if (circleElement) {
-              circleElement.style.width = '';
-              circleElement.style.height = '';
-            }
+          if (!lockedConfig || !lockedConfig.lockPosition || lockedConfig.wrapText) {
+             lockedElement = null;
+             lockedConfig = null;
+             wasLocked = true;
+             isTransitioning = true;
+             transitionStartTime = performance.now();
+             circleElement?.classList.remove('hovered-lock');
+             
+             updateCursorColor(null);
+             
+             if (circleElement) {
+                circleElement.style.width = '';
+                circleElement.style.height = '';
+             }
           }
         }
         currentWord = null;
@@ -572,11 +581,13 @@
         transitionStartTime = performance.now();
         
         circleElement?.classList.add('hovered-lock');
+
+        updateCursorColor(element, config);
       }
     }
   }
 
-  function handleHover(event: MouseEvent, config: HoverConfig, elementIndex?: number) {
+  function handleHover(event: MouseEvent, config: HoverConfig) {
     const target = event.target as HTMLElement;
 
     if (hasNoInteractClass(target)) {
@@ -592,37 +603,34 @@
     if (!matchResult.matches || !matchResult.element) return;
 
     const element = matchResult.element;
-    const applicableConfigsAtPosition = getApplicableConfigsForPosition(event.clientX, event.clientY);
-    const isApplicable = applicableConfigsAtPosition.some(({ config: applicableConfig, element: applicableElement }) => 
+
+    const applicableConfigs = getApplicableConfigsForTarget(target);
+    const isApplicable = applicableConfigs.some(({ config: applicableConfig, element: applicableElement }) => 
       applicableConfig === config && applicableElement === element
     );
     
     if (!isApplicable) return;
     if (hoveredElements.has(element)) return;
 
-    const wasHoveringMenu = isHoveringMenuItems();
-    const willBeHoveringMenu = config.className === 'hovered-menu-item';
-
     hoveredElements.add(element);
     circleElement?.classList.add(config.className);
+
+    updateCursorColor(element, config);
 
     if (config.lockPosition) {
       lockedElement = element;
       lockedConfig = config;
       
-      if (wasHoveringMenu && willBeHoveringMenu) {
-      } else {
-        if (!circleElement?.classList.contains('hovered-lock')) {
-          isTransitioning = true;
-          transitionStartTime = performance.now();
-        }
-        
-        circleElement?.classList.add('hovered-lock');
+      if (!circleElement?.classList.contains('hovered-lock')) {
+        isTransitioning = true;
+        transitionStartTime = performance.now();
       }
+      
+      circleElement?.classList.add('hovered-lock');
     }
 
     if (config.customEvent) {
-      dispatchCustomEvent(config.customEvent.hovered, element, config, elementIndex);
+      dispatchCustomEvent(config.customEvent.hovered, element, config);
     }
 
     lastLockedConfig = config.lockPosition ? config : null;
@@ -630,6 +638,7 @@
 
   function handleUnhover(event: MouseEvent, config: HoverConfig) {
     const target = event.target as HTMLElement;
+    const relatedTarget = event.relatedTarget as Node | null;
     
     if (config.wrapText) {
       return;
@@ -641,26 +650,26 @@
 
     const element = matchResult.element;
     
+    if (relatedTarget && element.contains(relatedTarget)) {
+      return;
+    }
+    
     if (!hoveredElements.has(element)) return;
 
     hoveredElements.delete(element);
     circleElement?.classList.remove(config.className);
 
     if (config.lockPosition) {
-      const hasOtherLockedHover = hoverConfigs.some(otherConfig => 
-        otherConfig.lockPosition && 
-        otherConfig !== config && 
-        circleElement?.classList.contains(otherConfig.className)
-      );
-      
-      if (!hasOtherLockedHover) {
-        lockedElement = null;
-        lockedConfig = null;
-        wasLocked = true;
-        isTransitioning = true;
-        transitionStartTime = performance.now();
-        circleElement?.classList.remove('hovered-lock');
-      }
+        if (lockedElement === element) {
+            lockedElement = null;
+            lockedConfig = null;
+            wasLocked = true;
+            isTransitioning = true;
+            transitionStartTime = performance.now();
+            circleElement?.classList.remove('hovered-lock');
+            
+            updateCursorColor(null);
+        }
     }
 
     if (config.customEvent) {
@@ -672,17 +681,8 @@
 
   function setupHoverDetection() {
     const handleMouseOver = (event: MouseEvent) => {
-      hoverConfigs.forEach((config, configIndex) => {
-        if (config.className === 'hovered-menu-item') {
-          const menuItems = document.querySelectorAll('.menu-item a');
-          menuItems.forEach((menuItem, index) => {
-            if (menuItem.contains(event.target as Node)) {
-              handleHover(event, config, index);
-            }
-          });
-        } else {
-          handleHover(event, config);
-        }
+      hoverConfigs.forEach((config) => {
+        handleHover(event, config);
       });
     };
 
@@ -714,8 +714,15 @@
     }
   }
 
-  function softResetCursor() {
+  function softResetCursor(force = false) {
     if (circleElement) {
+      const elementsAtPoint = document.elementsFromPoint(mouse.x, mouse.y);
+      const isOverNavbar = elementsAtPoint.some(el => el.closest('.navbar'));
+
+      if (!force && isOverNavbar) {
+        return;
+      }
+
       hoveredElements.clear();
       currentWord = null;
     
@@ -730,6 +737,12 @@
       isTransitioning = true;
       transitionStartTime = performance.now();
       wasLocked = false;
+      updateCursorColor(null);
+      
+      if (circleElement) {
+        circleElement.style.width = '';
+        circleElement.style.height = '';
+      }
     
       hoverConfigs.forEach(config => {
         if (config.customEvent && hoveredElements.size > 0) {
@@ -771,38 +784,6 @@
         break;
     }
 
-    resetCursorFunction = () => {
-      if (circleElement) {
-        circleElement.classList.remove(
-          "hovered-lock",
-          "hovered-word-wrap",
-          "hovered-button-grow",
-          "hovered-footer",
-          "hovered-sip",
-          "hovered-menu-item",
-          "hovered-new-search",
-          "hovered-blog-search",
-          "hovered-blog-filters",
-          "hovered-pin",
-          "hovered-pin-empty",
-          "hovered-settings"
-        );
-    
-        lockedElement = null;
-        lockedConfig = null;
-        currentWord = null;
-        currentScale = 0;
-        currentAngle = 0;
-        isTransitioning = false;
-        wasLocked = false;
-    
-        circle.x = mouse.x;
-        circle.y = mouse.y;
-    
-        circleElement.style.transform = `translate(${mouse.x}px, ${mouse.y}px)`;
-      }
-    };
-
     const speed = 0.3;
     const hoverSpeed = 0.15;
     const transitionDuration = 300;
@@ -833,48 +814,35 @@
         }
       }
 
-      if (circleElement?.classList.contains("hovered-lock")) {
-        const lockedPos = getCurrentLockedPosition();
-        
-        if (lockedConfig && (lockedConfig.wrapText?.words || lockedConfig.wrapText?.sentences)) {
-          circle.x += (lockedPos.x - circle.x) * hoverSpeed;
-          circle.y += (lockedPos.y - circle.y) * hoverSpeed;
-        } else {
-          circle.x += (lockedPos.x - circle.x) * hoverSpeed;
-          circle.y += (lockedPos.y - circle.y) * hoverSpeed;
-        }
-      } else {
-        circle.x += (mouse.x - circle.x) * speed;
-        circle.y += (mouse.y - circle.y) * speed;
+      let targetX = mouse.x;
+      let targetY = mouse.y;
+      let targetWidth: number | undefined;
+      let targetHeight: number | undefined;
+
+      if (lockedElement && lockedConfig && lockedConfig.lockPosition) {
+         const targetCenter = getTargetCenter(lockedElement, lockedConfig);
+         targetX = targetCenter.x;
+         targetY = targetCenter.y;
+         targetWidth = targetCenter.width;
+         targetHeight = targetCenter.height;
       }
 
-      let adjustedX = circle.x;
-      let adjustedY = circle.y;
+      const currentSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
       
-      if (circleElement) {
-        if (lockedConfig && lockedConfig.wrapText && currentWord) {
-          const wordBounds = getWordHoverBounds();
-          
-          circleElement.style.width = `${wordBounds.width}px`;
-          circleElement.style.height = `${wordBounds.height}px`;
-          
-          const computedStyle = window.getComputedStyle(circleElement);
-          const width = parseFloat(computedStyle.width) || wordBounds.width;
-          const height = parseFloat(computedStyle.height) || wordBounds.height;
+      circle.x += (targetX - circle.x) * currentSpeed;
+      circle.y += (targetY - circle.y) * currentSpeed;
 
-          adjustedX = circle.x - width / 2;
-          adjustedY = circle.y - height / 2;
+      if (circleElement) {
+        if (lockedElement && lockedConfig && lockedConfig.wrapText && targetWidth && targetHeight) {
+          circleElement.style.width = `${targetWidth}px`;
+          circleElement.style.height = `${targetHeight}px`;
         } else {
-          const computedStyle = window.getComputedStyle(circleElement);
-          const width = parseFloat(computedStyle.width);
-          const height = parseFloat(computedStyle.height);
-          
-          adjustedX = circle.x - width / 2;
-          adjustedY = circle.y - height / 2;
+          circleElement.style.width = '';
+          circleElement.style.height = '';
         }
       }
 
-      const translateTransform = `translate(${adjustedX}px, ${adjustedY}px)`;
+      const translateTransform = `translate(${circle.x}px, ${circle.y}px) translate(-50%, -50%)`;
 
       const deltaMouseX = mouse.x - previousMouse.x;
       const deltaMouseY = mouse.y - previousMouse.y;
@@ -894,7 +862,7 @@
       }
 
       const allowRotation = shouldAllowRotation();
-      const scaleTransform = (circleElement?.classList.contains("hovered-lock") || !allowRotation)
+      const scaleTransform = (!allowRotation)
         ? ``
         : `scale(${finalScaleX}, ${finalScaleY})`;
 
@@ -904,15 +872,15 @@
         currentAngle = angle;
       }
 
-      const rotateTransform = (circleElement?.classList.contains("hovered-lock") || !allowRotation)
+      const rotateTransform = (!allowRotation)
         ? ``
         : `rotate(${currentAngle}deg)`;
 
       if (circleElement) {
-        if (!(lockedConfig && lockedConfig.wrapText)) {
-          circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
-        } else {
+        if (lockedElement && lockedConfig && lockedConfig.wrapText) {
           circleElement.style.transform = translateTransform;
+        } else {
+          circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
         }
       }
 
@@ -932,23 +900,16 @@
     tick();
 
     afterNavigate(() => {
+      isNavigating = false;
+      if (circleElement) {
+        circleElement.style.opacity = "1";
+      }
       setTimeout(() => {
         if (circleElement) {
-          hoveredElements.clear();
-          lockedElement = null;
-          lockedConfig = null;
-          currentWord = null;
-          
-          circleElement.className = "circle";
-      
+          softResetCursor();
           circle.x = mouse.x;
           circle.y = mouse.y;
-          circleElement.style.transform = `translate(${mouse.x}px, ${mouse.y}px)`;
-      
-          currentScale = 0;
-          currentAngle = 0;
-          isTransitioning = false;
-          wasLocked = false;
+          circleElement.style.transform = `translate(${mouse.x}px, ${mouse.y}px) translate(-50%, -50%)`;
         }
       }, 100);
     });

@@ -200,13 +200,13 @@
     flex-shrink: 0;
   }
   
-  :global([data-theme="light"]) .language-dropdown {
+  :global([data-color-scheme="light"]) .language-dropdown {
     background: var(--bg-secondary, #f0f0f0);
     color: #333;
   }
   
-  :global([data-theme="light"]) .language-button,
-  :global([data-theme="light"]) .language-option {
+  :global([data-color-scheme="light"]) .language-button,
+  :global([data-color-scheme="light"]) .language-option {
     color: #f65901;
   }
 </style>

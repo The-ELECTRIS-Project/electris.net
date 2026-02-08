@@ -9,9 +9,9 @@
     git clone https://github.com/ItzELECTR0/electris.net.git
     cd electris.net
 #### Then, install dependencies
-    bun install
+    npm install
 #### Finally, to try the website, do:
-    bun run dev
+    npm run dev
 
 ## Submitting Improvements
 

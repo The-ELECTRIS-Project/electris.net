@@ -33,8 +33,8 @@
       {#each socialCards as card}
         <a class="card" href={card.url} target="_blank">
           <div class="icons">
-            <img src={card.platformLogo} alt="Platform Logo" class="platform-logo"/>
-            <img src={card.profilePicture} alt="Profile Picture" class="profile-picture"/>
+            <img src={card.platformLogo} alt={card.title} class="platform-logo"/>
+            <img src={card.profilePicture} alt="ELECTRO" class="profile-picture"/>
           </div>
           <div class="card-text">
             <h2>{card.title}</h2>

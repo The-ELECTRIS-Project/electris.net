@@ -7,6 +7,9 @@ export interface HoverConfig {
   className: string;
   lockPosition?: boolean;
   requireAllSelectors?: boolean;
+  preventRotation?: boolean;
+  trackingTarget?: string;
+  shape?: 'circle' | 'rect' | 'text';
   wrapText?: {
     words?: boolean;
     sentences?: boolean;

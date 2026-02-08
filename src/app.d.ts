@@ -4,8 +4,6 @@ declare global {
 	namespace App {
 		
 	}
-
-	declare const __BUILD_MODE__: 'regular' | 'newhome';
 }
 
 export {};

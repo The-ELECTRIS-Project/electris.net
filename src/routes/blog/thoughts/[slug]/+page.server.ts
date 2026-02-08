@@ -11,9 +11,10 @@ export const load: PageServerLoad = async ({ params }) => {
   
   try {
     const modules = import.meta.glob('/src/routes/blog/thoughts/*.html', { 
-      as: 'raw', 
+      query: '?raw',
+      import: 'default',
       eager: true 
-    });
+    }) as Record<string, string>;
     
     const filePath = `/src/routes/blog/thoughts/${slug}.html`;
     const content = modules[filePath];

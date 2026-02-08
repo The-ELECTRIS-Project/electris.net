@@ -1,7 +1,7 @@
 import type { BlogPost, BlogMetadata } from '$lib/types/blog';
 
 export async function loadBlogPosts(): Promise<BlogPost[]> {
-  const modules = import.meta.glob('/src/routes/blog/thoughts/*.html', { as: 'raw', eager: true });
+  const modules = import.meta.glob('/src/routes/blog/thoughts/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
   const posts: BlogPost[] = [];
 
   for (const [path, content] of Object.entries(modules)) {

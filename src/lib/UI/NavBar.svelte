@@ -61,7 +61,6 @@
 
   // Environment info
   $: envInfo = $environmentStore;
-  $: isNewHome = envInfo.isNewHome;
   $: footerEnv = getEnvironmentDisplayName(envInfo.environment);
   $: showDevTools = envInfo.isDevelopment;
 
@@ -76,7 +75,7 @@
   const hoverConfigs: HoverConfig[] = [
     {
       type: [ 'a' ],
-      selectors: ['.menu-item'],
+      selectors: ['.menu-item a'],
       className: 'hovered-menu-item',
       lockPosition: true
     },
@@ -160,7 +159,7 @@
       value: 'midnight' as ColorScheme, 
       label: $t('nav.options.color.oled', 'Midnight'), 
       icon: '🌚',
-      description: $t('nav.options.color.oled.desc', 'Blackout')
+      description: $t('nav.options.color.oled.desc', 'Looks like there\'s a blackout...')
     }
   ] as ColorSchemeOption[];
 
@@ -407,15 +406,9 @@
 
 <nav class="navbar">
   <div class="nav-buttons">
-    {#if !isNewHome}
-      <a class="nav-button abt" href="/about">{$t('about.title', 'About Us')}</a>
-      <a class="nav-button elts" href="/">{$t('site.title', 'ELECTRIS')}</a>
-      <a class="nav-button proj" href="/projects">{$t('nav.bar.proj', 'Projects')}</a>
-    {:else if isNewHome}
-      <a class="nav-button abt" href="https://electris.net/about">{$t('about.title', 'About Us')}</a>
-      <a class="nav-button elts" href="https://electris.net">{$t('site.title', 'ELECTRIS')}</a>
-      <a class="nav-button proj" href="https://electris.net/projects">{$t('nav.bar.proj', 'Projects')}</a>
-    {/if}
+    <a class="nav-button abt" href="/about">{$t('about.hero', 'About Us')}</a>
+    <a class="nav-button elts" href="/">{$t('site.title', 'ELECTRIS')}</a>
+    <a class="nav-button proj" href="/projects">{$t('nav.bar.proj', 'Projects')}</a>
   </div>
   <Hamburger {isOpen} on:toggle={() => isOpen = !isOpen} />
   {#if isOpen}
@@ -436,29 +429,16 @@
   </button>
   <div class="hamburger {isOpen ? 'open' : ''}">
     <div class="hamburger-content">
-      {#if !isNewHome}
-        {#each menuItems as item}
-          <div class="menu-item">
-            <a
-              href={item.href}
-              target={item.newTab ? "_blank" : null}
-              on:click={() => isOpen = false}>
-              {item.label}
-            </a>
-          </div>
-        {/each}
-      {:else if isNewHome}
-        {#each newHomeItems as item}
-          <div class="menu-item">
-            <a
-              href={item.href}
-              target={item.newTab ? "_blank" : null}
-              on:click={() => isOpen = false}>
-              {item.label}
-            </a>
-          </div>
-        {/each}
-      {/if}
+      {#each menuItems as item}
+        <div class="menu-item">
+          <a
+            href={item.href}
+            target={item.newTab ? "_blank" : null}
+            on:click={() => isOpen = false}>
+            {item.label}
+          </a>
+        </div>
+      {/each}
     </div>
       <div class="wrap-no-interact-all hamburger-footer" role="region"
         on:mouseenter={(e: MouseEvent) => {
@@ -619,17 +599,15 @@
         </div>
       {/if}
       <div class="option">
-        {#if !isNewHome}
-          <a href={siteHref} class="switch-button">
-            {#if envInfo.isProduction}
-              {$t('nav.options.switch.test', 'Switch to Canary')}
-            {:else if envInfo.isCanary || envInfo.isDevelopment}
-              {$t('nav.options.switch.prod', 'Switch to Main')}
-            {:else}
-              {$t('nav.options.switch.dev', 'Switch to Development')}
-            {/if}
-          </a>
-        {/if}
+        <a href={siteHref} class="switch-button">
+          {#if envInfo.isProduction}
+            {$t('nav.options.switch.test', 'Switch to Canary')}
+          {:else if envInfo.isCanary || envInfo.isDevelopment}
+            {$t('nav.options.switch.prod', 'Switch to Main')}
+          {:else}
+            {$t('nav.options.switch.dev', 'Switch to Development')}
+          {/if}
+        </a>
       </div>
     </div>
   </div>
@@ -1257,21 +1235,21 @@
     color: white;
   }
 
-  :global([data-theme="light"]) .theme-dropdown,
+  :global([data-color-scheme="light"]) .theme-dropdown,
   :global([data-theme="light"]) .color-scheme-dropdown {
     background: var(--bg-secondary, #f0f0f0);
     color: #333;
   }
 
-  :global([data-theme="light"]) .theme-button,
-  :global([data-theme="light"]) .theme-option,
-  :global([data-theme="light"]) .color-scheme-button,
-  :global([data-theme="light"]) .color-scheme-option {
+  :global([data-color-scheme="light"]) .theme-button,
+  :global([data-color-scheme="light"]) .theme-option,
+  :global([data-color-scheme="light"]) .color-scheme-button,
+  :global([data-color-scheme="light"]) .color-scheme-option {
     color: #f65901;
   }
 
-  :global([data-theme="light"]) .theme-description,
-  :global([data-theme="light"]) .color-scheme-description {
+  :global([data-color-scheme="light"]) .theme-description,
+  :global([data-color-scheme="light"]) .color-scheme-description {
     color: rgba(246, 89, 1, 0.6);
   }
 </style>

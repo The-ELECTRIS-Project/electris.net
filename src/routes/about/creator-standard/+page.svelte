@@ -120,21 +120,21 @@
 <div class="content">
   <div class="main-section">
     <h2 class="section-header">{$t('creator.standard.meaning.header', 'Meaning:')}</h2>
-    <p class="definition">{$t('creator.standard.definition', 'Works that live up to ELECTRO\'s Vision')}</p>
+    <p class="definition">{$t('creator.standard.definition', 'Works that reflect the project\'s vision')}</p>
     
     <div class="explanation">
       <p>
-        {@html $t('creator.standard.explanation.p1', 'ELECTRO keeps a personal standard for all his works, code, assets and projects under ELECTRIS.<br>This standard ensures that everything aligns with the current vision and direction.')}
+        {@html $t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}
       </p>
       
       <p>
-        {@html $t('creator.standard.explanation.p2', 'Only works that meet this standard and support the intended goals will be utilized.<br>This applies to both original creations as well as third party ones.')}
+        {@html $t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}
       </p>
       
-      <div class="important-notice">
+      <div class="vision-evolution">
         <h3>{$t('creator.standard.vision.title', 'Vision Evolution')}</h3>
         <p>
-          {$t('creator.standard.vision.desc', 'As creative vision naturally evolves over time, ELECTRO reserves the right to remove, modify, or completely recreate any creative work, whether originally created by him or not. This can happen at any time and for any reason. This makes sure that all remains consistent with the current plans and quality standards.')}
+          {$t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}
         </p>
         <div class="notice-glow"></div>
       </div>
@@ -176,7 +176,7 @@
   }
 
   .hero {
-    font-family: 'sans-serif';
+    font-family: 'Letric';
     text-align: center;
     padding-top: 5vh;
     margin-bottom: 1vh;
@@ -290,7 +290,7 @@
   .definition {
     font-family: 'Redwing';
     font-size: 2rem;
-    margin-bottom: 4vh;
+    margin-bottom: 3vh;
     font-weight: 400;
     font-style: italic;
     position: relative;
@@ -315,8 +315,8 @@
     letter-spacing: 0.5px;
   }
 
-  .important-notice {
-    margin-top: 4vh;
+  .vision-evolution {
+    margin-top: 3vh;
     padding: 2vh;
     border-radius: 0.5vh;
     border-left: 0.3vh solid;
@@ -341,7 +341,7 @@
     100% { transform: translateX(100%) skewX(-15deg); }
   }
 
-  .important-notice h3 {
+  .vision-evolution h3 {
     font-family: 'Nightcore';
     font-size: 2rem;
     margin: 0 0 15px 0;
@@ -349,7 +349,7 @@
     z-index: 2;
   }
 
-  .important-notice p {
+  .vision-evolution p {
     margin: 0;
     font-weight: 500;
     font-size: 1.2rem;

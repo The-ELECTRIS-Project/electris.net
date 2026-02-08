@@ -1,0 +1,24 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title desc" role="img">
+  <title id="title">NewHome icon</title>
+  <desc id="desc">Stylized 2 by 2 tiles logo with blue and orange tiles, circular composition and slight tilt.</desc>
+
+  <defs>
+    <linearGradient id="nh-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsl(205, 90%, 58%)"/>
+      <stop offset="100%" stop-color="hsl(205, 90%, 40%)"/>
+    </linearGradient>
+
+    <linearGradient id="nh-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="hsl(22, 99%, 55%)"/>
+      <stop offset="100%" stop-color="hsl(22, 99%, 45%)"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(100 100) rotate(-10) translate(-100 -100)">
+    <rect x="32" y="32" width="64" height="64" rx="12" ry="12" fill="url(#nh-blue)"/>
+    <rect x="104" y="32" width="64" height="64" rx="12" ry="12" fill="url(#nh-orange)"/>
+    <rect x="32" y="104" width="64" height="64" rx="12" ry="12" fill="url(#nh-orange)"/>
+    <rect x="104" y="104" width="64" height="64" rx="12" ry="12" fill="url(#nh-blue)"/>
+    <rect x="86" y="86" width="28" height="28" rx="6" ry="6" fill="white" fill-opacity="0.06"/>
+  </g>
+</svg>

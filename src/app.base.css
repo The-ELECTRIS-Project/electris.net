@@ -86,19 +86,21 @@ a {
 .circle {
   --circle-size: 2vh;
   position: fixed;
+  top: 0;
+  left: 0;
   height: var(--circle-size);
   width: var(--circle-size);
   border-radius: 50%;
   pointer-events: none;
   will-change: transform;
-  transition: opacity 0.3s ease, rotation 0.8s, width 0.1s ease-out, height 0.1s ease-out, top 0.1s ease-out, left 0.1s ease-out, border 0.1s ease-in-out;
+  transition: opacity 0.3s ease, rotation 0.8s, width 0.1s ease-out, height 0.1s ease-out, top 0.1s ease-out, left 0.1s ease-out, border-color 0.2s ease, border-width 0.1s ease-in-out;
   z-index: 500;
   border: 0.2vh solid var(--circle-border);
 }
 
 .circle.hovered-word-wrap {
   border-radius: 0.8vh;
-  transition: opacity 0.2s ease, width 0.08s ease-out, height 0.08s ease-out, border-radius 0.10s ease-out;
+  transition: opacity 0.2s ease, width 0.08s ease-out, height 0.08s ease-out, border-radius 0.10s ease-out, border-color 0.2s ease;
 }
 
 .circle.hovered-button-grow {
@@ -135,7 +137,7 @@ a {
 }
 
 .circle.hovered-pin {
-  --circle-size: 13.4vh;
+  --circle-size: var(--hover-pin-size, 13.4vh);
   top: -0.03vh;
   border-radius: 1.2vh;
 }
@@ -250,6 +252,9 @@ a {
   --bg-body: #f5f1f8;
   --color-primary: #ff5608;
   --color-link: #ff6811;
+  --color-electris: #ff983e;
+  --color-electro: #00bf80;
+  --color-varrow: #88cc00;
   
   --navbar-bg: #f8f9fa;
   --hamburger-bg: #f0f0f0;
@@ -303,6 +308,9 @@ a {
   --bg-body: hsl(160, 7%, 8%);
   --color-primary: hsl(22, 99%, 48%);
   --color-link: hsl(22, 100%, 53%);
+  --color-electris: #ffa251;
+  --color-electro: #00ffaa;
+  --color-varrow: #ccff00;
   
   --navbar-bg: #0f1010;
   --hamburger-bg: hsl(160, 7%, 8%);
@@ -356,6 +364,9 @@ a {
   --bg-body: hsl(0, 0%, 0.5%);
   --color-primary: hsl(22, 100%, 56%);
   --color-link: hsl(22, 100%, 65%);
+  --color-electris: #ffa251;
+  --color-electro: #20ffb0;
+  --color-varrow: #d4ff33;
   
   --navbar-bg: #000000;
   --hamburger-bg: hsl(0, 0%, 0%);
