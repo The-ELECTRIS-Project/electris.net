@@ -1,4 +1,3 @@
-import auto from '@sveltejs/adapter-auto';
 import cloudflare from "@sveltejs/adapter-cloudflare";
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
@@ -9,7 +8,7 @@ const config = {
 	],
 
 	kit: {
-		adapter: auto(),
+		adapter: cloudflare(),
 		prerender: {
         origin: 'http://localhost:4173'
       }

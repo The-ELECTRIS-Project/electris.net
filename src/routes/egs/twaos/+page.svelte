@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n';
   import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
+  import gsap from 'gsap';
 
   let currentVideo: HTMLVideoElement;
   let nextVideo: HTMLVideoElement;
@@ -117,15 +118,6 @@
     playNextVideo();
   }
 
-  function ensurePlayback() {
-    if (currentVideo && currentVideo.paused && !currentVideo.ended) {
-      currentVideo.play().catch(error => {
-        console.warn("Auto-play prevention detected:", error);
-        setTimeout(() => currentVideo.play().catch(e => console.error("Retry failed:", e)), 1000);
-      });
-    }
-  }
-
   function angle(cx: number, cy: number, ex: number, ey: number): number {
     const dy: number = ey - cy;
     const dx: number = ex - cx;
@@ -144,17 +136,107 @@
 
     setTimeout(cursorReset, 10);
 
+    const track = document.getElementById('image-track') as HTMLElement;
+    
+    // Set initial position via GSAP to match data-percentage="-140"
+    gsap.set(track, {
+      xPercent: -140,
+      yPercent: -80
+    });
+    
+    // Set initial image positions (map -140 to the 35-65 range)
+    const initialTrackPos = -140;
+    const trackRange = -185 - (-95);
+    const normalizedPos = (initialTrackPos - (-95)) / trackRange;
+    const initialImageScroll = 35 + (normalizedPos * (65 - 35));
+    
+    gsap.set(track.getElementsByClassName("gallery-image"), {
+      objectPosition: `${initialImageScroll}% center`
+    });
+    
+    window.onmousedown = e => {
+      track.dataset.mouseDownAt = e.clientX.toString();
+    }
+
+    window.onmouseup = () => {
+      track.dataset.mouseDownAt = "0";
+      track.dataset.prevPercentage = track.dataset.percentage || "-122";
+    }
+
+    window.onmousemove = e => {
+      if(track.dataset.mouseDownAt === "0") return;
+        
+      const mouseDelta: number = parseFloat(track.dataset.mouseDownAt || "0") - e.clientX,
+            maxDelta: number = window.innerWidth / 2;
+        
+      const percentage: number = (mouseDelta / maxDelta) * -100,
+            nextPercentageUnconstrained: number = parseFloat(track.dataset.prevPercentage || "-122") + percentage,
+            nextPercentage: number = Math.max(Math.min(nextPercentageUnconstrained, -95), -185);
+        
+      track.dataset.percentage = nextPercentage.toString();
+      
+      gsap.to(track, {
+        xPercent: nextPercentage,
+        yPercent: -80,
+        duration: 0.6,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+      
+      const trackRange = -185 - (-95); // = -90
+      const normalizedPosition = (nextPercentage - (-95)) / trackRange; // 0 to 1
+      const imageScrollRange = 65 - 35; // = 30
+      const imageScroll = 35 + (normalizedPosition * imageScrollRange); // 35 to 65
+        
+      gsap.to(track.getElementsByClassName("gallery-image"), {
+        objectPosition: `${imageScroll}% center`,
+        duration: 1,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    }
+
     currentVideo.src = '/media/TWAOS/BG/1.mp4';
     currentVideo.load();
     
     currentVideo.addEventListener('ended', handleVideoEnded);
     nextVideo.addEventListener('ended', handleVideoEnded);
     
-    const playbackInterval = setInterval(ensurePlayback, 5000);
+    currentVideo.addEventListener('loadeddata', () => {
+      currentVideo.play().catch(error => {
+        console.warn("Autoplay prevented, waiting for user interaction:", error);
+        
+        const playOnInteraction = () => {
+          currentVideo.play().catch(e => console.error("Manual play failed:", e));
+          document.removeEventListener('click', playOnInteraction);
+          document.removeEventListener('touchstart', playOnInteraction);
+          document.removeEventListener('keydown', playOnInteraction);
+        };
+        
+        document.addEventListener('click', playOnInteraction, { once: true });
+        document.addEventListener('touchstart', playOnInteraction, { once: true });
+        document.addEventListener('keydown', playOnInteraction, { once: true });
+      });
+    }, { once: true });
+    
+    const checkCanvasVisibility = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const isCanvas1Visible = scrollY < window.innerHeight * 0.5;
+      
+      if (isCanvas1Visible && currentVideo.paused && !document.hidden) {
+        currentVideo.play().catch(e => console.error("Resume play failed:", e));
+      } else if (!isCanvas1Visible && !currentVideo.paused) {
+        currentVideo.pause();
+      }
+    };
+    
+    window.addEventListener('scroll', checkCanvasVisibility, { passive: true });
     
     document.addEventListener('visibilitychange', () => {
-      if (!document.hidden && currentVideo.paused) {
-        currentVideo.play().catch(e => console.error("Visibility play failed:", e));
+      if (document.hidden) {
+        currentVideo.pause();
+      } else {
+        checkCanvasVisibility();
       }
     });
     
@@ -177,71 +259,121 @@
       });
     }
     
-    currentVideo.play().catch(error => {
-      console.error("Initial playback error:", error);
-      setTimeout(() => currentVideo.play(), 1000);
-    });
-    
     return () => {
-      clearInterval(playbackInterval);
+      window.removeEventListener('scroll', checkCanvasVisibility);
       currentVideo.removeEventListener('ended', handleVideoEnded);
       nextVideo.removeEventListener('ended', handleVideoEnded);
     };
   });
-
-  export const search = {
-    name: "TWAOS",
-    description: "Project 001, The Wondeful Adventures Of Sip."
-  };
 </script>
 
 <svelte:head>
   <title>TWAOS | ELECTRIS</title>
 </svelte:head>
 
-<div class="hero">
-  <div class="video-container">
-    <video bind:this={currentVideo} class="hero-video" muted playsinline></video>
-    <video bind:this={nextVideo} class="hero-video next" muted playsinline style="opacity:0;"></video>
-    <div class="video-overlay"></div>
-  </div>
-  <div class="hero-text">
-    <div class="wrap-no-interact-all twaos-title">
-      <span class="text-container"><h2 class="tw">{$t('proj.twaos.title.tw', 'The Wonderful')}</h2></span>
-      <span class="text-container"><h3 class="ao">{$t('proj.twaos.title.ao', 'Adventures Of')}</h3></span>
-      <span class="text-container"><h1 class="sip">{$t('proj.twaos.title.sip', 'SIP')}</h1></span>
-    </div>
-    <span class="text-container"><h5>{$t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
-  </div>
-  <div class="wrap-no-interact-all cards-wrapper">
-    {#each pages as page}
-      <div class="card-container">
-        <a class="card" href={page.href} target="_blank">
-          <div class="card-icon">
-            <img src={page.icon} alt="{page.title} - icon" style="width: 8vh; object-fit: contain;"/>
-          </div>
-          <div class="card-content">
-            <h2>{page.title}</h2>
-            <p>{page.description}</p>
-          </div>
-        </a>
+<div class="twaos-page">
+  <div class="canvas canvas-1">
+    <div class="hero">
+      <div class="video-container">
+        <video bind:this={currentVideo} class="hero-video" muted playsinline autoplay></video>
+        <video bind:this={nextVideo} class="hero-video next" muted playsinline autoplay style="opacity:0;"></video>
+        <div class="video-overlay"></div>
       </div>
-    {/each}
+      <div class="hero-text">
+        <div class="wrap-no-interact-all twaos-title">
+          <span class="text-container"><h2 class="tw">{$t('proj.twaos.title.tw', 'The Wonderful')}</h2></span>
+          <span class="text-container"><h3 class="ao">{$t('proj.twaos.title.ao', 'Adventures Of')}</h3></span>
+          <span class="text-container"><h1 class="sip">{$t('proj.twaos.title.sip', 'SIP')}</h1></span>
+        </div>
+        <span class="text-container"><h5>{$t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
+      </div>
+      <div class="wrap-no-interact-all cards-wrapper">
+        {#each pages as page}
+          <div class="card-container">
+            <a class="card" href={page.href} target="_blank">
+              <div class="card-icon">
+                <img src={page.icon} alt="{page.title} - icon" style="width: 8vh; object-fit: contain;"/>
+              </div>
+              <div class="card-content">
+                <h2>{page.title}</h2>
+                <p>{page.description}</p>
+              </div>
+            </a>
+          </div>
+        {/each}
+      </div>
+      <div class="sip-icon">
+        <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
+          <img class="styled-sip" src="/media/TWAOS/Styled/Sip.svg" alt="SIP" />
+        </a>
+        <div class="eyes">
+          <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
+            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-LEFT" style="top: 82vh; left: 24vh;" />
+            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-RIGHT" style="top: 80vh; left: 32.8vh;" />
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="sip-icon">
-    <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
-      <img class="styled-sip" src="/media/TWAOS/Styled/Sip.svg" alt="SIP" />
-    </a>
-    <div class="eyes">
-      <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
-        <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-LEFT" style="top: 82vh; left: 24vh;" />
-        <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-RIGHT" style="top: 80vh; left: 32.8vh;" />
-      </a>
+  <div class="canvas canvas-2">
+    <div id="image-track" data-mouse-down-at="0" data-prev-percentage="-122" data-percentage="-122">
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 1" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 2" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 3" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 4" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 5" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 6" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 7" draggable="false"/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 8" draggable="false"/>
     </div>
   </div>
 </div>
 
 <style>
+  .twaos-page {
+    position: relative;
+    height: 200vh;
+  }
+
+  .canvas {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .canvas-1 {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .canvas-2 {
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-body);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -2vh 5vh rgba(0, 0, 0, 0.5);
+  }
+
+  #image-track {
+    display: flex;
+    gap: 4vmin;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+
+  #image-track > .gallery-image {
+    width: 30vmin;
+    height: 42vmin;
+    object-fit: cover;
+    object-position: 50% center;
+    user-select: none;
+    flex-shrink: 0;
+  }
+
   .text-container {
     display: inline-block;
     line-height: 1.5;

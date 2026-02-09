@@ -152,9 +152,7 @@ a {
 }
 
 .circle.hovered-hamburger {
-  height: 3.2vh;
-  width: 4vh;
-  border-radius: 1vh;
+  --circle-size: 4vh;
 }
 
 .circle.hovered-sip {

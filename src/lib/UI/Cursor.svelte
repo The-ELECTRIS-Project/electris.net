@@ -411,11 +411,6 @@
 
     const elementsWithCustomOverrides = new Set<HTMLElement>();
     
-    // Default configs are the first ones in the store usually, 
-    // but a better way is to identify if they were added via useHoverConfig
-    // Since we don't have an explicit flag, we can assume configs that aren't the broad defaults
-    // or those that have specific selectors are overrides.
-    
     configElementPairs.forEach(({ config, element }) => {
       // If it's a custom config (has type OR it's not one of the broad defaults)
       const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
