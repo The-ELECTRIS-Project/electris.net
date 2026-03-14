@@ -1,0 +1,52 @@
+{
+  "ar": {
+    "creator.standard.hero.title": "أل",
+    "creator.standard.hero.highlight": "معيار المبدع",
+    "creator.standard.meaning.header": ":المعنى",
+    "creator.standard.definition": "أعمال تعكس رؤية المشروع",
+    "creator.standard.explanation.p1": "أنا، إلكترو، أحتفظ بمعيار شخصي للأعمال التي تنتمي إلى مشروع إلكتريس نفسه.<br>بطريقة ما، أراجع الإبداعات السابقة وأتساءل:<br>«هل لا تزال هذه الأعمال تعبّر عن هويتي، وما أؤمن به، والمسار الذي يسلكه هذا المشروع؟»",
+    "creator.standard.explanation.p2": "ينطبق هذا المعيار على إلكتريس والأشياء التي أُنشئت من أجله فحسب. ولا ينطبق على المبدعين الذين يشاركون أعمالهم هنا. رؤيتك ملكك. أسلوبك ملكك. إلكتريس موجود لدعم الإبداع، لا لتشكيله في شيء آخر.",
+    "creator.standard.vision.title": "تطور الرؤية",
+    "creator.standard.vision.desc": "المهارات تنمو. الأفكار تنضج. وجهات النظر تتغير. لهذا، قد تحتاج الأعمال القديمة إلى إعادة صياغة أو إعادة بناء، أو ربما التخلي عنها أحياناً. ليس لأنها كانت خطأً، بل لأن ذلك ضروري للمضي قدماً."
+  },
+  "en_GB": {
+    "creator.standard.hero.title": "The",
+    "creator.standard.hero.highlight": "Creator Standard",
+    "creator.standard.meaning.header": "Meaning:",
+    "creator.standard.definition": "Works that reflect the project’s vision",
+    "creator.standard.explanation.p1": "I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I'm just checking past creations and asking:<br>\"Does this still represent who I am, what I believe in, and where this project is going?\"",
+    "creator.standard.explanation.p2": "This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.",
+    "creator.standard.vision.title": "Vision Evolution",
+    "creator.standard.vision.desc": "Skills grow. Ideas mature. Perspectives change. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it's needed for go on."
+  },
+  "en_US": {
+    "creator.standard.hero.title": "The",
+    "creator.standard.hero.highlight": "Creator Standard",
+    "creator.standard.meaning.header": "Meaning:",
+    "creator.standard.definition": "Works that reflect the project’s vision",
+    "creator.standard.explanation.p1": "I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I'm just checking past creations and asking:<br>'Does this still represent who I am, what I believe in, and where this project is going?'",
+    "creator.standard.explanation.p2": "This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.",
+    "creator.standard.vision.title": "Vision Evolution",
+    "creator.standard.vision.desc": "Skills grow. Ideas mature. Perspectives change. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it's needed for go on."
+  },
+  "ja_JP": {
+    "creator.standard.hero.title": "その",
+    "creator.standard.hero.highlight": "クリエイター標準",
+    "creator.standard.meaning.header": "意味：",
+    "creator.standard.definition": "プロジェクトのビジョンを映し出す作品",
+    "creator.standard.explanation.p1": "私、エレクトロは、エレクトリス プロジェクト自体に属する作品に対して個人的な基準を持っています。<br>ある意味、過去の創作物を振り返り、こう問いかけているのです：<br>「これは今の自分、自分の信念、そしてこのプロジェクトの向かう先を、まだ表しているだろうか？」",
+    "creator.standard.explanation.p2": "この基準はエレクトリスと、それのために創られたものにのみ適用されます。ここで作品を共有するクリエイターには適用されません。あなたのビジョンはあなたのもの。あなたのプロセスもあなたのもの。エレクトリスは創造を支援するために存在し、それを別のものに形作るためではありません。",
+    "creator.standard.vision.title": "ビジョンの進化",
+    "creator.standard.vision.desc": "技術は成長する。アイデアは成熟する。視点は変化する。だからこそ、古い作品は作り直し、再構築、時には手放す必要がある。間違いだったからではなく、前に進むために必要だから。"
+  },
+  "ro_RO": {
+    "creator.standard.hero.title": "",
+    "creator.standard.hero.highlight": "Standardul Creatorului",
+    "creator.standard.meaning.header": "Adică:",
+    "creator.standard.definition": "Lucruri ce reflectă viziunea proiectului",
+    "creator.standard.explanation.p1": "Eu, ELECTRO, păstrez un standard personal pentru ceea ce face parte Proiectului ELECTRIS în sine.<br>Practic, doar mă uit la ce am lucrat în trecut și mă întreb:<br>„Mai reprezintă chestia asta cine sunt eu, în ce cred și încotro se îndreaptă acest proiect?”",
+    "creator.standard.explanation.p2": "Acest standard se aplică doar proiectului ELECTRIS și lucrurilor create pentru acesta. Nu se aplică creatorilor care își împărtășesc munca aici. Viziunea și procesul tău îți aparțin ție. ELECTRIS există pentru a sprijini creația, nu pentru a o modela în altceva.",
+    "creator.standard.vision.title": "Evoluția Viziunii",
+    "creator.standard.vision.desc": "Abilitățile se schimbă. Ideile se schimbă. Perspectivele se schimbă. Din această cauză, lucrările mai vechi pot necesita să fie remodelate, reconstruite sau uneori pur și simplu trebuie să plece. Nu pentru că au fost o greșeală, ci pentru că este necesar pentru a merge mai departe."
+  }
+}

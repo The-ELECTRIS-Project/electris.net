@@ -1,8 +1,12 @@
-import { writable, derived } from 'svelte/store';
+import { writable, derived, get } from 'svelte/store';
 import { browser } from '$app/environment';
 
 export interface LocaleData {
   [key: string]: string;
+}
+
+export interface MultiLocaleData {
+  [locale: string]: LocaleData;
 }
 
 export interface AvailableLocale {
@@ -22,10 +26,13 @@ export const availableLocales: AvailableLocale[] = [
 const defaultLocale = 'en-US';
 
 export const currentLocale = writable<string>(defaultLocale);
-export const localeData = writable<LocaleData>({});
 
-const localeCache = new Map<string, LocaleData>();
-const commonCache = new Map<string, LocaleData>();
+// Stores for different levels of translations
+export const commonLocaleData = writable<LocaleData>({});
+export const rootLocaleData = writable<MultiLocaleData>({});
+export const routeLocaleData = writable<MultiLocaleData>({});
+
+const routeCache = new Map<string, MultiLocaleData>();
 
 function detectBrowserLanguage(): string {
   if (!browser) return defaultLocale;
@@ -43,115 +50,76 @@ function detectBrowserLanguage(): string {
   return familyMatch || defaultLocale;
 }
 
-function parseLocaleFile(content: string): LocaleData {
-  const data: LocaleData = {};
-  const lines = content.split('\n');
-  
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-    if (trimmedLine && !trimmedLine.startsWith('#')) {
-      const equalIndex = trimmedLine.indexOf('=');
-      if (equalIndex !== -1) {
-        const key = trimmedLine.substring(0, equalIndex).trim();
-        let value = trimmedLine.substring(equalIndex + 1).trim();
-        
-        if ((value.startsWith('"') && value.endsWith('"')) || 
-            (value.startsWith("'") && value.endsWith("'"))) {
-          value = value.slice(1, -1);
-        }
-        
-        data[key] = value;
-      }
-    }
-  }
-  
-  return data;
-}
-
-async function loadCommonData(): Promise<LocaleData> {
-  const cacheKey = 'common';
-  
-  if (commonCache.has(cacheKey)) {
-    return commonCache.get(cacheKey)!;
-  }
-  
+async function fetchJson(path: string) {
   try {
-    const response = await fetch('/data/lang/env.lang');
-    if (!response.ok) {
-      throw new Error('Failed to load common locale data');
-    }
-    
-    const content = await response.text();
-    const data = parseLocaleFile(content);
-    
-    commonCache.set(cacheKey, data);
-    return data;
-  } catch (error) {
-    console.warn('Failed to load common locale data:', error);
-    return {};
+    const response = await fetch(path);
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (e) {
+    console.error(`Failed to fetch ${path}:`, e);
+    return null;
   }
 }
 
-async function loadLanguageData(locale: string): Promise<LocaleData> {
-  if (localeCache.has(locale)) {
-    return localeCache.get(locale)!;
+export async function loadCommonData(): Promise<void> {
+  const data = await fetchJson('/data/lang/commons.json');
+  if (data) commonLocaleData.set(data);
+}
+
+export async function loadRootData(): Promise<void> {
+  const data = await fetchJson('/data/lang/routes/+lang.json');
+  if (data) rootLocaleData.set(data);
+}
+
+function normalizePath(pathname: string): string {
+  if (!pathname || pathname === '/') return '';
+  
+  // Remove trailing slash
+  let cleanPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+  // Remove leading slash for the fetch path construction
+  if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
+
+  // Handle dynamic routes if necessary, but here we just follow the literal path
+  // Since our structure follows src/routes
+  return cleanPath;
+}
+
+export async function loadRouteLocale(pathname: string): Promise<void> {
+  const normalized = normalizePath(pathname);
+  
+  if (routeCache.has(normalized)) {
+    routeLocaleData.set(routeCache.get(normalized)!);
+    return;
+  }
+
+  const data = await fetchJson(`/data/lang/routes/${normalized}/+lang.json`);
+  if (data) {
+    routeCache.set(normalized, data);
+    routeLocaleData.set(data);
+  } else {
+    routeLocaleData.set({});
+  }
+}
+
+export async function initializeI18n(pathname: string = ''): Promise<void> {
+  let initialLocale = defaultLocale;
+  
+  if (browser) {
+    const storedLocale = localStorage.getItem('preferred-locale');
+    if (storedLocale && availableLocales.find(l => l.code === storedLocale)) {
+      initialLocale = storedLocale;
+    } else {
+      initialLocale = detectBrowserLanguage();
+    }
   }
   
-  try {
-    const response = await fetch(`/data/lang/env.${locale}.lang`);
-    if (!response.ok) {
-      throw new Error(`Failed to load locale ${locale}`);
-    }
-    
-    const content = await response.text();
-    const data = parseLocaleFile(content);
-    
-    localeCache.set(locale, data);
-    return data;
-  } catch (error) {
-    console.warn(`Failed to load locale ${locale}:`, error);
-    
-    if (locale !== defaultLocale) {
-      return await loadLanguageData(defaultLocale);
-    }
-    
-    return {};
-  }
-}
-
-async function getMergedLocaleData(locale: string): Promise<LocaleData> {
-  try {
-    const [commonData, languageData] = await Promise.all([
-      loadCommonData(),
-      loadLanguageData(locale)
-    ]);
-    
-    return {
-      ...commonData,
-      ...languageData
-    };
-  } catch (error) {
-    console.error(`Failed to load locale data for ${locale}:`, error);
-    
-    if (locale !== defaultLocale) {
-      return await getMergedLocaleData(defaultLocale);
-    }
-    
-    return {};
-  }
-}
-
-export async function loadLocale(locale: string): Promise<void> {
-  try {
-    const mergedData = await getMergedLocaleData(locale);
-    localeData.set(mergedData);
-  } catch (error) {
-    console.error('Failed to load locale data:', error);
-    
-    if (locale !== defaultLocale) {
-      await loadLocale(defaultLocale);
-    }
-  }
+  currentLocale.set(initialLocale);
+  
+  await Promise.all([
+    loadCommonData(),
+    loadRootData(),
+    loadRouteLocale(pathname)
+  ]);
 }
 
 export async function setLocale(locale: string): Promise<void> {
@@ -161,137 +129,68 @@ export async function setLocale(locale: string): Promise<void> {
   }
   
   currentLocale.set(locale);
-  await loadLocale(locale);
   
   if (browser) {
     localStorage.setItem('preferred-locale', locale);
   }
 }
 
-function getStoredLocale(): string {
-  if (!browser) return defaultLocale;
+function getTranslation(
+  key: string, 
+  locale: string, 
+  $routeData: MultiLocaleData, 
+  $rootData: MultiLocaleData, 
+  $commonData: LocaleData
+): string | undefined {
+  const safeLocale = locale.replace('-', '_');
   
-  try {
-    return localStorage.getItem('preferred-locale') || defaultLocale;
-  } catch {
-    return defaultLocale;
+  // 1. Check current route
+  if ($routeData[safeLocale]?.[key] !== undefined) {
+    return $routeData[safeLocale][key];
   }
-}
+  
+  // 2. Check root (+lang.json in routes/)
+  if ($rootData[safeLocale]?.[key] !== undefined) {
+    return $rootData[safeLocale][key];
+  }
+  
+  // 3. Check commons (monolingual usually, but we check key)
+  if ($commonData[key] !== undefined) {
+    return $commonData[key];
+  }
 
-export async function initializeI18n(): Promise<void> {
-  let initialLocale = defaultLocale;
-  
-  if (browser) {
-    const storedLocale = getStoredLocale();
-    const detectedLocale = detectBrowserLanguage();
-    
-    initialLocale = storedLocale !== defaultLocale ? storedLocale : detectedLocale;
-  }
-  
-  await setLocale(initialLocale);
+  return undefined;
 }
 
 export const t = derived(
-  localeData,
-  ($localeData) => {
+  [currentLocale, routeLocaleData, rootLocaleData, commonLocaleData],
+  ([$currentLocale, $routeData, $rootData, $commonData]) => {
     return (key: string, fallback?: string, localeOverride?: string): string => {
-      if (!localeOverride) {
-        const value = $localeData[key];
-        if (value !== undefined) {
-          return value;
-        }
-        
-        if (fallback !== undefined) {
-          return fallback;
-        }
+      const locale = localeOverride || $currentLocale;
+      const value = getTranslation(key, locale, $routeData, $rootData, $commonData);
+      
+      if (value !== undefined) return value;
+      
+      if (fallback !== undefined) return fallback;
 
-        console.warn(`Translation key "${key}" not found`);
-        return key;
-      }
-      
-      const overrideLocaleData = localeCache.get(localeOverride);
-      const overrideCommonData = commonCache.get('common');
-      
-      if (overrideLocaleData && overrideCommonData) {
-        const mergedOverrideData = {
-          ...overrideCommonData,
-          ...overrideLocaleData
-        };
-        
-        const value = mergedOverrideData[key];
-        if (value !== undefined) {
-          return value;
-        }
-      }
-      
-      if (fallback !== undefined) {
-        return fallback;
-      }
-
-      console.warn(`Translation key "${key}" not found for locale override "${localeOverride}"`);
+      console.warn(`Translation key "${key}" not found in locale "${locale}"`);
       return key;
     };
   }
 );
 
+// Helper for non-reactive contexts
 export async function tAsync(key: string, fallback?: string, localeOverride?: string): Promise<string> {
-  if (!localeOverride) {
-    const currentData = await new Promise<LocaleData>((resolve) => {
-      const unsubscribe = localeData.subscribe((data) => {
-        unsubscribe();
-        resolve(data);
-      });
-    });
-    
-    const value = currentData[key];
-    if (value !== undefined) {
-      return value;
-    }
-    
-    if (fallback !== undefined) {
-      return fallback;
-    }
-
-    console.warn(`Translation key "${key}" not found`);
-    return key;
-  }
+  const locale = localeOverride || get(currentLocale);
+  const value = getTranslation(
+    key, 
+    locale, 
+    get(routeLocaleData), 
+    get(rootLocaleData), 
+    get(commonLocaleData)
+  );
   
-  try {
-    const overrideData = await getMergedLocaleData(localeOverride);
-    const value = overrideData[key];
-    
-    if (value !== undefined) {
-      return value;
-    }
-    
-    if (fallback !== undefined) {
-      return fallback;
-    }
-
-    console.warn(`Translation key "${key}" not found for locale override "${localeOverride}"`);
-    return key;
-  } catch (error) {
-    console.error(`Failed to load locale override "${localeOverride}":`, error);
-    
-    if (fallback !== undefined) {
-      return fallback;
-    }
-    
-    return key;
-  }
-}
-
-export async function preloadLocale(locale: string): Promise<void> {
-  if (!availableLocales.find(l => l.code === locale)) {
-    console.warn(`Locale ${locale} is not available for preloading`);
-    return;
-  }
-  
-  try {
-    await getMergedLocaleData(locale);
-  } catch (error) {
-    console.error(`Failed to preload locale ${locale}:`, error);
-  }
+  return value ?? fallback ?? key;
 }
 
 export const currentLocaleInfo = derived(
@@ -300,8 +199,3 @@ export const currentLocaleInfo = derived(
     return availableLocales.find(locale => locale.code === $currentLocale) || availableLocales[0];
   }
 );
-
-export function clearLocaleCache(): void {
-  localeCache.clear();
-  commonCache.clear();
-}

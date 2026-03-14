@@ -1,0 +1,53 @@
+{
+  "ar": {
+    "proj.title": "المشاريع",
+    "proj.twaos.desc.long": "لعبة تقمص أدوار مغامرات أكشن مع أجواء خيال علمي وقصة مستوحاة من الخيال العلمي وقوية للغاية وموجعة للقلب.",
+    "proj.twaos.title.tw": "The Wonderful",
+    "proj.twaos.title.ao": "Adventures Of",
+    "proj.twaos.title.sip": "SIP",
+    "proj.twaos.desc.short": "لعبة إندي مفتوحة المصدر أنشأها مطور منفرد",
+    "proj.twaos.st": "أضف إلى قائمة الأمنيات على ستيم",
+    "proj.twaos.st.desc": "أكبر منصة لتوزيع الألعاب"
+  },
+  "en_GB": {
+    "proj.title": "PROJECTS",
+    "proj.twaos.desc.long": "An adventure-action-rpg with a sci-fi setting and a fantasy inspired, super powered, heart wrenching narrative.",
+    "proj.twaos.title.tw": "The Wonderful",
+    "proj.twaos.title.ao": "Adventures Of",
+    "proj.twaos.title.sip": "SIP",
+    "proj.twaos.desc.short": "An open-source Indie Game created by a Solo Developer",
+    "proj.twaos.st": "Wishlist On Steam",
+    "proj.twaos.st.desc": "The largest game distribution platform."
+  },
+  "en_US": {
+    "proj.title": "PROJECTS",
+    "proj.twaos.desc.long": "An adventure-action-rpg with a sci-fi setting and a fantasy inspired, super powered, heart wrenching narrative.",
+    "proj.twaos.title.tw": "The Wonderful",
+    "proj.twaos.title.ao": "Adventures Of",
+    "proj.twaos.title.sip": "SIP",
+    "proj.twaos.desc.short": "An open-source Indie Game created by a Solo Developer",
+    "proj.twaos.st": "Wishlist On Steam",
+    "proj.twaos.st.desc": "The largest game distribution platform."
+  },
+  "ja_JP": {
+    "proj.twaos.title.short": "素冒シ",
+    "proj.title": "プロジェクト",
+    "proj.twaos.desc.long": "SF設定の冒険アクションRPG。ファンタジーに着想を得た超能力と、心を引き裂く物語が織りなす世界。",
+    "proj.twaos.title.tw": "素晴らしい",
+    "proj.twaos.title.ao": "アドベンチャー・オブ",
+    "proj.twaos.title.sip": "シップ",
+    "proj.twaos.desc.short": "インディー系ソロ開発者による、オープンソース・インディーゲーム",
+    "proj.twaos.st": "スチームでウィッシュリストに追加",
+    "proj.twaos.st.desc": "最大のゲーム配信プラットフォーム"
+  },
+  "ro_RO": {
+    "proj.title": "PROIECTE",
+    "proj.twaos.desc.long": "Un joc de aventură-acțiune-rpg într-un univers sci-fi, cu o poveste inspirată de fantezie și puteri supranaturale.",
+    "proj.twaos.title.tw": "The Wonderful",
+    "proj.twaos.title.ao": "Adventures Of",
+    "proj.twaos.title.sip": "SIP",
+    "proj.twaos.desc.short": "Un joc idependent open-source creat de un dezvoltator solo",
+    "proj.twaos.st": "Adauga-l pe Steam",
+    "proj.twaos.st.desc": "Cea mai mare platformă de distribuție pentru jocuri."
+  }
+}

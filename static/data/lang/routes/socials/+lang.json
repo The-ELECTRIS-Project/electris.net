@@ -1,0 +1,52 @@
+{
+  "ar": {
+    "social.title": "وسائل التواصل الإجتماعي",
+    "social.undertitle": "تابع التغييرات في كل مكان",
+    "social.etlr.yt.desc": "الرقص مع البرق",
+    "social.eltr.gh.desc": "العطاء إلى العالم",
+    "social.elts.ds.desc": "أساطير من البرق",
+    "social.vrrw.yt.desc": "مباشرة في صلب الموضوع",
+    "social.vrrw.gh.desc": "الكود المجاني هو أفضل كود",
+    "social.vrrw.x.desc": "أنا أغرد أحيانًا"
+  },
+  "en_GB": {
+    "social.title": "SOCIAL MEDIA",
+    "social.undertitle": "Follow the changes all around",
+    "social.etlr.yt.desc": "Dancing with The Lightning",
+    "social.eltr.gh.desc": "Giving to the World",
+    "social.elts.ds.desc": "Legends of Lightning",
+    "social.vrrw.yt.desc": "Straight to the point",
+    "social.vrrw.gh.desc": "Free code is best code",
+    "social.vrrw.x.desc": "I tweet sometimes"
+  },
+  "en_US": {
+    "social.title": "SOCIAL MEDIA",
+    "social.undertitle": "Follow the changes all around",
+    "social.etlr.yt.desc": "Dancing with The Lightning",
+    "social.eltr.gh.desc": "Giving to the World",
+    "social.elts.ds.desc": "Legends of Lightning",
+    "social.vrrw.yt.desc": "Straight to the point",
+    "social.vrrw.gh.desc": "Free code is best code",
+    "social.vrrw.x.desc": "I tweet sometimes"
+  },
+  "ja_JP": {
+    "social.title": "ソーシャルメディア",
+    "social.undertitle": "すべての変化を追いかけて",
+    "social.etlr.yt.desc": "稲妻と踊る",
+    "social.eltr.gh.desc": "世界への贈り物",
+    "social.elts.ds.desc": "稲妻の伝説",
+    "social.vrrw.yt.desc": "要点直撃",
+    "social.vrrw.gh.desc": "自由なコードこそ最良",
+    "social.vrrw.x.desc": "たまにツイートする"
+  },
+  "ro_RO": {
+    "social.title": "REȚELE SOCIALE",
+    "social.undertitle": "Urmărește toate schimbările din jur",
+    "social.etlr.yt.desc": "Dansând cu Fulgerul",
+    "social.eltr.gh.desc": "Dăruind Lumii",
+    "social.elts.ds.desc": "Legendele Fulgerelor",
+    "social.vrrw.yt.desc": "Direct la obiect",
+    "social.vrrw.gh.desc": "Codul gratis este cel mai bun cod",
+    "social.vrrw.x.desc": "Dau tweet uneori"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "ar": {
+    "blog.title": "مقالات",
+    "blog.slogan": "أفكار ومقترحات من مشروع إليكتريس",
+    "blog.feature": "مميز",
+    "blog.loading": "...تحميل الأفكار",
+    "blog.readtime": "وقت القراءة (دقائق)",
+    "blog.search.placeholder": "...ابحث في الأفكار",
+    "blog.tags.all": "جميع المرشحات",
+    "blog.tags.clear": "إزالة المرشحات",
+    "blog.results.none": "لم يتم العثور على أي أفكار",
+    "blog.results.tryagain": ".حاول تعديل استعلام البحث أو عوامل التصفية"
+  },
+  "en_GB": {
+    "blog.title": "Blog",
+    "blog.slogan": "Thoughts and Ideas from the ELECTRIS Project",
+    "blog.feature": "Featured",
+    "blog.loading": "Loading thoughts...",
+    "blog.readtime": "minute read",
+    "blog.search.placeholder": "Search through thoughts...",
+    "blog.tags.all": "All Tags",
+    "blog.tags.clear": "Clear Tags",
+    "blog.results.none": "No thoughts found",
+    "blog.results.tryagain": "Try adjusting your search query or tags."
+  },
+  "en_US": {
+    "blog.title": "Blog",
+    "blog.slogan": "Thoughts and Ideas from the ELECTRIS Project",
+    "blog.feature": "Featured",
+    "blog.loading": "Loading thoughts...",
+    "blog.readtime": "minute read",
+    "blog.search.placeholder": "Search through thoughts...",
+    "blog.tags.all": "All Tags",
+    "blog.tags.clear": "Clear Tags",
+    "blog.results.none": "No thoughts found",
+    "blog.results.tryagain": "Try adjusting your search query or tags."
+  },
+  "ja_JP": {
+    "blog.title": "ブログ",
+    "blog.slogan": "エレクトリス プロジェクトからの思考とアイデア",
+    "blog.feature": "注目",
+    "blog.loading": "思考を読み込み中...",
+    "blog.readtime": "分で読める",
+    "blog.search.placeholder": "思考を検索...",
+    "blog.tags.all": "すべての分類",
+    "blog.tags.clear": "分類をクリア",
+    "blog.results.none": "思考が見つかりませんでした",
+    "blog.results.tryagain": "検索クエリや分類を調整してみてください"
+  },
+  "ro_RO": {
+    "blog.title": "Blog",
+    "blog.slogan": "Gânduri și Idei din Proiectul ELECTRIS",
+    "blog.feature": "Important",
+    "blog.loading": "Se încarcă gânduri...",
+    "blog.readtime": "minute de citit",
+    "blog.search.placeholder": "Caută prin gânduri...",
+    "blog.tags.all": "Toate Filtrele",
+    "blog.tags.clear": "Elimină Filtrele",
+    "blog.results.none": "Niciun gând găsit",
+    "blog.results.tryagain": "Încearcă să schimbi căutarea sau filtrele"
+  }
+}

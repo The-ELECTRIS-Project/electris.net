@@ -1,0 +1,22 @@
+{
+  "ar": {
+    "egs.hero.title": "استوديوهات إليكتريس للألعاب الإلكترونية",
+    "egs.hero.slogan": "الحياة كاللعبة، لذا دعنا نلعبها"
+  },
+  "en_GB": {
+    "egs.hero.title": "ELECTRIS Game Studios",
+    "egs.hero.slogan": "Life is like a game, So let's play"
+  },
+  "en_US": {
+    "egs.hero.title": "ELECTRIS Game Studios",
+    "egs.hero.slogan": "Life is like a game, So let's play"
+  },
+  "ja_JP": {
+    "egs.hero.title": "エレクトリス ゲーム スタジオ",
+    "egs.hero.slogan": "人生はゲームのようなもの、だから遊ぼう"
+  },
+  "ro_RO": {
+    "egs.hero.title": "Studio de Jocuri ELECTROS",
+    "egs.hero.slogan": "Viața este ca un joc, Hai să jucăm"
+  }
+}

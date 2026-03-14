@@ -32,13 +32,9 @@
   useHoverConfig(hoverConfigs);
   
   onMount(() => {
-    (async () => {
-      // Initialize mods first
-      mods.init();
-      
-      await initializeI18n();
-      i18nInitialized = true;
-    })();
+    // Initialize mods first
+    mods.init();
+    i18nInitialized = true;
     
     const cursorReset = () => {
       const cursor = document.querySelector('.circle');
