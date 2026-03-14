@@ -102,7 +102,10 @@
     {
       selectors: ['.settings-button'],
       className: 'hovered-settings',
-      lockPosition: true
+      lockPosition: true,
+      customPositioning: {
+       targetSelector: '.settings-icon'
+      }
     },
     {
       type: [ 'a' ],
@@ -260,7 +263,6 @@
     if (typeof document !== 'undefined') {
       document.addEventListener('click', handleClickOutside);
       applyStyles(currentTheme, currentColorScheme);
-      await initializeI18n();
     }
   });
 

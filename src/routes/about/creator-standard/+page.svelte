@@ -4,6 +4,66 @@
 
   $: isPageArabic = $currentLocale === 'ar';
   $: isPageJapanese = $currentLocale === 'ja-JP';
+
+  function glitchAction(node: HTMLElement, text: string) {
+    let currentText = text;
+    let isCorrupted = false;
+    let corruptInterval: any;
+
+    const corruptText = (html: string, intensity = 0.1): string => {
+      let result = '';
+      let inTag = false;
+      for (let i = 0; i < html.length; i++) {
+        const char = html[i];
+        if (char === '<') inTag = true;
+        
+        if (!inTag && Math.random() < intensity && char !== ' ') {
+          const glitchChars = '█▓▒░▄▀▐▌│┤┘┴┬├─┼╋╬╫╪╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌┐└┴┬├─┼';
+          result += glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        } else {
+          result += char;
+        }
+        
+        if (char === '>') inTag = false;
+      }
+      return result;
+    };
+
+    const handleMouseEnter = () => {
+      if (!isCorrupted) {
+        isCorrupted = true;
+        let corruptionLevel = 0;
+
+        corruptInterval = setInterval(() => {
+          corruptionLevel += 0.01;
+          node.innerHTML = corruptText(currentText, Math.min(corruptionLevel, 0.01));
+
+          if (corruptionLevel >= 0.15) {
+            setTimeout(() => {
+              node.innerHTML = currentText;
+              isCorrupted = false;
+            }, 100);
+            clearInterval(corruptInterval);
+          }
+        }, 50);
+      }
+    };
+
+    node.addEventListener('mouseenter', handleMouseEnter);
+
+    return {
+      update(newText: string) {
+        currentText = newText;
+        if (!isCorrupted) {
+          node.innerHTML = newText;
+        }
+      },
+      destroy() {
+        node.removeEventListener('mouseenter', handleMouseEnter);
+        if (corruptInterval) clearInterval(corruptInterval);
+      }
+    };
+  }
   
   onMount(() => {
     const cursorReset = () => {
@@ -52,47 +112,6 @@
 
     const particleInterval = setInterval(createElectricalParticle, 2000 + Math.random() * 3000);
 
-    const setupTextCorruption = () => {
-      const paragraphs = document.querySelectorAll('.explanation p, .definition');
-
-      paragraphs.forEach(p => {
-        let isCorrupted = false;
-        
-        const corruptText = (text: string, intensity = 0.1): string => {
-          return text.split('').map((char: string) => {
-            if (Math.random() < intensity && char !== ' ') {
-              const glitchChars = '█▓▒░▄▀▐▌│┤┘┴┬├─┼╋╬╫╪╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌┐└┴┬├─┼';
-              return glitchChars[Math.floor(Math.random() * glitchChars.length)];
-            }
-            return char;
-          }).join('');
-        };
-
-        p.addEventListener('mouseenter', () => {
-          if (!isCorrupted) {
-            isCorrupted = true;
-            const originalHtml = p.innerHTML;
-            let corruptionLevel = 0;
-
-            const corruptInterval = setInterval(() => {
-              corruptionLevel += 0.01;
-              p.innerHTML = corruptText(originalHtml, Math.min(corruptionLevel, 0.01));
-
-              if (corruptionLevel >= 0.15) {
-                setTimeout(() => {
-                  p.innerHTML = originalHtml;
-                  isCorrupted = false;
-                }, 100);
-                clearInterval(corruptInterval);
-              }
-            }, 50);
-          }
-        });
-      });
-    };
-
-    setupTextCorruption();
-
     return () => {
       clearInterval(glitchInterval);
       clearInterval(particleInterval);
@@ -120,20 +139,22 @@
 <div class="content">
   <div class="main-section">
     <h2 class="section-header">{$t('creator.standard.meaning.header', 'Meaning:')}</h2>
-    <p class="definition">{$t('creator.standard.definition', 'Works that reflect the project\'s vision')}</p>
+    <p class="definition" use:glitchAction={$t('creator.standard.definition', 'Works that reflect the project\'s vision')}>
+      {$t('creator.standard.definition', 'Works that reflect the project\'s vision')}
+    </p>
     
     <div class="explanation">
-      <p>
+      <p use:glitchAction={$t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}>
         {@html $t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}
       </p>
       
-      <p>
+      <p use:glitchAction={$t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}>
         {@html $t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}
       </p>
       
       <div class="vision-evolution">
         <h3>{$t('creator.standard.vision.title', 'Vision Evolution')}</h3>
-        <p>
+        <p use:glitchAction={$t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}>
           {$t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}
         </p>
         <div class="notice-glow"></div>

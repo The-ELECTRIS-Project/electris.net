@@ -1,110 +1,19 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
   import { t, currentLocale } from '$lib/stores/i18n';
+  import { useHoverConfig } from '$lib/stores/hoverConfig';
+  import { artists } from '$lib/data/music';
 
-  $: isPageArabic = $currentLocale === 'ar';
-
-  $: cardLinks = [
+  useHoverConfig([
     {
-      icon: '/icons/buttons/vinyl.svg',
-      title: $t('ems.music.card.vinyl', 'Albums'),
-      link: '/ems/music/albums'
-    },
-    {
-      icon: '/icons/buttons/cd.svg',
-      title: $t('ems.music.card.disc', 'Singles'),
-      link: '/ems/music/singles'
+      type: [ 'img' ],
+      selectors: ['.artist-avatar'],
+      className: 'hovered-avatar',
+      lockPosition: true
     }
-  ];
-
-  let crownCanvas: HTMLCanvasElement;
-  let crownImage: HTMLImageElement;
-  let isHovered = false;
-
-  let maskImage: HTMLImageElement;
-
-  function drawMask() {
-    if (!crownCanvas || !maskImage) return;
-    const ctx = crownCanvas.getContext('2d');
-    if (ctx) {
-      ctx.clearRect(0, 0, crownCanvas.width, crownCanvas.height);
-      ctx.drawImage(maskImage, 0, 0);
-    }
-  }
-
-  const handleCrownClick = async () => {
-    await goto('/ems/music/GEE');
-    console.log('Heavy is the head that chose to wear the crown.');
-  };
-
-  function checkPixelHit(event: MouseEvent) {
-    if (!crownCanvas) return false;
-    const rect = crownCanvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const scaleX = crownCanvas.width / rect.width;
-    const scaleY = crownCanvas.height / rect.height;
-    const canvasX = Math.floor(x * scaleX);
-    const canvasY = Math.floor(y * scaleY);
-
-    const ctx = crownCanvas.getContext('2d');
-    if (!ctx) return false;
-    try {
-      const pixel = ctx.getImageData(canvasX, canvasY, 1, 1);
-      return pixel.data[3] > 0;
-    } catch {
-      return false;
-    }
-  }
-
-  function handleMouseMove(event: MouseEvent) {
-    const prev = isHovered;
-    isHovered = checkPixelHit(event);
-    if (prev !== isHovered) {
-      (event.currentTarget as HTMLCanvasElement).style.cursor = isHovered ? 'pointer' : 'default';
-    }
-    if (isHovered) {
-      drawMask();
-    }
-  }
-
-  function handleCanvasClick(event: MouseEvent) {
-    if (checkPixelHit(event)) handleCrownClick();
-  }
+  ]);
 
   onMount(() => {
-    maskImage = new Image();
-    maskImage.src = '/icons/GEE/crown-HoverArea.png';
-    maskImage.crossOrigin = 'anonymous';
-    maskImage.onload = () => {
-      if (!crownCanvas) return;
-      crownCanvas.width = maskImage.width;
-      crownCanvas.height = maskImage.height;
-      const ctx = crownCanvas.getContext('2d');
-      if (ctx) {
-        ctx.clearRect(0, 0, maskImage.width, maskImage.height);
-        ctx.drawImage(maskImage, 0, 0);
-      }
-    };
-
-    if (crownCanvas && crownImage) {
-      const ctx = crownCanvas.getContext('2d');
-      crownImage.onload = () => {
-        if (!ctx) return;
-        crownCanvas.width = crownImage.naturalWidth;
-        crownCanvas.height = crownImage.naturalHeight;
-        ctx.clearRect(0, 0, crownCanvas.width, crownCanvas.height);
-        ctx.drawImage(crownImage, 0, 0);
-      };
-      if (crownImage.complete && ctx) {
-        crownCanvas.width = crownImage.naturalWidth;
-        crownCanvas.height = crownImage.naturalHeight;
-        ctx.clearRect(0, 0, crownCanvas.width, crownCanvas.height);
-        ctx.drawImage(crownImage, 0, 0);
-      }
-    }
-
     setTimeout(() => {
       const c = document.querySelector('.circle');
       if (c) c.className = 'circle';
@@ -118,40 +27,17 @@
 
 <div class="hero">
     <h1>{$t('ems.music.hero.title', 'MUSIC')}</h1>
+    <p class="slogan">{$t('ems.music.hero.slogan', 'If music gives you life, give life back to music')}</p>
   </div>
 
-<div class="music-container">
-  {#each cardLinks as card}
-    <a class="card" class:arabic={isPageArabic} href={card.link}>
-      <div class="cover-container">
-        <img src={card.icon} alt="{card.title} icon" class="cover-image" />
-      </div>
-      <div class="song-info">
-        <h3>{card.title}</h3>
-      </div>
-    </a>
-  {/each}
-</div>
-
-<div class="crown">
-  <div class="crown-container">
-    <img 
-      bind:this={crownImage}
-      src="/icons/GEE/crown.png" 
-      alt="Crown of Thorns" 
-      class="crown-image"
-      class:hovered={isHovered}
-    />
-    <canvas 
-      bind:this={crownCanvas}
-      class="crown-canvas"
-      on:mousemove={handleMouseMove}
-      on:mouseleave={() => { isHovered = false; }}
-      on:click={handleCanvasClick}
-      role="button"
-      tabindex="0"
-      aria-label="Crown of Thorns"
-    ></canvas>
+<div class="artists-section">
+  <div class="artists-grid">
+    {#each artists as artist}
+      <a href="/ems/music/{artist.slug}" class="artist-card">
+        <img class="artist-avatar" src={artist.avatar} alt={artist.name} />
+        <span class="artist-name" style="font-family: {artist.artistFont || 'inherit'}">{artist.name}</span>
+      </a>
+    {/each}
   </div>
 </div>
 
@@ -168,119 +54,68 @@
 
   .hero h1 {
     padding-top: 1vh;
-    padding-bottom: -5vh;
     font-family: 'Letric';
     font-size: 4rem;
     margin: 0;
   }
 
-  .music-container {
-    display: flex;
-    justify-content: center;
-    gap: 2vh;
-    padding: 5vh;
+  .slogan {
+    font-size: 1.2rem;
+    margin-top: 1vh;
+    opacity: 0.8;
+    font-style: italic;
   }
-  
-  .card {
-    border-radius: 1.5vh;
-    width: 20vw;
-    height: 40vh;
-    padding: 1.5vh;
-    text-decoration: none;
-    color: #f65901;
+
+  .artists-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: transform 0.2s;
+    padding: 5vh 0;
   }
-  
-  .card:hover {
-    transform: scale(1.05);
+
+  .artists-grid {
+    display: flex;
+    gap: 5vw;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  
-  .cover-container {
-    width: 24vh;
-    height: 25vh;
+
+  .artist-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .artist-card:hover {
+    transform: translateY(-10px) scale(1.05);
+  }
+
+  .artist-avatar {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     overflow: hidden;
-    margin-bottom: 1vh;
+    border: 3px solid var(--accent, #f65901);
+    margin-bottom: 2vh;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
-  
-  .cover-image {
+
+  .artist-card:hover .artist-avatar {
+    border-color: #fff;
+  }
+
+  .artist-avatar img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-  }
-  
-  .song-info h3 {
-    margin: 0;
-    font-size: 3.2rem;
-    text-align: center;
+    object-fit: cover;
   }
 
-  .card .song-info h3 {
-    position: relative;
-    overflow: visible;
-  }
-
-  .card .song-info h3::after {
-    content: "";
-    position: absolute;
-    bottom: 0.25em;                
-    left: 0;
-    width: 0;
-    height: 0.2vh;
-    background-color: currentColor;
-    transition: width 0.3s ease-in-out;
-  }
-
-  .card:hover .song-info h3::after {
-    width: 100%;
-  }
-
-  .card.arabic .song-info h3::after {
-    left: auto;
-    right: 0;
-  }
-
-  .card.arabic:hover .song-info h3::after {
-    width: 100%;
-  }
-
-  .crown {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .crown-container {
-    position: relative;
-    max-width: 30vh;
-    max-height: 30vh;
-  }
-  
-  .crown-image {
-    max-width: 30vh;
-    max-height: 30vh;
-    display: block;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    pointer-events: none;
-  }
-  
-  .crown-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: default;
-    background: none;
-  }
-  
-  .crown-canvas:focus {
-    outline: 2px solid rgba(246, 89, 1, 0.6);
-    outline-offset: 2px;
+  .artist-name {
+    font-weight: bold;
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
   }
 </style>

@@ -110,7 +110,7 @@ a {
 .circle.hovered-menu-item {
   height: 3.5vh;
   width: 18.5vh;
-  border-radius: 1vh;
+  border-radius: 0.8vh;
   transition: rotation 1s, width 0.01s ease-in-out, height 0.01s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
 }
 
@@ -136,10 +136,23 @@ a {
   --circle-size: 3.5vh;
 }
 
+.circle.hovered-avatar {
+    --circle-size: 14.6vh;
+    left: 0.05vw;
+    bottom: 0.1vh;
+  }
+
 .circle.hovered-pin {
   --circle-size: var(--hover-pin-size, 13.4vh);
   top: -0.03vh;
   border-radius: 1.2vh;
+}
+
+.circle.hovered-gallery-image {
+  width: 31vmin;
+  height: 43.5vmin;
+  top: -0.03vh;
+  border-radius: 0.8vh;
 }
 
 .circle.hovered-hamburger-footer {
@@ -160,6 +173,13 @@ a {
   top: -0.3vh;
   left: -1.4vh;
   border-color: var(--circle-hover-sip);
+}
+
+.circle.hovered-crown {
+  width: 20vw;
+  height: 24vh;
+  border-color: var(--circle-hover-crown);
+  box-shadow: 0 0 12px 4px color-mix(in srgb, var(--circle-hover-crown) 40%, transparent);
 }
 
 .circle.hovered-search {
@@ -266,6 +286,7 @@ a {
   --circle-hover-search: hsl(28, 97%, 55%);
   --circle-hover-footer: #ffa366;
   --circle-hover-sip: #4cc200;
+  --circle-hover-crown: #ffffff;
   
   --video-overlay: linear-gradient(rgba(10, 10, 10, 0), rgba(10, 10, 10, 0));
   
@@ -322,6 +343,7 @@ a {
   --circle-hover-search: hsl(28, 97%, 55%);
   --circle-hover-footer: hsl(28, 100%, 70%);
   --circle-hover-sip: hsl(98, 100%, 50%);
+  --circle-hover-crown: #ffffff;
   
   --video-overlay: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.8));
   
@@ -378,6 +400,7 @@ a {
   --circle-hover-search: hsl(28, 85%, 42%);
   --circle-hover-footer: hsl(28, 100%, 75%);
   --circle-hover-sip: hsl(98, 100%, 60%);
+  --circle-hover-crown: hsl(0, 0%, 100%);
   
   --video-overlay: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.95));
   

@@ -29,6 +29,12 @@
       }
     },
     {
+      type: [ 'img' ],
+      selectors: ['.gallery-image'],
+      className: 'hovered-gallery-image',
+      lockPosition: true
+    },
+    {
       selectors: ['.hero-text'],
       className: 'hovered-button-grow'
     }
@@ -138,14 +144,12 @@
 
     const track = document.getElementById('image-track') as HTMLElement;
     
-    // Set initial position via GSAP to match data-percentage="-140"
     gsap.set(track, {
-      xPercent: -140,
+      xPercent: -122,
       yPercent: -80
     });
     
-    // Set initial image positions (map -140 to the 35-65 range)
-    const initialTrackPos = -140;
+    const initialTrackPos = -122;
     const trackRange = -185 - (-95);
     const normalizedPos = (initialTrackPos - (-95)) / trackRange;
     const initialImageScroll = 35 + (normalizedPos * (65 - 35));
@@ -221,7 +225,7 @@
     
     const checkCanvasVisibility = () => {
       const scrollY = window.scrollY || window.pageYOffset;
-      const isCanvas1Visible = scrollY < window.innerHeight * 0.5;
+      const isCanvas1Visible = scrollY < window.innerHeight * 0.9;
       
       if (isCanvas1Visible && currentVideo.paused && !document.hidden) {
         currentVideo.play().catch(e => console.error("Resume play failed:", e));
