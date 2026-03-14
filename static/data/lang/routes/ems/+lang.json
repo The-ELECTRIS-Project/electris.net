@@ -3,55 +3,30 @@
     "ems.hero.title": "استوديوهات إليكتريس ميديا",
     "ems.hero.slogan": "الفنان يبدع، المنبوذ مبدع",
     "ems.card.music.title": "موسيقى",
-    "ems.card.music.desc": "اكتشف أنغامنا",
-    "ems.music.hero.title": "موسيقى",
-    "ems.music.hero.slogan": "إذا كانت الموسيقى تمنحك الحياة، فامنح الحياة للموسيقى",
-    "ems.music.card.vinyl": "ألبومات",
-    "ems.music.card.disc": "أغاني منفردة",
-    "ems.music.artists.title": "الفنانين"
+    "ems.card.music.desc": "اكتشف أنغامنا"
   },
   "en_GB": {
     "ems.hero.title": "ELECTRIS Media Studios",
     "ems.hero.slogan": "An artist creates, A fool is creative",
     "ems.card.music.title": "Music",
-    "ems.card.music.desc": "Explore our tunes",
-    "ems.music.hero.title": "MUSIC",
-    "ems.music.hero.slogan": "If music gives you life, give life back to music",
-    "ems.music.card.vinyl": "Albums",
-    "ems.music.card.disc": "Singles",
-    "ems.music.artists.title": "Artists"
+    "ems.card.music.desc": "Explore our tunes"
   },
   "en_US": {
     "ems.hero.title": "ELECTRIS Media Studios",
     "ems.hero.slogan": "An artist creates, A fool is creative",
     "ems.card.music.title": "Music",
-    "ems.card.music.desc": "Explore our tunes",
-    "ems.music.hero.title": "MUSIC",
-    "ems.music.hero.slogan": "If music gives you life, give life back to music",
-    "ems.music.card.vinyl": "Albums",
-    "ems.music.card.disc": "Singles",
-    "ems.music.artists.title": "Artists"
+    "ems.card.music.desc": "Explore our tunes"
   },
   "ja_JP": {
     "ems.hero.title": "エレクトリス メディア スタジオ",
     "ems.hero.slogan": "芸術家は創る、愚か者は創造的である",
     "ems.card.music.title": "音楽",
-    "ems.card.music.desc": "音の世界へ",
-    "ems.music.hero.title": "音楽",
-    "ems.music.hero.slogan": "音楽があなたに命を捧げるなら、音楽に命を吹き込みなさい",
-    "ems.music.card.vinyl": "アルバム",
-    "ems.music.card.disc": "シングル",
-    "ems.music.artists.title": "アーティスト"
+    "ems.card.music.desc": "音の世界へ"
   },
   "ro_RO": {
     "ems.hero.title": "Studio de Media ELECTRIS",
     "ems.hero.slogan": "Un artist creează, Un revoltat este creativ",
     "ems.card.music.title": "Muzica",
-    "ems.card.music.desc": "Explorează melodiile noastre",
-    "ems.music.hero.title": "MUZICĂ",
-    "ems.music.hero.slogan": "Dacă muzica îți dă viață, dă viață muzicii înapoi",
-    "ems.music.card.vinyl": "Albume",
-    "ems.music.card.disc": "Single-uri",
-    "ems.music.artists.title": "Artiști"
+    "ems.card.music.desc": "Explorează melodiile noastre"
   }
 }

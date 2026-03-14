@@ -86,10 +86,6 @@
 </div>
 
 <style>
-    body {
-        overflow: hidden;
-    }
-    
     .artist-hub {
         min-height: 80vh;
         display: flex;

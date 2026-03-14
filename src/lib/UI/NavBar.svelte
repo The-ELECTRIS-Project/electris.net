@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { slide, fade } from 'svelte/transition';
   import { afterNavigate } from '$app/navigation';
-  import { t, initializeI18n } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n';
   import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
   import LanguageSelector from '$lib/UI/utils/LanguageSelector.svelte';
   import { 
@@ -136,6 +136,12 @@
       label: $t('nav.options.theme.default', 'Default'), 
       icon: '🎨',
       description: $t('nav.options.theme.default.desc', 'The ELECTRIS Style')
+    },
+    { 
+      value: 'cyber-neotic' as Theme, 
+      label: $t('nav.options.theme.cyber', 'Cyber-Neotic'), 
+      icon: '🌐',
+      description: $t('nav.options.theme.cyber.desc', 'A neon-lit future')
     }
   ] as ThemeOption[];
 
@@ -175,14 +181,6 @@
     { label: $t('nav.burger.social', 'Socials'), href: '/socials', newTab: false },
     { label: $t('nav.burger.egs', 'Game Studios'), href: '/egs', newTab: false },
     { label: $t('nav.burger.ems', 'Media Studios'), href: '/ems', newTab: false }
-  ];
-
-  $: newHomeItems = [
-    { label: $t('site.newhome.version', 'NewHome'), href: '/newhome', newTab: false },
-    { label: $t('blog.title', 'Blog'), href: 'https://electris.net/blog', newTab: true },
-    { label: $t('nav.burger.social', 'Socials'), href: 'https://electris.net/socials', newTab: true },
-    { label: $t('nav.burger.egs', 'Game Studios'), href: 'https://electris.net/egs', newTab: true },
-    { label: $t('nav.burger.ems', 'Media Studios'), href: 'https://electris.net/ems', newTab: true }
   ];
 
   $: {

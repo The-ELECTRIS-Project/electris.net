@@ -1,0 +1,37 @@
+{
+    "ar": {
+      "ems.music.hero.title": "موسيقى",
+      "ems.music.hero.slogan": "إذا كانت الموسيقى تمنحك الحياة، فامنح الحياة للموسيقى",
+      "ems.music.card.vinyl": "ألبومات",
+      "ems.music.card.disc": "أغاني منفردة",
+      "ems.music.artists.title": "الفنانين"
+    },
+    "en_GB": {
+      "ems.music.hero.title": "MUSIC",
+      "ems.music.hero.slogan": "If music gives you life, give life back to music",
+      "ems.music.card.vinyl": "Albums",
+      "ems.music.card.disc": "Singles",
+      "ems.music.artists.title": "Artists"
+    },
+    "en_US": {
+      "ems.music.hero.title": "MUSIC",
+      "ems.music.hero.slogan": "If music gives you life, give life back to music",
+      "ems.music.card.vinyl": "Albums",
+      "ems.music.card.disc": "Singles",
+      "ems.music.artists.title": "Artists"
+    },
+    "ja_JP": {
+      "ems.music.hero.title": "音楽",
+      "ems.music.hero.slogan": "音楽があなたに命を捧げるなら、音楽に命を吹き込みなさい",
+      "ems.music.card.vinyl": "アルバム",
+      "ems.music.card.disc": "シングル",
+      "ems.music.artists.title": "アーティスト"
+    },
+    "ro_RO": {
+      "ems.music.hero.title": "MUZICĂ",
+      "ems.music.hero.slogan": "Dacă muzica îți dă viață, dă viață muzicii înapoi",
+      "ems.music.card.vinyl": "Albume",
+      "ems.music.card.disc": "Single-uri",
+      "ems.music.artists.title": "Artiști"
+    }
+}

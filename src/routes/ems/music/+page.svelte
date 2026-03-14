@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n';
   import { useHoverConfig } from '$lib/stores/hoverConfig';
   import { artists } from '$lib/data/music';
 
@@ -105,12 +105,6 @@
 
   .artist-card:hover .artist-avatar {
     border-color: #fff;
-  }
-
-  .artist-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   .artist-name {

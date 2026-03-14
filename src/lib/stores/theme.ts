@@ -1,11 +1,12 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-export type Theme = 'default';
+export type Theme = 'default' | 'cyber-neotic';
 export type ColorScheme = 'light' | 'dark' | 'midnight' | 'auto';
 
 export const availableThemes: readonly Theme[] = [
-  'default'
+  'default',
+  'cyber-neotic'
 ] as const;
 
 export const availableColorSchemes: readonly ColorScheme[] = [
