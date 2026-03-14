@@ -20,9 +20,6 @@
 ## Subdomains:
 ### For the Public
 
-#### [new.electris.net](https://new.electris.net)
-##### The NewHome page of our website.
-
 #### [canary.electris.net](https://canary.electris.net)
 ##### The early-access version of the site.<br>I more often push here before main to make sure everything is fine.
 
