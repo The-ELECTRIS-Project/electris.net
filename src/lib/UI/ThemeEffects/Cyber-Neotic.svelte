@@ -72,13 +72,13 @@
   .blob-1 {
     top: -10%;
     left: -10%;
-    background: #00f3ff;
+    background: var(--color-primary);
   }
 
   .blob-2 {
     bottom: -10%;
     right: -10%;
-    background: #ff00ff;
+    background: var(--color-varrow);
     animation-duration: 30s;
     animation-delay: -5s;
   }
@@ -88,7 +88,7 @@
     left: 60%;
     width: 20vw;
     height: 20vw;
-    background: #00ffaa;
+    background: var(--color-electro);
     animation-duration: 20s;
     animation-delay: -12s;
   }
@@ -102,13 +102,13 @@
   :global([data-color-scheme="light"]) .scanlines {
     background: linear-gradient(
       rgba(255, 255, 255, 0) 50%, 
-      rgba(0, 136, 204, 0.03) 50%
+      color-mix(in srgb, var(--color-primary) 3%, transparent) 50%
     );
     background-size: 100% 4px;
   }
 
   :global([data-color-scheme="light"]) .vignette {
-    background: radial-gradient(circle, transparent 70%, rgba(0, 136, 204, 0.1) 100%);
+    background: radial-gradient(circle, transparent 70%, color-mix(in srgb, var(--color-primary) 10%, transparent) 100%);
   }
 
   :global([data-color-scheme="light"]) .blob {
