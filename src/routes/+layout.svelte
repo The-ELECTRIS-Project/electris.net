@@ -6,7 +6,6 @@
   import Cursor from '$lib/UI/Cursor.svelte';
   import Popup from '$lib/Mobile/Popup.svelte';
   import CyberNeotic from '$lib/UI/ThemeEffects/Cyber-Neotic.svelte';
-  import Wonderful from '$lib/UI/ThemeEffects/Wonderful.svelte';
   import { theme, colorScheme, applyStyles } from '$lib/stores/theme';
   import { initializeI18n, loadRouteLocale } from '$lib/stores/i18n';
   import '/src/app.base.css';

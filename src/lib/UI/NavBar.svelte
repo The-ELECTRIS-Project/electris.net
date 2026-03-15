@@ -140,7 +140,7 @@
     { 
       value: 'cyber-neotic' as Theme, 
       label: $t('nav.options.theme.cyber', 'Cyber-Neotic'), 
-      icon: '🌐',
+      icon: '🧬',
       description: $t('nav.options.theme.cyber.desc', 'A neon-lit future')
     }
   ] as ThemeOption[];
