@@ -23,9 +23,18 @@ export default ts.config(
     files: ["**/*.svelte"],
 
     languageOptions: {
-	  parserOptions: {
-	    parser: ts.parser
+	    parserOptions: {
+	      parser: ts.parser
+	    }
 	  }
-	}
+  },
+  {
+    env: {
+      browser: true,
+      es2026: true
+    },
+    parserOptions: {
+      ecmaVersion: 12
+    }
   }
 );

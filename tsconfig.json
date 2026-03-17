@@ -6,6 +6,7 @@
 		"checkJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"lib": ["dom", "esnext"],
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
