@@ -9,16 +9,20 @@
   let recentlyPlayed: number[] = []; // Track recently played clips to enforce cooldown
   let hasMetShadow = false; // Track if the rare encounter (6.mp4) has been played
 
-  $: pages = [
+  let mouseDownAt = $state(0);
+  let prevOffset = $state(0);
+  let offset = $state(0);
+
+  let pages = $derived([
     {
       title: $t('proj.twaos.st', 'Wishlist on Steam'),
       description: $t('proj.twaos.st.desc', 'The largest game distribution platform.'),
       icon: '/icons/Logos/ThirdParty/steam.svg',
       href: 'https://store.steampowered.com/app/2231750/The_Wonderful_Adventures_Of_Sip/'
     }
-  ];
+  ]);
 
-  const hoverConfigs: HoverConfig[] = [
+  const hoverConfigs: HoverConfig[] = $state([
     {
       selectors: ['.sip-icon'],
       className: 'hovered-sip',
@@ -29,16 +33,10 @@
       }
     },
     {
-      type: [ 'img' ],
-      selectors: ['.gallery-image'],
-      className: 'hovered-gallery-image',
-      lockPosition: true
-    },
-    {
       selectors: ['.hero-text'],
       className: 'hovered-button-grow'
     }
-  ];
+  ]);
 
   useHoverConfig(hoverConfigs);
 
@@ -132,6 +130,77 @@
     return deg;
   }
 
+  function handleOnDown(e: MouseEvent | TouchEvent) {
+    mouseDownAt = (e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
+  }
+
+  function handleOnUp() {
+    mouseDownAt = 0;
+    prevOffset = offset;
+  }
+
+  function handleOnMove(e: MouseEvent | TouchEvent) {
+    if (mouseDownAt === 0) return;
+
+    const track = document.getElementById("image-track");
+    if (!track) return;
+
+    const clientX = (e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
+    const mouseDelta = mouseDownAt - clientX;
+    
+    const vmin = Math.min(window.innerWidth, window.innerHeight);
+    const margin = (vmin * 5) / 100;
+    const W = track.scrollWidth;
+    const V = window.innerWidth;
+    const limit = Math.max(0, (W - V) / 2 + margin);
+
+    const nextOffsetUnconstrained = prevOffset - (mouseDelta * 0.8);
+    offset = Math.max(Math.min(nextOffsetUnconstrained, limit), -limit);
+
+    animateTrack(track, limit);
+  }
+
+  function handleWheel(e: WheelEvent) {
+    const track = document.getElementById("image-track");
+    if (!track || Math.abs(e.deltaX) === 0) return;
+
+    const vmin = Math.min(window.innerWidth, window.innerHeight);
+    const margin = (vmin * 5) / 100;
+    const W = track.scrollWidth;
+    const V = window.innerWidth;
+    const limit = Math.max(0, (W - V) / 2 + margin);
+
+    // Increased multiplier from 0.8 to 1.8 for faster wheel scrolling
+    const nextOffsetUnconstrained = offset - (e.deltaX * 1.8);
+    offset = Math.max(Math.min(nextOffsetUnconstrained, limit), -limit);
+    prevOffset = offset; // Keep dragging state in sync
+
+    animateTrack(track, limit);
+  }
+
+  function animateTrack(track: HTMLElement, limit: number) {
+    gsap.to(track, {
+      x: offset,
+      xPercent: -50,
+      yPercent: -60,
+      duration: 1.5,
+      ease: "power3.out",
+      overwrite: "auto"
+    });
+
+    const images = track.getElementsByClassName("gallery-image");
+    for (const image of images) {
+      const relativeProgress = limit !== 0 ? (offset / limit) : 0;
+      const parallax = 50 - (relativeProgress * 10); 
+      gsap.to(image, {
+        objectPosition: `${parallax}% center`,
+        duration: 1.8,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    }
+  }
+
   onMount(() => {
     const cursorReset = () => {
       const cursor = document.querySelector('.circle');
@@ -140,65 +209,28 @@
       }
     };
 
+    const track = document.getElementById("image-track");
+    if (track) {
+      // Initial state: centered (offset 0)
+      gsap.set(track, {
+        x: 0,
+        xPercent: -50,
+        yPercent: -60
+      });
+      const images = track.getElementsByClassName("gallery-image");
+      for (const image of images) {
+        gsap.set(image, {
+          objectPosition: "50% center"
+        });
+      }
+    }
+
+    window.addEventListener('mousemove', handleOnMove);
+    window.addEventListener('touchmove', handleOnMove);
+    window.addEventListener('mouseup', handleOnUp);
+    window.addEventListener('touchend', handleOnUp);
+
     setTimeout(cursorReset, 10);
-
-    const track = document.getElementById('image-track') as HTMLElement;
-    
-    gsap.set(track, {
-      xPercent: -122,
-      yPercent: -80
-    });
-    
-    const initialTrackPos = -122;
-    const trackRange = -185 - (-95);
-    const normalizedPos = (initialTrackPos - (-95)) / trackRange;
-    const initialImageScroll = 35 + (normalizedPos * (65 - 35));
-    
-    gsap.set(track.getElementsByClassName("gallery-image"), {
-      objectPosition: `${initialImageScroll}% center`
-    });
-    
-    window.onmousedown = e => {
-      track.dataset.mouseDownAt = e.clientX.toString();
-    }
-
-    window.onmouseup = () => {
-      track.dataset.mouseDownAt = "0";
-      track.dataset.prevPercentage = track.dataset.percentage || "-122";
-    }
-
-    window.onmousemove = e => {
-      if(track.dataset.mouseDownAt === "0") return;
-        
-      const mouseDelta: number = parseFloat(track.dataset.mouseDownAt || "0") - e.clientX,
-            maxDelta: number = window.innerWidth / 2;
-        
-      const percentage: number = (mouseDelta / maxDelta) * -100,
-            nextPercentageUnconstrained: number = parseFloat(track.dataset.prevPercentage || "-122") + percentage,
-            nextPercentage: number = Math.max(Math.min(nextPercentageUnconstrained, -95), -185);
-        
-      track.dataset.percentage = nextPercentage.toString();
-      
-      gsap.to(track, {
-        xPercent: nextPercentage,
-        yPercent: -80,
-        duration: 0.6,
-        ease: "power2.out",
-        overwrite: "auto"
-      });
-      
-      const trackRange = -185 - (-95); // = -90
-      const normalizedPosition = (nextPercentage - (-95)) / trackRange; // 0 to 1
-      const imageScrollRange = 65 - 35; // = 30
-      const imageScroll = 35 + (normalizedPosition * imageScrollRange); // 35 to 65
-        
-      gsap.to(track.getElementsByClassName("gallery-image"), {
-        objectPosition: `${imageScroll}% center`,
-        duration: 1,
-        ease: "power2.out",
-        overwrite: "auto"
-      });
-    }
 
     currentVideo.src = '/media/TWAOS/BG/1.mp4';
     currentVideo.load();
@@ -247,11 +279,11 @@
     const anchor = document.querySelector('.styled-sip') as HTMLElement;
     const eyes = document.querySelectorAll('.eye') as NodeListOf<HTMLElement>;
     if (anchor) {
-      const rekt = anchor.getBoundingClientRect();
-      const anchorX = rekt.left + rekt.width / 1.5;
-      const anchorY = rekt.top + rekt.height / 3;
-
       document.addEventListener('mousemove', (e) => {
+        const rekt = anchor.getBoundingClientRect();
+        const anchorX = rekt.left + rekt.width / 1.5;
+        const anchorY = rekt.top + rekt.height / 3;
+
         const mouseX = e.clientX;
         const mouseY = e.clientY;
 
@@ -296,7 +328,7 @@
           <div class="card-container">
             <a class="card" href={page.href} target="_blank">
               <div class="card-icon">
-                <img src={page.icon} alt="{page.title} - icon" style="width: 8vh; object-fit: contain;"/>
+                <img src={page.icon} alt="{page.title} - icon" style="width: 8vmin; object-fit: contain;"/>
               </div>
               <div class="card-content">
                 <h2>{page.title}</h2>
@@ -312,23 +344,31 @@
         </a>
         <div class="eyes">
           <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
-            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-LEFT" style="top: 82vh; left: 24vh;" />
-            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-RIGHT" style="top: 80vh; left: 32.8vh;" />
+            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-LEFT" style="bottom: 15vmin; left: 24vmin;" />
+            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-RIGHT" style="bottom: 17vmin; left: 32.8vmin;" />
           </a>
         </div>
       </div>
     </div>
   </div>
   <div class="canvas canvas-2">
-    <div id="image-track" data-mouse-down-at="0" data-prev-percentage="-122" data-percentage="-122">
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 1" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 2" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 3" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 4" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 5" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 6" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 7" draggable="false"/>
-      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 8" draggable="false"/>
+    <div 
+      id="image-track" 
+      onmousedown={handleOnDown}
+      ontouchstart={handleOnDown}
+      onwheel={handleWheel}
+      ondragstart={(e) => e.preventDefault()}
+      draggable="false"
+    >
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 1" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 2" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 3" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 4" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 5" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 6" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 7" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 8" draggable="false" ondragstart={(e) => e.preventDefault()}/>
+      <img class="gallery-image" src="/media/TWAOS/gallery/gallery-1.png" alt="Gallery Showcase 9" draggable="false" ondragstart={(e) => e.preventDefault()}/>
     </div>
   </div>
 </div>
@@ -358,15 +398,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 -2vh 5vh rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -2vmin 5vmin rgba(0, 0, 0, 0.5);
   }
 
   #image-track {
     display: flex;
     gap: 4vmin;
+    user-select: none;
     position: absolute;
     left: 50%;
     top: 50%;
+    width: max-content;
+    max-width: none;
   }
 
   #image-track > .gallery-image {
@@ -390,7 +433,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 6vh;
+    padding-top: 6vmin;
     text-align: center;
     overflow: hidden;
   }
@@ -428,23 +471,23 @@
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 10px;
-    margin: -1.7vh;
+    margin: -1.7vmin;
     color: #ff9933;
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 0 1vh rgba(255, 123, 0, 0.7));
+    filter: drop-shadow(0 0 1vmin rgba(255, 123, 0, 0.7));
   }
 
   .hero h2 {
     font-family: 'Nightcore';
     font-size: 4rem;
-    margin: -0.8vh;
+    margin: -0.8vmin;
   }
 
   .hero h2.tw {
     font-family: 'Nightcore';
     font-size: 4rem;
-    margin: -0.8vh;
+    margin: -0.8vmin;
     color: #f65901;
     text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
   }
@@ -452,13 +495,13 @@
   .hero h3 {
     font-family: 'Nightcore';
     font-size: 3.5rem;
-    margin: -0.5vh;
+    margin: -0.5vmin;
   }
 
   .hero h3.ao {
     font-family: 'Nightcore';
     font-size: 3.5rem;
-    margin: -0.5vh;
+    margin: -0.5vmin;
     color: #f65901;
     text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
   }
@@ -467,7 +510,7 @@
     font-family: 'Redwing';
     font-weight: 500;
     font-size: 1.5rem;
-    margin: 2vh;
+    margin: 2vmin;
   }
 
   .video-container {
@@ -491,20 +534,18 @@
 
   .styled-sip {
     position: absolute;
-    top: 70vh;
-    bottom: 2vh;
-    left: 2vh;
-    right: 2vh;
-    width: 40vh;
-    height: 40vh;
+    bottom: -10vmin;
+    left: 2vmin;
+    width: 40vmin;
+    height: 40vmin;
   }
 
   .eye {
     position: absolute;
-    bottom: 2vh;
-    right: 2vh;
-    width: 3vh;
-    height: 3vh;
+    bottom: 2vmin;
+    right: 2vmin;
+    width: 3vmin;
+    height: 3vmin;
   }
 
   .sip-icon {
@@ -514,17 +555,17 @@
 
   .cards-wrapper {
     position: absolute;
-    bottom: 5vh;
+    bottom: 5vmin;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
-    gap: 2vw;
+    gap: 3.54vmin;
     z-index: 2;
   }
 
   .card-container {
-    gap: 1vh;
+    gap: 1vmin;
   }
 
   .card {
@@ -532,15 +573,15 @@
     display: flex;
     flex-direction: line;
     align-items: left;
-    padding: 1vh;
-    border-radius: 1.8vh;
+    padding: 1vmin;
+    border-radius: 1.8vmin;
     text-decoration: none;
     color: #f65901;
-    width: 35vh;
+    width: 35vmin;
     transition: transform 0.2s, background-color 0.2s ease;
     justify-content: left;
     text-align: left;
-    gap: 1vh;
+    gap: 1vmin;
   }
 
   .card:hover {
