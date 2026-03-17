@@ -73,16 +73,16 @@
 
 <style>
     .single-detail {
-        min-height: 90vh;
+        min-height: 90vmin;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 10vh 5vw;
+        padding: 10vmin 8.85vmin;
     }
 
     .content-wrapper {
         display: flex;
-        gap: 6vw;
+        gap: 10.62vmin;
         max-width: 1200px;
         width: 100%;
         align-items: center;

@@ -225,8 +225,8 @@
 
   .ambient-dot {
     position: absolute;
-    width: 0.15vh;
-    height: 0.15vh;
+    width: 0.15vmin;
+    height: 0.15vmin;
     background: rgba(246, 89, 1, 0.4);
     border-radius: 50%;
     animation: ambient-pulse-blog 5s ease-in-out infinite;
@@ -307,7 +307,7 @@
 
   .search-wrapper {
     flex: 1;
-    max-width: 15.9vw;
+    max-width: 28.143vh;
     min-width: 250px;
   }
 
@@ -315,8 +315,8 @@
     width: 100%;
     padding: 0.8rem 1.2rem;
     background: rgba(246, 89, 1, 0.1);
-    border: 0.2vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vh;
+    border: 0.2vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.6vmin;
     font-family: 'Redwing';
     font-size: 1rem;
     color: inherit;
@@ -342,8 +342,8 @@
   .tag-filter {
     padding: 0.8rem 1rem;
     background: rgba(246, 89, 1, 0.1);
-    border: 0.2vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vh;
+    border: 0.2vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.6vmin;
     font-family: 'Redwing';
     font-size: 0.9rem;
     color: inherit;
@@ -360,8 +360,8 @@
   .clear-filters {
     padding: 0.8rem 1.2rem;
     background: rgba(246, 89, 1, 0.2);
-    border: 0.2vh solid rgba(246, 89, 1, 0.4);
-    border-radius: 0.6vh;
+    border: 0.2vmin solid rgba(246, 89, 1, 0.4);
+    border-radius: 0.6vmin;
     font-family: 'Redwing';
     font-size: 0.9rem;
     color: inherit;
@@ -378,7 +378,7 @@
     align-items: center;
     position: relative;
     z-index: 2;
-    left: 4vh;
+    left: 4vmin;
   }
 
   .loading {
@@ -422,7 +422,7 @@
 
   .post-card {
     background: rgba(246, 89, 1, 0.05);
-    border: 0.1vh solid rgba(246, 89, 1, 0.2);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.2);
     border-radius: 1rem;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -542,7 +542,7 @@
   .post-title {
     font-family: 'Letric';
     font-size: 1.8rem;
-    margin: 0 0 0.8vh;
+    margin: 0 0 0.8vmin;
     line-height: 1.5;
     font-weight: 600;
     flex: 1;
@@ -566,7 +566,7 @@
 
   .tag {
     background: rgba(246, 89, 1, 0.2);
-    border: 0.1vh solid rgba(246, 89, 1, 0.4);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.4);
     padding: 0.3rem 0.6rem;
     border-radius: 0.4rem;
     font-size: 0.8rem;

@@ -97,8 +97,8 @@
 <style>
   .search-section {
     width: 100%;
-    max-width: 24vw;
-    max-height: 10vh;
+    max-width: 42.48vmin;
+    max-height: 10vmin;
     margin-bottom: 3rem;
     position: relative;
     z-index: 10;
@@ -112,8 +112,8 @@
     display: flex;
     align-items: center;
     background: rgba(246, 89, 1, 0.1);
-    border: .2vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 1.65vh;
+    border: .2vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 1.65vmin;
     overflow: hidden;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
@@ -167,11 +167,11 @@
 
   @media (max-width: 73.4px) {
     .search-section {
-      max-width: 50vh;
+      max-width: 50vmin;
     }
   }
 
-  @media (max-width: 48vh) {
+  @media (max-width: 48vmin) {
     .search-input {
       font-size: 1rem;
       padding: 0.8rem 1.2rem;

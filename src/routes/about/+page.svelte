@@ -133,7 +133,7 @@
   /* Layout */
   .content-wrapper {
     width: 100%;
-    max-width: 32vw;
+    max-width: 56.64vmin;
     display: flex;
     flex-direction: column;
     gap: 4rem;
@@ -187,7 +187,7 @@
   }
 
   .underintro {
-    margin-top: -1.6vh;
+    margin-top: -1.6vmin;
   }
 
   .statement {

@@ -46,12 +46,8 @@
     }
   }
   
-  function vhToPx(vh: number): number {
-    return (vh / 100) * window.innerHeight;
-  }
-
-  function vwToPx(vw: number): number {
-    return (vw / 100) * window.innerWidth;
+  function vminToPx(vmin: number): number {
+    return (vmin / 100) * Math.min(window.innerHeight, window.innerWidth);
   }
 
   function hasNoInteractClass(element: HTMLElement, checkAll: boolean = false): boolean {
@@ -252,10 +248,10 @@
 
   function getWordHoverBounds(): { x: number, y: number, width: number, height: number } {
     if (!currentWord) {
-      return { x: circle.x, y: circle.y, width: vhToPx(2), height: vhToPx(2) };
+      return { x: circle.x, y: circle.y, width: vminToPx(2), height: vminToPx(2) };
     }
 
-    const padding = vhToPx(wordHoverPadding);
+    const padding = vminToPx(wordHoverPadding);
     return {
       x: currentWord.bounds.left + currentWord.bounds.width / 2,
       y: currentWord.bounds.top + currentWord.bounds.height / 2,
@@ -315,8 +311,8 @@
       if (customTarget) {
         target = customTarget;
       }
-      offsetX = config.customPositioning.offsetX ? vwToPx(config.customPositioning.offsetX) : 0;
-      offsetY = config.customPositioning.offsetY ? vhToPx(config.customPositioning.offsetY) : 0;
+      offsetX = config.customPositioning.offsetX ? vminToPx(config.customPositioning.offsetX * 1.77) : 0;
+      offsetY = config.customPositioning.offsetY ? vminToPx(config.customPositioning.offsetY) : 0;
     }
 
     let rect = target.getBoundingClientRect();

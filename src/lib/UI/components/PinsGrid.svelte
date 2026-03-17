@@ -27,7 +27,7 @@
   $: hoverPinSize = basePinSize + 0.9;
 
   $: if (browser) {
-    document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}vh`);
+    document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}vmin`);
   }
 
   const hoverConfigs: HoverConfig[] = [
@@ -228,11 +228,11 @@
   }
 </script>
 
-<div class="pins-section" style="max-width: {gridWidth}vh;">
+<div class="pins-section" style="max-width: {gridWidth}vmin;">
   <div 
     class="pins-grid" 
     class:arabic-layout={isPageArabic}
-    style="grid-template-columns: repeat({gridCols}, 1fr); width: {gridWidth}vh;"
+    style="grid-template-columns: repeat({gridCols}, 1fr); width: {gridWidth}vmin;"
   >
     {#each pins as pin, index}
       <div 
@@ -307,21 +307,21 @@
 <style>
   .pins-section {
     width: 100%;
-    max-width: 68vh;
+    max-width: 68vmin;
     position: relative;
     z-index: 2;
   }
 
   .pin-gear {
     position: relative;
-    width: 1.5vh;
-    height: 1.5vh;
+    width: 1.5vmin;
+    height: 1.5vmin;
   }
 
   .pin-trash {
     position: relative;
-    width: 1.5vh;
-    height: 1.5vh;
+    width: 1.5vmin;
+    height: 1.5vmin;
   }
   
   .pins-grid {
@@ -336,7 +336,7 @@
 
   .pin-card {
     aspect-ratio: 1;
-    border-radius: 1vh;
+    border-radius: 1vmin;
     position: relative;
     overflow: visible;
   }
@@ -348,8 +348,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 0.3vh dashed rgba(246, 89, 1, 0.3);
-    border-radius: 1vh;
+    border: 0.3vmin dashed rgba(246, 89, 1, 0.3);
+    border-radius: 1vmin;
     transition: all 0.3s ease;
     background: transparent;
     cursor: pointer;
@@ -363,8 +363,8 @@
   }
 
   .pin-card.editing {
-    border: 0.2vh solid rgba(246, 89, 1, 0.6);
-    border-radius: 1vh;
+    border: 0.2vmin solid rgba(246, 89, 1, 0.6);
+    border-radius: 1vmin;
     background: rgba(246, 89, 1, 0.1);
     animation: pin-edit-appear 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -373,17 +373,17 @@
     0% {
       transform: scale(0.8) rotateY(-15deg);
       opacity: 0;
-      filter: blur(0.8vh);
+      filter: blur(0.8vmin);
     }
     50% {
       transform: scale(1.05) rotateY(5deg);
       opacity: 0.8;
-      filter: blur(0.2vh);
+      filter: blur(0.2vmin);
     }
     100% {
       transform: scale(1) rotateY(0deg);
       opacity: 1;
-      filter: blur(0vh);
+      filter: blur(0vmin);
     }
   }
 
@@ -391,17 +391,17 @@
     0% {
       transform: scale(1) rotateY(0deg);
       opacity: 1;
-      filter: blur(0vh);
+      filter: blur(0vmin);
     }
     50% {
       transform: scale(1.05) rotateY(-5deg);
       opacity: 0.6;
-      filter: blur(0.2vh);
+      filter: blur(0.2vmin);
     }
     100% {
       transform: scale(0.8) rotateY(15deg);
       opacity: 0;
-      filter: blur(0.8vh);
+      filter: blur(0.8vmin);
     }
   }
 
@@ -431,8 +431,8 @@
   .pin-edit-title {
     width: 100%;
     padding: 0.5rem;
-    border: 0.1vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vh;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.6vmin;
     background: rgba(246, 89, 1, 0.05);
     color: inherit;
     font-family: 'Redwing', sans-serif;
@@ -461,8 +461,8 @@
   .pin-cancel-btn {
     flex: 1;
     padding: 0.4rem;
-    border: 0.1vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.4vh;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.4vmin;
     background: rgba(246, 89, 1, 0.1);
     color: inherit;
     cursor: pointer;
@@ -485,15 +485,15 @@
     position: absolute;
     top: 0.3rem;
     background: rgba(246, 89, 1, 0.2);
-    border: 0.1vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.4vh;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.4vmin;
     padding: 0.2rem 0.4rem;
     font-size: 0.7rem;
     cursor: pointer;
     opacity: 0;
     transition: all 0.3s ease;
     z-index: 20;
-    backdrop-filter: blur(0.5vh);
+    backdrop-filter: blur(0.5vmin);
   }
 
   .pin-edit-trigger {
@@ -539,10 +539,10 @@
     width: 100%;
     height: 100%;
     padding: 1rem;
-    border: 0.2vh solid rgba(246, 89, 1, 0.2);
-    border-radius: 1vh;
+    border: 0.2vmin solid rgba(246, 89, 1, 0.2);
+    border-radius: 1vmin;
     background: rgba(246, 89, 1, 0.05);
-    backdrop-filter: blur(1vh);
+    backdrop-filter: blur(1vmin);
     text-decoration: none;
     color: inherit;
     transition: all 0.3s ease;
@@ -552,17 +552,17 @@
   }
   
   .pin-link:hover {
-    transform: translateY(-0.3vh);
+    transform: translateY(-0.3vmin);
     border-color: rgba(246, 89, 1, 0.5);
     background: rgba(246, 89, 1, 0.1);
-    box-shadow: 0 0.8vh 2.2vh rgba(246, 89, 1, 0.15);
+    box-shadow: 0 0.8vmin 2.2vmin rgba(246, 89, 1, 0.15);
   }
 
   .pin-card:hover .pin-link {
-    transform: translateY(-0.3vh);
+    transform: translateY(-0.3vmin);
     border-color: rgba(246, 89, 1, 0.5);
     background: rgba(246, 89, 1, 0.1);
-    box-shadow: 0 0.8vh 2.2vh rgba(246, 89, 1, 0.15);
+    box-shadow: 0 0.8vmin 2.2vmin rgba(246, 89, 1, 0.15);
   }
 
   .pin-card:hover .pin-glow {
@@ -570,8 +570,8 @@
   }
 
   .pin-favicon {
-    width: 3vh;
-    height: 3vh;
+    width: 3vmin;
+    height: 3vmin;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
@@ -623,7 +623,7 @@
     opacity: 1;
   }
   
-  @media (max-width: 100.2vh) {
+  @media (max-width: 100.2vmin) {
     .pins-grid {
       grid-template-columns: repeat(4, 1fr);
     }
@@ -635,7 +635,7 @@
     }
   }
 
-  @media (max-width: 48vh) {
+  @media (max-width: 48vmin) {
     .pins-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 0.8rem;

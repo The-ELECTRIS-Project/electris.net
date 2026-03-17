@@ -238,24 +238,24 @@
 <style>
   .customize-container {
     position: fixed;
-    bottom: 1vw;
-    right: 1vw;
+    bottom: 1.77vmin;
+    right: 1.77vmin;
     z-index: 100;
   }
 
   .customize-button {
-    width: 4vh;
-    height: 4vh;
+    width: 4vmin;
+    height: 4vmin;
     background: hsl(20, 95%, 51%);
-    border: 0.1vh solid hsl(20, 95%, 61%);
-    border-radius: 0.8vh;
+    border: 0.1vmin solid hsl(20, 95%, 61%);
+    border-radius: 0.8vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
-    box-shadow: 0 0.2vh 0.4vh hsla(20, 95%, 51%, 0.2);
-    backdrop-filter: blur(0.5vh);
+    box-shadow: 0 0.2vmin 0.4vmin hsla(20, 95%, 51%, 0.2);
+    backdrop-filter: blur(0.5vmin);
     position: relative;
     overflow: hidden;
   }
@@ -277,10 +277,10 @@
   }
 
   .customize-button:hover {
-    transform: translateY(-0.2vh);
+    transform: translateY(-0.2vmin);
     background: hsl(20, 95%, 56%);
     border-color: hsl(20, 95%, 66%);
-    box-shadow: 0 0.3vh 0.6vh hsla(20, 95%, 51%, 0.3);
+    box-shadow: 0 0.3vmin 0.6vmin hsla(20, 95%, 51%, 0.3);
   }
 
   .customize-button:hover::before {
@@ -288,18 +288,18 @@
   }
 
   .customize-button:active {
-    transform: translateY(-0.1vh) scale(0.98);
+    transform: translateY(-0.1vmin) scale(0.98);
   }
 
   .customize-button.active {
     background: hsl(20, 95%, 46%);
     border-color: hsl(20, 95%, 56%);
-    transform: translateY(-0.1vh);
+    transform: translateY(-0.1vmin);
   }
 
   .pen-icon {
-    width: 1.8vh;
-    height: 1.8vh;
+    width: 1.8vmin;
+    height: 1.8vmin;
     transform: rotate(15deg);
     transition: all 0.3s ease;
     filter: brightness(0) invert(1);
@@ -320,7 +320,7 @@
     right: 0;
     bottom: 0;
     background: hsla(0, 0%, 0%, 0.35);
-    backdrop-filter: blur(0.8vh);
+    backdrop-filter: blur(0.8vmin);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,15 +333,15 @@
   }
 
   .menu-content {
-    width: 60vw;
-    max-width: 80vh;
-    max-height: 80vh;
+    width: 106.2vmin;
+    max-width: 80vmin;
+    max-height: 80vmin;
     background: hsl(240, 10%, 10%);
-    border: 0.2vh solid hsl(20, 95%, 51%);
-    border-radius: 2vh;
+    border: 0.2vmin solid hsl(20, 95%, 51%);
+    border-radius: 2vmin;
     box-shadow: 
-      0 2vh 4vh hsla(0, 0%, 0%, 0.5),
-      0 0 3vh hsla(20, 95%, 51%, 0.3);
+      0 2vmin 4vmin hsla(0, 0%, 0%, 0.5),
+      0 0 3vmin hsla(20, 95%, 51%, 0.3);
     animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
@@ -353,8 +353,8 @@
   }
 
   .menu-header {
-    padding: 2vh 3vw;
-    border-bottom: 0.1vh solid hsl(20, 95%, 51%);
+    padding: 2vmin 5.31vmin;
+    border-bottom: 0.1vmin solid hsl(20, 95%, 51%);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -363,20 +363,20 @@
 
   .menu-header h2 {
     margin: 0;
-    font-size: 2.5vh;
+    font-size: 2.5vmin;
     font-family: 'Letric', sans-serif;
     color: hsl(20, 95%, 61%);
-    text-shadow: 0 0 1vh hsla(20, 95%, 51%, 0.3);
+    text-shadow: 0 0 1vmin hsla(20, 95%, 51%, 0.3);
   }
 
   .edit-close-button {
-    width: 4vh;
-    height: 4vh;
+    width: 4vmin;
+    height: 4vmin;
     background: transparent;
-    border: 0.1vh solid hsl(0, 0%, 40%);
-    border-radius: 0.8vh;
+    border: 0.1vmin solid hsl(0, 0%, 40%);
+    border-radius: 0.8vmin;
     color: hsl(0, 0%, 70%);
-    font-size: 2vh;
+    font-size: 2vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -393,13 +393,13 @@
 
   .menu-body {
     flex: 1;
-    padding: 3vh 3vw;
+    padding: 3vmin 5.31vmin;
     overflow-y: auto;
   }
 
   .settings-section {
     max-width: 100%;
-    margin-bottom: 3vh;
+    margin-bottom: 3vmin;
   }
 
   .settings-section:last-child {
@@ -407,15 +407,15 @@
   }
 
   .settings-title {
-    font-size: 1.8vh;
+    font-size: 1.8vmin;
     font-family: 'Redwing', sans-serif;
     color: hsl(0, 0%, 90%);
-    margin: 0 0 2.5vh 0;
+    margin: 0 0 2.5vmin 0;
     font-weight: 500;
   }
 
   .setting-group {
-    margin-bottom: 1.8vh;
+    margin-bottom: 1.8vmin;
   }
 
   .setting-row {
@@ -429,7 +429,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    font-size: 1.5vh;
+    font-size: 1.5vmin;
     color: hsl(0, 0%, 70%);
     font-family: 'Redwing', sans-serif;
     font-weight: 400;
@@ -438,17 +438,17 @@
   .setting-control {
     display: flex;
     align-items: center;
-    gap: 1.2vh;
+    gap: 1.2vmin;
   }
 
   .control-btn {
-    width: 3.2vh;
-    height: 3.2vh;
+    width: 3.2vmin;
+    height: 3.2vmin;
     background: hsl(240, 10%, 15%);
-    border: 0.1vh solid hsl(0, 0%, 25%);
-    border-radius: 0.5vh;
+    border: 0.1vmin solid hsl(0, 0%, 25%);
+    border-radius: 0.5vmin;
     color: hsl(0, 0%, 70%);
-    font-size: 2vh;
+    font-size: 2vmin;
     font-weight: normal;
     cursor: pointer;
     display: flex;
@@ -474,33 +474,33 @@
   }
 
   .control-value {
-    font-size: 1.6vh;
+    font-size: 1.6vmin;
     font-weight: 500;
     color: hsl(0, 0%, 90%);
-    min-width: 3vh;
+    min-width: 3vmin;
     text-align: center;
     font-family: 'Redwing', sans-serif;
   }
 
   .grid-info {
-    margin-top: 2.5vh;
-    padding-top: 1.5vh;
-    border-top: 0.1vh solid hsl(0, 0%, 20%);
+    margin-top: 2.5vmin;
+    padding-top: 1.5vmin;
+    border-top: 0.1vmin solid hsl(0, 0%, 20%);
   }
 
   .info-text {
-    font-size: 1.3vh;
+    font-size: 1.3vmin;
     color: hsl(0, 0%, 55%);
     font-family: 'Redwing', sans-serif;
   }
 
   .toggle-switch {
     position: relative;
-    width: 5vh;
-    height: 2.6vh;
+    width: 5vmin;
+    height: 2.6vmin;
     background: hsl(240, 10%, 15%);
-    border: 0.1vh solid hsl(0, 0%, 25%);
-    border-radius: 1.3vh;
+    border: 0.1vmin solid hsl(0, 0%, 25%);
+    border-radius: 1.3vmin;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
@@ -528,38 +528,38 @@
     background: hsl(20, 95%, 51%);
     border-color: hsl(20, 95%, 61%);
     box-shadow: 
-      0 0 1vh hsla(20, 95%, 51%, 0.4),
-      inset 0 0.1vh 0.2vh hsla(0, 0%, 100%, 0.2);
+      0 0 1vmin hsla(20, 95%, 51%, 0.4),
+      inset 0 0.1vmin 0.2vmin hsla(0, 0%, 100%, 0.2);
   }
 
   .toggle-slider {
     position: absolute;
-    top: 0.3vh;
-    left: 0.3vh;
-    width: 2vh;
-    height: 2vh;
+    top: 0.3vmin;
+    left: 0.3vmin;
+    width: 2vmin;
+    height: 2vmin;
     background: hsl(0, 0%, 70%);
     border-radius: 50%;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0.2vh 0.4vh hsla(0, 0%, 0%, 0.3);
+    box-shadow: 0 0.2vmin 0.4vmin hsla(0, 0%, 0%, 0.3);
   }
 
   .toggle-switch.active .toggle-slider {
-    transform: translateX(2.4vh);
+    transform: translateX(2.4vmin);
     background: hsl(0, 0%, 100%);
     box-shadow: 
-      0 0.2vh 0.6vh hsla(0, 0%, 0%, 0.4),
-      0 0 0.8vh hsla(20, 95%, 51%, 0.6);
+      0 0.2vmin 0.6vmin hsla(0, 0%, 0%, 0.4),
+      0 0 0.8vmin hsla(20, 95%, 51%, 0.6);
   }
 
   .toggle-switch:hover .toggle-slider {
-    box-shadow: 0 0.3vh 0.6vh hsla(0, 0%, 0%, 0.4);
+    box-shadow: 0 0.3vmin 0.6vmin hsla(0, 0%, 0%, 0.4);
   }
 
   .toggle-switch.active:hover .toggle-slider {
     box-shadow: 
-      0 0.3vh 0.8vh hsla(0, 0%, 0%, 0.5),
-      0 0 1.2vh hsla(20, 95%, 51%, 0.8);
+      0 0.3vmin 0.8vmin hsla(0, 0%, 0%, 0.5),
+      0 0 1.2vmin hsla(20, 95%, 51%, 0.8);
   }
 
   @keyframes fadeIn {
@@ -583,7 +583,7 @@
   @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(4vh) scale(0.95);
+      transform: translateY(4vmin) scale(0.95);
     }
     to {
       opacity: 1;
@@ -598,61 +598,61 @@
     }
     to {
       opacity: 0;
-      transform: translateY(4vh) scale(0.95);
+      transform: translateY(4vmin) scale(0.95);
     }
   }
 
   /* Mobile */
-  @media (max-width: 48vh) {
+  @media (max-width: 48vmin) {
     .customize-button {
-      width: 5vh;
-      height: 5vh;
-      bottom: 1vh;
-      right: 2vw;
+      width: 5vmin;
+      height: 5vmin;
+      bottom: 1vmin;
+      right: 3.54vmin;
     }
 
     .pen-icon {
-      width: 2.2vh;
-      height: 2.2vh;
+      width: 2.2vmin;
+      height: 2.2vmin;
     }
 
     .menu-content {
-      width: 90vw;
-      height: 70vh;
-      margin: 5vh;
+      width: 159.3vmin;
+      height: 70vmin;
+      margin: 5vmin;
     }
 
     .menu-header {
-      padding: 2vh 4vw;
+      padding: 2vmin 7.08vmin;
     }
 
     .menu-body {
-      padding: 2vh 4vw;
+      padding: 2vmin 7.08vmin;
     }
 
     .menu-header h2 {
-      font-size: 3vh;
+      font-size: 3vmin;
     }
 
     .toggle-switch {
-      width: 6vh;
-      height: 3vh;
+      width: 6vmin;
+      height: 3vmin;
     }
 
     .toggle-slider {
-      width: 2.4vh;
-      height: 2.4vh;
+      width: 2.4vmin;
+      height: 2.4vmin;
     }
 
     .toggle-switch.active .toggle-slider {
-      transform: translateX(3vh);
+      transform: translateX(3vmin);
     }
   }
 
-  @media (max-width: 73.4vh) {
+  @media (max-width: 73.4vmin) {
     .menu-content {
-      width: 85vw;
-      height: 65vh;
+      width: 150.45vmin;
+      height: 65vmin;
     }
   }
 </style>

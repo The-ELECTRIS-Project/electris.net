@@ -73,7 +73,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4vh 2vh;
+    padding: 4vmin 2vmin;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -94,14 +94,14 @@
   .error-container {
     position: relative;
     z-index: 2;
-    max-width: 60vh;
+    max-width: 60vmin;
   }
 
   .error-icon {
     position: relative;
-    margin-bottom: 4vh;
-    width: 10vh;
-    height: 10vh;
+    margin-bottom: 4vmin;
+    width: 10vmin;
+    height: 10vmin;
     margin-left: auto;
     margin-right: auto;
   }
@@ -109,7 +109,7 @@
   .broken-gear {
     position: absolute;
     border-radius: 50%;
-    border: 0.3vh solid #f65901;
+    border: 0.3vmin solid #f65901;
     animation: broken-rotate 4s ease-in-out infinite;
   }
 
@@ -126,17 +126,17 @@
   }
 
   .gear-1 {
-    width: 7vh;
-    height: 7vh;
+    width: 7vmin;
+    height: 7vmin;
     top: 0;
-    left: 1.5vh;
+    left: 1.5vmin;
     animation-duration: 3s;
   }
 
   .gear-2 {
-    width: 5vh;
-    height: 5vh;
-    top: 2.5vh;
+    width: 5vmin;
+    height: 5vmin;
+    top: 2.5vmin;
     right: 0;
     animation-direction: reverse;
     animation-duration: 4s;
@@ -145,10 +145,10 @@
 
   .crack-line {
     position: absolute;
-    top: 3vh;
-    left: 3vh;
-    width: 4vh;
-    height: 0.2vh;
+    top: 3vmin;
+    left: 3vmin;
+    width: 4vmin;
+    height: 0.2vmin;
     background: linear-gradient(45deg, transparent, #ff3300, transparent);
     transform: rotate(45deg);
     animation: crack-glow 2s ease-in-out infinite;
@@ -157,10 +157,10 @@
   .crack-line::before {
     content: '';
     position: absolute;
-    top: 1vh;
-    left: 1vh;
-    width: 2vh;
-    height: 0.1vh;
+    top: 1vmin;
+    left: 1vmin;
+    width: 2vmin;
+    height: 0.1vmin;
     background: linear-gradient(45deg, transparent, #ff3300, transparent);
     transform: rotate(-30deg);
   }
@@ -175,12 +175,12 @@
 
   .error-spark {
     position: absolute;
-    width: 0.3vh;
-    height: 0.3vh;
+    width: 0.3vmin;
+    height: 0.3vmin;
     background: #ff3300;
     border-radius: 50%;
     animation: error-sparkle 1.5s ease-in-out infinite;
-    box-shadow: 0 0 0.5vh #ff3300;
+    box-shadow: 0 0 0.5vmin #ff3300;
   }
 
   .spark-1 {
@@ -210,14 +210,14 @@
   .error-content h1 {
     font-family: 'Letric';
     font-size: 3rem;
-    margin: 0 0 2vh 0;
+    margin: 0 0 2vmin 0;
     position: relative;
   }
 
   .error-text-glitch, .status-glitch {
     position: relative;
     animation: error-glitch 2s ease-in-out infinite;
-    text-shadow: 0.1vh 0.1vh 0.2vh rgba(255, 51, 0, 0.3);
+    text-shadow: 0.1vmin 0.1vmin 0.2vmin rgba(255, 51, 0, 0.3);
     display: inline-block;
     color: #ff3300;
   }
@@ -261,7 +261,7 @@
   .error-message {
     font-family: 'Redwing';
     font-size: 1.3rem;
-    margin-bottom: 1vh;
+    margin-bottom: 1vmin;
     font-weight: 500;
     color: #f65901;
   }
@@ -269,7 +269,7 @@
   .error-submessage {
     font-family: 'Redwing';
     font-size: 1rem;
-    margin-bottom: 4vh;
+    margin-bottom: 4vmin;
     opacity: 0.8;
     font-weight: 300;
   }
@@ -277,20 +277,20 @@
   .error-actions {
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    gap: 2vmin;
     align-items: center;
   }
 
   .return-button, .back-button {
     position: relative;
-    padding: 1.2vh 3vh;
-    border: 0.2vh solid #f65901;
+    padding: 1.2vmin 3vmin;
+    border: 0.2vmin solid #f65901;
     background: rgba(246, 89, 1, 0.1);
     color: #f65901;
     font-family: 'Redwing';
     font-size: 1.1rem;
     font-weight: 500;
-    border-radius: 0.5vh;
+    border-radius: 0.5vmin;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -300,8 +300,8 @@
 
   .return-button:hover, .back-button:hover {
     background: rgba(246, 89, 1, 0.2);
-    box-shadow: 0 0 1vh rgba(246, 89, 1, 0.5);
-    transform: translateY(-0.2vh);
+    box-shadow: 0 0 1vmin rgba(246, 89, 1, 0.5);
+    transform: translateY(-0.2vmin);
   }
 
   .button-text {
@@ -312,14 +312,14 @@
   .button-spark {
     position: absolute;
     top: 50%;
-    right: 1vh;
-    width: 0.3vh;
-    height: 0.3vh;
+    right: 1vmin;
+    width: 0.3vmin;
+    height: 0.3vmin;
     background: #f65901;
     border-radius: 50%;
     transform: translateY(-50%);
     animation: button-spark-pulse 2s ease-in-out infinite;
-    box-shadow: 0 0 0.5vh #f65901;
+    box-shadow: 0 0 0.5vmin #f65901;
   }
 
   @media (max-width: 768px) {
@@ -355,7 +355,7 @@
 
   @keyframes crack-glow {
     0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; box-shadow: 0 0 1vh #ff3300; }
+    50% { opacity: 1; box-shadow: 0 0 1vmin #ff3300; }
   }
 
   @keyframes error-sparkle {
@@ -367,41 +367,41 @@
 
   @keyframes error-glitch {
     0%, 100% { transform: translate(0); }
-    10% { transform: translate(-0.15vh, 0.15vh); }
-    20% { transform: translate(-0.15vh, -0.15vh); }
-    30% { transform: translate(0.15vh, 0.15vh); }
-    40% { transform: translate(0.15vh, -0.15vh); }
+    10% { transform: translate(-0.15vmin, 0.15vmin); }
+    20% { transform: translate(-0.15vmin, -0.15vmin); }
+    30% { transform: translate(0.15vmin, 0.15vmin); }
+    40% { transform: translate(0.15vmin, -0.15vmin); }
     50% { transform: translate(0); }
-    60% { transform: translate(-0.1vh, 0.1vh); }
-    70% { transform: translate(0.1vh, -0.1vh); }
+    60% { transform: translate(-0.1vmin, 0.1vmin); }
+    70% { transform: translate(0.1vmin, -0.1vmin); }
     80% { transform: translate(0); }
-    90% { transform: translate(-0.15vh, 0.15vh); }
+    90% { transform: translate(-0.15vmin, 0.15vmin); }
   }
 
   @keyframes error-glitch-1 {
     0%, 100% { transform: translate(0); opacity: 0.6; }
-    10% { transform: translate(-0.3vh, 0.3vh); opacity: 0.4; }
-    20% { transform: translate(-0.3vh, -0.3vh); opacity: 0.4; }
-    30% { transform: translate(0.3vh, 0.3vh); opacity: 0.4; }
-    40% { transform: translate(0.3vh, -0.3vh); opacity: 0.4; }
+    10% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
+    20% { transform: translate(-0.3vmin, -0.3vmin); opacity: 0.4; }
+    30% { transform: translate(0.3vmin, 0.3vmin); opacity: 0.4; }
+    40% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
     50% { transform: translate(0); opacity: 0.6; }
-    60% { transform: translate(-0.2vh, 0.2vh); opacity: 0.5; }
-    70% { transform: translate(0.2vh, -0.2vh); opacity: 0.5; }
+    60% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
+    70% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
     80% { transform: translate(0); opacity: 0.6; }
-    90% { transform: translate(-0.3vh, 0.3vh); opacity: 0.4; }
+    90% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
   }
 
   @keyframes error-glitch-2 {
     0%, 100% { transform: translate(0); opacity: 0.6; }
-    10% { transform: translate(0.3vh, -0.3vh); opacity: 0.4; }
-    20% { transform: translate(0.3vh, 0.3vh); opacity: 0.4; }
-    30% { transform: translate(-0.3vh, -0.3vh); opacity: 0.4; }
-    40% { transform: translate(-0.3vh, 0.3vh); opacity: 0.4; }
+    10% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
+    20% { transform: translate(0.3vmin, 0.3vmin); opacity: 0.4; }
+    30% { transform: translate(-0.3vmin, -0.3vmin); opacity: 0.4; }
+    40% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
     50% { transform: translate(0); opacity: 0.6; }
-    60% { transform: translate(0.2vh, -0.2vh); opacity: 0.5; }
-    70% { transform: translate(-0.2vh, 0.2vh); opacity: 0.5; }
+    60% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
+    70% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
     80% { transform: translate(0); opacity: 0.6; }
-    90% { transform: translate(0.3vh, -0.3vh); opacity: 0.4; }
+    90% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
   }
 
   @keyframes button-spark-pulse {

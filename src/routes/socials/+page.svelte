@@ -68,7 +68,7 @@
     }
   
     .hero {
-      min-height: calc(20vh - 25vh);
+      min-height: calc(20vmin - 25vmin);
       margin-bottom: 40px;
       display: flex;
       flex-direction: column;
@@ -79,7 +79,7 @@
     }
     
     .hero h1 {
-      padding-top: 1vh;
+      padding-top: 1vmin;
       font-family: 'Letric';
       font-size: 3rem;
       margin: 0;
@@ -114,8 +114,8 @@
     }
   
     .profile-picture {
-      width: 4vh;
-      height: 4vh;
+      width: 4vmin;
+      height: 4vmin;
       image-resolution: 80px;
       border-radius: 50%;
       background-color: #fff;

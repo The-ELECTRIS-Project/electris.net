@@ -40,7 +40,7 @@
   
 <style>
   .hero {
-    min-height: 5vh;
+    min-height: 5vmin;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,7 +50,7 @@
   }
 
   .hero h1 {
-    padding-top: 1vh;
+    padding-top: 1vmin;
     font-family: 'Letric';
     font-size: 4rem;
     margin: 0;
@@ -64,7 +64,7 @@
   }
 
   .discography {
-    padding-top: 65vh;
+    padding-top: 65vmin;
     display: grid;
     justify-content: center;
     align-items: center;

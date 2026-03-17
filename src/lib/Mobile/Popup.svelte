@@ -55,7 +55,7 @@
       background-color: #131615;
       color: #f65901;
       padding: 2rem;
-      border-radius: 5vw;
+      border-radius: 8.85vmin;
       max-width: 90%;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       animation: fadeInGrow 0.3s ease;
@@ -72,8 +72,8 @@
       font-size: 2rem;
       font-family: 'Redwing';
       font-weight: 300;
-      padding-bottom: 2vh;
-      padding-top: 1.5vh;
+      padding-bottom: 2vmin;
+      padding-top: 1.5vmin;
     }
 
     .mobile-popup label {

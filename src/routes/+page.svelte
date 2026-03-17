@@ -81,12 +81,12 @@
   
 <style>
   .hero {
-    min-height: 5vh;
+    min-height: 5vmin;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 7vh;
+    padding-top: 7vmin;
     text-align: center;
   }
 
@@ -99,18 +99,18 @@
   .hero p {
     font-family: sans-serif;
     font-size: 1.5rem;
-    margin-top: 1vh;
+    margin-top: 1vmin;
     max-width: 80%;
   }
 
   .TCS {
-    min-height: 70vh;
+    min-height: 70vmin;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 4vh 2vh;
+    padding: 4vmin 2vmin;
     position: relative;
     overflow: hidden;
   }
@@ -128,9 +128,9 @@
 
   .construction-icon {
     position: relative;
-    margin-bottom: 3vh;
-    width: 9vh;
-    height: 8vh;
+    margin-bottom: 3vmin;
+    width: 9vmin;
+    height: 8vmin;
   }
 
   .gear {
@@ -151,16 +151,16 @@
   }
 
   .gear-1 {
-    width: 6vh;
-    height: 6vh;
+    width: 6vmin;
+    height: 6vmin;
     top: 0;
-    left: 1vh;
+    left: 1vmin;
   }
 
   .gear-2 {
-    width: 4vh;
-    height: 4vh;
-    top: 2vh;
+    width: 4vmin;
+    height: 4vmin;
+    top: 2vmin;
     right: 0;
     animation-direction: reverse;
     animation-duration: 2s;
@@ -176,8 +176,8 @@
 
   .spark {
     position: absolute;
-    width: 0.4vh;
-    height: 0.4vh;
+    width: 0.4vmin;
+    height: 0.4vmin;
     background: #ff6811;
     border-radius: 50%;
     animation: sparkle 2s ease-in-out infinite;
@@ -209,7 +209,7 @@
   .TCS h1 {
     font-family: 'Letric';
     font-size: 2.8rem;
-    margin: 0 0 2vh 0;
+    margin: 0 0 2vmin 0;
     position: relative;
     word-break: keep-all;
     overflow-wrap: normal;
@@ -218,7 +218,7 @@
   .glitch {
     position: relative;
     animation: glitch 3s ease-in-out infinite;
-    text-shadow: 0.1vh 0.1vh 0.2vh rgba(246, 89, 1, 0.3);
+    text-shadow: 0.1vmin 0.1vmin 0.2vmin rgba(246, 89, 1, 0.3);
     display: inline-block;
   }
 
@@ -248,7 +248,7 @@
   .TCS p {
     font-family: 'Redwing';
     font-size: 1.4rem;
-    margin-bottom: 3vh;
+    margin-bottom: 3vmin;
     font-weight: 400;
   }
 
@@ -261,10 +261,10 @@
   .creator-link::after {
     content: '';
     position: absolute;
-    bottom: 0.1vh;
+    bottom: 0.1vmin;
     left: 0;
     width: 0;
-    height: 0.2vh;
+    height: 0.2vmin;
     background: linear-gradient(90deg, #f65901, #ff6811);
     transition: width 0.3s ease;
   }
@@ -283,8 +283,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50vh;
-    max-width: 90vh;
+    width: 50vmin;
+    max-width: 90vmin;
     margin: 0 auto;
     position: relative;
   }
@@ -300,12 +300,12 @@
   .progress-bar {
     position: relative;
     width: 100%;
-    height: 1vh;
+    height: 1vmin;
     background: rgba(246, 89, 1, 0.2);
-    border-radius: 0.5vh;
+    border-radius: 0.5vmin;
     overflow: hidden;
-    box-shadow: 0 0 1vh rgba(246, 89, 1, 0.3);
-    margin-top: 1vh;
+    box-shadow: 0 0 1vmin rgba(246, 89, 1, 0.3);
+    margin-top: 1vmin;
   }
 
   .progress-fill {
@@ -315,19 +315,19 @@
     height: 100%;
     width: 65%;
     background: linear-gradient(90deg, #f65901, #ff6811, #f65901);
-    border-radius: 0.5vh;
+    border-radius: 0.5vmin;
     animation: progress-pulse 3s ease-in-out infinite;
-    box-shadow: 0 0 0.5vh rgba(246, 89, 1, 0.8);
+    box-shadow: 0 0 0.5vmin rgba(246, 89, 1, 0.8);
   }
 
   .electric-spark {
     position: absolute;
-    width: 0.2vh;
-    height: 0.2vh;
+    width: 0.2vmin;
+    height: 0.2vmin;
     background: #00ffff;
     border-radius: 50%;
     animation: electric-sparkle 1.5s ease-in-out infinite;
-    box-shadow: 0 0 0.3vh #00ffff;
+    box-shadow: 0 0 0.3vmin #00ffff;
   }
 
   .electric-1 {
@@ -352,21 +352,21 @@
     position: absolute;
     top: 50%;
     left: 30%;
-    width: 0.1vh;
-    height: 0.8vh;
+    width: 0.1vmin;
+    height: 0.8vmin;
     background: linear-gradient(to bottom, transparent, #00ffff, transparent);
     transform: translateY(-50%) rotate(15deg);
     animation: bolt-flash 2s ease-in-out infinite;
-    box-shadow: 0 0 0.3vh #00ffff;
+    box-shadow: 0 0 0.3vmin #00ffff;
   }
 
   .electric-bolt::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -0.05vh;
-    width: 0.2vh;
-    height: 0.3vh;
+    left: -0.05vmin;
+    width: 0.2vmin;
+    height: 0.3vmin;
     background: #00ffff;
     transform: rotate(-30deg);
   }
@@ -375,9 +375,9 @@
     content: '';
     position: absolute;
     bottom: 0;
-    right: -0.05vh;
-    width: 0.2vh;
-    height: 0.3vh;
+    right: -0.05vmin;
+    width: 0.2vmin;
+    height: 0.3vmin;
     background: #00ffff;
     transform: rotate(30deg);
   }
@@ -399,41 +399,41 @@
 
   @keyframes glitch {
     0%, 100% { transform: translate(0); }
-    10% { transform: translate(-0.1vh, 0.1vh); }
-    20% { transform: translate(-0.1vh, -0.1vh); }
-    30% { transform: translate(0.1vh, 0.1vh); }
-    40% { transform: translate(0.1vh, -0.1vh); }
+    10% { transform: translate(-0.1vmin, 0.1vmin); }
+    20% { transform: translate(-0.1vmin, -0.1vmin); }
+    30% { transform: translate(0.1vmin, 0.1vmin); }
+    40% { transform: translate(0.1vmin, -0.1vmin); }
     50% { transform: translate(0); }
-    60% { transform: translate(-0.05vh, 0.05vh); }
-    70% { transform: translate(0.05vh, -0.05vh); }
+    60% { transform: translate(-0.05vmin, 0.05vmin); }
+    70% { transform: translate(0.05vmin, -0.05vmin); }
     80% { transform: translate(0); }
-    90% { transform: translate(-0.1vh, 0.1vh); }
+    90% { transform: translate(-0.1vmin, 0.1vmin); }
   }
 
   @keyframes glitch-1 {
     0%, 100% { transform: translate(0); opacity: 0.7; }
-    10% { transform: translate(-0.2vh, 0.2vh); opacity: 0.5; }
-    20% { transform: translate(-0.2vh, -0.2vh); opacity: 0.5; }
-    30% { transform: translate(0.2vh, 0.2vh); opacity: 0.5; }
-    40% { transform: translate(0.2vh, -0.2vh); opacity: 0.5; }
+    10% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
+    20% { transform: translate(-0.2vmin, -0.2vmin); opacity: 0.5; }
+    30% { transform: translate(0.2vmin, 0.2vmin); opacity: 0.5; }
+    40% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
     50% { transform: translate(0); opacity: 0.7; }
-    60% { transform: translate(-0.1vh, 0.1vh); opacity: 0.6; }
-    70% { transform: translate(0.1vh, -0.1vh); opacity: 0.6; }
+    60% { transform: translate(-0.1vmin, 0.1vmin); opacity: 0.6; }
+    70% { transform: translate(0.1vmin, -0.1vmin); opacity: 0.6; }
     80% { transform: translate(0); opacity: 0.7; }
-    90% { transform: translate(-0.2vh, 0.2vh); opacity: 0.5; }
+    90% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
   }
 
   @keyframes glitch-2 {
     0%, 100% { transform: translate(0); opacity: 0.7; }
-    10% { transform: translate(0.2vh, -0.2vh); opacity: 0.5; }
-    20% { transform: translate(0.2vh, 0.2vh); opacity: 0.5; }
-    30% { transform: translate(-0.2vh, -0.2vh); opacity: 0.5; }
-    40% { transform: translate(-0.2vh, 0.2vh); opacity: 0.5; }
+    10% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
+    20% { transform: translate(0.2vmin, 0.2vmin); opacity: 0.5; }
+    30% { transform: translate(-0.2vmin, -0.2vmin); opacity: 0.5; }
+    40% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
     50% { transform: translate(0); opacity: 0.7; }
-    60% { transform: translate(0.1vh, -0.1vh); opacity: 0.6; }
-    70% { transform: translate(-0.1vh, 0.1vh); opacity: 0.6; }
+    60% { transform: translate(0.1vmin, -0.1vmin); opacity: 0.6; }
+    70% { transform: translate(-0.1vmin, 0.1vmin); opacity: 0.6; }
     80% { transform: translate(0); opacity: 0.7; }
-    90% { transform: translate(0.2vh, -0.2vh); opacity: 0.5; }
+    90% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
   }
 
   @keyframes progress-pulse {

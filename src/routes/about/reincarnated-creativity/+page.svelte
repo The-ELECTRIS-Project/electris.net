@@ -40,8 +40,8 @@
     color: #f65901;
     min-height: 100vh;
     padding: 2rem;
-    padding-top: 6vh;
-    padding-right: 2vh;
+    padding-top: 6vmin;
+    padding-right: 2vmin;
     font-family: sans-serif;
     display: flex;
     flex-direction: column;
@@ -49,9 +49,9 @@
 
   .term-header h1 {
     font-size: 3rem;
-    margin-bottom: 1.5vh;
+    margin-bottom: 1.5vmin;
     text-align: left;
-    padding-right: 17vh;
+    padding-right: 17vmin;
   }
 
   .term-container {
@@ -65,7 +65,7 @@
     max-width: 800px;
     margin: 0 auto;
     background-color: #222;
-    padding: 2vh;
+    padding: 2vmin;
     border-radius: 8px;
     font-size: 1.2rem;
     line-height: 1.6;

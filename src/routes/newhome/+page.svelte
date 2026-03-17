@@ -205,8 +205,8 @@
 
   .ambient-dot {
     position: absolute;
-    width: 0.2vh;
-    height: 0.2vh;
+    width: 0.2vmin;
+    height: 0.2vmin;
     background: rgba(246, 89, 1, 0.3);
     border-radius: 50%;
     animation: ambient-pulse 4s ease-in-out infinite;
@@ -278,7 +278,7 @@
     background-clip: text;
     animation: gradient-text-pulse 3s ease-in-out infinite;
     position: relative;
-    top: -2.5vh;
+    top: -2.5vmin;
   }
 
   .newhome-subtitle:hover {

@@ -46,11 +46,11 @@
 <div class="cards">
   {#each projects as project}
     <a class="card" href={project.link}>
-      <div class="card-icon" style="margin-right: {Math.min(iconSize * 0.02, 0.44)}vh;">
+      <div class="card-icon" style="margin-right: {Math.min(iconSize * 0.02, 0.44)}vmin;">
         <img
           src={project.icon}
           alt="{project.title} icon"
-          style="width: {project.width}vh; object-fit: contain; margin-right: {Math.min(iconSize * 0.5, 10)}px; margin-left: {Math.min(iconSize * 0.5, 5)}px;"
+          style="width: {project.width}vmin; object-fit: contain; margin-right: {Math.min(iconSize * 0.5, 10)}px; margin-left: {Math.min(iconSize * 0.5, 5)}px;"
         />
       </div>
       <div class="card-content" style="font-family: {project.font};">
@@ -74,7 +74,7 @@
   }
   
   .hero h1 {
-    padding-top: 1vh;
+    padding-top: 1vmin;
     font-family: 'Letric';
     font-size: 4rem;
     margin: 0;

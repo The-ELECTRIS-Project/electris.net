@@ -131,13 +131,13 @@
 
   .crown-container {
     position: relative;
-    max-width: 30vh;
-    max-height: 30vh;
+    max-width: 30vmin;
+    max-height: 30vmin;
   }
   
   .crown-image {
-    max-width: 30vh;
-    max-height: 30vh;
+    max-width: 30vmin;
+    max-height: 30vmin;
     display: block;
     cursor: pointer;
     transition: all 0.3s ease;

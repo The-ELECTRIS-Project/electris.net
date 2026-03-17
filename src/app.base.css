@@ -3,7 +3,7 @@
 
 /* ===== BASE STYLES ===== */
 html {
-  font-size: clamp(1vh, 1.2vw, 1.36vh);
+  font-size: clamp(1vmin, 2.13vmin, 1.36vmin);
 }
 
 body {
@@ -84,7 +84,7 @@ a {
 
 /* ===== CURSOR FOLLOWER ===== */
 .circle {
-  --circle-size: 2vh;
+  --circle-size: 2vmin;
   position: fixed;
   top: 0;
   left: 0;
@@ -95,89 +95,89 @@ a {
   will-change: transform;
   transition: opacity 0.3s ease, rotation 0.8s, width 0.1s ease-out, height 0.1s ease-out, top 0.1s ease-out, left 0.1s ease-out, border-color 0.2s ease, border-width 0.1s ease-in-out;
   z-index: 500;
-  border: 0.2vh solid var(--circle-border);
+  border: 0.2vmin solid var(--circle-border);
 }
 
 .circle.hovered-word-wrap {
-  border-radius: 0.8vh;
+  border-radius: 0.8vmin;
   transition: opacity 0.2s ease, width 0.08s ease-out, height 0.08s ease-out, border-radius 0.10s ease-out, border-color 0.2s ease;
 }
 
 .circle.hovered-button-grow {
-  --circle-size: 5vh;
+  --circle-size: 5vmin;
 }
 
 .circle.hovered-menu-item {
-  height: 3.5vh;
-  width: 18.5vh;
-  border-radius: 0.8vh;
+  height: 3.5vmin;
+  width: 18.5vmin;
+  border-radius: 0.8vmin;
   transition: rotation 1s, width 0.01s ease-in-out, height 0.01s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
 }
 
 .circle.hovered-new-search {
-  height: 7vh;
-  width: 24.5vw;
-  border-radius: 2vh;
+  height: 7vmin;
+  width: 43.5vmin;
+  border-radius: 2vmin;
 }
 
 .circle.hovered-blog-search {
-  height: 5vh;
-  width: 15.9vw;
-  border-radius: 0.6vh;
+  height: 5vmin;
+  width: 28.2vmin;
+  border-radius: 0.6vmin;
 }
 
 .circle.hovered-blog-filter {
-  height: 4.6vh;
-  width: 5.55vw;
-  border-radius: 0.6vh;
+  height: 4.6vmin;
+  width: 9.8vmin;
+  border-radius: 0.6vmin;
 }
 
 .circle.hovered-settings {
-  --circle-size: 3.5vh;
+  --circle-size: 3.5vmin;
 }
 
 .circle.hovered-avatar {
-    --circle-size: 14.6vh;
-    left: 0.05vw;
-    bottom: 0.1vh;
+    --circle-size: 14.6vmin;
+    left: 0.09vmin;
+    bottom: 0.1vmin;
   }
 
 .circle.hovered-pin {
-  --circle-size: var(--hover-pin-size, 13.4vh);
-  top: -0.03vh;
-  border-radius: 1.2vh;
+  --circle-size: var(--hover-pin-size, 13.4vmin);
+  top: -0.03vmin;
+  border-radius: 1.2vmin;
 }
 
 .circle.hovered-gallery-image {
   width: 31vmin;
   height: 43.5vmin;
-  top: -0.03vh;
-  border-radius: 0.8vh;
+  top: -0.03vmin;
+  border-radius: 0.8vmin;
 }
 
 .circle.hovered-hamburger-footer {
-  height: 5vh;
-  width: 13vh;
-  top: 0.5vh;
-  border-radius: 1.2vh;
+  height: 5vmin;
+  width: 13vmin;
+  top: 0.5vmin;
+  border-radius: 1.2vmin;
   transition: rotation 1s, width 0.1s ease-in-out, height 0.1s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-in-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
   border-color: var(--circle-hover-footer);
 }
 
 .circle.hovered-hamburger {
-  --circle-size: 4vh;
+  --circle-size: 4vmin;
 }
 
 .circle.hovered-sip {
-  --circle-size: 37vh;
-  top: -0.3vh;
-  left: -1.4vh;
+  --circle-size: 37vmin;
+  top: -0.3vmin;
+  left: -1.4vmin;
   border-color: var(--circle-hover-sip);
 }
 
 .circle.hovered-crown {
-  width: 20vw;
-  height: 24vh;
+  width: 35.5vmin;
+  height: 24vmin;
   border-color: var(--circle-hover-crown);
   box-shadow: 0 0 12px 4px color-mix(in srgb, var(--circle-hover-crown) 40%, transparent);
 }
@@ -240,7 +240,7 @@ a {
 
 /* ===== GEAR ANIMATION ===== */
 .gear {
-  border: 0.3vh solid var(--gear-border);
+  border: 0.3vmin solid var(--gear-border);
 }
 
 .gear::before {
@@ -315,8 +315,8 @@ a {
   --scope-content-bg: rgba(255, 121, 43, 0.103);
   --examples-box-bg: rgba(255, 255, 255, 0.432);
   
-  --crown-filter: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.1));
-  --crown-filter-hover: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vh rgba(0, 0, 0, 0.6));
+  --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.1));
+  --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vmin rgba(0, 0, 0, 0.6));
   
   --spark-bg: #4cc200;
   --spark-shadow: 0 0 8px #4cc200, 0 0 16px #4cc200;
@@ -372,8 +372,8 @@ a {
   --scope-content-bg: rgba(246, 89, 1, 0.05);
   --examples-box-bg: rgba(0, 0, 0, 0.2);
   
-  --crown-filter: drop-shadow(0 0.5vh 1vh rgba(255, 255, 255, 0.15));
-  --crown-filter-hover: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vh rgba(255, 255, 255, 0.8));
+  --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(255, 255, 255, 0.15));
+  --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vmin rgba(255, 255, 255, 0.8));
   
   --spark-bg: #5eff00;
   --spark-shadow: 0 0 10px #5eff00, 0 0 20px #5eff00;
@@ -429,8 +429,8 @@ a {
   --scope-content-bg: rgba(246, 110, 20, 0.1);
   --examples-box-bg: rgba(0, 0, 0, 0.6);
   
-  --crown-filter: drop-shadow(0 0.5vh 1vh rgba(255, 255, 255, 0.25));
-  --crown-filter-hover: drop-shadow(0 0.5vh 1vh rgba(0, 0, 0, 0.5)) drop-shadow(0 0 3vh rgba(255, 255, 255, 1.2));
+  --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(255, 255, 255, 0.25));
+  --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.5)) drop-shadow(0 0 3vmin rgba(255, 255, 255, 1.2));
   
   --spark-bg: #70ff20;
   --spark-shadow: 0 0 15px #70ff20, 0 0 30px #70ff20, 0 0 45px #70ff20;
@@ -438,12 +438,12 @@ a {
 
 [data-theme="wonderful"] .circle {
   border-color: #01f619;
-  box-shadow: 0 0 1.5vh rgba(1, 246, 25, 0.4), inset 0 0 0.8vh rgba(1, 246, 25, 0.2);
+  box-shadow: 0 0 1.5vmin rgba(1, 246, 25, 0.4), inset 0 0 0.8vmin rgba(1, 246, 25, 0.2);
 }
 
 [data-theme="wonderful"] .nav-button:hover {
   color: #01f619;
-  text-shadow: 0 0 1vh rgba(1, 246, 25, 0.5);
+  text-shadow: 0 0 1vmin rgba(1, 246, 25, 0.5);
 }
 
 /* Light Scheme */
@@ -561,35 +561,35 @@ a {
 [data-theme="cyber-neotic"] .navbar {
   backdrop-filter: blur(15px) saturate(180%);
   -webkit-backdrop-filter: blur(15px) saturate(180%);
-  border-bottom: 0.1vh solid var(--color-primary);
+  border-bottom: 0.1vmin solid var(--color-primary);
   background-color: var(--navbar-bg);
 }
 
 [data-theme="cyber-neotic"] .hamburger {
   backdrop-filter: blur(15px) saturate(180%);
   -webkit-backdrop-filter: blur(15px) saturate(180%);
-  border-right: 0.1vh solid var(--color-primary);
+  border-right: 0.1vmin solid var(--color-primary);
 }
 
 [data-theme="cyber-neotic"] .nav-button:hover {
-  text-shadow: 0 0 0.8vh var(--color-primary), 0 0 1.5vh var(--color-primary);
+  text-shadow: 0 0 0.8vmin var(--color-primary), 0 0 1.5vmin var(--color-primary);
   color: #fff;
 }
 
 [data-theme="cyber-neotic"] .options-menu {
   backdrop-filter: blur(15px) saturate(180%);
   -webkit-backdrop-filter: blur(15px) saturate(180%);
-  border: 0.1vh solid var(--color-primary);
-  box-shadow: 0 0 2vh color-mix(in srgb, var(--color-primary) 20%, transparent);
+  border: 0.1vmin solid var(--color-primary);
+  box-shadow: 0 0 2vmin color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
 [data-theme="cyber-neotic"] .circle {
-  border-width: 0.3vh;
-  box-shadow: 0 0 1vh var(--color-primary), inset 0 0 0.5vh var(--color-primary);
+  border-width: 0.3vmin;
+  box-shadow: 0 0 1vmin var(--color-primary), inset 0 0 0.5vmin var(--color-primary);
 }
 
 [data-theme="cyber-neotic"] .circle.hovered-lock {
-  box-shadow: 0 0 1.5vh var(--color-primary), inset 0 0 0.8vh var(--color-primary);
+  box-shadow: 0 0 1.5vmin var(--color-primary), inset 0 0 0.8vmin var(--color-primary);
 }
 
 /* Light Scheme */

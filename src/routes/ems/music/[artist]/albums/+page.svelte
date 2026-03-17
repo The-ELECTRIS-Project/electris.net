@@ -72,12 +72,12 @@
 
 <style>
     .albums-page {
-        min-height: 90vh;
-        padding: 10vh 5vw 5vh;
+        min-height: 90vmin;
+        padding: 10vmin 8.85vmin 5vmin;
     }
 
     .page-header {
-        margin-bottom: 6vh;
+        margin-bottom: 6vmin;
     }
 
     .back-link {
@@ -173,7 +173,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding-top: 10vh;
+        padding-top: 10vmin;
     }
 
     .empty-icon {

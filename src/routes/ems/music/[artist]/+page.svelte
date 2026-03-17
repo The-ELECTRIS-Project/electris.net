@@ -87,17 +87,17 @@
 
 <style>
     .artist-hub {
-        min-height: 80vh;
+        min-height: 80vmin;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 10vh;
+        padding-top: 10vmin;
     }
 
     .artist-header {
         text-align: center;
         max-width: 600px;
-        margin-bottom: 8vh;
+        margin-bottom: 8vmin;
     }
 
     .avatar-container {
@@ -131,7 +131,7 @@
 
     .links-container {
         display: flex;
-        gap: 4vw;
+        gap: 7.08vmin;
         justify-content: center;
         width: 100%;
         padding: 0 2rem;

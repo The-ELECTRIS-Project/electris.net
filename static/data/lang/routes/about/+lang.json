@@ -1,13 +1,13 @@
 {
   "ar": {
     "about.hero": "معلومات عنا",
-    "about.undertitle": "[المزيد من المعلومات هنا قريباً]"
+    "about.vrrw.quote": ""
   },
   "en_GB": {
     "about.hero": "About Us",
     "about.elts.hero": "About ELECTRIS",
     "about.elts.intro": "ELECTRIS is a group of and for creators.",
-    "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have, and it should be allowed to flourish.",
+    "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have as humans, and it should be allowed to flourish.",
     "about.elts.p2": "It doesn't matter if it takes you a minute, an hour, a week or a whole year. What you create is yours. You should see your work through to the end, no matter how hard it is or how long it takes, because it is worth it, it's yours, and at the end of it all, you'll be proud of what you have made.",
     "about.elts.statement": "That is what ELECTRIS stands for.<br>If it's what you stand for, then ELECTRIS is the right community for you.",
     "about.eltr.hero": "About ELECTRO",
@@ -21,13 +21,13 @@
     "about.eltr.creator": "CREATOR",
     "about.vrrw.hero": "About Varrow",
     "about.vrrw.intro": "I asked him to write his own section, but all he said was:",
-    "about.vrrw.quote": "\"Varrow is currently in hiding and doesn’t want any information disclosed about him\""
+    "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
   },
   "en_US": {
     "about.hero": "About Us",
     "about.elts.hero": "About ELECTRIS",
     "about.elts.intro": "ELECTRIS is a group of and for creators.",
-    "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have, and it should be allowed to flourish.",
+    "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have as humans, and it should be allowed to flourish.",
     "about.elts.p2": "It doesn't matter if it takes you a minute, an hour, a week or a whole year. What you create is yours. You should see your work through to the end, no matter how hard it is or how long it takes, because it is worth it, it's yours, and at the end of it all, you'll be proud of what you have made.",
     "about.elts.statement": "That is what ELECTRIS stands for.<br>If it's what you stand for, then ELECTRIS is the right community for you.",
     "about.eltr.hero": "About ELECTRO",
@@ -41,13 +41,13 @@
     "about.eltr.creator": "CREATOR",
     "about.vrrw.hero": "About Varrow",
     "about.vrrw.intro": "I asked him to write his own section, but all he said was:",
-    "about.vrrw.quote": "\"Varrow is currently in hiding and doesn’t want any information disclosed about him\""
+    "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
   },
   "ja_JP": {
     "about.hero": "私たちについて",
     "about.elts.hero": "エレクトリスについて",
     "about.elts.intro": "エレクトリスは、クリエイターによる、クリエイターのためのグループで",
-    "about.elts.p1": "エレクトリス プロジェクトは、すべての人が自分の創造性を望むままに活用できるようにすることを目標としています。創造性は間違いなく私たちが持つ最もユニークな特性であり、それは花開くことを許されるべきです。",
+    "about.elts.p1": "エレクトリス プロジェクトは、すべての人が自分の創造性を望むままに活用できるようにすることを目標としています。創造性は間違いなく私たち人間が持つ最もユニークな特性であり、それは花開くことを許されるべきです。",
     "about.elts.p2": "1分かかろうが、1時間かかろうが、1週間かかろうが、1年かかろうが、それは関係ありません。あなたが創るものはあなたのものです。どれほど困難で、どれほど時間がかかっても、最後まで作品を見届けるべきです。なぜなら、それには価値があり、それはあなたのものであり、そしてすべてが終わった時、あなたは自分が作ったものを誇りに思うからです。",
     "about.elts.statement": "それがエレクトリスの信念です。<br>それがあなたの信念でもあるなら、エレクトリスはあなたにとって正しいコミュニティです。",
     "about.eltr.hero": "エレクトロについて",
@@ -67,7 +67,7 @@
     "about.hero": "Despre Noi",
     "about.elts.hero": "Despre ELECTRIS",
     "about.elts.intro": "ELECTRIS este un group creat de și pentru creatori.",
-    "about.elts.p1": "Proiectul ELECTRIS are golul de a lăsa orice persoană să își folosească creativitatea oricum doresc, deoarece aceasta este fără nici un dubiu cel mai unic aspect pe care îl avem, și ar trebui să îi fie permis să înflorească.",
+    "about.elts.p1": "Proiectul ELECTRIS are golul de a lăsa orice persoană să își folosească creativitatea oricum doresc, deoarece aceasta este fără nici un dubiu cel mai unic aspect pe care îl avem ca și oameni, și ar trebui să îi fie permis să înflorească.",
     "about.elts.p2": "Nu contează dacă durează un minut, o oră, o săptămână sau un an întreg. Ce creezi este al tău. Trebuie să-ți duci munca până la capăt, indiferent cât de greu este sau cât timp durează, pentru că merită, pentru că totul este al tău, și la final, vei fi mândru(ă) de ceea ce ai realizat.",
     "about.elts.statement": "Asta este ce ELECTRIS reprezintă.<br>Dacă ești de acord cu noi, atunci ELECTRIS este comunitatea potrivită pentru tine.",
     "about.eltr.hero": "Despre ELECTRO",

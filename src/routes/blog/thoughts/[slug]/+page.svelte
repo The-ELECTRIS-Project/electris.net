@@ -183,7 +183,7 @@
   .post-container {
     min-height: 100vh;
     padding: 6rem 2rem 4rem;
-    max-width: 80vh;
+    max-width: 80vmin;
     margin: 0 auto;
     position: relative;
   }
@@ -240,7 +240,7 @@
   
   .cover-image {
     width: 100%;
-    height: 35vh;
+    height: 35vmin;
     position: relative;
     border-radius: 1rem;
     overflow: hidden;
@@ -252,7 +252,7 @@
     padding: 2rem;
     background: rgba(246, 89, 1, 0.03);
     border-radius: 1rem;
-    border: 0.1vh solid rgba(246, 89, 1, 0.1);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.1);
   }
 
   .post-nav {
@@ -321,7 +321,7 @@
 
   .tag {
     background: rgba(246, 89, 1, 0.15);
-    border: 0.1vh solid rgba(246, 89, 1, 0.3);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
     font-size: 0.85rem;
@@ -444,8 +444,8 @@
     text-decoration: none;
     color: inherit;
     background: rgba(246, 89, 1, 0.05);
-    border: 0.1vh solid rgba(246, 89, 1, 0.2);
-    border-radius: 0.8vh;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.2);
+    border-radius: 0.8vmin;
     padding: 1.5rem;
     transition: all 0.3s ease;
   }
@@ -497,7 +497,7 @@
     }
 
     .cover-image {
-      height: 25vh;
+      height: 25vmin;
     }
 
     .post-meta {

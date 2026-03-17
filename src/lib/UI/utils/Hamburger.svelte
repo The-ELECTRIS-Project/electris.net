@@ -82,10 +82,10 @@
 <style>
   .hamburger-button {
     user-select: none;
-    height: 4vh;
-    width: 3.5vh;
+    height: 4vmin;
+    width: 3.5vmin;
     position: fixed;
-    left: 1vh;
+    left: 1vmin;
     z-index: 121;
     cursor: pointer;
     background: none;
@@ -134,8 +134,8 @@
   }
   
   .closed.hovered .line-top {
-    transform: translateY(1vh) translateX(1.5vh) rotate(45deg);
-    width: 3.5vh;
+    transform: translateY(1vmin) translateX(1.5vmin) rotate(45deg);
+    width: 3.5vmin;
   }
   
   .closed.hovered .line-middle {
@@ -144,23 +144,23 @@
   }
   
   .closed.hovered .line-bottom {
-    transform: translateY(-1vh) translateX(1.5vh) rotate(-45deg);
-    width: 3.5vh;
+    transform: translateY(-1vmin) translateX(1.5vmin) rotate(-45deg);
+    width: 3.5vmin;
   }
   
   .open.hovered .line-top {
-    transform: translateY(-0.9vh) translateX(0.75vh) rotate(-45deg);
-    width: 3.5vh;
+    transform: translateY(-0.9vmin) translateX(0.75vmin) rotate(-45deg);
+    width: 3.5vmin;
   }
   
   .open.hovered .line-middle {
-    transform: translateX(0.75vh) scaleX(1);
+    transform: translateX(0.75vmin) scaleX(1);
     opacity: 1;
   }
   
   .open.hovered .line-bottom {
-    transform: translateY(0.9vh) translateX(0.75vh) rotate(45deg);
-    width: 3.5vh;
+    transform: translateY(0.9vmin) translateX(0.75vmin) rotate(45deg);
+    width: 3.5vmin;
   }
   
   .closed.hovered .hamburger-svg {

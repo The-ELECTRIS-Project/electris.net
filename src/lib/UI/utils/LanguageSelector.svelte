@@ -88,19 +88,19 @@
   .language-selector {
     position: relative;
     display: inline-block;
-    width: 18vh;
+    width: 18vmin;
   }
   
   .language-button {
     background: none;
     border: 1px solid #f65901;
     color: #f65901;
-    padding: 0.5vh 1vh;
+    padding: 0.5vmin 1vmin;
     border-radius: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     width: 100%;
@@ -161,11 +161,11 @@
     background: none;
     border: none;
     color: #f65901;
-    padding: 0.5vh 1vh;
+    padding: 0.5vmin 1vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     text-align: left;

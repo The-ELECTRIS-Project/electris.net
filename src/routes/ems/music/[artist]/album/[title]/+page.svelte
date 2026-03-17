@@ -76,14 +76,14 @@
 
 <style>
     .album-detail {
-        min-height: 90vh;
-        padding: 12vh 5vw 5vh;
+        min-height: 90vmin;
+        padding: 12vmin 8.85vmin 5vmin;
     }
 
     .content-wrapper {
         display: grid;
         grid-template-columns: 400px 1fr;
-        gap: 8vw;
+        gap: 14.16vmin;
         max-width: 1400px;
         margin: 0 auto;
     }

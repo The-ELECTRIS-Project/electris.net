@@ -646,7 +646,7 @@
     <div class="confirm-dialog" transition:slide={{ duration: 300 }}>
       <h3>🔄 Reset All States?</h3>
       <p>This will delete ALL cookies and localStorage data for this domain, including:</p>
-      <ul style="text-align: left; margin: 1vh 0; padding-left: 2vh;">
+      <ul style="text-align: left; margin: 1vmin 0; padding-left: 2vmin;">
         <li>All cookies ({getCookieCount()})</li>
         <li>All localStorage items ({getLocalStorageCount()})</li>
         <li>Theme preferences</li>
@@ -678,8 +678,8 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: calc(2vh + 1.5vh + 1.5vh);
-    padding: 1.5vh 1vh;
+    height: calc(2vmin + 1.5vmin + 1.5vmin);
+    padding: 1.5vmin 1vmin;
     display: flex;
     align-items: center;
     z-index: 100;
@@ -693,7 +693,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    gap: 1.5vh;
+    gap: 1.5vmin;
   }
 
   .nav-button {
@@ -707,14 +707,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 20vh;
+    width: 20vmin;
     height: 100vh;
     max-width: 80%;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 110;
-    padding: 1.4vh;
-    padding-top: 4.5vh;
+    padding: 1.4vmin;
+    padding-top: 4.5vmin;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -729,8 +729,8 @@
     text-align: center;
     font-family: sans-serif;
     font-size: 0.9rem;
-    border-top: 0.1vh solid;
-    padding-top: 1vh;
+    border-top: 0.1vmin solid;
+    padding-top: 1vmin;
   }
 
   .hamburger-footer a {
@@ -743,7 +743,7 @@
 
   .settings-button {
     position: fixed;
-    right: 1vh;
+    right: 1vmin;
     user-select: none;
     background: none;
     border: none;
@@ -752,21 +752,21 @@
 
   .settings-icon {
     user-select: none;
-    height: 2.8vh;
+    height: 2.8vmin;
     transition: none;
     transform-origin: center;
   }
   
   .options-menu {
     position: fixed;
-    top: 5vh;
-    right: 1vh;
-    padding: 1.5vh;
-    border-radius: 1vh;
+    top: 5vmin;
+    right: 1vmin;
+    padding: 1.5vmin;
+    border-radius: 1vmin;
     z-index: 200;
     color: #f65901;
-    min-width: 35vh;
-    max-width: 40vh;
+    min-width: 35vmin;
+    max-width: 40vmin;
     transition: all 0.3s ease;
   }
   
@@ -780,16 +780,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1.5vh;
-    margin-bottom: 1vh;
+    margin-top: 1.5vmin;
+    margin-bottom: 1vmin;
   }
 
   .switch-button {
-    margin-top: 2vh;
+    margin-top: 2vmin;
     display: inline-block;
-    padding: 0.1vh 0.2vh;
-    border: 0.2vh solid hsl(22, 100%, 50%);
-    border-radius: 0.5vh;
+    padding: 0.1vmin 0.2vmin;
+    border: 0.2vmin solid hsl(22, 100%, 50%);
+    border-radius: 0.5vmin;
     text-decoration: none;
     color: inherit;
     cursor: pointer;
@@ -797,7 +797,7 @@
   }
 
   .switch-button:hover {
-    border: 0.2vh solid hsl(22, 100%, 60%);
+    border: 0.2vmin solid hsl(22, 100%, 60%);
     background: rgba(139, 59, 35, 0.274);
     transition: 200.0ms;
   }
@@ -805,21 +805,21 @@
   .selector {
     position: relative;
     display: inline-block;
-    width: 18vh;
+    width: 18vmin;
   }
 
   /* Theme Selector Styles */
 
   .theme-button {
     background: none;
-    border: 0.1vh solid #f65901;
+    border: 0.1vmin solid #f65901;
     color: #f65901;
-    padding: 0.5vh 1vh;
-    border-radius: 0.4vh;
+    padding: 0.5vmin 1vmin;
+    border-radius: 0.4vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     width: 100%;
@@ -863,8 +863,8 @@
     left: 0;
     width: 100%;
     background: var(--bg-secondary, #1a1a1a);
-    border: 0.1vh solid;
-    border-radius: 0.4vh;
+    border: 0.1vmin solid;
+    border-radius: 0.4vmin;
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -880,16 +880,16 @@
     background: none;
     border: none;
     color: #f65901;
-    padding: 0.75vh 1vh;
+    padding: 0.75vmin 1vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     text-align: left;
     box-sizing: border-box;
-    min-height: 3.5vh;
+    min-height: 3.5vmin;
   }
 
   .theme-option:hover {
@@ -921,19 +921,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 0.1vh;
+    margin-top: 0.1vmin;
   }
 
   .color-scheme-button {
     background: none;
-    border: 0.1vh solid #f65901;
+    border: 0.1vmin solid #f65901;
     color: #f65901;
-    padding: 0.5vh 1vh;
-    border-radius: 0.4vh;
+    padding: 0.5vmin 1vmin;
+    border-radius: 0.4vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     width: 100%;
@@ -967,8 +967,8 @@
     left: 0;
     width: 100%;
     background: var(--bg-secondary, #1a1a1a);
-    border: 0.1vh solid;
-    border-radius: 0.4vh;
+    border: 0.1vmin solid;
+    border-radius: 0.4vmin;
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -984,16 +984,16 @@
     background: none;
     border: none;
     color: #f65901;
-    padding: 0.75vh 1vh;
+    padding: 0.75vmin 1vmin;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vh;
+    gap: 0.5vmin;
     transition: background-color 0.2s;
     font-family: inherit;
     text-align: left;
     box-sizing: border-box;
-    min-height: 3.5vh;
+    min-height: 3.5vmin;
   }
 
   .color-scheme-option:hover {
@@ -1025,7 +1025,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 0.1vh;
+    margin-top: 0.1vmin;
   }
 
   .checkmark {
@@ -1036,8 +1036,8 @@
   }
 
   .menu-item {
-    margin-top: 1vh;
-    margin-bottom: 1vh;
+    margin-top: 1vmin;
+    margin-bottom: 1vmin;
     display: flex;
     flex-direction: column;
     justify-content: left;
@@ -1045,7 +1045,7 @@
 
   .menu-item a {
     display: inline-block;
-    line-height: 2.25vh;
+    line-height: 2.25vmin;
     font-family: sans-serif;
     text-decoration: none;
     color: #f65901;
@@ -1056,10 +1056,10 @@
     margin-left: 0.5rem;
     color: #f65901;
     font-size: 0.8rem;
-    letter-spacing: 0.045vh;
+    letter-spacing: 0.045vmin;
     background-color: rgba(246, 89, 1, 0.2);
     padding: 0.1rem 0.3rem;
-    border-radius: 0.4vh;
+    border-radius: 0.4vmin;
     font-family: monospace;
   }
 
@@ -1070,16 +1070,16 @@
   .reset-button {
     background: none;
     width: auto;
-    border: 0.1vh solid #f65901;
+    border: 0.1vmin solid #f65901;
     color: #f65901;
-    padding: 0.3vh 0.6vh;
-    border-radius: 0.3vh;
+    padding: 0.3vmin 0.6vmin;
+    border-radius: 0.3vmin;
     cursor: pointer;
     font-size: 1.1rem;
     transition: background-color 0.2s;
     display: flex;
     align-items: center;
-    gap: 0.3vh;
+    gap: 0.3vmin;
   }
 
   .reset-button:hover {
@@ -1087,21 +1087,21 @@
   }
 
   .devtools-section {
-    border: 0.1vh solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.5vh;
-    padding: 0.5vh;
-    margin: 2.5vh 0;
-    margin-bottom: -1.5vh;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    border-radius: 0.5vmin;
+    padding: 0.5vmin;
+    margin: 2.5vmin 0;
+    margin-bottom: -1.5vmin;
     background: rgba(246, 89, 1, 0.05);
   }
 
   .devtools-header {
     margin: 0;
-    padding: 0.5vh;
+    padding: 0.5vmin;
     cursor: pointer;
     user-select: none;
     transition: background-color 0.2s;
-    border-radius: 0.3vh;
+    border-radius: 0.3vmin;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1127,17 +1127,17 @@
   }
 
   .devtools-submenu {
-    border-top: 0.2vh solid rgba(246, 89, 1, 0.2);
-    margin-top: 0.5vh;
-    padding-top: 0.5vh;
+    border-top: 0.2vmin solid rgba(246, 89, 1, 0.2);
+    margin-top: 0.5vmin;
+    padding-top: 0.5vmin;
   }
 
   .devtools-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0.8vh 0;
-    padding: 0 0.5vh;
+    margin: 0.8vmin 0;
+    padding: 0 0.5vmin;
     font-size: 0.9rem;
   }
 
@@ -1156,38 +1156,38 @@
     align-items: center;
     justify-content: center;
     z-index: 300;
-    backdrop-filter: blur(0.5vh);
-    -webkit-backdrop-filter: blur(0.5vh);
+    backdrop-filter: blur(0.5vmin);
+    -webkit-backdrop-filter: blur(0.5vmin);
   }
 
   .confirm-dialog {
     background: var(--bg-primary, #1a1a1a);
-    border: 0.2vh solid #f65901;
-    border-radius: 1vh;
-    padding: 2vh;
-    max-width: 30vh;
-    width: 30vh;
+    border: 0.2vmin solid #f65901;
+    border-radius: 1vmin;
+    padding: 2vmin;
+    max-width: 30vmin;
+    width: 30vmin;
     text-align: center;
     color: #f65901;
   }
 
   .confirm-dialog h3 {
-    margin: 0 0 1vh 0;
+    margin: 0 0 1vmin 0;
     font-size: 1.3rem;
     color: #f65901;
   }
 
   .confirm-dialog p {
-    margin: 1vh 0;
-    line-height: 1.65vh;
+    margin: 1vmin 0;
+    line-height: 1.65vmin;
     color: inherit;
   }
 
   .cookie-stats {
-    margin: 1vh 0;
-    padding: 0.5vh;
+    margin: 1vmin 0;
+    padding: 0.5vmin;
     background: rgba(246, 89, 1, 0.1);
-    border-radius: 0.4vh;
+    border-radius: 0.4vmin;
   }
 
   .cookie-stats small {
@@ -1197,14 +1197,14 @@
 
   .confirm-buttons {
     display: flex;
-    gap: 1vh;
+    gap: 1vmin;
     justify-content: center;
-    margin-top: 1.5vh;
+    margin-top: 1.5vmin;
   }
 
   .confirm-btn {
-    padding: 0.7vh 1.2vh;
-    border-radius: 0.4vh;
+    padding: 0.7vmin 1.2vmin;
+    border-radius: 0.4vmin;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;

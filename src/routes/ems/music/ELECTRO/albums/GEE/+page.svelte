@@ -29,7 +29,7 @@
     font-family: "Redwing";
     font-weight: 400;
     font-size: 5rem;
-    padding-top: 39vh;
-    min-height: calc(20vh - 25vh);
+    padding-top: 39vmin;
+    min-height: calc(20vmin - 25vmin);
   }
 </style>

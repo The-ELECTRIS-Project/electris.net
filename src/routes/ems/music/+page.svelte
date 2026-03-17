@@ -43,17 +43,17 @@
 
 <style>
   .hero {
-    min-height: 5vh;
+    min-height: 5vmin;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 6vh;
+    padding-top: 6vmin;
     text-align: center;
   }
 
   .hero h1 {
-    padding-top: 1vh;
+    padding-top: 1vmin;
     font-family: 'Letric';
     font-size: 4rem;
     margin: 0;
@@ -61,7 +61,7 @@
 
   .slogan {
     font-size: 1.2rem;
-    margin-top: 1vh;
+    margin-top: 1vmin;
     opacity: 0.8;
     font-style: italic;
   }
@@ -70,12 +70,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5vh 0;
+    padding: 5vmin 0;
   }
 
   .artists-grid {
     display: flex;
-    gap: 5vw;
+    gap: 8.85vmin;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -99,7 +99,7 @@
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid var(--accent, #f65901);
-    margin-bottom: 2vh;
+    margin-bottom: 2vmin;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
 

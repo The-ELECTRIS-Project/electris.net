@@ -199,13 +199,13 @@
   .hero {
     font-family: 'Letric';
     text-align: center;
-    padding-top: 5vh;
-    margin-bottom: 1vh;
+    padding-top: 5vmin;
+    margin-bottom: 1vmin;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 40vh;
+    min-height: 40vmin;
     position: relative;
     overflow: hidden;
   }
@@ -311,7 +311,7 @@
   .definition {
     font-family: 'Redwing';
     font-size: 2rem;
-    margin-bottom: 3vh;
+    margin-bottom: 3vmin;
     font-weight: 400;
     font-style: italic;
     position: relative;
@@ -337,10 +337,10 @@
   }
 
   .vision-evolution {
-    margin-top: 3vh;
-    padding: 2vh;
-    border-radius: 0.5vh;
-    border-left: 0.3vh solid;
+    margin-top: 3vmin;
+    padding: 2vmin;
+    border-radius: 0.5vmin;
+    border-left: 0.3vmin solid;
     position: relative;
     overflow: hidden;
   }
