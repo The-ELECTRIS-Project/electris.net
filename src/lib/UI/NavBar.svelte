@@ -452,7 +452,7 @@
         }}>
         <div class="footer">
           <p><u>{$t('site.title', 'ELECTRIS')} &#169;2025</u></p>
-          <a href="https://github.com/ItzELECTR0/electris.net" target="_blank"><u>{envInfo.siteVersion}</u></a>
+          <a href="https://github.com/The-ELECTRIS-Project/electris.net" target="_blank"><u>{envInfo.siteVersion}</u></a>
           <span class="env-indicator">{footerEnv}</span>
         </div>
       </div>

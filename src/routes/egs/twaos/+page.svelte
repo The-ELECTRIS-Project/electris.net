@@ -317,9 +317,9 @@
       </div>
       <div class="hero-text">
         <div class="wrap-no-interact-all twaos-title">
-          <span class="text-container"><h2 class="tw">{$t('proj.twaos.title.tw', 'The Wonderful')}</h2></span>
-          <span class="text-container"><h3 class="ao">{$t('proj.twaos.title.ao', 'Adventures Of')}</h3></span>
-          <span class="text-container"><h1 class="sip">{$t('proj.twaos.title.sip', 'SIP')}</h1></span>
+          <span class="text-container"><h2 class="tw">{$t('proj.twaos.title.tw', 'The Wonderful', 'en_US')}</h2></span>
+          <span class="text-container"><h3 class="ao">{$t('proj.twaos.title.ao', 'Adventures Of', 'en_US')}</h3></span>
+          <span class="text-container"><h1 class="sip">{$t('proj.twaos.title.sip', 'SIP', 'en_US')}</h1></span>
         </div>
         <span class="text-container"><h5>{$t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
       </div>
