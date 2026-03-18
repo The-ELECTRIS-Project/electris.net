@@ -1,14 +1,30 @@
 {
-  "site.title": "ELECTRIS",
-  "site.author.eltr": "ELECTRO",
-  "site.author.vrrw": "Varrow",
-  "proj.twaos.title.short": "TWAOS",
-  "site.newhome.title": "ELECTRIS NewHome",
-  "site.newhome.version": "NewHome",
-  "site.artists.jack": "Drissø",
-  "site.platform.yt": "YouTube",
-  "site.platform.gh": "GitHub",
-  "site.platform.ds": "Discord",
-  "site.platform.st": "Steam",
-  "site.platform.x": "Twitter"
+  "en_GB": {
+    "site.title": "ELECTRIS",
+    "site.author.eltr": "ELECTRO",
+    "site.author.vrrw": "Varrow",
+    "proj.twaos.title.short": "TWAOS",
+    "site.newhome.title": "ELECTRIS NewHome",
+    "site.newhome.version": "NewHome",
+    "site.artists.jack": "Drissø",
+    "site.platform.yt": "YouTube",
+    "site.platform.gh": "GitHub",
+    "site.platform.ds": "Discord",
+    "site.platform.st": "Steam",
+    "site.platform.x": "Twitter"
+  },
+  "en_US": {
+    "site.title": "ELECTRIS",
+    "site.author.eltr": "ELECTRO",
+    "site.author.vrrw": "Varrow",
+    "proj.twaos.title.short": "TWAOS",
+    "site.newhome.title": "ELECTRIS NewHome",
+    "site.newhome.version": "NewHome",
+    "site.artists.jack": "Drissø",
+    "site.platform.yt": "YouTube",
+    "site.platform.gh": "GitHub",
+    "site.platform.ds": "Discord",
+    "site.platform.st": "Steam",
+    "site.platform.x": "Twitter"
+  }
 }

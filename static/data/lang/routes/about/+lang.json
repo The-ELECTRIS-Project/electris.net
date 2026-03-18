@@ -1,10 +1,8 @@
 {
   "ar": {
-    "about.hero": "معلومات عنا",
     "about.vrrw.quote": ""
   },
   "en_GB": {
-    "about.hero": "About Us",
     "about.elts.hero": "About ELECTRIS",
     "about.elts.intro": "ELECTRIS is a group of and for creators.",
     "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have as humans, and it should be allowed to flourish.",
@@ -24,7 +22,6 @@
     "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
   },
   "en_US": {
-    "about.hero": "About Us",
     "about.elts.hero": "About ELECTRIS",
     "about.elts.intro": "ELECTRIS is a group of and for creators.",
     "about.elts.p1": "The ELECTRIS Project has the goal to let any person use their creativity however they wish, as that is undoubtedly the most unique trait that we have as humans, and it should be allowed to flourish.",
@@ -44,7 +41,6 @@
     "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
   },
   "ja_JP": {
-    "about.hero": "私たちについて",
     "about.elts.hero": "エレクトリスについて",
     "about.elts.intro": "エレクトリスは、クリエイターによる、クリエイターのためのグループで",
     "about.elts.p1": "エレクトリス プロジェクトは、すべての人が自分の創造性を望むままに活用できるようにすることを目標としています。創造性は間違いなく私たち人間が持つ最もユニークな特性であり、それは花開くことを許されるべきです。",
@@ -57,14 +53,13 @@
     "about.eltr.personal.p2": "自己紹介を求められて、自分が誰なのか完全に忘れてしまったことはありますか？基本的に今私が経験していることがそれです。とにかく、正しく伝えられるよう最善を尽くします。",
     "about.eltr.p1": "私は自分をクリエイターだと思っています。いや、コンテンツクリエイターではなく、アーティストでもなく、",
     "about.eltr.p2": "です。つまり、私は物を作るのが好きだということです。それが何であろうと関係ありません。最終的にそれらは私のもので、私が作ったもので、私はそれらを誇りに思い、誰も私に反対できないから、私はそれをするのが好きなのです。",
-    "about.eltr.p3": "そしてその後、私はそれらを共有するのが好きです。友人と、家族と、知らない人々とさえ。私が作ったものを共有でき、それが他の人々も物を作るきっかけになると、私は大好きです。創造することはこの世界で私の一番好きなことであり、それを生きる理由にするために、できる限り努力します。",
+    "about.eltr.p3": "And after that, I like sharing them. With friends, with family, with people I don't even know. I like when I get to share what I make and love it when it inspires others to make things too. Creating is my favourite thing in this world and I'll try as hard as I can to make that my reason for living.",
     "about.eltr.creator": "クリエイター",
     "about.vrrw.hero": "ヴァローについて",
     "about.vrrw.intro": "彼に自分のセクションを書いてもらうよう頼んだのですが、彼が言ったのはこれだけでした：",
     "about.vrrw.quote": "「ヴァローは現在隠れており、彼に関する情報の開示を望んでいません」"
   },
   "ro_RO": {
-    "about.hero": "Despre Noi",
     "about.elts.hero": "Despre ELECTRIS",
     "about.elts.intro": "ELECTRIS este un group creat de și pentru creatori.",
     "about.elts.p1": "Proiectul ELECTRIS are golul de a lăsa orice persoană să își folosească creativitatea oricum doresc, deoarece aceasta este fără nici un dubiu cel mai unic aspect pe care îl avem ca și oameni, și ar trebui să îi fie permis să înflorească.",

@@ -24,15 +24,20 @@ export const availableLocales: AvailableLocale[] = [
 ];
 
 const defaultLocale = 'en-US';
+const CACHE_PREFIX = 'electris-i18n-';
 
 export const currentLocale = writable<string>(defaultLocale);
 
 // Stores for different levels of translations
 export const commonLocaleData = writable<LocaleData>({});
-export const rootLocaleData = writable<MultiLocaleData>({});
+export const libLocaleData = writable<MultiLocaleData>({});
 export const routeLocaleData = writable<MultiLocaleData>({});
 
 const routeCache = new Map<string, MultiLocaleData>();
+const libCache = new Set<string>();
+
+// Manifest to track versions of each language file
+let i18nManifest: Record<string, string> = {};
 
 function detectBrowserLanguage(): string {
   if (!browser) return defaultLocale;
@@ -61,26 +66,74 @@ async function fetchJson(path: string) {
   }
 }
 
+async function fetchWithCache(path: string) {
+  if (!browser) return await fetchJson(path);
+
+  // Normalize path to match manifest keys (e.g., /data/lang/commons.json -> commons.json)
+  const manifestKey = path.startsWith('/data/lang/') ? path.replace('/data/lang/', '') : path;
+  const expectedVersion = i18nManifest[manifestKey];
+
+  const cacheKey = `${CACHE_PREFIX}${path}`;
+  const cached = localStorage.getItem(cacheKey);
+
+  if (cached && expectedVersion) {
+    try {
+      const { data, v } = JSON.parse(cached);
+      if (v === expectedVersion) return data;
+    } catch (e) {
+      // Ignore parse errors
+    }
+  }
+
+  const data = await fetchJson(path);
+  if (data) {
+    // If expectedVersion is missing from manifest, we still cache it but it might be refetched
+    localStorage.setItem(cacheKey, JSON.stringify({ data, v: expectedVersion || '0' }));
+  }
+  return data;
+}
+
+async function loadManifest() {
+  if (!browser) return;
+  try {
+    const data = await fetchJson('/data/lang/versions.json');
+    if (data) {
+      i18nManifest = data;
+    }
+  } catch (e) {
+    console.error('Failed to load i18n manifest:', e);
+  }
+}
+
 export async function loadCommonData(): Promise<void> {
-  const data = await fetchJson('/data/lang/commons.json');
+  const data = await fetchWithCache('/data/lang/commons.json');
   if (data) commonLocaleData.set(data);
 }
 
-export async function loadRootData(): Promise<void> {
-  const data = await fetchJson('/data/lang/routes/+lang.json');
-  if (data) rootLocaleData.set(data);
+export async function loadLibLocale(libPath: string): Promise<void> {
+  if (libCache.has(libPath)) return;
+
+  const data = await fetchWithCache(`/data/lang/lib/${libPath}/+lang.json`);
+  if (data) {
+    libLocaleData.update(current => {
+      const updated = { ...current };
+      for (const locale in data) {
+        if (locale === '__version') continue; // Skip version key
+        const safeLocale = locale.replace('-', '_');
+        updated[safeLocale] = { ...updated[safeLocale], ...data[locale] };
+      }
+      return updated;
+    });
+    libCache.add(libPath);
+  }
 }
 
 function normalizePath(pathname: string): string {
   if (!pathname || pathname === '/') return '';
   
-  // Remove trailing slash
   let cleanPath = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
-  // Remove leading slash for the fetch path construction
   if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
 
-  // Handle dynamic routes if necessary, but here we just follow the literal path
-  // Since our structure follows src/routes
   return cleanPath;
 }
 
@@ -92,7 +145,11 @@ export async function loadRouteLocale(pathname: string): Promise<void> {
     return;
   }
 
-  const data = await fetchJson(`/data/lang/routes/${normalized}/+lang.json`);
+  const fetchPath = normalized === '' 
+    ? '/data/lang/routes/+lang.json' 
+    : `/data/lang/routes/${normalized}/+lang.json`;
+
+  const data = await fetchWithCache(fetchPath);
   if (data) {
     routeCache.set(normalized, data);
     routeLocaleData.set(data);
@@ -115,9 +172,12 @@ export async function initializeI18n(pathname: string = ''): Promise<void> {
   
   currentLocale.set(initialLocale);
   
+  if (browser) await loadManifest();
+  
   await Promise.all([
     loadCommonData(),
-    loadRootData(),
+    loadLibLocale('UI/NavBar'),
+    loadLibLocale('Mobile/Popup'),
     loadRouteLocale(pathname)
   ]);
 }
@@ -139,7 +199,7 @@ function getTranslation(
   key: string, 
   locale: string, 
   $routeData: MultiLocaleData, 
-  $rootData: MultiLocaleData, 
+  $libData: MultiLocaleData,
   $commonData: LocaleData
 ): string | undefined {
   const safeLocale = locale.replace('-', '_');
@@ -148,13 +208,13 @@ function getTranslation(
   if ($routeData[safeLocale]?.[key] !== undefined) {
     return $routeData[safeLocale][key];
   }
-  
-  // 2. Check root (+lang.json in routes/)
-  if ($rootData[safeLocale]?.[key] !== undefined) {
-    return $rootData[safeLocale][key];
+
+  // 2. Check library components
+  if ($libData[safeLocale]?.[key] !== undefined) {
+    return $libData[safeLocale][key];
   }
   
-  // 3. Check commons (monolingual usually, but we check key)
+  // 3. Check commons
   if ($commonData[key] !== undefined) {
     return $commonData[key];
   }
@@ -163,11 +223,11 @@ function getTranslation(
 }
 
 export const t = derived(
-  [currentLocale, routeLocaleData, rootLocaleData, commonLocaleData],
-  ([$currentLocale, $routeData, $rootData, $commonData]) => {
+  [currentLocale, routeLocaleData, libLocaleData, commonLocaleData],
+  ([$currentLocale, $routeData, $libData, $commonData]) => {
     return (key: string, fallback?: string, localeOverride?: string): string => {
       const locale = localeOverride || $currentLocale;
-      const value = getTranslation(key, locale, $routeData, $rootData, $commonData);
+      const value = getTranslation(key, locale, $routeData, $libData, $commonData);
       
       if (value !== undefined) return value;
       
@@ -186,7 +246,7 @@ export async function tAsync(key: string, fallback?: string, localeOverride?: st
     key, 
     locale, 
     get(routeLocaleData), 
-    get(rootLocaleData), 
+    get(libLocaleData),
     get(commonLocaleData)
   );
   
