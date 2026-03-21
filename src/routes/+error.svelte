@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { page } from '$app/stores';
+  import { page } from '$app/state';
   import { onMount } from 'svelte';
 
-  $: error = $page.error;
-  $: status = $page.status;
+  let error = $derived(page.error);
+  let status = $derived(page.status);
 
   onMount(() => {
     const cursorReset = () => {
@@ -58,7 +58,7 @@
           <span class="button-text">Return to Base</span>
           <div class="button-spark"></div>
         </a>
-        <button on:click={goBack} class="back-button">
+        <button onclick={goBack} class="back-button">
           <span class="button-text">Go Back</span>
         </button>
       </div>

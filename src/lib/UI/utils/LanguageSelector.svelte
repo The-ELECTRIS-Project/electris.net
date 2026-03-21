@@ -1,12 +1,10 @@
 <script lang="ts">
-  import { currentLocale, currentLocaleInfo, availableLocales, setLocale, type AvailableLocale } from '$lib/stores/i18n';
+  import { i18nState, availableLocales, setLocale } from '$lib/stores/i18n.svelte';
   import { slide } from 'svelte/transition';
   import { onMount, onDestroy } from 'svelte';
   
-  let isOpen = false;
-  let currentInfo: AvailableLocale;
-  
-  $: currentInfo = $currentLocaleInfo;
+  let isOpen = $state(false);
+  let currentInfo = $derived(i18nState.currentLocaleInfo);
   
   function handleClickOutside(event: MouseEvent) {
     if (isOpen) {
@@ -22,13 +20,10 @@
   }
   
   onMount(() => {
-    document.addEventListener('click', handleClickOutside);
-    window.addEventListener('closeLanguageDropdown', handleCloseLanguageDropdown);
-    
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      window.removeEventListener('closeLanguageDropdown', handleCloseLanguageDropdown);
-    };
+    if (typeof document !== 'undefined') {
+      document.addEventListener('click', handleClickOutside);
+      window.addEventListener('closeLanguageDropdown', handleCloseLanguageDropdown);
+    }
   });
 
   onDestroy(() => {
@@ -53,7 +48,7 @@
   <button 
     type="button" 
     class="language-button"
-    on:click={toggleDropdown}
+    onclick={toggleDropdown}
     aria-expanded={isOpen}
     aria-haspopup="listbox"
   >
@@ -68,14 +63,14 @@
         <button
           type="button"
           class="language-option"
-          class:active={$currentLocale === locale.code}
-          on:click={() => handleLocaleChange(locale.code)}
+          class:active={i18nState.currentLocale === locale.code}
+          onclick={() => handleLocaleChange(locale.code)}
           role="option"
-          aria-selected={$currentLocale === locale.code}
+          aria-selected={i18nState.currentLocale === locale.code}
         >
           <span class="flag">{locale.flag}</span>
           <span class="language-name">{locale.name}</span>
-          {#if $currentLocale === locale.code}
+          {#if i18nState.currentLocale === locale.code}
             <span class="checkmark">✓</span>
           {/if}
         </button>

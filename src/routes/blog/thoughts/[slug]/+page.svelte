@@ -3,9 +3,9 @@
   import { formatDate, loadBlogPosts } from '$lib/utils/blog';
   import type { BlogPost } from '$lib/types/blog';
 
-  export let data;
+  let { data } = $props();
 
-  let relatedPosts: BlogPost[] = [];
+  let relatedPosts = $state<BlogPost[]>([]);
 
   onMount(() => {
     const cursorReset = () => {

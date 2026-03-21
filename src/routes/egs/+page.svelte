@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n.svelte';
 
   onMount(() => {
     const cursorReset = () => {
@@ -19,8 +19,8 @@
 </svelte:head>
 
 <div class="hero">
-  <h1>{$t('egs.hero.title', 'ELECTRIS Game Studios')}</h1>
-  <p>{$t('egs.hero.slogan', "Life is like a game, So let's play")}</p>
+  <h1>{t('egs.hero.title', 'ELECTRIS Game Studios')}</h1>
+  <p>{t('egs.hero.slogan', "Life is like a game, So let's play")}</p>
 </div>
   
 <style>

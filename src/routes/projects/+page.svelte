@@ -1,27 +1,27 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n.svelte';
   import { onMount } from 'svelte';
 
   let iconSize = 150;
 
-  $: projects = [
+  let projects = $derived([
     {
-      title: $t('proj.twaos.title.short', 'TWAOS'),
-      font: $t('Nightcore'),
-      description: $t('proj.twaos.desc.long', 'An adventure-action-rpg with a sci-fi setting and a fantasy inspired super-powered, heart wrenching narrative.'),
+      title: t('proj.twaos.title.short', 'TWAOS'),
+      font: t('Nightcore'),
+      description: t('proj.twaos.desc.long', 'An adventure-action-rpg with a sci-fi setting and a fantasy inspired super-powered, heart wrenching narrative.'),
       icon: '/media/TWAOS/Logo/twaos.svg',
       width: 8,
       link: '/egs/twaos'
     },
     {
-      title: $t('site.newhome.version', 'NewHome'),
-      font: $t('Letric'),
-      description: $t('site.newhome.slogan', 'A New Home for your browser'),
+      title: t('site.newhome.version', 'NewHome'),
+      font: t('Letric'),
+      description: t('site.newhome.slogan', 'A New Home for your browser'),
       icon: '/icons/Logos/FirstParty/newhome.svg',
       width: 8,
       link: '/newhome'
     }
-  ];
+  ]);
 
   onMount(() => {
     const cursorReset = () => {
@@ -40,7 +40,7 @@
 </svelte:head>
 
 <div class="hero">
-  <h1>{$t('proj.title', 'Projects')}</h1>
+  <h1>{t('proj.title', 'Projects')}</h1>
 </div>
 
 <div class="cards">

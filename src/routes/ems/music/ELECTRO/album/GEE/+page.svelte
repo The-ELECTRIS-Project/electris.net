@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n.svelte';
 
   onMount(() => {
     setTimeout(() => {
@@ -15,8 +15,8 @@
 </svelte:head>
 
 <div class="hero">
-    <h1>When you deserve it all,</h1>
-    <h1>It all just always seems to linger.</h1>
+    <h1>{t('gee.title.p1', 'When you deserve it all,')}</h1>
+    <h1>{t('gee.title.p2', 'It all just always seems to linger.')}</h1>
 </div>
 
 <style>

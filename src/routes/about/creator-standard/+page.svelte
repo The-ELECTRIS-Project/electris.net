@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale } from '$lib/stores/i18n';
+  import { t, i18nState } from '$lib/stores/i18n.svelte';
 
-  $: isPageArabic = $currentLocale === 'ar';
-  $: isPageJapanese = $currentLocale === 'ja-JP';
+  let isPageArabic = $derived(i18nState.currentLocale === 'ar');
+  let isPageJapanese = $derived(i18nState.currentLocale === 'ja-JP');
 
   function glitchAction(node: HTMLElement, text: string) {
     let currentText = text;
@@ -126,11 +126,11 @@
 <div class="hero">
   <h1>
     {#if isPageArabic}
-      <span class="highlight">"{$t('creator.standard.hero.highlight', 'Creator Standard')}"</span> {$t('creator.standard.hero.title', 'The')}
+      <span class="highlight">"{t('creator.standard.hero.highlight', 'Creator Standard')}"</span> {t('creator.standard.hero.title', 'The')}
     {:else if isPageJapanese}
-      {$t('creator.standard.hero.title', 'The')} <span class="highlight">「{$t('creator.standard.hero.highlight', 'Creator Standard')}」</span>
+      {t('creator.standard.hero.title', 'The')} <span class="highlight">「{t('creator.standard.hero.highlight', 'Creator Standard')}」</span>
     {:else}
-      {$t('creator.standard.hero.title', 'The')} <span class="highlight">"{$t('creator.standard.hero.highlight', 'Creator Standard')}"</span>
+      {t('creator.standard.hero.title', 'The')} <span class="highlight">"{t('creator.standard.hero.highlight', 'Creator Standard')}"</span>
     {/if}
   </h1>
   <div class="electrical-bg"></div>
@@ -138,24 +138,24 @@
 
 <div class="content">
   <div class="main-section">
-    <h2 class="section-header">{$t('creator.standard.meaning.header', 'Meaning:')}</h2>
-    <p class="definition" use:glitchAction={$t('creator.standard.definition', 'Works that reflect the project\'s vision')}>
-      {$t('creator.standard.definition', 'Works that reflect the project\'s vision')}
+    <h2 class="section-header">{t('creator.standard.meaning.header', 'Meaning:')}</h2>
+    <p class="definition" use:glitchAction={t('creator.standard.definition', 'Works that reflect the project\'s vision')}>
+      {t('creator.standard.definition', 'Works that reflect the project\'s vision')}
     </p>
     
     <div class="explanation">
-      <p use:glitchAction={$t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}>
-        {@html $t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}
+      <p use:glitchAction={t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}>
+        {@html t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}
       </p>
       
-      <p use:glitchAction={$t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}>
-        {@html $t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}
+      <p use:glitchAction={t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}>
+        {@html t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}
       </p>
       
       <div class="vision-evolution">
-        <h3>{$t('creator.standard.vision.title', 'Vision Evolution')}</h3>
-        <p use:glitchAction={$t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}>
-          {$t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}
+        <h3>{t('creator.standard.vision.title', 'Vision Evolution')}</h3>
+        <p use:glitchAction={t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}>
+          {t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}
         </p>
         <div class="notice-glow"></div>
       </div>

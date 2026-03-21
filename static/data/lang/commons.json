@@ -1,4 +1,8 @@
 {
+  "ar": {
+    "site.title": "إليكتريس",
+    "site.newhome.title": "نيوهوم"
+  },
   "en_GB": {
     "site.title": "ELECTRIS",
     "site.author.eltr": "ELECTRO",

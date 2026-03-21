@@ -1,4 +1,3 @@
-import { writable, derived } from 'svelte/store';
 import { browser } from '$app/environment';
 
 export type Environment = 'production' | 'canary' | 'development' | 'unknown';
@@ -27,12 +26,12 @@ async function fetchSiteVersion(): Promise<string> {
     return version.trim();
   } catch (error) {
     console.error('Error fetching site version:', error);
-    throw error;
+    return 'v0';
   }
 }
 
-function createEnvironmentStore() {
-  const { subscribe, set } = writable<EnvironmentInfo>({
+class EnvironmentState {
+  info = $state<EnvironmentInfo>({
     environment: 'unknown',
     environmentSecondary: 'unknown',
     siteUrl: '',
@@ -44,7 +43,22 @@ function createEnvironmentStore() {
     isUnknown: true
   });
 
-  async function detectEnvironment(): Promise<EnvironmentInfo> {
+  constructor() {
+    if (browser) {
+      this.refresh();
+    }
+  }
+
+  async refresh() {
+    try {
+      const info = await this.detectEnvironment();
+      this.info = info;
+    } catch (error) {
+      console.error('Failed to initialize environment state:', error);
+    }
+  }
+
+  async detectEnvironment(): Promise<EnvironmentInfo> {
     let environment: Environment = 'unknown';
     let environmentSecondary: Environment = 'unknown';
     let hostname = '';
@@ -67,7 +81,7 @@ function createEnvironmentStore() {
 
     const siteVersion = await fetchSiteVersion();
 
-    const envInfo: EnvironmentInfo = {
+    return {
       environment,
       environmentSecondary,
       siteUrl,
@@ -78,47 +92,20 @@ function createEnvironmentStore() {
       isDevelopment: environment === 'development',
       isUnknown: environment === 'unknown'
     };
-
-    return envInfo;
   }
-
-  async function initialize() {
-    if (browser) {
-      try {
-        const envInfo = await detectEnvironment();
-        set(envInfo);
-      } catch (error) {
-        console.error('Failed to initialize environment store:', error);
-        set({
-          environment: 'unknown',
-          environmentSecondary: 'unknown',
-          siteUrl: '',
-          siteVersion: 'v0',
-          hostname: browser ? window.location.hostname : '',
-          isProduction: false,
-          isCanary: false,
-          isDevelopment: false,
-          isUnknown: true
-        });
-      }
-    }
-  }
-
-  initialize();
-
-  return {
-    subscribe,
-    refresh: initialize,
-    detectEnvironment
-  };
 }
 
-export const environmentStore = createEnvironmentStore();
+export const environmentState = new EnvironmentState();
 
-export const currentEnvironment = derived(environmentStore, $env => $env.environment);
-export const siteVersion = derived(environmentStore, $env => $env.siteVersion);
-export const siteUrl = derived(environmentStore, $env => $env.siteUrl);
-export const hostname = derived(environmentStore, $env => $env.hostname);
+// Backward compatibility (optional)
+export const environmentStore = {
+  get info() { return environmentState.info; },
+  refresh: () => environmentState.refresh(),
+  subscribe: (fn: (v: EnvironmentInfo) => void) => {
+    // For legacy store compatibility if needed
+    return () => {};
+  }
+};
 
 export function getCurrentEnvironment(): Environment {
   if (!browser) return 'unknown';
@@ -134,23 +121,6 @@ export function getCurrentEnvironment(): Environment {
   } else {
     return "unknown";
   }
-}
-
-export async function getEnvironmentInfo(): Promise<EnvironmentInfo> {
-  if (!browser) {
-    return {
-      environment: 'unknown',
-      environmentSecondary: 'unknown',
-      siteUrl: '',
-      siteVersion: '',
-      hostname: '',
-      isProduction: false,
-      isCanary: false,
-      isDevelopment: false,
-      isUnknown: true
-    };
-  }
-  return await environmentStore.detectEnvironment();
 }
 
 export function generateEnvironmentUrl(path: string = '', search: string = ''): string {

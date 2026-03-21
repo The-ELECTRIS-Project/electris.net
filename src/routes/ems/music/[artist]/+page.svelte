@@ -1,14 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
-    import { t } from '$lib/stores/i18n';
-    import { useHoverConfig } from '$lib/stores/hoverConfig';
+    import { t } from '$lib/stores/i18n.svelte';
+    import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
     import Crown from '$lib/UI/music/Crown.svelte';
     import type { PageData } from './$types';
 
-    export let data: PageData;
+    let { data } = $props<{ data: PageData }>();
 
-    const { artist, singles, albums } = data;
+    let { artist, singles, albums } = $derived(data);
 
     let container: HTMLElement;
     let avatar: HTMLImageElement;
@@ -64,7 +64,7 @@
             <div class="icon-bg">
                 <img src="/icons/buttons/vinyl.svg" alt="Albums" />
             </div>
-            <h2>{$t('ems.music.card.vinyl', 'Albums')}</h2>
+            <h2>{t('ems.music.card.vinyl', 'Albums')}</h2>
             <span class="count">{albums.length}</span>
         </a>
 
@@ -75,7 +75,7 @@
             <div class="icon-bg">
                 <img src="/icons/buttons/cd.svg" alt="Singles" />
             </div>
-            <h2>{$t('ems.music.card.disc', 'Singles')}</h2>
+            <h2>{t('ems.music.card.disc', 'Singles')}</h2>
             <span class="count">{singles.length}</span>
         </a>
     </div>

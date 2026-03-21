@@ -1,5 +1,4 @@
 import { onMount } from 'svelte';
-import { writable } from 'svelte/store';
 
 export interface HoverConfig {
   type?: string[];
@@ -56,40 +55,42 @@ const defaultHoverConfigs: HoverConfig[] = [
   }
 ];
 
-function createHoverConfigStore() {
-  const { subscribe, update } = writable<HoverConfig[]>(defaultHoverConfigs);
+class HoverConfigState {
+  configs = $state<HoverConfig[]>([...defaultHoverConfigs]);
 
-  return {
-    subscribe,
+  addConfigs(newConfigs: HoverConfig[]) {
+    this.configs = [...this.configs, ...newConfigs];
+  }
 
-    addConfigs: (configs: HoverConfig[]) => {
-      update(existingConfigs => [...existingConfigs, ...configs]);
-    },
-    
-    removeConfigs: (configs: HoverConfig[]) => {
-      update(existingConfigs => {
-        return existingConfigs.filter(existing => 
-          !configs.some(toRemove => 
-            JSON.stringify(existing) === JSON.stringify(toRemove)
-          )
-        );
-      });
-    },
-    
-    resetToDefaults: () => {
-      update(() => [...defaultHoverConfigs]);
-    }
-  };
+  removeConfigs(configsToRemove: HoverConfig[]) {
+    this.configs = this.configs.filter(existing => 
+      !configsToRemove.some(toRemove => 
+        JSON.stringify(existing) === JSON.stringify(toRemove)
+      )
+    );
+  }
+
+  resetToDefaults() {
+    this.configs = [...defaultHoverConfigs];
+  }
 }
+
+export const hoverConfigState = new HoverConfigState();
 
 export function useHoverConfig(configs: HoverConfig[]) {
   onMount(() => {
-    hoverConfigStore.addConfigs(configs);
+    hoverConfigState.addConfigs(configs);
 
     return () => {
-      hoverConfigStore.removeConfigs(configs);
+      hoverConfigState.removeConfigs(configs);
     };
   });
 }
 
-export const hoverConfigStore = createHoverConfigStore();
+// Backward compatibility
+export const hoverConfigStore = {
+  get configs() { return hoverConfigState.configs; },
+  addConfigs: (configs: HoverConfig[]) => hoverConfigState.addConfigs(configs),
+  removeConfigs: (configs: HoverConfig[]) => hoverConfigState.removeConfigs(configs),
+  resetToDefaults: () => hoverConfigState.resetToDefaults()
+};

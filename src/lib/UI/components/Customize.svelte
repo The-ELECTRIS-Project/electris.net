@@ -1,56 +1,50 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { mods } from '$lib/stores/customization';
+  import { modsState } from '$lib/stores/customization.svelte';
 
-  let isMenuOpen = false;
-  let isClosing = false;
-  let buttonElement: HTMLButtonElement;
+  let isMenuOpen = $state(false);
+  let isClosing = $state(false);
+  let buttonElement: HTMLButtonElement | undefined = $state();
   
-  let gridCols = $mods.gridCols;
-  let gridRows = $mods.gridRows;
-  let openLinksInNewTabs = $mods.openLinksInNewTabs;
-  let showQuickPins = $mods.showQuickPins;
-  let showSearchBar = $mods.showSearchBar;
+  let gridCols = $derived(modsState.config.gridCols);
+  let gridRows = $derived(modsState.config.gridRows);
+  let openLinksInNewTabs = $derived(modsState.config.openLinksInNewTabs);
+  let showQuickPins = $derived(modsState.config.showQuickPins);
+  let showSearchBar = $derived(modsState.config.showSearchBar);
   
   const MIN_COLS = 2;
   const MAX_COLS = 8;
   const MIN_ROWS = 1;
   const MAX_ROWS = 3;
 
-  $: gridCols = $mods.gridCols;
-  $: gridRows = $mods.gridRows;
-  $: openLinksInNewTabs = $mods.openLinksInNewTabs;
-  $: showQuickPins = $mods.showQuickPins;
-  $: showSearchBar = $mods.showSearchBar;
-
   onMount(() => {
-    mods.init();
+    modsState.init();
   });
 
   function updateCols(delta: number) {
     const newCols = gridCols + delta;
     if (newCols >= MIN_COLS && newCols <= MAX_COLS) {
-      mods.updateSetting('gridCols', newCols);
+      modsState.updateSetting('gridCols', newCols);
     }
   }
 
   function updateRows(delta: number) {
     const newRows = gridRows + delta;
     if (newRows >= MIN_ROWS && newRows <= MAX_ROWS) {
-      mods.updateSetting('gridRows', newRows);
+      modsState.updateSetting('gridRows', newRows);
     }
   }
 
   function toggleLinksInNewTabs() {
-    mods.updateSetting('openLinksInNewTabs', !openLinksInNewTabs);
+    modsState.updateSetting('openLinksInNewTabs', !openLinksInNewTabs);
   }
 
   function toggleQuickPins() {
-    mods.updateSetting('showQuickPins', !showQuickPins);
+    modsState.updateSetting('showQuickPins', !showQuickPins);
   }
 
   function toggleSearchBar() {
-    mods.updateSetting('showSearchBar', !showSearchBar);
+    modsState.updateSetting('showSearchBar', !showSearchBar);
   }
 
   function toggleMenu() {
@@ -85,10 +79,10 @@
   }
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} />
 
 <div class="customize-container">
-  <button bind:this={buttonElement} class="customize-button" on:click={toggleMenu} class:active={isMenuOpen} aria-label="Customization menu">
+  <button bind:this={buttonElement} class="customize-button" onclick={toggleMenu} class:active={isMenuOpen} aria-label="Customization menu">
     <img src="/icons/buttons/pen.svg" alt="Customize" class="pen-icon" />
   </button>
 
@@ -98,8 +92,8 @@
       role="button"
       tabindex="0"
       class:closing={isClosing}
-      on:click={handleOverlayClick}
-      on:keydown={(e) => e.key === 'Escape' && {handleOverlayClick}}
+      onclick={handleOverlayClick}
+      onkeydown={(e) => e.key === 'Escape' && handleOverlayClick(e as any)}
       aria-label="Close Menu"
     >
       <div class="menu-content" class:closing={isClosing}>
@@ -107,7 +101,7 @@
           <h2>Customize</h2>
           <button 
             class="edit-close-button" 
-            on:click={closeMenu}
+            onclick={closeMenu}
             aria-label="Close menu"
           >
             ×
@@ -124,7 +118,7 @@
                   <button 
                     class="toggle-switch" 
                     class:active={openLinksInNewTabs}
-                    on:click={toggleLinksInNewTabs}
+                    onclick={toggleLinksInNewTabs}
                     aria-label="Toggle open links in new tabs"
                   >
                     <span class="toggle-slider"></span>
@@ -140,7 +134,7 @@
                   <button 
                     class="toggle-switch" 
                     class:active={showQuickPins}
-                    on:click={toggleQuickPins}
+                    onclick={toggleQuickPins}
                     aria-label="Toggle quick pins visibility"
                   >
                     <span class="toggle-slider"></span>
@@ -156,7 +150,7 @@
                   <button 
                     class="toggle-switch" 
                     class:active={showSearchBar}
-                    on:click={toggleSearchBar}
+                    onclick={toggleSearchBar}
                     aria-label="Toggle search bar visibility"
                   >
                     <span class="toggle-slider"></span>
@@ -166,7 +160,7 @@
             </div>
           </div>
 
-          {#if $mods.showQuickPins}
+          {#if modsState.config.showQuickPins}
             <div class="settings-section">
               <h3 class="settings-title">Grid Layout</h3>
               
@@ -177,7 +171,7 @@
                     <div class="setting-control">
                       <button 
                         class="control-btn"
-                        on:click={() => updateCols(-1)}
+                        onclick={() => updateCols(-1)}
                         disabled={gridCols <= MIN_COLS}
                         aria-label="Decrease columns"
                       >
@@ -186,7 +180,7 @@
                       <span class="control-value">{gridCols}</span>
                       <button 
                         class="control-btn"
-                        on:click={() => updateCols(1)}
+                        onclick={() => updateCols(1)}
                         disabled={gridCols >= MAX_COLS}
                         aria-label="Increase columns"
                       >
@@ -204,7 +198,7 @@
                     <div class="setting-control">
                       <button 
                         class="control-btn"
-                        on:click={() => updateRows(-1)}
+                        onclick={() => updateRows(-1)}
                         disabled={gridRows <= MIN_ROWS}
                         aria-label="Decrease rows"
                       >
@@ -213,7 +207,7 @@
                       <span class="control-value">{gridRows}</span>
                       <button 
                         class="control-btn"
-                        on:click={() => updateRows(1)}
+                        onclick={() => updateRows(1)}
                         disabled={gridRows >= MAX_ROWS}
                         aria-label="Increase rows"
                       >

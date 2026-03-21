@@ -1,22 +1,22 @@
 <script>
-    import { t } from "$lib/stores/i18n";
+    import { t } from "$lib/stores/i18n.svelte";
 
-    const socialCards = [
+    const socialCards = $derived([
       {
-        title: $t('site.platform.yt', 'YouTube'),
-        description: $t('site.slogan', 'Heart like a pen, On paper it bleeds'),
+        title: t('site.platform.yt', 'YouTube'),
+        description: t('site.slogan', 'Heart like a pen, On paper it bleeds'),
         platformLogo: '/icons/Logos/ThirdParty/yt.svg',
         profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
         url: 'https://youtube.com/@ELECTRIS'
       },
       {
-        title: $t('site.platform.ds', 'Discord'),
-        description: $t('social.elts.ds.desc', 'Legends of Lightning'),
+        title: t('site.platform.ds', 'Discord'),
+        description: t('social.elts.ds.desc', 'Legends of Lightning'),
         platformLogo: '/icons/Logos/ThirdParty/discord.svg',
         profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
         url: 'https://discord.gg/TgtCGKxbZr'
       }
-    ];
+    ]);
   </script>
 
 <svelte:head>
@@ -25,8 +25,8 @@
   
   <div class="socials-page">
     <div class="hero">
-      <h1>{$t('site.author.elts', 'ELECTRIS')}</h1>
-      <p>{$t('social.undertitle', 'Follow the changes all around')}</p>
+      <h1>{t('site.author.elts', 'ELECTRIS')}</h1>
+      <p>{t('social.undertitle', 'Follow the changes all around')}</p>
     </div>
   
     <div class="hero">

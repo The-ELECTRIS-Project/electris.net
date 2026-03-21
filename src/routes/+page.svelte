@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale } from '$lib/stores/i18n';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
+  import { t, i18nState } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
 
-  $: isPageArabic = $currentLocale === 'ar';
+  let isPageArabic = $derived(i18nState.currentLocale === 'ar');
 
   const hoverConfigs: HoverConfig[] = [
     {
@@ -48,8 +48,8 @@
 
 <div>
   <div class="hero">
-    <h1>{$t('site.title', 'ELECTRIS')}</h1>
-    <p>{$t('site.slogan', 'Heart like a pen, On paper it bleeds')}</p>
+    <h1>{t('site.title', 'ELECTRIS')}</h1>
+    <p>{t('site.slogan', 'Heart like a pen, On paper it bleeds')}</p>
   </div>
 
   <div class="TCS">
@@ -63,10 +63,10 @@
       </div>
     </div>
     <div class="tcs-content">
-      <h1><span class="glitch" data-text="{$t('update.title', 'WEBSITE UNDER RESTRUCTURE')}">{$t('update.title', 'WEBSITE UNDER RESTRUCTURE')}</span></h1>
-      <p>{$t('update.progress.title', 'Due to not meeting the')} <a href="/about/creator-standard" class="creator-link" class:arabic={isPageArabic}><u>{$t('update.progress.title.link', 'Creator Standard')}</u></a></p>
+      <h1><span class="glitch" data-text="{t('update.title', 'WEBSITE UNDER RESTRUCTURE')}">{t('update.title', 'WEBSITE UNDER RESTRUCTURE')}</span></h1>
+      <p>{t('update.progress.title', 'Due to not meeting the')} <a href="/about/creator-standard" class="creator-link" class:arabic={isPageArabic}><u>{t('update.progress.title.link', 'Creator Standard')}</u></a></p>
       <div class="progress-container">
-        <span class="progress-text">{$t('update.progress.undertitle', 'Update in Progress...')}</span>
+        <span class="progress-text">{t('update.progress.undertitle', 'Update in Progress...')}</span>
         <div class="progress-bar">
           <div class="progress-fill"></div>
           <div class="electric-spark electric-1"></div>

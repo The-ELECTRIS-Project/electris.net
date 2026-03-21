@@ -1,8 +1,5 @@
 {
   "ar": {
-    "site.title": "إليكتريس",
-    "site.newhome.title": "إليكتريس نيوهوم",
-    "site.newhome.version": "نيوهوم",
     "site.slogan": "القلب كالقلم، على الورق ينزف دمًا",
     "site.author.eltr.slogan": "مبدع يرقص مع البرق",
     "site.author.vrrw.slogan": "المبرمج الكسول",
@@ -31,28 +28,8 @@
     "update.progress.title.link": "Creator Standard",
     "update.progress.undertitle": "Update in Progress..."
   },
-  "ja_JP": {
-    "site.title": "エレクトリス",
-    "site.newhome.title": "エレクトリス ニューホーム",
-    "site.newhome.version": "ニューホーム",
-    "site.author.eltr": "エレクトロ",
-    "site.author.vrrw": "ヴァロー",
-    "site.platform.yt": "ユーチューブ",
-    "site.platform.gh": "ギットハブ",
-    "site.platform.ds": "ディスコード",
-    "site.platform.st": "スチーム",
-    "site.platform.x": "ツイッター",
-    "site.slogan": "心はペンのごとく、紙に血を流す",
-    "site.newhome.slogan": "ブラウザの新しい家",
-    "site.author.eltr.slogan": "創造者、稲妻と踊る",
-    "site.author.vrrw.slogan": "ぐうたらプログラマー",
-    "update.title": "ウェブサイト再構築中",
-    "update.progress.title": "以下の基準を満たしていないため",
-    "update.progress.title.link": "クリエイター標準",
-    "update.progress.undertitle": "更新作業中..."
-  },
   "ro_RO": {
-    "site.slogan": "Inima ca un creion, Pe hârtie sângerează",
+    "site.slogan": "Inima ca un creion, pe hârtie sângerează",
     "site.author.eltr.slogan": "Un Creator, Dansând cu Fulgerul",
     "site.author.vrrw.slogan": "Un Programator Leneș",
     "update.title": "WEBSITE ÎN RESTRUCTURARE",

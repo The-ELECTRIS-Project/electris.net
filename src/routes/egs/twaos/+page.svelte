@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
+  import { t } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
   import gsap from 'gsap';
 
   let currentVideo: HTMLVideoElement;
@@ -15,8 +15,8 @@
 
   let pages = $derived([
     {
-      title: $t('proj.twaos.st', 'Wishlist on Steam'),
-      description: $t('proj.twaos.st.desc', 'The largest game distribution platform.'),
+      title: t('proj.twaos.st', 'Wishlist on Steam'),
+      description: t('proj.twaos.st.desc', 'The largest game distribution platform.'),
       icon: '/icons/Logos/ThirdParty/steam.svg',
       href: 'https://store.steampowered.com/app/2231750/The_Wonderful_Adventures_Of_Sip/'
     }
@@ -188,7 +188,7 @@
       overwrite: "auto"
     });
 
-    const images = track.getElementsByClassName("gallery-image");
+    const images = Array.from(track.getElementsByClassName("gallery-image"));
     for (const image of images) {
       const relativeProgress = limit !== 0 ? (offset / limit) : 0;
       const parallax = 50 - (relativeProgress * 10); 
@@ -217,7 +217,7 @@
         xPercent: -50,
         yPercent: -60
       });
-      const images = track.getElementsByClassName("gallery-image");
+      const images = Array.from(track.getElementsByClassName("gallery-image"));
       for (const image of images) {
         gsap.set(image, {
           objectPosition: "50% center"
@@ -277,7 +277,7 @@
     });
     
     const anchor = document.querySelector('.styled-sip') as HTMLElement;
-    const eyes = document.querySelectorAll('.eye') as NodeListOf<HTMLElement>;
+    const eyes = document.querySelectorAll('.eye') as globalThis.NodeListOf<HTMLElement>;
     if (anchor) {
       document.addEventListener('mousemove', (e) => {
         const rekt = anchor.getBoundingClientRect();
@@ -317,11 +317,11 @@
       </div>
       <div class="hero-text">
         <div class="wrap-no-interact-all twaos-title">
-          <span class="text-container"><h2 class="tw">{$t('proj.twaos.title.tw', 'The Wonderful', 'en_US')}</h2></span>
-          <span class="text-container"><h3 class="ao">{$t('proj.twaos.title.ao', 'Adventures Of', 'en_US')}</h3></span>
-          <span class="text-container"><h1 class="sip">{$t('proj.twaos.title.sip', 'SIP', 'en_US')}</h1></span>
+          <span class="text-container"><h2 class="tw">{t('proj.twaos.title.tw', 'The Wonderful', 'en_US')}</h2></span>
+          <span class="text-container"><h3 class="ao">{t('proj.twaos.title.ao', 'Adventures Of', 'en_US')}</h3></span>
+          <span class="text-container"><h1 class="sip">{t('proj.twaos.title.sip', 'SIP', 'en_US')}</h1></span>
         </div>
-        <span class="text-container"><h5>{$t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
+        <span class="text-container"><h5>{t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
       </div>
       <div class="wrap-no-interact-all cards-wrapper">
         {#each pages as page}

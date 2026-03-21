@@ -1,13 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { useHoverConfig } from '$lib/stores/hoverConfig';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
-  let crownCanvas: HTMLCanvasElement;
-  let crownImage: HTMLImageElement;
-  let isHovered = false;
+  let crownCanvas: HTMLCanvasElement | undefined = $state();
+  let crownImage: HTMLImageElement | undefined = $state();
+  let isHovered = $state(false);
 
-  let maskImage: HTMLImageElement;
+  let maskImage: HTMLImageElement | undefined = $state();
 
   useHoverConfig([
     {
@@ -27,7 +27,7 @@
   }
 
   const handleCrownClick = async () => {
-    await goto('/ems/music/ELECTRO/albums/GEE');
+    await goto('/ems/music/ELECTRO/album/GEE');
     console.log('Heavy is the head that chose to wear the crown.');
   };
 
@@ -71,7 +71,7 @@
     maskImage.src = '/icons/GEE/crown-HoverArea.png';
     maskImage.crossOrigin = 'anonymous';
     maskImage.onload = () => {
-      if (!crownCanvas) return;
+      if (!crownCanvas || !maskImage) return;
       crownCanvas.width = maskImage.width;
       crownCanvas.height = maskImage.height;
       const ctx = crownCanvas.getContext('2d');
@@ -84,7 +84,7 @@
     if (crownCanvas && crownImage) {
       const ctx = crownCanvas.getContext('2d');
       crownImage.onload = () => {
-        if (!ctx) return;
+        if (!ctx || !crownImage || !crownCanvas) return;
         crownCanvas.width = crownImage.naturalWidth;
         crownCanvas.height = crownImage.naturalHeight;
         ctx.clearRect(0, 0, crownCanvas.width, crownCanvas.height);
@@ -112,9 +112,9 @@
     <canvas 
       bind:this={crownCanvas}
       class="crown-canvas"
-      on:mousemove={handleMouseMove}
-      on:mouseleave={() => { isHovered = false; }}
-      on:click={handleCanvasClick}
+      onmousemove={handleMouseMove}
+      onmouseleave={() => { isHovered = false; }}
+      onclick={handleCanvasClick}
       role="button"
       tabindex="0"
       aria-label="Crown of Barbed Wire"

@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
-  import { mods } from '$lib/stores/customization';
+  import { t } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { modsState } from '$lib/stores/customization.svelte';
 
-  let searchQuery = '';
-  let searchInput: HTMLInputElement;
-  let suggestions: string[] = [];
-  let selectedSuggestion = -1;
+  let searchQuery = $state('');
+  let searchInput: HTMLInputElement | undefined = $state();
+  let suggestions: string[] = $state([]);
+  let selectedSuggestion = $state(-1);
   let searchTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
-  $: openLinksInNewTabs = $mods.openLinksInNewTabs;
+  let openLinksInNewTabs = $derived(modsState.config.openLinksInNewTabs);
 
   const hoverConfigs: HoverConfig[] = [
     {
@@ -57,7 +57,7 @@
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       selectedSuggestion = -1;
-      searchInput.blur();
+      searchInput?.blur();
     } else if (event.key === 'Enter') {
       event.preventDefault();
       if (selectedSuggestion >= 0 && suggestions[selectedSuggestion]) {
@@ -81,14 +81,14 @@
       <input
         bind:this={searchInput}
         bind:value={searchQuery}
-        on:input={handleSearchInput}
-        on:keydown={handleKeyDown}
+        oninput={handleSearchInput}
+        onkeydown={handleKeyDown}
         type="text"
-        placeholder={$t('newhome.search.placeholder', 'Search with SearXNG...')}
+        placeholder={t('newhome.search.placeholder', 'Search with SearXNG...')}
         class="search-input"
       />
-      <button on:click={() => handleSearch()} class="search-button" title={$t('newhome.search.button', 'Search')}>
-        <img src="/icons/buttons/search.svg" class="search-icon" alt={$t('newhome.search.button', 'Search')}/>
+      <button onclick={() => handleSearch()} class="search-button" title={t('newhome.search.button', 'Search')}>
+        <img src="/icons/buttons/search.svg" class="search-icon" alt={t('newhome.search.button', 'Search')}/>
       </button>
     </div>
   </div>

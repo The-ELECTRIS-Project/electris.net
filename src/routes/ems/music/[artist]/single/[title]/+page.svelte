@@ -3,9 +3,9 @@
     import { gsap } from 'gsap';
     import type { PageData } from './$types';
 
-    export let data: PageData;
+    let { data } = $props<{ data: PageData }>();
 
-    const { artist, single } = data;
+    let { artist, single } = $derived(data);
 
     onMount(() => {
         gsap.from('.cover-art', { scale: 0.9, opacity: 0, duration: 1, ease: 'power3.out' });
@@ -51,7 +51,7 @@
                 <div class="links-grid">
                     {#if single.links?.youtube}
                         <a href={single.links.youtube} target="_blank" class="link-btn yt option">
-                            <img src="/icons/Logos/ThirdParty/yt.svg" alt="" on:error={handleImageError} />
+                            <img src="/icons/Logos/ThirdParty/yt.svg" alt="" onerror={handleImageError} />
                             YouTube
                         </a>
                     {/if}

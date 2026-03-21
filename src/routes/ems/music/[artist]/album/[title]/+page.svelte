@@ -3,9 +3,9 @@
     import { gsap } from 'gsap';
     import type { PageData } from './$types';
 
-    export let data: PageData;
+    let { data } = $props<{ data: PageData }>();
 
-    const { artist, album } = data;
+    let { artist, album } = $derived(data);
 
     onMount(() => {
         gsap.from('.album-cover', { x: -50, opacity: 0, duration: 1, ease: 'power3.out' });

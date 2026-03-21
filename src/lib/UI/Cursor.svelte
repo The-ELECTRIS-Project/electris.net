@@ -1,35 +1,39 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { afterNavigate } from '$app/navigation';
-  import { hoverConfigStore, type HoverConfig } from '$lib/stores/hoverConfig';
+  import { hoverConfigState, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
 
-  let circleElement: HTMLElement | null = null;
+  let circleElement: HTMLElement | undefined = $state();
 
-  const mouse = { x: 0, y: 0 };
+  const mouse = $state({ x: 0, y: 0 });
   const previousMouse = { x: 0, y: 0 };
-  const circle = { x: 0, y: 0 };
+  const circle = $state({ x: 0, y: 0 });
   let currentScale = 0;
   let currentAngle = 0;
 
-  let isTouchActive = false;
-  let touchVisibility = 1;
-  let isTouchDevice = false;
+  let isTouchActive = $state(false);
+  let touchVisibility = $state(1);
+  let isTouchDevice = $state(false);
 
-  let isNavigating = false;
+  let isNavigating = $state(false);
 
-  let lockedElement: HTMLElement | null = null;
-  let lockedConfig: HoverConfig | null = null;
-  let isTransitioning = false;
+  let lockedElement: HTMLElement | null = $state(null);
+  let lockedConfig: HoverConfig | null = $state(null);
+  let isTransitioning = $state(false);
   let transitionStartTime = 0;
-  let wasLocked = false;
-  let lastLockedConfig: HoverConfig | null = null;
 
-  let currentWord: { element: HTMLElement, bounds: DOMRect, text: string } | null = null;
+  let currentWord: { element: HTMLElement, bounds: DOMRect, text: string } | null = $state(null);
   let wordHoverPadding = 0.8;
 
-  let hoverConfigs: HoverConfig[] = [];
+  let hoverConfigs = $derived(hoverConfigState.configs);
   const hoveredElements = new Set<HTMLElement>();
   let lastColorElement: HTMLElement | null = null;
+
+  let lastCheckX = -1;
+  let lastCheckY = -1;
+  let lastScrollX = -1;
+  let lastScrollY = -1;
+  let animationFrameId: number;
 
   function updateCursorColor(element: HTMLElement | null, config?: HoverConfig) {
     if (!circleElement) return;
@@ -50,9 +54,7 @@
     return (vmin / 100) * Math.min(window.innerHeight, window.innerWidth);
   }
 
-  function hasNoInteractClass(element: HTMLElement, checkAll: boolean = false): boolean {
-    const classToCheck = checkAll ? 'circle-no-interact-all' : 'circle-no-interact';
-    
+  function hasNoInteractClass(element: HTMLElement): boolean {
     if (element.classList.contains('circle-no-interact') || element.classList.contains('circle-no-interact-all')) {
       return true;
     }
@@ -94,15 +96,8 @@
       return null;
     }
     
-    const ignorePunctuation = wrapConfig.ignorePunctuation ?? false;
-    const ignoreCharacters = wrapConfig.ignoreCharacters ?? false;
-    
     if (words && sentences) {
       console.error('wrapText cannot have both words and sentences set to true');
-      return null;
-    }
-    
-    if (!words && !sentences) {
       return null;
     }
     
@@ -136,7 +131,10 @@
       } else if (words) {
         const textNodes = getTextNodes(textElement);
         for (const textNode of textNodes) {
-          const word = getWordFromTextNode(textNode, x, y, { ignorePunctuation, ignoreCharacters });
+          const word = getWordFromTextNode(textNode, x, y, { 
+            ignorePunctuation: wrapConfig.ignorePunctuation ?? false, 
+            ignoreCharacters: wrapConfig.ignoreCharacters ?? false 
+          });
           if (word) {
             return word;
           }
@@ -264,9 +262,7 @@
     if (!circleElement) return true;
     if (isTransitioning) return false;
     if (lockedConfig?.preventRotation) return false;
-    
     if (lockedElement) return false;
-
     return true;
   }
 
@@ -317,7 +313,6 @@
 
     let rect = target.getBoundingClientRect();
     
-    // Safety check. If tracked element has no size (not rendered yet), fallback to the locked element
     if (rect.width === 0 && rect.height === 0 && target !== element) {
         target = element;
         rect = target.getBoundingClientRect();
@@ -408,14 +403,13 @@
     const elementsWithCustomOverrides = new Set<HTMLElement>();
     
     configElementPairs.forEach(({ config, element }) => {
-      // If it's a custom config (has type OR it's not one of the broad defaults)
       const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
       if ((config.type && config.type.length > 0) || !isDefault) {
         elementsWithCustomOverrides.add(element);
       }
     });
 
-    const filteredPairs = configElementPairs.filter(({ config, element }) => {
+    return configElementPairs.filter(({ config, element }) => {
       const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
       if ((config.type && config.type.length > 0) || !isDefault) {
         return true;
@@ -426,8 +420,6 @@
 
       return !hasDescendantWithOverride;
     });
-
-    return filteredPairs;
   }
 
   function getApplicableConfigsForTarget(target: HTMLElement): { config: HoverConfig, element: HTMLElement }[] {
@@ -452,7 +444,7 @@
       }
     });
 
-    const filteredPairs = configElementPairs.filter(({ config, element }) => {
+    return configElementPairs.filter(({ config, element }) => {
       const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
       if ((config.type && config.type.length > 0) || !isDefault) {
         return true;
@@ -463,8 +455,6 @@
 
       return !hasDescendantWithOverride;
     });
-
-    return filteredPairs;
   }
 
   function hasEnabledWrapText(config: HoverConfig): boolean {
@@ -477,14 +467,12 @@
   function getWordAtPositionWithHierarchy(x: number, y: number): { element: HTMLElement, bounds: DOMRect, text: string, config: HoverConfig } | null {
     const applicableConfigs = getApplicableConfigsForPosition(x, y);
     
-    // Sort configs so that more specific ones (like those with 'type' or more specific selectors) come first
     const sortedConfigs = applicableConfigs.sort((a, b) => {
       const aIsCustom = (a.config.type && a.config.type.length > 0) ? 1 : 0;
       const bIsCustom = (b.config.type && b.config.type.length > 0) ? 1 : 0;
       
       if (aIsCustom !== bIsCustom) return bIsCustom - aIsCustom;
 
-      // If both or neither have custom types, prioritize based on wrapText presence and specificity
       const aHasWrap = a.config.wrapText ? 1 : 0;
       const bHasWrap = b.config.wrapText ? 1 : 0;
       return bHasWrap - aHasWrap;
@@ -525,7 +513,6 @@
           if (!lockedConfig || !lockedConfig.lockPosition || lockedConfig.wrapText) {
              lockedElement = null;
              lockedConfig = null;
-             wasLocked = true;
              isTransitioning = true;
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
@@ -623,8 +610,6 @@
     if (config.customEvent) {
       dispatchCustomEvent(config.customEvent.hovered, element, config);
     }
-
-    lastLockedConfig = config.lockPosition ? config : null;
   }
 
   function handleUnhover(event: MouseEvent, config: HoverConfig) {
@@ -654,7 +639,6 @@
         if (lockedElement === element) {
             lockedElement = null;
             lockedConfig = null;
-            wasLocked = true;
             isTransitioning = true;
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
@@ -670,25 +654,28 @@
     }
   }
 
+  let mouseOverHandler: (e: MouseEvent) => void;
+  let mouseOutHandler: (e: MouseEvent) => void;
+
   function setupHoverDetection() {
-    const handleMouseOver = (event: MouseEvent) => {
+    mouseOverHandler = (event: MouseEvent) => {
       hoverConfigs.forEach((config) => {
         handleHover(event, config);
       });
     };
 
-    const handleMouseOut = (event: MouseEvent) => {
+    mouseOutHandler = (event: MouseEvent) => {
       hoverConfigs.forEach(config => {
         handleUnhover(event, config);
       });
     };
 
-    document.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mouseout', handleMouseOut);
+    document.addEventListener('mouseover', mouseOverHandler);
+    document.addEventListener('mouseout', mouseOutHandler);
 
     return () => {
-      document.removeEventListener('mouseover', handleMouseOver);
-      document.removeEventListener('mouseout', handleMouseOut);
+      document.removeEventListener('mouseover', mouseOverHandler);
+      document.removeEventListener('mouseout', mouseOutHandler);
     };
   }
 
@@ -727,13 +714,10 @@
       lockedConfig = null;
       isTransitioning = true;
       transitionStartTime = performance.now();
-      wasLocked = false;
       updateCursorColor(null);
       
-      if (circleElement) {
-        circleElement.style.width = '';
-        circleElement.style.height = '';
-      }
+      circleElement.style.width = '';
+      circleElement.style.height = '';
     
       hoverConfigs.forEach(config => {
         if (config.customEvent && hoveredElements.size > 0) {
@@ -747,32 +731,24 @@
 
   let cleanupHoverDetection: (() => void) | null = null;
 
+  $effect(() => {
+    if (cleanupHoverDetection) cleanupHoverDetection();
+    cleanupHoverDetection = setupHoverDetection();
+  });
+
   onMount(() => {
     isTouchDevice = 'ontouchstart' in window;
 
-    const unsubscribeHoverConfig = hoverConfigStore.subscribe(configs => {
-      hoverConfigs = configs;
-      
-      if (cleanupHoverDetection) {
-        cleanupHoverDetection();
-      }
-      
-      cleanupHoverDetection = setupHoverDetection();
-    });
-
-    switch (isTouchDevice) {
-      case true:
-        touchVisibility = 0;
-        window.addEventListener("touchstart", handleTouchStart);
-        window.addEventListener("touchmove", handleTouchMove);
-        window.addEventListener("touchend", handleTouchEnd);
-        break;
-      case false:
-        window.addEventListener("mousemove", (e) => {
-          mouse.x = e.clientX;
-          mouse.y = e.clientY;
-        });
-        break;
+    if (isTouchDevice) {
+      touchVisibility = 0;
+      window.addEventListener("touchstart", handleTouchStart);
+      window.addEventListener("touchmove", handleTouchMove);
+      window.addEventListener("touchend", handleTouchEnd);
+    } else {
+      window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
     }
 
     const speed = 0.3;
@@ -786,22 +762,41 @@
       }
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(tick);
+      }
+    };
+
     document.addEventListener('sveltekit:navigation-start', handleNavigationStart);
     document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const tick = () => {
       if (isNavigating) {
-        requestAnimationFrame(tick);
+        animationFrameId = requestAnimationFrame(tick);
         return;
       }
 
-      handleWordHover();
+      // Performance Optimization: Only check for word hover if the cursor position 
+      // relative to the document has changed (mouse movement or scrolling).
+      const currentScrollX = window.scrollX;
+      const currentScrollY = window.scrollY;
+      
+      if (mouse.x !== lastCheckX || mouse.y !== lastCheckY || 
+          currentScrollX !== lastScrollX || currentScrollY !== lastScrollY) {
+        handleWordHover();
+        lastCheckX = mouse.x;
+        lastCheckY = mouse.y;
+        lastScrollX = currentScrollX;
+        lastScrollY = currentScrollY;
+      }
 
       if (isTransitioning) {
         const elapsed = performance.now() - transitionStartTime;
         if (elapsed > transitionDuration) {
           isTransitioning = false;
-          wasLocked = false;
         }
       }
 
@@ -885,10 +880,10 @@
         touchVisibility = 1;
       }
 
-      requestAnimationFrame(tick);
+      animationFrameId = requestAnimationFrame(tick);
     };
 
-    tick();
+    animationFrameId = requestAnimationFrame(tick);
 
     afterNavigate(() => {
       isNavigating = false;
@@ -901,6 +896,8 @@
           circle.x = mouse.x;
           circle.y = mouse.y;
           circleElement.style.transform = `translate(${mouse.x}px, ${mouse.y}px) translate(-50%, -50%)`;
+          // Trigger a re-check after navigation settles
+          lastCheckX = -1;
         }
       }, 100);
     });
@@ -908,10 +905,11 @@
     return () => {
       document.removeEventListener('sveltekit:navigation-start', handleNavigationStart);
       document.removeEventListener('click', handleDocumentClick);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       if (cleanupHoverDetection) {
         cleanupHoverDetection();
       }
-      unsubscribeHoverConfig();
     };
   });
 </script>

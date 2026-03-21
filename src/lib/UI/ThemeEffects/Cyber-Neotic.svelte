@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { theme } from '$lib/stores/theme';
+  import { themeState } from '$lib/stores/theme.svelte';
 </script>
 
-{#if $theme === 'cyber-neotic'}
+{#if themeState.theme === 'cyber-neotic'}
   <div class="cyber-effects-layer">
     <div class="scanlines"></div>
     <div class="vignette"></div>

@@ -1,17 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n.svelte';
   import { loadBlogPosts, filterPosts, getAllTags, formatDate } from '$lib/utils/blog';
   import type { BlogPost } from '$lib/types/blog';
 
-  $: isPageArabic = $currentLocale === 'ar';
+  let posts: BlogPost[] = $state([]);
+  let searchQuery = $state('');
+  let selectedTag = $state('');
+  let allTags: string[] = $state([]);
+  let loading = $state(true);
 
-  let posts: BlogPost[] = [];
-  let filteredPosts: BlogPost[] = [];
-  let searchQuery = '';
-  let selectedTag = '';
-  let allTags: string[] = [];
-  let loading = true;
+  let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTag));
 
   onMount(() => {
     const cursorReset = () => {
@@ -54,10 +53,6 @@
     };
   });
 
-  $: {
-    filteredPosts = filterPosts(posts, searchQuery, selectedTag);
-  }
-
   function clearFilters() {
     searchQuery = '';
     selectedTag = '';
@@ -81,8 +76,8 @@
     <h1 
       class="blog-title"
     >
-      <span class="title-main">{$t('blog.title', 'Blog')}</span>
-      <span class="title-subtitle">{$t('blog.slogan', 'Thoughts and Ideas from the ELECTRIS Project')}</span>
+      <span class="title-main">{t('blog.title', 'Blog')}</span>
+      <span class="title-subtitle">{t('blog.slogan', 'Thoughts and Ideas from the ELECTRIS Project')}</span>
     </h1>
   </div>
 
@@ -91,7 +86,7 @@
       <input
         bind:value={searchQuery}
         type="text"
-        placeholder={$t('blog.search.placeholder', 'Search through thoughts...')}
+        placeholder={t('blog.search.placeholder', 'Search through thoughts...')}
         class="search-input"
       />
     </div>
@@ -101,7 +96,7 @@
         bind:value={selectedTag}
         class="tag-filter"
       >
-        <option value="">{$t('blog.tags.all', 'All Tags')}</option>
+        <option value="">{t('blog.tags.all', 'All Tags')}</option>
         {#each allTags as tag}
           <option value={tag}>{tag}</option>
         {/each}
@@ -109,10 +104,10 @@
 
       {#if searchQuery || selectedTag}
         <button 
-          on:click={clearFilters}
+          onclick={clearFilters}
           class="clear-filters"
         >
-          {$t('blog.tags.clear', 'Clear Tags')}
+          {t('blog.tags.clear', 'Clear Tags')}
         </button>
       {/if}
     </div>
@@ -122,12 +117,12 @@
     {#if loading}
       <div class="loading">
         <div class="loading-spinner"></div>
-        <p>{$t('blog.loading', 'Loading thoughts...')}</p>
+        <p>{t('blog.loading', 'Loading thoughts...')}</p>
       </div>
     {:else if filteredPosts.length === 0}
       <div class="no-posts">
-        <h3>{$t('blog.results.none', 'No thoughts found')}</h3>
-        <p>{$t('blog.results.tryagain', 'Try adjusting your search query or tags.')}</p>
+        <h3>{t('blog.results.none', 'No thoughts found')}</h3>
+        <p>{t('blog.results.tryagain', 'Try adjusting your search query or tags.')}</p>
       </div>
     {:else}
       <div class="posts-grid">
@@ -142,10 +137,10 @@
                 <div class="post-meta">
                   <time class="post-date">{formatDate(post.date)}</time>
                   {#if post.readTime}
-                    <span class="read-time">{post.readTime} {$t('blog.readtime', 'minute read')}</span>
+                    <span class="read-time">{post.readTime} {t('blog.readtime', 'minute read')}</span>
                   {/if}
                   {#if post.featured}
-                    <span class="featured-badge">{$t('blog.feature', 'Featured')}</span>
+                    <span class="featured-badge">{t('blog.feature', 'Featured')}</span>
                   {/if}
                 </div>
 

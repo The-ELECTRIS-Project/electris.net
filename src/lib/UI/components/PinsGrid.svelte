@@ -1,20 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale } from '$lib/stores/i18n';
+  import { t, i18nState } from '$lib/stores/i18n.svelte';
   import { browser } from '$app/environment';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
-  import { mods } from '$lib/stores/customization';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { modsState } from '$lib/stores/customization.svelte';
 
-  $: isPageArabic = $currentLocale === 'ar';
-  $: gridCols = $mods.gridCols;
-  $: gridRows = $mods.gridRows;
-  $: openLinksInNewTabs = $mods.openLinksInNewTabs;
+  let isPageArabic = $derived(i18nState.currentLocale === 'ar');
+  let gridCols = $derived(modsState.config.gridCols);
+  let gridRows = $derived(modsState.config.gridRows);
+  let openLinksInNewTabs = $derived(modsState.config.openLinksInNewTabs);
 
-  let pins: Array<{ url: string; title: string; domain: string }> = [];
+  let pins: Array<{ url: string; title: string; domain: string }> = $state([]);
 
-  let editingPinIndex = -1;
-  let editUrl = '';
-  let editTitle = '';
+  let editingPinIndex = $state(-1);
+  let editUrl = $state('');
+  let editTitle = $state('');
 
   function getPinSize(rows: number): number {
     if (rows === 1) return 15;
@@ -23,12 +23,14 @@
     return 12.5;
   }
 
-  $: basePinSize = getPinSize(gridRows);
-  $: hoverPinSize = basePinSize + 0.9;
+  let basePinSize = $derived(getPinSize(gridRows));
+  let hoverPinSize = $derived(basePinSize + 0.9);
 
-  $: if (browser) {
-    document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}vmin`);
-  }
+  $effect(() => {
+    if (browser) {
+      document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}vmin`);
+    }
+  });
 
   const hoverConfigs: HoverConfig[] = [
     {
@@ -42,17 +44,18 @@
 
   useHoverConfig(hoverConfigs);
 
-  $: totalPins = gridCols * gridRows;
-  $: gridWidth = (gridCols * basePinSize) + ((gridCols - 1) * 1.6);
+  let totalPins = $derived(gridCols * gridRows);
+  let gridWidth = $derived((gridCols * basePinSize) + ((gridCols - 1) * 1.6));
   
-  $: if (browser && totalPins > 0) {
-    updatePinsArray();
-  }
+  $effect(() => {
+    if (browser && totalPins > 0) {
+      updatePinsArray();
+    }
+  });
 
   onMount(() => {
     if (browser) {
-      // Initialize mods first
-      mods.init();
+      modsState.init();
       
       setTimeout(() => {
         loadPins();
@@ -60,17 +63,17 @@
       
       const handleModsChanged = (event: CustomEvent) => {
         const config = event.detail;
-        if (gridCols !== config.gridCols || gridRows !== config.gridRows) {
-          setTimeout(() => {
-            savePins();
-          }, 0);
-        }
+        // We don't strictly need to check gridCols/gridRows here if we react to totalPins
+        // but we'll keep the save logic for when layout changes.
+        setTimeout(() => {
+          savePins();
+        }, 0);
       };
       
-      window.addEventListener('modsChanged', handleModsChanged as EventListener);
+      window.addEventListener('modsChanged', handleModsChanged as globalThis.EventListener);
       
       return () => {
-        window.removeEventListener('modsChanged', handleModsChanged as EventListener);
+        window.removeEventListener('modsChanged', handleModsChanged as globalThis.EventListener);
       };
     }
   });
@@ -246,22 +249,22 @@
             <input
               type="text"
               bind:value={editUrl}
-              placeholder={$t('newhome.pin.edit.url.placeholder', 'Enter URL...')}
+              placeholder={t('newhome.pin.edit.url.placeholder', 'Enter URL...')}
               class="pin-edit-url"
-              on:keydown={handlePinKeydown}
+              onkeydown={handlePinKeydown}
             />
             <input
               type="text"
               bind:value={editTitle}
-              placeholder={$t('newhome.pin.edit.title.placeholder', 'Enter title (optional)')}
+              placeholder={t('newhome.pin.edit.title.placeholder', 'Enter title (optional)')}
               class="pin-edit-title"
-              on:keydown={handlePinKeydown}
+              onkeydown={handlePinKeydown}
             />
             <div class="pin-edit-actions">
-              <button class="pin-save-btn" on:click={savePin} title={$t('newhome.pin.edit.save', 'Save')}>
+              <button class="pin-save-btn" onclick={savePin} title={t('newhome.pin.edit.save', 'Save')}>
                 ✓
               </button>
-              <button class="pin-cancel-btn" on:click={cancelEditing} title={$t('newhome.pin.edit.cancel', 'Cancel')}>
+              <button class="pin-cancel-btn" onclick={cancelEditing} title={t('newhome.pin.edit.cancel', 'Cancel')}>
                 ✕
               </button>
             </div>
@@ -278,7 +281,7 @@
                 src="https://icons.duckduckgo.com/ip3/{pin.domain}.ico" 
                 alt=""
                 loading="lazy"
-                on:error={handleImageError}
+                onerror={handleImageError}
               />
             </div>
             <div class="pin-info">
@@ -287,16 +290,16 @@
             </div>
             <div class="pin-glow"></div>
           </a>
-          <button class="pin-edit-trigger" on:click={() => startEditingPin(index)} title={$t('newhome.pin.edit.button', 'Edit pin')}>
-            <img src="/icons/buttons/gear.svg" class="pin-gear" alt={$t('newhome.pin.edit.button', 'Edit')}>
+          <button class="pin-edit-trigger" onclick={() => startEditingPin(index)} title={t('newhome.pin.edit.button', 'Edit pin')}>
+            <img src="/icons/buttons/gear.svg" class="pin-gear" alt={t('newhome.pin.edit.button', 'Edit')}>
           </button>
-          <button class="pin-delete-trigger" on:click={() => deletePin(index)} title={$t('newhome.pin.delete.button', 'Delete pin')}>
-            <img src="/icons/buttons/bin.svg" class="pin-trash" alt={$t('newhome.pin.delete.button', 'Delete')}>
+          <button class="pin-delete-trigger" onclick={() => deletePin(index)} title={t('newhome.pin.delete.button', 'Delete pin')}>
+            <img src="/icons/buttons/bin.svg" class="pin-trash" alt={t('newhome.pin.delete.button', 'Delete')}>
           </button>
         {:else}
-          <button class="pin-empty" on:click={() => startEditingPin(index)}>
+          <button class="pin-empty" onclick={() => startEditingPin(index)}>
             <div class="empty-icon">+</div>
-            <div class="empty-text">{$t('newhome.pin.empty', 'Add Pin')}</div>
+            <div class="empty-text">{t('newhome.pin.empty', 'Add Pin')}</div>
           </button>
         {/if}
       </div>

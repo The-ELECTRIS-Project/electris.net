@@ -1,18 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, currentLocale, initializeI18n } from '$lib/stores/i18n';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
-  import { mods } from '$lib/stores/customization';
+  import { t, i18nState } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { modsState } from '$lib/stores/customization.svelte';
   import PinsGrid from '$lib/UI/components/PinsGrid.svelte';
   import Customize from '$lib/UI/components/Customize.svelte';
   import Search from '$lib/UI/components/Search.svelte';
   
-  let currentTime = new Date();
-  let i18nInitialized = false;
+  let currentTime = $state(new Date());
+  let i18nInitialized = $state(false);
 
   // Reactive variables for display toggles
-  $: showQuickPins = $mods.showQuickPins;
-  $: showSearchBar = $mods.showSearchBar;
+  let showQuickPins = $derived(modsState.config.showQuickPins);
+  let showSearchBar = $derived(modsState.config.showSearchBar);
 
   const hoverConfigs: HoverConfig[] = [
     {
@@ -32,8 +32,7 @@
   useHoverConfig(hoverConfigs);
   
   onMount(() => {
-    // Initialize mods first
-    mods.init();
+    modsState.init();
     i18nInitialized = true;
     
     const cursorReset = () => {
@@ -123,13 +122,13 @@
   
   <div class="welcome-section">
     <h1 class="newhome-title">
-      <span class="title-main">{$t('site.title', 'ELECTRIS')}</span>
-      <span class="newhome-subtitle">{$t('site.newhome.version', 'NewHome')}</span>
+      <span class="title-main">{t('site.title', 'ELECTRIS')}</span>
+      <span class="newhome-subtitle">{t('site.newhome.version', 'NewHome')}</span>
     </h1>
     
     <div class="time-display">
-      <div class="time">{formatTime(currentTime, $currentLocale)}</div>
-      <div class="date">{formatDate(currentTime, $currentLocale)}</div>
+      <div class="time">{formatTime(currentTime, i18nState.currentLocale)}</div>
+      <div class="date">{formatDate(currentTime, i18nState.currentLocale)}</div>
     </div>
   </div>
 
@@ -139,7 +138,7 @@
   
   {#if showQuickPins}
     <h2 class="section-title">
-      {$t('newhome.pins.title', 'Quick Pins')}
+      {t('newhome.pins.title', 'Quick Pins')}
     </h2>
 
     <PinsGrid/>

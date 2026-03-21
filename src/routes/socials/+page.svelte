@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n';
+  import { t } from '$lib/stores/i18n.svelte';
   import { onMount } from 'svelte';
 
   onMount(() => {
@@ -13,26 +13,26 @@
     setTimeout(cursorReset, 10);
   });
 
-  $: socialCards = [
+  let socialCards = $derived([
     {
-      title: $t('site.title', 'ELECTRIS', 'en-US'),
-      description: $t('site.slogan', 'Heart like a pen, On paper it bleeds'),
+      title: t('site.title', 'ELECTRIS', 'en-US'),
+      description: t('site.slogan', 'Heart like a pen, On paper it bleeds'),
       profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
       url: '/socials/ELTS'
     },
     {
-      title: $t('site.author.eltr', 'ELECTRO', 'en-US'),
-      description: $t('site.author.eltr.slogan', 'A Creator, Dancing with The Lightning'),
+      title: t('site.author.eltr', 'ELECTRO', 'en-US'),
+      description: t('site.author.eltr.slogan', 'A Creator, Dancing with The Lightning'),
       profilePicture: '/icons/Logos/FirstParty/eltr-v10.png',
       url: '/socials/ELTR'
     },
     {
-      title: $t('site.author.vrrw', 'Varrow', 'en-US'),
-      description: $t('site.author.vrrw.slogan', 'A Lazy Programmer'),
+      title: t('site.author.vrrw', 'Varrow', 'en-US'),
+      description: t('site.author.vrrw.slogan', 'A Lazy Programmer'),
       profilePicture: '/icons/Logos/FirstParty/VArrow.png',
       url: '/socials/VRRW'
     }
-  ];
+  ]);
 </script>
 
 <svelte:head>
@@ -41,8 +41,8 @@
   
   <div class="socials-page">
     <div class="hero">
-      <h1>{$t('social.title', 'Social Media')}</h1>
-      <p>{$t('social.undertitle', 'Follow the changes all around')}</p>
+      <h1>{t('social.title', 'Social Media')}</h1>
+      <p>{t('social.undertitle', 'Follow the changes all around')}</p>
     </div>
   
     <div class="hero">

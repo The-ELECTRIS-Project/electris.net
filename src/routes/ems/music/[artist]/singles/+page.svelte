@@ -1,12 +1,12 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
-    import { t } from '$lib/stores/i18n';
+    import { t } from '$lib/stores/i18n.svelte';
     import type { PageData } from './$types';
 
-    export let data: PageData;
+    let { data } = $props<{ data: PageData }>();
 
-    const { artist, singles } = data;
+    let { artist, singles } = $derived(data);
 
     let container: HTMLElement;
 
@@ -35,7 +35,7 @@
         <a href="/ems/music/{artist.slug}" class="back-link">
             ← {artist.name}
         </a>
-        <h1>{$t('ems.music.card.disc', 'Singles')}</h1>
+        <h1>{t('ems.music.card.disc', 'Singles')}</h1>
     </header>
 
     {#if singles.length > 0}

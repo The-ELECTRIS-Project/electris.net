@@ -1,21 +1,25 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { t } from '$lib/stores/i18n';
+    import { t } from '$lib/stores/i18n.svelte';
 
-    let showPopup = false;
-    let dontShowAgain = false;
+    let showPopup = $state(false);
+    let dontShowAgain = $state(false);
+    
     function setCookie(name: string, value: string, days: number) {
       const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
       document.cookie = `${name}=${value}; expires=${expires}; path=/`;
     }
+    
     function getCookie(name: string): string | null {
       const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
       return match ? match[2] : null;
     }
+    
     function dismissPopup() {
       if (dontShowAgain) setCookie("mobilePopupDismissed", "true", 365);
       showPopup = false;
     }
+    
     onMount(() => {
       if (getCookie("mobilePopupDismissed") === "true") return;
       if ("ontouchstart" in window) showPopup = true;
@@ -25,13 +29,13 @@
   {#if showPopup}
     <div class="mobile-popup-backdrop">
       <div class="mobile-popup">
-        <h2 class="mobile-popup-title">{$t('notice.mobile.title', 'Mobile Notice!')}</h2>
-        <p class="mobile-popup-body">{$t('notice.mobile.body', 'This site works on mobile, but things may look out of place or be hard to read. Please check us out on a laptop or desktop with a mouse or trackpad.')}</p>
+        <h2 class="mobile-popup-title">{t('notice.mobile.title', 'Mobile Notice!')}</h2>
+        <p class="mobile-popup-body">{t('notice.mobile.body', 'This site works on mobile, but things may look out of place or be hard to read. Please check us out on a laptop or desktop with a mouse or trackpad.')}</p>
         <div class="popup-controls">
           <label>
-            <input type="checkbox" bind:checked={dontShowAgain}> {$t ('notice.mobile.never', "Don't show again")}
+            <input type="checkbox" bind:checked={dontShowAgain}> {t('notice.mobile.never', "Don't show again")}
           </label>
-          <button on:click={dismissPopup}>{$t('notice.mobile.ok', 'Got it!')}</button>
+          <button onclick={dismissPopup}>{t('notice.mobile.ok', 'Got it!')}</button>
         </div>
       </div>
     </div>
@@ -107,4 +111,3 @@
       to { opacity: 1; transform: scale(1); }
     }
   </style>
-  

@@ -27,14 +27,5 @@ export default ts.config(
 	      parser: ts.parser
 	    }
 	  }
-  },
-  {
-    env: {
-      browser: true,
-      es2026: true
-    },
-    parserOptions: {
-      ecmaVersion: 12
-    }
   }
 );

@@ -1,15 +1,13 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
+<script lang="ts">
+  let { isOpen = false, onToggle } = $props<{
+    isOpen?: boolean;
+    onToggle?: () => void;
+  }>();
   
-  export let isOpen = false;
-  
-  const dispatch = createEventDispatcher();
-  
-  let isHovered = false;
-  let buttonElement;
+  let isHovered = $state(false);
   
   function handleClick() {
-    dispatch('toggle');
+    onToggle?.();
   }
   
   function handleMouseEnter() {
@@ -20,16 +18,15 @@
     isHovered = false;
   }
   
-  $: buttonClass = `hamburger-button ${isOpen ? 'open' : 'closed'} ${isHovered ? 'hovered' : ''}`;
+  let buttonClass = $derived(`hamburger-button ${isOpen ? 'open' : 'closed'} ${isHovered ? 'hovered' : ''}`);
 </script>
 
 <button
-  bind:this={buttonElement}
   type="button"
   class={buttonClass}
-  on:click={handleClick}
-  on:mouseenter={handleMouseEnter}
-  on:mouseleave={handleMouseLeave}
+  onclick={handleClick}
+  onmouseenter={handleMouseEnter}
+  onmouseleave={handleMouseLeave}
   aria-label={isOpen ? 'Close menu' : 'Open menu'}
   aria-expanded={isOpen}
 >

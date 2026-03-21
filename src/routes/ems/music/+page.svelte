@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n';
-  import { useHoverConfig } from '$lib/stores/hoverConfig';
-  import { artists } from '$lib/data/music';
+  import { t } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { artists } from '$lib/data/music/artists';
 
   useHoverConfig([
     {
@@ -26,8 +26,8 @@
 </svelte:head>
 
 <div class="hero">
-    <h1>{$t('ems.music.hero.title', 'MUSIC')}</h1>
-    <p class="slogan">{$t('ems.music.hero.slogan', 'If music gives you life, give life back to music')}</p>
+    <h1>{t('ems.music.hero.title', 'MUSIC')}</h1>
+    <p class="slogan">{t('ems.music.hero.slogan', 'If music gives you life, give life back to music')}</p>
   </div>
 
 <div class="artists-section">

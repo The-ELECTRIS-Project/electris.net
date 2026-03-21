@@ -1,28 +1,29 @@
-<script>
-  import { t } from '$lib/stores/i18n';
-    const socialCards = [
-      {
-        title: $t('site.platform.yt', 'YouTube'),
-        description: $t('social.vrrw.yt.desc', 'Straight to the point'),
-        platformLogo: '/icons/Logos/ThirdParty/yt.svg',
-        profilePicture: '/icons/Logos/FirstParty/VArrow.png',
-        url: 'https://youtube.com/@V4rrow'
-      },
-      {
-        title: $t('site.platform.gh', 'GitHub'),
-        description: $t('social.vrrw.gh.desc', 'Free code is best code'),
-        platformLogo: '/icons/Logos/ThirdParty/github-nobg.svg',
-        profilePicture: '/icons/Logos/FirstParty/VArrow.png',
-        url: 'https://github.com/Varrow1'
-      },
-      {
-        title: $t('site.platform.x', 'Twitter'),
-        description: $t('social.vrrw.x.desc', 'I tweet sometimes'),
-        platformLogo: '/icons/Logos/ThirdParty/twitter.svg',
-        profilePicture: '/icons/Logos/FirstParty/VArrow.png',
-        url: 'https://x.com/0xVarrow'
-      }
-    ];
+<script lang="ts">
+  import { t } from '$lib/stores/i18n.svelte';
+  
+  const socialCards = $derived([
+    {
+      title: t('site.platform.yt', 'YouTube'),
+      description: t('social.vrrw.yt.desc', 'Straight to the point'),
+      platformLogo: '/icons/Logos/ThirdParty/yt.svg',
+      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      url: 'https://youtube.com/@V4rrow'
+    },
+    {
+      title: t('site.platform.gh', 'GitHub'),
+      description: t('social.vrrw.gh.desc', 'Free code is best code'),
+      platformLogo: '/icons/Logos/ThirdParty/github-nobg.svg',
+      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      url: 'https://github.com/Varrow1'
+    },
+    {
+      title: t('site.platform.x', 'Twitter'),
+      description: t('social.vrrw.x.desc', 'I tweet sometimes'),
+      platformLogo: '/icons/Logos/ThirdParty/twitter.svg',
+      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      url: 'https://x.com/0xVarrow'
+    }
+  ]);
 </script>
 
 <svelte:head>
@@ -31,8 +32,8 @@
   
   <div class="socials-page">
     <div class="hero">
-      <h1>{$t('site.author.vrrw', 'Varrow')}</h1>
-      <p>{$t('site.author.vrrw.slogan', 'A Lazy Programmer')}</p>
+      <h1>{t('site.author.vrrw', 'Varrow')}</h1>
+      <p>{t('site.author.vrrw.slogan', 'A Lazy Programmer')}</p>
     </div>
   
     <div class="hero">
@@ -79,11 +80,6 @@
       font-size: 1.5rem;
       margin: 10px 0 0;
       font-family: sans-serif;
-    }
-  
-    .hero p {
-      font-size: 1.5rem;
-      margin: 10px 0 0;
     }
   
     .card {

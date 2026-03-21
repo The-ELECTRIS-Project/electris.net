@@ -2,23 +2,19 @@
   import { onMount, onDestroy } from 'svelte';
   import { slide, fade } from 'svelte/transition';
   import { afterNavigate } from '$app/navigation';
-  import { t } from '$lib/stores/i18n';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig';
+  import { t } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
   import LanguageSelector from '$lib/UI/utils/LanguageSelector.svelte';
   import { 
-    theme, 
-    colorScheme,
-    setTheme, 
-    setColorScheme,
-    applyStyles,
+    themeState,
     type Theme,
     type ColorScheme,
-  } from '$lib/stores/theme';
+  } from '$lib/stores/theme.svelte';
   import { 
-    environmentStore, 
+    environmentState, 
     generateEnvironmentUrl, 
     getEnvironmentDisplayName 
-  } from '$lib/utils/environment';
+  } from '$lib/utils/environment.svelte';
   import { 
     getCookieCount,
     deleteAllCookies, 
@@ -41,36 +37,26 @@
     description?: string;
   }
 
-  let showOptions = false;
-  let showThemeDropdown = false;
-  let showColorSchemeDropdown = false;
-  let showCookieConfirmDialog = false;
-  let showStatesConfirmDialog = false;
-  let showDevToolsSubmenu = false;
-  let isOpen = false;
-  let siteHref = "";
-  let currentTheme: Theme;
-  let currentColorScheme: ColorScheme;
-  let gearElement: HTMLImageElement;
-  let isHoveringGear = false;
+  let showOptions = $state(false);
+  let showThemeDropdown = $state(false);
+  let showColorSchemeDropdown = $state(false);
+  let showCookieConfirmDialog = $state(false);
+  let showStatesConfirmDialog = $state(false);
+  let showDevToolsSubmenu = $state(false);
+  let isOpen = $state(false);
+  let siteHref = $state("");
+  let gearElement: HTMLImageElement | undefined = $state();
+  let isHoveringGear = $state(false);
   let animationId: number;
   let currentRotation = 0;
-  let targetSpeed = 0;
+  let targetSpeed = $state(0);
   let currentSpeed = 0;
-  let languageSelectorRef: LanguageSelector;
+  let languageSelectorRef: LanguageSelector | undefined = $state();
 
   // Environment info
-  $: envInfo = $environmentStore;
-  $: footerEnv = getEnvironmentDisplayName(envInfo.environment);
-  $: showDevTools = envInfo.isDevelopment;
-
-  theme.subscribe(value => {
-    currentTheme = value;
-  });
-
-  colorScheme.subscribe(value => {
-    currentColorScheme = value;
-  });
+  let envInfo = $derived(environmentState.info);
+  let footerEnv = $derived(getEnvironmentDisplayName(envInfo.environment));
+  let showDevTools = $derived(envInfo.isProduction ? false : (envInfo.isDevelopment || envInfo.isCanary));
 
   const hoverConfigs: HoverConfig[] = [
     {
@@ -130,69 +116,70 @@
 
   useHoverConfig(hoverConfigs);
 
-  $: themeOptions = [
+  let themeOptions = $derived([
     { 
       value: 'default' as Theme, 
-      label: $t('nav.options.theme.default', 'Default'), 
+      label: t('nav.options.theme.default', 'Default'), 
       icon: '🎨',
-      description: $t('nav.options.theme.default.desc', 'The ELECTRIS Style')
+      description: t('nav.options.theme.default.desc', 'The ELECTRIS Style')
     },
     { 
       value: 'cyber-neotic' as Theme, 
-      label: $t('nav.options.theme.cyber', 'Cyber-Neotic'), 
+      label: t('nav.options.theme.cyber', 'Cyber-Neotic'), 
       icon: '🧬',
-      description: $t('nav.options.theme.cyber.desc', 'A neon-lit future')
+      description: t('nav.options.theme.cyber.desc', 'A neon-lit future')
     }
-  ] as ThemeOption[];
+  ] as ThemeOption[]);
 
-  $: colorSchemeOptions = [
+  let colorSchemeOptions = $derived([
     { 
       value: 'auto' as ColorScheme, 
-      label: $t('nav.options.color.auto', 'Automatic'), 
+      label: t('nav.options.color.auto', 'Automatic'), 
       icon: '🔄',
-      description: $t('nav.options.color.auto.desc', 'Follows system')
+      description: t('nav.options.color.auto.desc', 'Follows system')
     },
     { 
       value: 'light' as ColorScheme, 
-      label: $t('nav.options.color.light', 'Light'), 
+      label: t('nav.options.color.light', 'Light'), 
       icon: '☀️',
-      description: $t('nav.options.color.light.desc', 'Clean and bright')
+      description: t('nav.options.color.light.desc', 'Clean and bright')
     },
     { 
       value: 'dark' as ColorScheme, 
-      label: $t('nav.options.color.dark', 'Dark'), 
+      label: t('nav.options.color.dark', 'Dark'), 
       icon: '🌙',
-      description: $t('nav.options.color.dark.desc', 'Easy on the eyes')
+      description: t('nav.options.color.dark.desc', 'Easy on the eyes')
     },
     { 
       value: 'midnight' as ColorScheme, 
-      label: $t('nav.options.color.oled', 'Midnight'), 
+      label: t('nav.options.color.oled', 'Midnight'), 
       icon: '🌚',
-      description: $t('nav.options.color.oled.desc', 'Looks like there\'s a blackout...')
+      description: t('nav.options.color.oled.desc', 'Looks like there\'s a blackout...')
     }
-  ] as ColorSchemeOption[];
+  ] as ColorSchemeOption[]);
 
-  $: currentThemeInfo = themeOptions.find(t => t.value === currentTheme) || themeOptions[0];
-  $: currentColorSchemeInfo = colorSchemeOptions.find(c => c.value === currentColorScheme) || colorSchemeOptions[0];
+  let currentThemeInfo = $derived(themeOptions.find(t => t.value === themeState.theme) || themeOptions[0]);
+  let currentColorSchemeInfo = $derived(colorSchemeOptions.find(c => c.value === themeState.colorScheme) || colorSchemeOptions[0]);
 
-  $: menuItems = [
-    { label: $t('nav.burger.home', 'Home'), href: '/', newTab: false },
-    { label: $t('blog.title', 'Blog'), href: '/blog', newTab: false },
-    { label: $t('nav.burger.social', 'Socials'), href: '/socials', newTab: false },
-    { label: $t('nav.burger.egs', 'Game Studios'), href: '/egs', newTab: false },
-    { label: $t('nav.burger.ems', 'Media Studios'), href: '/ems', newTab: false }
-  ];
+  let menuItems = $derived([
+    { label: t('nav.burger.home', 'Home'), href: '/', newTab: false },
+    { label: t('blog.title', 'Blog'), href: '/blog', newTab: false },
+    { label: t('nav.burger.social', 'Socials'), href: '/socials', newTab: false },
+    { label: t('nav.burger.egs', 'Game Studios'), href: '/egs', newTab: false },
+    { label: t('nav.burger.ems', 'Media Studios'), href: '/ems', newTab: false }
+  ]);
 
-  $: {
-    targetSpeed = 0;
+  $effect(() => {
+    let speed = 0;
     if (isHoveringGear) {
-      targetSpeed += 1;
+      speed += 1;
     }
     if (showOptions) {
-      targetSpeed += 1;
+      speed += 1;
     }
+    targetSpeed = speed;
     startGearAnimation();
-  }
+  });
 
   function updateSiteHref() {
     siteHref = generateEnvironmentUrl();
@@ -241,6 +228,12 @@
     animateGear();
   }
 
+  function handleVisibilityChange() {
+    if (document.visibilityState === 'visible' && (Math.abs(currentSpeed) > 0.01 || Math.abs(targetSpeed - currentSpeed) > 0.01)) {
+      startGearAnimation();
+    }
+  }
+
   function handleGearHover() {
     isHoveringGear = true;
     startGearAnimation();
@@ -256,11 +249,12 @@
   }
 
   onMount(async () => {
-    await environmentStore.refresh();
+    await environmentState.refresh();
     
     if (typeof document !== 'undefined') {
       document.addEventListener('click', handleClickOutside);
-      applyStyles(currentTheme, currentColorScheme);
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      themeState.applyCurrentStyles();
     }
   });
 
@@ -271,6 +265,7 @@
   onDestroy(() => {
     if (typeof document !== 'undefined') {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     }
     if (animationId) {
       cancelAnimationFrame(animationId);
@@ -322,12 +317,12 @@
   }
 
   function handleThemeChange(themeValue: Theme) {
-    setTheme(themeValue);
+    themeState.setTheme(themeValue);
     showThemeDropdown = false;
   }
 
   function handleColorSchemeChange(colorSchemeValue: ColorScheme) {
-    setColorScheme(colorSchemeValue);
+    themeState.setColorScheme(colorSchemeValue);
     showColorSchemeDropdown = false;
   }
 
@@ -380,7 +375,7 @@
   }
 
   function confirmCookieReset() {
-    const result = deleteAllCookies();
+    deleteAllCookies();
     showCookieConfirmDialog = false;
     showOptions = false;
     alert(`Cookies reset complete!`);
@@ -388,7 +383,7 @@
   }
 
   function confirmStatesReset() {
-    const result = resetAllStates();
+    resetAllStates();
     showStatesConfirmDialog = false;
     showOptions = false;
     alert(`States reset complete!`);
@@ -406,20 +401,20 @@
 
 <nav class="navbar">
   <div class="nav-buttons">
-    <a class="nav-button abt" href="/about">{$t('about.hero', 'About Us')}</a>
-    <a class="nav-button elts" href="/">{$t('site.title', 'ELECTRIS')}</a>
-    <a class="nav-button proj" href="/projects">{$t('nav.bar.proj', 'Projects')}</a>
+    <a class="nav-button abt" href="/about">{t('about.hero', 'About Us')}</a>
+    <a class="nav-button elts" href="/">{t('site.title', 'ELECTRIS')}</a>
+    <a class="nav-button proj" href="/projects">{t('nav.bar.proj', 'Projects')}</a>
   </div>
-  <Hamburger {isOpen} on:toggle={() => isOpen = !isOpen} />
+  <Hamburger {isOpen} onToggle={() => isOpen = !isOpen} />
   {#if isOpen}
-    <div class="overlay" role="button" tabindex="0" on:click={() => isOpen = false} on:keydown={(e) => e.key === 'Escape' && (isOpen = false)} transition:fade={{ duration: 200 }} aria-label="Close Menu"></div>
+    <div class="overlay" role="button" tabindex="0" onclick={() => isOpen = false} onkeydown={(e) => e.key === 'Escape' && (isOpen = false)} transition:fade={{ duration: 200 }} aria-label="Close Menu"></div>
   {/if}
   <button
     type="button"
     class="settings-button"
-    on:click={handleOptionsToggle}
-    on:mouseenter={handleGearHover}
-    on:mouseleave={handleGearLeave}>
+    onclick={handleOptionsToggle}
+    onmouseenter={handleGearHover}
+    onmouseleave={handleGearLeave}>
     <img 
       bind:this={gearElement}
       class="settings-icon" 
@@ -434,24 +429,24 @@
           <a
             href={item.href}
             target={item.newTab ? "_blank" : null}
-            on:click={() => isOpen = false}>
+            onclick={() => isOpen = false}>
             {item.label}
           </a>
         </div>
       {/each}
     </div>
       <div class="wrap-no-interact-all hamburger-footer" role="region"
-        on:mouseenter={(e: MouseEvent) => {
+        onmouseenter={(e: MouseEvent) => {
           const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
           const centerX = rect.left + rect.width / 2;
           const centerY = rect.top + rect.height / 2;
           window.dispatchEvent(new CustomEvent('footerHovered', { detail: { x: centerX, y: centerY } }));
         }}
-        on:mouseleave={() => {
+        onmouseleave={() => {
           window.dispatchEvent(new CustomEvent('footerUnhovered'));
         }}>
         <div class="footer">
-          <p><u>{$t('site.title', 'ELECTRIS')} &#169;2025</u></p>
+          <p><u>{t('site.title', 'ELECTRIS')} &#169;2025</u></p>
           <a href="https://github.com/The-ELECTRIS-Project/electris.net" target="_blank"><u>{envInfo.siteVersion}</u></a>
           <span class="env-indicator">{footerEnv}</span>
         </div>
@@ -462,15 +457,15 @@
 {#if showOptions}
   <div class="options-menu" transition:fade={{ duration: 200 }}>
     <div transition:slide={{ duration: 300 }}>
-      <h2>{$t('nav.options', 'Options')}</h2>
+      <h2>{t('nav.options', 'Options')}</h2>
       
       <div class="option">
-        <span>{$t('nav.options.theme', 'Theme')}</span>
+        <span>{t('nav.options.theme', 'Theme')}</span>
           <div class="selector">
             <button 
               type="button" 
               class="theme-button"
-              on:click={toggleThemeDropdown}
+              onclick={toggleThemeDropdown}
               aria-expanded={showThemeDropdown}
               aria-haspopup="listbox"
             >
@@ -485,10 +480,10 @@
                   <button
                     type="button"
                     class="theme-option"
-                    class:active={currentTheme === themeOption.value}
-                    on:click={() => handleThemeChange(themeOption.value)}
+                    class:active={themeState.theme === themeOption.value}
+                    onclick={() => handleThemeChange(themeOption.value)}
                     role="option"
-                    aria-selected={currentTheme === themeOption.value}
+                    aria-selected={themeState.theme === themeOption.value}
                     title={themeOption.description}
                   >
                     <span class="wrap-no-interact">{themeOption.icon}</span>
@@ -498,7 +493,7 @@
                         <span class="theme-description">{themeOption.description}</span>
                       {/if}
                     </div>
-                    {#if currentTheme === themeOption.value}
+                    {#if themeState.theme === themeOption.value}
                       <span class="checkmark">✓</span>
                     {/if}
                   </button>
@@ -510,12 +505,12 @@
 
       <!-- Color Scheme Selector -->
       <div class="option">
-        <span>{$t('nav.options.color', 'Color')}</span>
+        <span>{t('nav.options.color', 'Color')}</span>
         <div class="selector">
           <button 
             type="button" 
             class="color-scheme-button"
-            on:click={toggleColorSchemeDropdown}
+            onclick={toggleColorSchemeDropdown}
             aria-expanded={showColorSchemeDropdown}
             aria-haspopup="listbox"
           >
@@ -530,10 +525,10 @@
                 <button
                   type="button"
                   class="color-scheme-option"
-                  class:active={currentColorScheme === colorOption.value}
-                  on:click={() => handleColorSchemeChange(colorOption.value)}
+                  class:active={themeState.colorScheme === colorOption.value}
+                  onclick={() => handleColorSchemeChange(colorOption.value)}
                   role="option"
-                  aria-selected={currentColorScheme === colorOption.value}
+                  aria-selected={themeState.colorScheme === colorOption.value}
                   title={colorOption.description}
                 >
                   <span class="wrap-no-interact">{colorOption.icon}</span>
@@ -543,7 +538,7 @@
                       <span class="color-scheme-description">{colorOption.description}</span>
                     {/if}
                   </div>
-                  {#if currentColorScheme === colorOption.value}
+                  {#if themeState.colorScheme === colorOption.value}
                     <span class="checkmark">✓</span>
                   {/if}
                 </button>
@@ -554,44 +549,44 @@
       </div>
 
       <div class="option">
-        <span>{$t('nav.options.lang', 'Language')}</span>
+        <span>{t('nav.options.lang', 'Language')}</span>
         <LanguageSelector bind:this={languageSelectorRef} />
       </div>
       {#if showDevTools}
         <div class="devtools-section">
           <div 
             class="devtools-header option"
-            on:click={toggleDevToolsSubmenu}
+            onclick={toggleDevToolsSubmenu}
             aria-expanded={showDevToolsSubmenu}
             role="button"
             tabindex="0"
-            on:keydown={(e) => e.key === 'Enter' && toggleDevToolsSubmenu(e)}
+            onkeydown={(e) => e.key === 'Enter' && toggleDevToolsSubmenu(e)}
           >
-            <span>{$t('devtools.title', 'DevTools')}</span>
+            <span>{t('devtools.title', 'DevTools')}</span>
             <span class="triangle" class:expanded={showDevToolsSubmenu}>▸</span>
           </div>
           {#if showDevToolsSubmenu}
             <div class="devtools-submenu" transition:slide={{ duration: 300 }}>
               <div class="devtools-option">
-                <span>{$t('devtools.reset.cookies', 'Reset Cookies')}</span>
+                <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
                 <button 
                   type="button" 
                   class="reset-button"
-                  on:click={handleCookieReset}
+                  onclick={handleCookieReset}
                   title="Reset all cookies (Development only)"
                 >
-                  🍪 {$t('devtools.reset', 'Reset')}
+                  🍪 {t('devtools.reset', 'Reset')}
                 </button>
               </div>
               <div class="devtools-option">
-                <span>{$t('devtools.reset.states', 'Reset States')}</span>
+                <span>{t('devtools.reset.states', 'Reset States')}</span>
                 <button 
                   type="button" 
                   class="reset-button"
-                  on:click={handleStatesReset}
+                  onclick={handleStatesReset}
                   title="Reset all states (Development only)"
                 >
-                  🔄 {$t('devtools.reset', 'Reset')}
+                  🔄 {t('devtools.reset', 'Reset')}
                 </button>
               </div>
             </div>
@@ -601,11 +596,11 @@
       <div class="option">
         <a href={siteHref} class="switch-button">
           {#if envInfo.isProduction}
-            {$t('nav.options.switch.test', 'Switch to Canary')}
+            {t('nav.options.switch.test', 'Switch to Canary')}
           {:else if envInfo.isCanary || envInfo.isDevelopment}
-            {$t('nav.options.switch.prod', 'Switch to Main')}
+            {t('nav.options.switch.prod', 'Switch to Main')}
           {:else}
-            {$t('nav.options.switch.dev', 'Switch to Development')}
+            {t('nav.options.switch.dev', 'Switch to Development')}
           {/if}
         </a>
       </div>
@@ -625,14 +620,14 @@
         <button 
           type="button" 
           class="confirm-btn confirm-cancel"
-          on:click={cancelCookieReset}
+          onclick={cancelCookieReset}
         >
           Cancel
         </button>
         <button 
           type="button" 
           class="confirm-btn confirm-reset"
-          on:click={confirmCookieReset}
+          onclick={confirmCookieReset}
         >
           Reset Cookies
         </button>
@@ -657,14 +652,14 @@
         <button 
           type="button" 
           class="confirm-btn confirm-cancel" 
-          on:click={cancelStatesReset}
+          onclick={cancelStatesReset}
         >
           Cancel
         </button>
         <button 
           type="button" 
           class="confirm-btn confirm-reset"
-          on:click={confirmStatesReset}
+          onclick={confirmStatesReset}
         >
           Reset All States
         </button>
