@@ -8,7 +8,7 @@
     "announcement",
     "electris"
   ],
-  "readTime": 1,
-  "featured": true,
-  "icon": "/icons/buttons/pen.svg"
+  "coverImage": "/data/blog/intrusive-thoughts/cover.png",
+  "readTime": 2,
+  "featured": true
 }

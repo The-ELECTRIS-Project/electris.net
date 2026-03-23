@@ -58,7 +58,7 @@
   let footerEnv = $derived(getEnvironmentDisplayName(envInfo.environment));
   let showDevTools = $derived(envInfo.isProduction ? false : (envInfo.isDevelopment || envInfo.isCanary));
 
-  const hoverConfigs: HoverConfig[] = [
+  useHoverConfig([
     {
       type: [ 'a' ],
       selectors: ['.menu-item a'],
@@ -112,9 +112,7 @@
         sentences: true
       }
     }
-  ];
-
-  useHoverConfig(hoverConfigs);
+  ]);
 
   let themeOptions = $derived([
     { 

@@ -127,10 +127,24 @@ a {
 }
 
 .circle.hovered-blog-filter {
-  height: 4.6vmin;
-  width: 9.8vmin;
+  height: 4.5vmin;
+  width: 10.8vmin;
   border-radius: 0.6vmin;
 }
+
+.circle.hovered-blog-return {
+  height: 3vmin;
+  width: 10.8vmin;
+  border-radius: 0.6vmin;
+}
+
+.circle.hovered-blog-card {
+    width: 100vmin;
+    height: 18.5vmin;
+    border-radius: 1.2vmin;
+    border-color: rgba(246, 89, 1, 0.8);
+    box-shadow: 0 0 15px rgba(246, 89, 1, 0.3);
+  }
 
 .circle.hovered-settings {
   --circle-size: 3.5vmin;
@@ -246,6 +260,22 @@ a {
 .gear::before {
   background: var(--gear-before);
 }
+
+/* ======= PARTICLES ======== */
+
+.thought-particle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background: rgba(246, 89, 1, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+    top: 100vh;
+    z-index: 1;
+    animation: thought-drift 12s ease-in-out forwards;
+    pointer-events: none;
+    box-shadow: 0 0 4px rgba(246, 89, 1, 0.4);
+  }
 
 
 /* ===== ##### ===== */

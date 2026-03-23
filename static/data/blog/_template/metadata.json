@@ -8,8 +8,7 @@
     "filler",
     "testing"
   ],
-  "icon": "/icons/thoughts/creative-vision.svg",
-  "coverImage": "/media/blog/covers/banner1.jpg",
+  "coverImage": "/data/blog/_template/cover.jpg",
   "readTime": 999,
   "featured": false
 }

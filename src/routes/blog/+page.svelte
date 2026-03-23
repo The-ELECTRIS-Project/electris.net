@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n.svelte';
   import { filterPosts, getAllTags, formatDate } from '$lib/utils/blog';
-  import type { BlogPost } from '$lib/types/blog';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
   let { data } = $props();
 
@@ -13,6 +13,24 @@
   let loading = $state(false);
 
   let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTag));
+
+  useHoverConfig([
+    {
+      selectors: ['.post-card'],
+      className: 'hovered-blog-card',
+      lockPosition: true
+    },
+    {
+      selectors: ['.search-wrapper'],
+      className: 'hovered-blog-search',
+      lockPosition: true
+    },
+    {
+      selectors: ['.filter-controls'],
+      className: 'hovered-blog-filter',
+      lockPosition: true
+    }
+  ]);
 
   onMount(() => {
     const cursorReset = () => {
@@ -86,7 +104,7 @@
         bind:value={selectedTag}
         class="tag-filter"
       >
-        <option value="">{t('blog.tags.all', 'All Tags')}</option>
+      <option value="">{t('blog.tags.all', 'All Tags')}</option>
         {#each allTags as tag}
           <option value={tag}>{tag}</option>
         {/each}
@@ -117,7 +135,7 @@
     {:else}
       <div class="posts-grid">
         {#each filteredPosts as post}
-          <article class="post-card" class:has-cover={post.coverImage}>
+          <article class="post-card wrap-no-interact-all" class:has-cover={post.coverImage}>
             <a href="/blog/thoughts/{post.slug}" class="post-link">
               {#if post.coverImage}
                 <div class="post-background" style="background-image: url({post.coverImage});"></div>
@@ -360,10 +378,11 @@
   }
 
   .posts-section {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     position: relative;
     z-index: 2;
-    left: 4vmin;
   }
 
   .loading {

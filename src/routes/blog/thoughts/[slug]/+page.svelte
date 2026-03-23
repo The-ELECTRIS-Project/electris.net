@@ -1,10 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { formatDate } from '$lib/utils/blog';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
   let { data } = $props();
 
   let relatedPosts = $derived(data.relatedPosts || []);
+
+  useHoverConfig([
+    {
+      type: ['a'],
+      selectors: ['.back-link'],
+      className: 'hovered-blog-return',
+      lockPosition: true
+    }
+  ]);
 
   onMount(() => {
     const cursorReset = () => {
@@ -51,7 +61,7 @@
 
 
 <div class="post-container">
-  <div class="post-nav">
+  <div class="post-nav wrap-no-interact-all">
     <a 
       href="/blog" 
       class="back-link"
@@ -131,20 +141,6 @@
 </div>
 
 <style>
-  :global(.thought-particle) {
-    position: fixed;
-    width: 2px;
-    height: 2px;
-    background: rgba(246, 89, 1, 0.6);
-    border-radius: 50%;
-    opacity: 0;
-    top: 100vh;
-    z-index: 1;
-    animation: thought-drift 12s ease-in-out forwards;
-    pointer-events: none;
-    box-shadow: 0 0 4px rgba(246, 89, 1, 0.4);
-  }
-
   @keyframes thought-drift {
     0% {
       opacity: 0;
