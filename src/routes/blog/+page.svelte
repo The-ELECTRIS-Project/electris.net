@@ -1,14 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n.svelte';
-  import { loadBlogPosts, filterPosts, getAllTags, formatDate } from '$lib/utils/blog';
+  import { filterPosts, getAllTags, formatDate } from '$lib/utils/blog';
   import type { BlogPost } from '$lib/types/blog';
 
-  let posts: BlogPost[] = $state([]);
+  let { data } = $props();
+
+  let posts = $derived(data.posts || []);
   let searchQuery = $state('');
   let selectedTag = $state('');
-  let allTags: string[] = $state([]);
-  let loading = $state(true);
+  let allTags = $derived(getAllTags(posts));
+  let loading = $state(false);
 
   let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTag));
 
@@ -20,18 +22,6 @@
       }
     };
     setTimeout(cursorReset, 10);
-
-    (async () => {
-      try {
-        posts = await loadBlogPosts();
-        allTags = getAllTags(posts);
-        filteredPosts = posts;
-        loading = false;
-      } catch (error) {
-        console.error('Failed to load blog posts:', error);
-        loading = false;
-      }
-    })();
 
     const createFloatingOrb = () => {
       const orb = document.createElement('div');

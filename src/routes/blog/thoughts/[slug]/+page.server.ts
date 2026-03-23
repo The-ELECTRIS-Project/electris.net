@@ -1,6 +1,9 @@
 import { error } from '@sveltejs/kit';
-import { extractMetadata } from '$lib/utils/blog';
+import fs from 'node:fs';
+import path from 'node:path';
+import { loadBlogPosts, getRelatedPosts } from '$lib/utils/blog.server';
 import type { PageServerLoad } from './$types';
+import type { BlogMetadata } from '$lib/types/blog';
 
 export const load: PageServerLoad = async ({ params }) => {
   const { slug } = params;
@@ -10,35 +13,30 @@ export const load: PageServerLoad = async ({ params }) => {
   }
   
   try {
-    const modules = import.meta.glob('/src/routes/blog/thoughts/*.html', { 
-      query: '?raw',
-      import: 'default',
-      eager: true 
-    }) as Record<string, string>;
+    const blogDir = path.join(process.cwd(), 'static/data/blog');
+    const postDir = path.join(blogDir, slug);
+    const metadataPath = path.join(postDir, 'metadata.json');
+    const contentPath = path.join(postDir, 'post.html');
     
-    const filePath = `/src/routes/blog/thoughts/${slug}.html`;
-    const content = modules[filePath];
-    
-    if (!content) {
+    if (!fs.existsSync(metadataPath) || !fs.existsSync(contentPath)) {
       throw error(404, 'Post not found');
     }
     
-    const metadata = extractMetadata(content);
+    const metadataRaw = fs.readFileSync(metadataPath, 'utf-8');
+    const metadata = JSON.parse(metadataRaw) as BlogMetadata;
+    const content = fs.readFileSync(contentPath, 'utf-8');
     
-    if (!metadata) {
-      throw error(404, 'Post not found or invalid metadata');
-    }
-    
-    const cleanContent = content.replace(/<metadata>[\s\S]*?<\/metadata>/g, '');
+    const allPosts = await loadBlogPosts();
+    const currentPost = { slug, ...metadata };
+    const relatedPosts = getRelatedPosts(allPosts, currentPost);
     
     return {
-      post: {
-        slug,
-        ...metadata
-      },
-      content: cleanContent
+      post: currentPost,
+      content,
+      relatedPosts
     };
   } catch (err) {
+    if ((err as any).status === 404) throw err;
     console.error('Error loading post:', err);
     throw error(404, 'Post not found');
   }

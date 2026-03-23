@@ -1,0 +1,14 @@
+{
+  "title": "Intrusive Thoughts",
+  "description": "An introduction to the ELECTRIS Project blog.",
+  "author": "ELECTRO",
+  "date": "2026-04-01",
+  "tags": [
+    "intro",
+    "announcement",
+    "electris"
+  ],
+  "readTime": 1,
+  "featured": true,
+  "icon": "/icons/buttons/pen.svg"
+}

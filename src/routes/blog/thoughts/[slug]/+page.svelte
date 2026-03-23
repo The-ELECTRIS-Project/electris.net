@@ -1,11 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { formatDate, loadBlogPosts } from '$lib/utils/blog';
-  import type { BlogPost } from '$lib/types/blog';
+  import { formatDate } from '$lib/utils/blog';
 
   let { data } = $props();
 
-  let relatedPosts = $state<BlogPost[]>([]);
+  let relatedPosts = $derived(data.relatedPosts || []);
 
   onMount(() => {
     const cursorReset = () => {
@@ -15,22 +14,6 @@
       }
     };
     setTimeout(cursorReset, 10);
-
-    (async () => {
-      if (data.post) {
-        try {
-          const allPosts = await loadBlogPosts();
-          relatedPosts = allPosts
-            .filter(post => 
-              post.slug !== data.post.slug && 
-              post.tags.some(tag => data.post.tags.includes(tag))
-            )
-            .slice(0, 3);
-        } catch (err) {
-          console.error('Failed to load related posts:', err);
-        }
-      }
-    })();
 
     const createThoughtParticle = () => {
       const particle = document.createElement('div');

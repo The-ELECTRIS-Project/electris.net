@@ -1,0 +1,15 @@
+{
+  "title": "The Template",
+  "description": "Exploring the Greatest article Ever Made.",
+  "author": "ELECTRO",
+  "date": "2066-06-19",
+  "tags": [
+    "template",
+    "filler",
+    "testing"
+  ],
+  "icon": "/icons/thoughts/creative-vision.svg",
+  "coverImage": "/media/blog/covers/banner1.jpg",
+  "readTime": 999,
+  "featured": false
+}
