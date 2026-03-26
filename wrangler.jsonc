@@ -1,24 +1,22 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "electris-net",
-  "main": "src/index.js",
+  "pages_build_output_dir": ".svelte-kit/cloudflare",
   "compatibility_flags": [
     "nodejs_compat"
   ],
   // Set this to today's date
   "compatibility_date": "2026-03-26",
-  "workers_dev": false,
-  "route": {
-    "pattern": "electris.net/*",
-    "zone_name": "electris.net",
-  },
   "env": {
     "canary": {
       "name": "canary-electris-net",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
       "route": {
         "pattern": "canary.electris.net/*",
-        "zone_name": "canary.electris.net",
-      },
-    },
-  },
+        "zone_name": "canary.electris.net"
+      }
+    }
+  }
 }
