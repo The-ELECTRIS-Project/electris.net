@@ -7,23 +7,18 @@
     "newhome.pin.empty": "فارغ"
   },
   "en_GB": {
-    "newhome.description": "ELECTRIS NewHome | A New Home for your browser",
+    "newhome.description": "NewHome | A New Home for your browser",
     "newhome.powered_by": "Powered by ELECTRIS",
     "newhome.search.placeholder": "Search with SearXNG...",
     "newhome.pins.title": "Quick Pins",
     "newhome.pin.empty": "Empty"
   },
   "en_US": {
+    "newhome.description": "NewHome | A New Home for your browser",
     "newhome.powered_by": "Powered by ELECTRIS",
     "newhome.search.placeholder": "Search with SearXNG...",
     "newhome.pins.title": "Quick Pins",
     "newhome.pin.empty": "Empty"
-  },
-  "ja_JP": {
-    "newhome.powered_by": "エレクトリスによる開発",
-    "newhome.search.placeholder": "SearXNGで検索...",
-    "newhome.pins.title": "素早いピン",
-    "newhome.pin.empty": "空"
   },
   "ro_RO": {
     "newhome.description": "ELECTRIS NewHome | O nouă casă pentru browserul tău",

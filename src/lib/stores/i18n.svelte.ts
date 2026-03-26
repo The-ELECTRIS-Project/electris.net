@@ -27,7 +27,7 @@ const CACHE_PREFIX = 'electris-i18n-';
 
 class I18nState {
   currentLocale = $state<string>(defaultLocale);
-  commonLocaleData = $state<LocaleData>({});
+  commonLocaleData = $state<MultiLocaleData>({});
   libLocaleData = $state<MultiLocaleData>({});
   routeLocaleData = $state<MultiLocaleData>({});
   
@@ -71,7 +71,6 @@ class I18nState {
       if (!response.ok) return null;
       return await response.json();
     } catch (e) {
-      console.error(`Failed to fetch ${path}:`, e);
       return null;
     }
   }
@@ -79,7 +78,7 @@ class I18nState {
   async fetchWithCache(path: string) {
     if (!browser) return await this.fetchJson(path);
 
-    const manifestKey = path.startsWith('/data/lang/') ? path.replace('/data/lang/', '') : path;
+    const manifestKey = path.startsWith('/data/lang/') ? path.replace('/data/lang/', '') : path.replace(/^\//, '');
     const expectedVersion = this.i18nManifest[manifestKey];
 
     const cacheKey = `${CACHE_PREFIX}${path}`;
@@ -113,9 +112,31 @@ class I18nState {
     }
   }
 
+  normalizeLocaleData(data: any): MultiLocaleData {
+    const normalized: MultiLocaleData = {};
+    if (!data) return normalized;
+
+    for (const locale in data) {
+      if (locale === '__version') continue;
+      const safeLocale = locale.replace('-', '_');
+      normalized[safeLocale] = { ...normalized[safeLocale], ...data[locale] };
+    }
+    return normalized;
+  }
+
+  mergeMultiLocaleData(base: MultiLocaleData, extra: MultiLocaleData): MultiLocaleData {
+    const result = { ...base };
+    for (const locale in extra) {
+      result[locale] = { ...result[locale], ...extra[locale] };
+    }
+    return result;
+  }
+
   async loadCommonData() {
     const data = await this.fetchWithCache('/data/lang/commons.json');
-    if (data) this.commonLocaleData = data;
+    if (data) {
+      this.commonLocaleData = this.normalizeLocaleData(data);
+    }
   }
 
   async loadLibLocale(libPath: string) {
@@ -123,13 +144,7 @@ class I18nState {
 
     const data = await this.fetchWithCache(`/data/lang/lib/${libPath}/+lang.json`);
     if (data) {
-      const updated = { ...this.libLocaleData };
-      for (const locale in data) {
-        if (locale === '__version') continue;
-        const safeLocale = locale.replace('-', '_');
-        updated[safeLocale] = { ...updated[safeLocale], ...data[locale] };
-      }
-      this.libLocaleData = updated;
+      this.libLocaleData = this.mergeMultiLocaleData(this.libLocaleData, this.normalizeLocaleData(data));
       this.libCache.add(libPath);
     }
   }
@@ -151,17 +166,40 @@ class I18nState {
       return;
     }
 
-    const fetchPath = normalized === '' 
-      ? '/data/lang/routes/+lang.json' 
-      : `/data/lang/routes/${normalized}/+lang.json`;
+    let mergedRouteData: MultiLocaleData = {};
 
-    const data = await this.fetchWithCache(fetchPath);
-    if (data) {
-      this.routeCache.set(normalized, data);
-      this.routeLocaleData = data;
-    } else {
-      this.routeLocaleData = {};
+    // 1. Load hierarchy of commons.json only
+    const segments = normalized.split('/').filter(Boolean);
+    const pathsToLoad = ['']; 
+    let tempPath = '';
+    for (const segment of segments) {
+      tempPath += (tempPath ? '/' : '') + segment;
+      pathsToLoad.push(tempPath);
     }
+
+    for (const path of pathsToLoad) {
+      const fetchPath = path === '' 
+        ? '/data/lang/routes/commons.json'
+        : `/data/lang/routes/${path}/commons.json`;
+        
+      const segmentCommon = await this.fetchWithCache(fetchPath);
+      if (segmentCommon) {
+        mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(segmentCommon));
+      }
+    }
+
+    // 2. Load ONLY the specific +lang.json for this route
+    const langPath = normalized === ''
+      ? '/data/lang/routes/+lang.json'
+      : `/data/lang/routes/${normalized}/+lang.json`;
+      
+    const specificLang = await this.fetchWithCache(langPath);
+    if (specificLang) {
+      mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(specificLang));
+    }
+
+    this.routeCache.set(normalized, mergedRouteData);
+    this.routeLocaleData = mergedRouteData;
   }
 
   async initializeI18n(pathname: string = '') {
@@ -191,7 +229,7 @@ class I18nState {
   getTranslation(key: string, locale: string): string | undefined {
     const safeLocale = locale.replace('-', '_');
     
-    // 1. Check current route
+    // 1. Check current route (hierarchical)
     if (this.routeLocaleData[safeLocale]?.[key] !== undefined) {
       return this.routeLocaleData[safeLocale][key];
     }
@@ -201,9 +239,9 @@ class I18nState {
       return this.libLocaleData[safeLocale][key];
     }
     
-    // 3. Check commons
-    if (this.commonLocaleData[key] !== undefined) {
-      return this.commonLocaleData[key];
+    // 3. Check global commons
+    if (this.commonLocaleData[safeLocale]?.[key] !== undefined) {
+      return this.commonLocaleData[safeLocale][key];
     }
 
     return undefined;
