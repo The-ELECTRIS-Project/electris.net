@@ -3,22 +3,22 @@
   
   const socialCards = $derived([
     {
-      title: t('site.platform.yt', 'YouTube'),
-      description: t('social.vrrw.yt.desc', 'Straight to the point'),
+      title: t('site.platform.yt'),
+      description: t('social.vrrw.yt.desc'),
       platformLogo: '/icons/Logos/ThirdParty/yt.svg',
       profilePicture: '/icons/Logos/FirstParty/VArrow.png',
       url: 'https://youtube.com/@V4rrow'
     },
     {
-      title: t('site.platform.gh', 'GitHub'),
-      description: t('social.vrrw.gh.desc', 'Free code is best code'),
+      title: t('site.platform.gh'),
+      description: t('social.vrrw.gh.desc'),
       platformLogo: '/icons/Logos/ThirdParty/github-nobg.svg',
       profilePicture: '/icons/Logos/FirstParty/VArrow.png',
       url: 'https://github.com/Varrow1'
     },
     {
-      title: t('site.platform.x', 'Twitter'),
-      description: t('social.vrrw.x.desc', 'I tweet sometimes'),
+      title: t('site.platform.x'),
+      description: t('social.vrrw.x.desc'),
       platformLogo: '/icons/Logos/ThirdParty/twitter.svg',
       profilePicture: '/icons/Logos/FirstParty/VArrow.png',
       url: 'https://x.com/0xVarrow'
@@ -32,8 +32,8 @@
   
   <div class="socials-page">
     <div class="hero">
-      <h1>{t('site.author.vrrw', 'Varrow')}</h1>
-      <p>{t('site.author.vrrw.slogan', 'A Lazy Programmer')}</p>
+      <h1>{t('site.author.vrrw', 'Varrow', 'en-US')}</h1>
+      <p>{t('site.author.vrrw.slogan')}</p>
     </div>
   
     <div class="hero">

@@ -3,7 +3,7 @@
   import { slide, fade } from 'svelte/transition';
   import { afterNavigate } from '$app/navigation';
   import { t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import LanguageSelector from '$lib/UI/utils/LanguageSelector.svelte';
   import { 
     themeState,

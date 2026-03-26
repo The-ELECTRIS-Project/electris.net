@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-  <title>GEE | ELECTRIS</title>
+  <title>GEE | ELECTRO | ELECTRIS</title>
 </svelte:head>
 
 <div class="hero">

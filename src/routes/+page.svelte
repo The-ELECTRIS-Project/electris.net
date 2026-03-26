@@ -48,8 +48,8 @@
 
 <div>
   <div class="hero">
-    <h1>{t('site.title', 'ELECTRIS')}</h1>
-    <p>{t('site.slogan', 'Heart like a pen, On paper it bleeds')}</p>
+    <h1>{t('site.title')}</h1>
+    <p>{t('site.slogan')}</p>
   </div>
 
   <div class="TCS">
@@ -63,10 +63,10 @@
       </div>
     </div>
     <div class="tcs-content">
-      <h1><span class="glitch" data-text="{t('update.title', 'WEBSITE UNDER RESTRUCTURE')}">{t('update.title', 'WEBSITE UNDER RESTRUCTURE')}</span></h1>
-      <p>{t('update.progress.title', 'Due to not meeting the')} <a href="/about/creator-standard" class="creator-link" class:arabic={isPageArabic}><u>{t('update.progress.title.link', 'Creator Standard')}</u></a></p>
+      <h1><span class="glitch" data-text="{t('update.title')}">{t('update.title')}</span></h1>
+      <p>{t('update.progress.title', 'Due to not meeting the')} <a href="/about/creator-standard" class="creator-link" class:arabic={isPageArabic}><u>{t('update.progress.title.link')}</u></a></p>
       <div class="progress-container">
-        <span class="progress-text">{t('update.progress.undertitle', 'Update in Progress...')}</span>
+        <span class="progress-text">{t('update.progress.undertitle')}</span>
         <div class="progress-bar">
           <div class="progress-fill"></div>
           <div class="electric-spark electric-1"></div>

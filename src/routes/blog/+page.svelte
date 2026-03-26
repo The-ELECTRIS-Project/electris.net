@@ -26,8 +26,11 @@
       lockPosition: true
     },
     {
-      selectors: ['.filter-controls'],
+      selectors: ['.tag-filter'],
       className: 'hovered-blog-filter',
+      customPositioning: {
+        targetSelector: '.tag-filter'
+      },
       lockPosition: true
     }
   ]);
@@ -84,8 +87,8 @@
     <h1 
       class="blog-title"
     >
-      <span class="title-main">{t('blog.title', 'Blog')}</span>
-      <span class="title-subtitle">{t('blog.slogan', 'Thoughts and Ideas from the ELECTRIS Project')}</span>
+      <span class="title-main">{t('blog.title')}</span>
+      <span class="title-subtitle">{t('blog.slogan')}</span>
     </h1>
   </div>
 
@@ -94,7 +97,7 @@
       <input
         bind:value={searchQuery}
         type="text"
-        placeholder={t('blog.search.placeholder', 'Search through thoughts...')}
+        placeholder={t('blog.search.placeholder')}
         class="search-input"
       />
     </div>
@@ -104,7 +107,7 @@
         bind:value={selectedTag}
         class="tag-filter"
       >
-      <option value="">{t('blog.tags.all', 'All Tags')}</option>
+      <option value="">{t('blog.tags.all')}</option>
         {#each allTags as tag}
           <option value={tag}>{tag}</option>
         {/each}
@@ -115,7 +118,7 @@
           onclick={clearFilters}
           class="clear-filters"
         >
-          {t('blog.tags.clear', 'Clear Tags')}
+          {t('blog.tags.clear')}
         </button>
       {/if}
     </div>
@@ -125,12 +128,12 @@
     {#if loading}
       <div class="loading">
         <div class="loading-spinner"></div>
-        <p>{t('blog.loading', 'Loading thoughts...')}</p>
+        <p>{t('blog.loading')}</p>
       </div>
     {:else if filteredPosts.length === 0}
       <div class="no-posts">
         <h3>{t('blog.results.none', 'No thoughts found')}</h3>
-        <p>{t('blog.results.tryagain', 'Try adjusting your search query or tags.')}</p>
+        <p>{t('blog.results.tryagain')}</p>
       </div>
     {:else}
       <div class="posts-grid">
@@ -145,10 +148,10 @@
                 <div class="post-meta">
                   <time class="post-date">{formatDate(post.date)}</time>
                   {#if post.readTime}
-                    <span class="read-time">{post.readTime} {t('blog.readtime', 'minute read')}</span>
+                    <span class="read-time">{post.readTime} {t('blog.readtime')}</span>
                   {/if}
                   {#if post.featured}
-                    <span class="featured-badge">{t('blog.feature', 'Featured')}</span>
+                    <span class="featured-badge">{t('blog.feature')}</span>
                   {/if}
                 </div>
 

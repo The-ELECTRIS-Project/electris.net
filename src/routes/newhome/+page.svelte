@@ -122,8 +122,8 @@
   
   <div class="welcome-section">
     <h1 class="newhome-title">
-      <span class="title-main">{t('site.title', 'ELECTRIS')}</span>
-      <span class="newhome-subtitle">{t('site.newhome.version', 'NewHome')}</span>
+      <span class="title-main">{t('site.title')}</span>
+      <span class="newhome-subtitle">{t('site.newhome.title')}</span>
     </h1>
     
     <div class="time-display">
@@ -138,7 +138,7 @@
   
   {#if showQuickPins}
     <h2 class="section-title">
-      {t('newhome.pins.title', 'Quick Pins')}
+      {t('newhome.pins.title')}
     </h2>
 
     <PinsGrid/>

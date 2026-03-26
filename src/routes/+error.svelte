@@ -22,7 +22,7 @@
 </script>
 
 <svelte:head>
-  <title>Error {status} - ELECTRIS</title>
+  <title>Error {status} | ELECTRIS</title>
 </svelte:head>
 
 <div class="error-page">

@@ -26,8 +26,8 @@
 </svelte:head>
 
 <div class="hero">
-    <h1>{t('ems.music.hero.title', 'MUSIC')}</h1>
-    <p class="slogan">{t('ems.music.hero.slogan', 'If music gives you life, give life back to music')}</p>
+    <h1>{t('ems.music.hero.title')}</h1>
+    <p class="slogan">{t('ems.music.hero.slogan')}</p>
   </div>
 
 <div class="artists-section">

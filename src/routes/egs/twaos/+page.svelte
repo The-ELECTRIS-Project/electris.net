@@ -15,8 +15,8 @@
 
   let pages = $derived([
     {
-      title: t('proj.twaos.st', 'Wishlist on Steam'),
-      description: t('proj.twaos.st.desc', 'The largest game distribution platform.'),
+      title: t('proj.twaos.st'),
+      description: t('proj.twaos.st.desc'),
       icon: '/icons/Logos/ThirdParty/steam.svg',
       href: 'https://store.steampowered.com/app/2231750/The_Wonderful_Adventures_Of_Sip/'
     }
@@ -170,7 +170,6 @@
     const V = window.innerWidth;
     const limit = Math.max(0, (W - V) / 2 + margin);
 
-    // Increased multiplier from 0.8 to 1.8 for faster wheel scrolling
     const nextOffsetUnconstrained = offset - (e.deltaX * 1.8);
     offset = Math.max(Math.min(nextOffsetUnconstrained, limit), -limit);
     prevOffset = offset; // Keep dragging state in sync
@@ -211,7 +210,6 @@
 
     const track = document.getElementById("image-track");
     if (track) {
-      // Initial state: centered (offset 0)
       gsap.set(track, {
         x: 0,
         xPercent: -50,
@@ -317,11 +315,11 @@
       </div>
       <div class="hero-text">
         <div class="wrap-no-interact-all twaos-title">
-          <span class="text-container"><h2 class="tw">{t('proj.twaos.title.tw', 'The Wonderful', 'en_US')}</h2></span>
-          <span class="text-container"><h3 class="ao">{t('proj.twaos.title.ao', 'Adventures Of', 'en_US')}</h3></span>
-          <span class="text-container"><h1 class="sip">{t('proj.twaos.title.sip', 'SIP', 'en_US')}</h1></span>
+          <span class="text-container"><h2 class="tw">{t('proj.twaos.title.tw')}</h2></span>
+          <span class="text-container"><h3 class="ao">{t('proj.twaos.title.ao')}</h3></span>
+          <span class="text-container"><h1 class="sip">{t('proj.twaos.title.sip')}</h1></span>
         </div>
-        <span class="text-container"><h5>{t('proj.twaos.desc.short', 'An open-source Indie Game created by a Solo Developer')}</h5></span>
+        <span class="text-container"><h5>{t('proj.twaos.desc.short')}</h5></span>
       </div>
       <div class="wrap-no-interact-all cards-wrapper">
         {#each pages as page}

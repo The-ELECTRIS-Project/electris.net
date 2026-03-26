@@ -16,19 +16,19 @@
   let socialCards = $derived([
     {
       title: t('site.title', 'ELECTRIS', 'en-US'),
-      description: t('site.slogan', 'Heart like a pen, On paper it bleeds'),
+      description: t('site.slogan'),
       profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
       url: '/socials/ELTS'
     },
     {
       title: t('site.author.eltr', 'ELECTRO', 'en-US'),
-      description: t('site.author.eltr.slogan', 'A Creator, Dancing with The Lightning'),
+      description: t('site.author.eltr.slogan'),
       profilePicture: '/icons/Logos/FirstParty/eltr-v10.png',
       url: '/socials/ELTR'
     },
     {
       title: t('site.author.vrrw', 'Varrow', 'en-US'),
-      description: t('site.author.vrrw.slogan', 'A Lazy Programmer'),
+      description: t('site.author.vrrw.slogan'),
       profilePicture: '/icons/Logos/FirstParty/VArrow.png',
       url: '/socials/VRRW'
     }
@@ -41,8 +41,8 @@
   
   <div class="socials-page">
     <div class="hero">
-      <h1>{t('social.title', 'Social Media')}</h1>
-      <p>{t('social.undertitle', 'Follow the changes all around')}</p>
+      <h1>{t('social.title')}</h1>
+      <p>{t('social.undertitle')}</p>
     </div>
   
     <div class="hero">

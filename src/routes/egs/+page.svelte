@@ -15,12 +15,12 @@
 </script>
 
 <svelte:head>
-  <title>ELECTRIS Game Studios</title>
+  <title>Game Studios | ELECTRIS</title>
 </svelte:head>
 
 <div class="hero">
-  <h1>{t('egs.hero.title', 'ELECTRIS Game Studios')}</h1>
-  <p>{t('egs.hero.slogan', "Life is like a game, So let's play")}</p>
+  <h1>{t('egs.hero.title')}</h1>
+  <p>{t('egs.hero.slogan')}</p>
 </div>
   
 <style>

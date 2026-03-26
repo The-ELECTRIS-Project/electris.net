@@ -12,28 +12,23 @@
 
     setTimeout(cursorReset, 10);
   });
-
-  export const search = {
-    name: "Media Studios",
-    description: "The place to express creativity, the greatest human feature."
-  };
 </script>
 
 <svelte:head>
-  <title>ELECTRIS Media Studios</title>
+  <title>Media Studios | ELECTRIS</title>
 </svelte:head>
   
   <div class="hero">
-    <h1>{t('ems.hero.title', 'ELECTRIS Media Studios')}</h1>
-    <p>{t('ems.hero.slogan', 'An artist makes, A fool creates')}</p>
+    <h1>{t('ems.hero.title')}</h1>
+    <p>{t('ems.hero.slogan')}</p>
   </div>
   
   <div class="discography">
     <a href="/ems/music" class="card">
       <div class="icon">🎵</div>
       <div class="card-content">
-        <h2>{t('ems.card.music.title', 'Music')}</h2>
-        <p>{t('ems.card.music.desc', 'Explore our tunes')}</p>
+        <h2>{t('ems.card.music.title')}</h2>
+        <p>{t('ems.card.music.desc')}</p>
       </div>
     </a>
   </div>

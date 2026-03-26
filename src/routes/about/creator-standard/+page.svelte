@@ -126,11 +126,11 @@
 <div class="hero">
   <h1>
     {#if isPageArabic}
-      <span class="highlight">"{t('creator.standard.hero.highlight', 'Creator Standard')}"</span> {t('creator.standard.hero.title', 'The')}
+      <span class="highlight">"{t('creator.standard.hero.highlight')}"</span> {t('creator.standard.hero.title')}
     {:else if isPageJapanese}
-      {t('creator.standard.hero.title', 'The')} <span class="highlight">「{t('creator.standard.hero.highlight', 'Creator Standard')}」</span>
+      {t('creator.standard.hero.title')} <span class="highlight">「{t('creator.standard.hero.highlight')}」</span>
     {:else}
-      {t('creator.standard.hero.title', 'The')} <span class="highlight">"{t('creator.standard.hero.highlight', 'Creator Standard')}"</span>
+      {t('creator.standard.hero.title')} <span class="highlight">"{t('creator.standard.hero.highlight')}"</span>
     {/if}
   </h1>
   <div class="electrical-bg"></div>
@@ -138,24 +138,24 @@
 
 <div class="content">
   <div class="main-section">
-    <h2 class="section-header">{t('creator.standard.meaning.header', 'Meaning:')}</h2>
-    <p class="definition" use:glitchAction={t('creator.standard.definition', 'Works that reflect the project\'s vision')}>
-      {t('creator.standard.definition', 'Works that reflect the project\'s vision')}
+    <h2 class="section-header">{t('creator.standard.meaning.header')}</h2>
+    <p class="definition" use:glitchAction={t('creator.standard.definition')}>
+      {t('creator.standard.definition')}
     </p>
     
     <div class="explanation">
-      <p use:glitchAction={t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}>
-        {@html t('creator.standard.explanation.p1', 'I, ELECTRO, keep a personal standard for the work that belongs to the ELECTRIS Project itself.<br>In a way, I\'m just checking past creations and asking:<br>"Does this still represent who I am, what I believe in, and where this project is going?"')}
+      <p use:glitchAction={t('creator.standard.explanation.p1')}>
+        {@html t('creator.standard.explanation.p1')}
       </p>
       
-      <p use:glitchAction={t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}>
-        {@html t('creator.standard.explanation.p2', 'This standard applies only to ELECTRIS and the things created for it. It does not apply to creators who share their work here. Your vision is yours. Your process is yours. ELECTRIS exists to support creation, not to shape it into something else.')}
+      <p use:glitchAction={t('creator.standard.explanation.p2')}>
+        {@html t('creator.standard.explanation.p2')}
       </p>
       
       <div class="vision-evolution">
-        <h3>{t('creator.standard.vision.title', 'Vision Evolution')}</h3>
-        <p use:glitchAction={t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}>
-          {t('creator.standard.vision.desc', 'Skills grow. Ideas mature. Perspectives shift. Because of that, older work may need to be reworked, rebuilt, or sometimes just let go. Not because it was a mistake, but because it\'s needed for go on.')}
+        <h3>{t('creator.standard.vision.title')}</h3>
+        <p use:glitchAction={t('creator.standard.vision.desc')}>
+          {t('creator.standard.vision.desc')}
         </p>
         <div class="notice-glow"></div>
       </div>
