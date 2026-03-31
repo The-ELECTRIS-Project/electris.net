@@ -13,5 +13,5 @@
   "routes/ems/music/ELECTRO/album/GEE/+lang.json": "0.0.4.1",
   "routes/newhome/+lang.json": "0.0.4.1",
   "routes/projects/+lang.json": "0.0.4.1",
-  "routes/socials/+lang.json": "0.0.4.1"
+  "routes/socials/commons.json": "0.0.4.1"
 }
