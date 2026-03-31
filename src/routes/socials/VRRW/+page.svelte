@@ -5,22 +5,22 @@
     {
       title: t('site.platform.yt'),
       description: t('social.vrrw.yt.desc'),
-      platformLogo: '/icons/Logos/ThirdParty/yt.svg',
-      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      platformLogo: '/icons/logo/ThirdParty/yt.svg',
+      profilePicture: '/icons/logo/FirstParty/VArrow.png',
       url: 'https://youtube.com/@V4rrow'
     },
     {
       title: t('site.platform.gh'),
       description: t('social.vrrw.gh.desc'),
-      platformLogo: '/icons/Logos/ThirdParty/github-nobg.svg',
-      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      platformLogo: '/icons/logo/ThirdParty/github-nobg.svg',
+      profilePicture: '/icons/logo/FirstParty/VArrow.png',
       url: 'https://github.com/Varrow1'
     },
     {
       title: t('site.platform.x'),
       description: t('social.vrrw.x.desc'),
-      platformLogo: '/icons/Logos/ThirdParty/twitter.svg',
-      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      platformLogo: '/icons/logo/ThirdParty/twitter.svg',
+      profilePicture: '/icons/logo/FirstParty/VArrow.png',
       url: 'https://x.com/0xVarrow'
     }
   ]);

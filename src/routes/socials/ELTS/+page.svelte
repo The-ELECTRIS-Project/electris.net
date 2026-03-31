@@ -5,15 +5,15 @@
       {
         title: t('site.platform.yt'),
         description: t('site.slogan'),
-        platformLogo: '/icons/Logos/ThirdParty/yt.svg',
-        profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
+        platformLogo: '/icons/logo/ThirdParty/yt.svg',
+        profilePicture: '/icons/logo/FirstParty/elts-v1.png',
         url: 'https://youtube.com/@ELECTRIS'
       },
       {
         title: t('site.platform.ds'),
         description: t('social.elts.ds.desc', 'Legends of Lightning', 'en-US'),
-        platformLogo: '/icons/Logos/ThirdParty/discord.svg',
-        profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
+        platformLogo: '/icons/logo/ThirdParty/discord.svg',
+        profilePicture: '/icons/logo/FirstParty/elts-v1.png',
         url: 'https://discord.gg/TgtCGKxbZr'
       }
     ]);

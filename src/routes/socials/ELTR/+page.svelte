@@ -5,15 +5,15 @@
     {
       title: t('site.platform.yt'),
       description: t('social.etlr.yt.desc'),
-      platformLogo: '/icons/Logos/ThirdParty/yt.svg',
-      profilePicture: '/icons/Logos/FirstParty/eltr-v10.png',
+      platformLogo: '/icons/logo/ThirdParty/yt.svg',
+      profilePicture: '/icons/logo/FirstParty/eltr-v10.png',
       url: 'https://youtube.com/@ELEC7RO'
     },
     {
       title: t('site.platform.gh'),
       description: t('social.eltr.gh.desc'),
-      platformLogo: '/icons/Logos/ThirdParty/github-nobg.svg',
-      profilePicture: '/icons/Logos/FirstParty/eltr-v10.png',
+      platformLogo: '/icons/logo/ThirdParty/github-nobg.svg',
+      profilePicture: '/icons/logo/FirstParty/eltr-v10.png',
       url: 'https://github.com/ItzELECTR0'
     }
   ]);

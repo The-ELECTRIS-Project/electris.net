@@ -9,6 +9,8 @@ export interface HoverConfig {
   preventRotation?: boolean;
   trackingTarget?: string;
   shape?: 'circle' | 'rect' | 'text';
+  color?: string;
+  matchRotation?: boolean;
   wrapText?: {
     words?: boolean;
     sentences?: boolean;

@@ -17,7 +17,7 @@
     {
       title: t('proj.twaos.st'),
       description: t('proj.twaos.st.desc'),
-      icon: '/icons/Logos/ThirdParty/steam.svg',
+      icon: '/icons/logo/ThirdParty/steam.svg',
       href: 'https://store.steampowered.com/app/2231750/The_Wonderful_Adventures_Of_Sip/'
     }
   ]);

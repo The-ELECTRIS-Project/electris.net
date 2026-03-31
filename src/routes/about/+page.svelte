@@ -20,6 +20,23 @@
         sentences: true,
         ignorePunctuation: true
       }
+    },
+    {
+      selectors: ['.creator-standard-link'],
+      className: 'hovered-about-link',
+      lockPosition: true,
+      preventRotation: true,
+      color: 'var(--color-electro)'
+    },
+    {
+      type: ['p'],
+      selectors: ['.callout-kicker'],
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        words: false,
+        sentences: true
+      }
     }
   ]);
 
@@ -82,6 +99,27 @@
         </div>
         <p>{t('about.eltr.p1')} <strong>{t('about.eltr.creator')}</strong>{t('about.eltr.p2')}</p>
         <p>{t('about.eltr.p3')}</p>
+        <div class="creator-standard-callout">
+          <p class="callout-kicker">
+            {t('about.creatorStandard.kicker', 'A small note')}
+          </p>
+          <h3>{t('about.creatorStandard.title', 'The Creator Standard')}</h3>
+          <p>
+            {t(
+              'about.creatorStandard.p1',
+              'I keep something called the Creator Standard. It is not a rule I place on everyone here. It is just the personal measure I use for the work that speaks on behalf of ELECTRIS itself.'
+            )}
+          </p>
+          <p>
+            {t(
+              'about.creatorStandard.p2',
+              'If I ever rebuild something, that is usually why.'
+            )}
+          </p>
+          <a href="/about/creator-standard" class="creator-standard-link wrap-no-interact-all">
+            {t('about.creatorStandard.link', 'Read the Creator Standard')}
+          </a>
+        </div>
       </div>
     </section>
 
@@ -213,6 +251,61 @@
     padding: 1rem;
     border-left: 1px dashed var(--color-electro);
     background: linear-gradient(90deg, rgba(0, 255, 170, 0.05), transparent);
+  }
+
+  .creator-standard-callout {
+    margin-top: 2rem;
+    padding: 1.4rem;
+    border-radius: 1rem;
+    border: 1px solid color-mix(in srgb, var(--color-electro) 30%, transparent);
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--color-electro) 10%, transparent), transparent 70%),
+      color-mix(in srgb, var(--bg-body) 92%, transparent);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  }
+
+  .callout-kicker {
+    margin: 0 0 0.75rem;
+    font-family: sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.78;
+  }
+
+  .creator-standard-callout h3 {
+    margin: 0 0 0.85rem;
+    font-family: 'Letric';
+    font-size: 1.8rem;
+    color: var(--color-electro);
+  }
+
+  .creator-standard-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.4rem;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-electro) 28%, transparent);
+    background: color-mix(in srgb, var(--color-electro) 10%, transparent);
+    color: var(--color-electro);
+    font-family: sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .creator-standard-link:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--color-electro) 48%, transparent);
+    background: color-mix(in srgb, var(--color-electro) 14%, transparent);
+    box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.16);
   }
 
 

@@ -1,6 +1,5 @@
 {
   "ar": {
-    "about.vrrw.quote": ""
   },
   "en_GB": {
     "about.elts.hero": "About ELECTRIS",
@@ -17,6 +16,11 @@
     "about.eltr.p2": ". It means I like making things. No matter what they are. I like doing it because in the end, they are mine, I made them, I'm proud of them, and no one can tell me otherwise.",
     "about.eltr.p3": "And after that, I like sharing them. With friends, with family, with people I don't even know. I like when I get to share what I make and love it when it inspires others to make things too. Creating is my favourite thing in this world and I'll try as hard as I can to make that my reason for living.",
     "about.eltr.creator": "CREATOR",
+    "about.creatorStandard.kicker": "A small note",
+    "about.creatorStandard.title": "The Creator Standard",
+    "about.creatorStandard.p1": "I keep something called the Creator Standard. It is not a rule I place on everyone here. It is just the personal measure I use for the work that speaks on behalf of ELECTRIS itself.",
+    "about.creatorStandard.p2": "If I ever rebuild something, that is usually why.",
+    "about.creatorStandard.link": "Read the Creator Standard",
     "about.vrrw.hero": "About Varrow",
     "about.vrrw.intro": "I asked him to write his own section, but all he said was:",
     "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
@@ -36,28 +40,14 @@
     "about.eltr.p2": ". It means I like making things. No matter what they are. I like doing it because in the end, they are mine, I made them, I'm proud of them, and no one can tell me otherwise.",
     "about.eltr.p3": "And after that, I like sharing them. With friends, with family, with people I don't even know. I like when I get to share what I make and love it when it inspires others to make things too. Creating is my favourite thing in this world and I'll try as hard as I can to make that my reason for living.",
     "about.eltr.creator": "CREATOR",
+    "about.creatorStandard.kicker": "A small note",
+    "about.creatorStandard.title": "The Creator Standard",
+    "about.creatorStandard.p1": "I keep something called the Creator Standard. It is not a rule I place on everyone here. It is just the personal measure I use for the work that speaks on behalf of ELECTRIS itself.",
+    "about.creatorStandard.p2": "If I ever rebuild something, that is usually why.",
+    "about.creatorStandard.link": "Read the Creator Standard",
     "about.vrrw.hero": "About Varrow",
     "about.vrrw.intro": "I asked him to write his own section, but all he said was:",
     "about.vrrw.quote": "\"Varrow is currently in hiding and doesn't want any information disclosed about him\""
-  },
-  "ja_JP": {
-    "about.elts.hero": "エレクトリスについて",
-    "about.elts.intro": "エレクトリスは、クリエイターによる、クリエイターのためのグループで",
-    "about.elts.p1": "エレクトリス プロジェクトは、すべての人が自分の創造性を望むままに活用できるようにすることを目標としています。創造性は間違いなく私たち人間が持つ最もユニークな特性であり、それは花開くことを許されるべきです。",
-    "about.elts.p2": "1分かかろうが、1時間かかろうが、1週間かかろうが、1年かかろうが、それは関係ありません。あなたが創るものはあなたのものです。どれほど困難で、どれほど時間がかかっても、最後まで作品を見届けるべきです。なぜなら、それには価値があり、それはあなたのものであり、そしてすべてが終わった時、あなたは自分が作ったものを誇りに思うからです。",
-    "about.elts.statement": "それがエレクトリスの信念です。<br>それがあなたの信念でもあるなら、エレクトリスはあなたにとって正しいコミュニティです。",
-    "about.eltr.hero": "エレクトロについて",
-    "about.eltr.intro": "エレクトロはエレクトリスの創設者であり、今これを書いている本人です。",
-    "about.eltr.underintro": "（はい、こんにちは、私です）",
-    "about.eltr.personal.p1": "さて、これからは一人称で書くべきですよね？<br>私は日本語を話せないので申し訳ありませんが、翻訳は不正確かもしれません。",
-    "about.eltr.personal.p2": "自己紹介を求められて、自分が誰なのか完全に忘れてしまったことはありますか？基本的に今私が経験していることがそれです。とにかく、正しく伝えられるよう最善を尽くします。",
-    "about.eltr.p1": "私は自分をクリエイターだと思っています。いや、コンテンツクリエイターではなく、アーティストでもなく、",
-    "about.eltr.p2": "です。つまり、私は物を作るのが好きだということです。それが何であろうと関係ありません。最終的にそれらは私のもので、私が作ったもので、私はそれらを誇りに思い、誰も私に反対できないから、私はそれをするのが好きなのです。",
-    "about.eltr.p3": "And after that, I like sharing them. With friends, with family, with people I don't even know. I like when I get to share what I make and love it when it inspires others to make things too. Creating is my favourite thing in this world and I'll try as hard as I can to make that my reason for living.",
-    "about.eltr.creator": "クリエイター",
-    "about.vrrw.hero": "ヴァローについて",
-    "about.vrrw.intro": "彼に自分のセクションを書いてもらうよう頼んだのですが、彼が言ったのはこれだけでした：",
-    "about.vrrw.quote": "「ヴァローは現在隠れており、彼に関する情報の開示を望んでいません」"
   },
   "ro_RO": {
     "about.elts.hero": "Despre ELECTRIS",
@@ -74,6 +64,11 @@
     "about.eltr.p2": ". Asta înseamnă că îmi place să fac lucruri. Nu contează ce sunt acele lucruri. Îmi place să le fac pentru că la final, sunt ale mele, eu le-am făcut, sunt mândru de ele, și nimeni nu poate să ma convingă altfel.",
     "about.eltr.p3": "După asta, îmi place să le arăt. Familiei, prietenilor, chiar si oamenilor care nici nu îi cunosc. Îmi place când pot să arăt cea ce fac, și iubesc când asta inspiră alți oameni să facă și ei chestii. Să creez este lucrul me preferat în lumea asta și voi încerca cât de tare pot să fac asta motivul pentru care trăiesc.",
     "about.eltr.creator": "CREATOR",
+    "about.creatorStandard.kicker": "O mică notiță",
+    "about.creatorStandard.title": "Standardul Creatorului",
+    "about.creatorStandard.p1": "Mențin ceva numit Standardul Creatorului. Nu este o regula pentru toată lumea aici. Este doar o măsură personală pe care o folosesc pentru munca care vorbește în numele ELECTRIS în sine.",
+    "about.creatorStandard.p2": "Dacă recreez ceva cândva, de obicei acesta este motivul.",
+    "about.creatorStandard.link": "Citește Standardul Creatorului",
     "about.vrrw.hero": "Despre Varrow",
     "about.vrrw.intro": "L-am rugat să își scrie propria secțiune, dar tot ce a zis a fost asta:",
     "about.vrrw.quote": "\"Varrow este momentan în ascundere și nu dorește să se divulge nici-o informație despre el\""

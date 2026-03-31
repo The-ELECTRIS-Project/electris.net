@@ -17,19 +17,19 @@
     {
       title: t('site.title', 'ELECTRIS', 'en-US'),
       description: t('site.slogan'),
-      profilePicture: '/icons/Logos/FirstParty/elts-v1.png',
+      profilePicture: '/icons/logo/FirstParty/elts-v1.png',
       url: '/socials/ELTS'
     },
     {
       title: t('site.author.eltr', 'ELECTRO', 'en-US'),
       description: t('site.author.eltr.slogan'),
-      profilePicture: '/icons/Logos/FirstParty/eltr-v10.png',
+      profilePicture: '/icons/logo/FirstParty/eltr-v10.png',
       url: '/socials/ELTR'
     },
     {
       title: t('site.author.vrrw', 'Varrow', 'en-US'),
       description: t('site.author.vrrw.slogan'),
-      profilePicture: '/icons/Logos/FirstParty/VArrow.png',
+      profilePicture: '/icons/logo/FirstParty/VArrow.png',
       url: '/socials/VRRW'
     }
   ]);

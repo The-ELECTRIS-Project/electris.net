@@ -18,7 +18,6 @@ export const availableLocales: AvailableLocale[] = [
   { code: 'ar', name: 'اللغة العربية', flag: '🇪🇬'},
   { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
   { code: 'en-GB', name: 'English (UK)', flag: '🇬🇧' },
-  { code: 'ja-JP', name: '日本語', flag: '🇯🇵'},
   { code: 'ro-RO', name: 'Română', flag: '🇷🇴' }
 ];
 
@@ -188,7 +187,7 @@ class I18nState {
       }
     }
 
-    // 2. Load ONLY the specific +lang.json for this route
+    // 2. Load the specific +lang.json for the route
     const langPath = normalized === ''
       ? '/data/lang/routes/+lang.json'
       : `/data/lang/routes/${normalized}/+lang.json`;
@@ -281,12 +280,7 @@ export const tStore = {
   }
 };
 
-// To maintain $t syntax in components without renaming everything,
-// we can use a proxy or just export the state.
-
 export const initializeI18n = (pathname: string = '') => i18nState.initializeI18n(pathname);
 export const loadRouteLocale = (pathname: string) => i18nState.loadRouteLocale(pathname);
 export const setLocale = (locale: string) => i18nState.setLocale(locale);
-
-// Legacy exports for now
 export { i18nState as i18n };

@@ -139,12 +139,81 @@ a {
 }
 
 .circle.hovered-blog-card {
-    width: 100vmin;
-    height: 18.5vmin;
-    border-radius: 1.2vmin;
-    border-color: rgba(246, 89, 1, 0.8);
-    box-shadow: 0 0 15px rgba(246, 89, 1, 0.3);
-  }
+  width: 100vmin;
+  height: 18.5vmin;
+  border-radius: 1.2vmin;
+}
+
+.circle.hovered-home-logo {
+  width: 37vmin;
+  height: 30vmin;
+  border-radius: 3.2vmin;
+}
+
+.circle.hovered-home-make {
+  width: 37vmin;
+  height: 25vmin;
+  border-radius: 2.4vmin;
+}
+
+.circle.hovered-home-share {
+  width: 37vmin;
+  height: 25vmin;
+  border-radius: 2.4vmin;
+}
+
+.circle.hovered-home-evolve {
+  width: 37vmin;
+  height: 25vmin;
+  border-radius: 2.4vmin;
+}
+
+.circle.hovered-home-manifesto-frame {
+  left: -0.1vmin;
+  width: 45.5vmin;
+  height: 28.4vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-home-latest-big {
+  width: 72.5vmin;
+  height: 39vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-home-latest-small {
+  width: 39.2vmin;
+  height: 20vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-home-link-about {
+  left: -0.1vmin;
+  width: 19vmin;
+  height: 4.6vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-about-link {
+  left: -0.1vmin;
+  width: 22vmin;
+  height: 4.6vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-home-link-latest {
+  left: -0.1vmin;
+  width: 19.4vmin;
+  height: 4.6vmin;
+  border-radius: 2.8vmin;
+}
+
+.circle.hovered-home-footer {
+  left: -14vmin;
+  width: 40vmin;
+  height: 6.8vmin;
+  border-radius: 0.9vmin;
+}
 
 .circle.hovered-settings {
   --circle-size: 3.5vmin;

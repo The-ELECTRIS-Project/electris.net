@@ -35,14 +35,35 @@
   let lastScrollY = -1;
   let animationFrameId: number;
 
+  function getRotation(element: HTMLElement): number {
+    const style = window.getComputedStyle(element);
+    const transform = style.transform || (style as any).webkitTransform || (style as any).mozTransform;
+    
+    if (transform && transform !== 'none') {
+      const values = transform.split('(')[1].split(')')[0].split(',');
+      const a = parseFloat(values[0]);
+      const b = parseFloat(values[1]);
+      return Math.round(Math.atan2(b, a) * (180/Math.PI));
+    }
+    
+    return 0;
+  }
+
   function updateCursorColor(element: HTMLElement | null, config?: HoverConfig) {
     if (!circleElement) return;
 
-    if (element && config?.wrapText) {
+    if (element && config) {
       if (lastColorElement === element) return;
       lastColorElement = element;
-      const color = window.getComputedStyle(element).color;
-      circleElement.style.borderColor = color;
+      
+      if (config.color) {
+        circleElement.style.borderColor = config.color;
+      } else if (config.wrapText) {
+        const color = window.getComputedStyle(element).color;
+        circleElement.style.borderColor = color;
+      } else {
+        circleElement.style.borderColor = '';
+      }
     } else {
       if (lastColorElement === null) return;
       lastColorElement = null;
@@ -260,7 +281,13 @@
 
   function shouldAllowRotation(): boolean {
     if (!circleElement) return true;
+    
+    // If we're matching rotation, we MUST allow it even if transitioning or preventRotation is set
+    // This ensures rotation starts immediately as part of the snap transition
+    if (lockedElement && lockedConfig?.matchRotation) return true;
+
     if (isTransitioning) return false;
+    
     if (lockedConfig?.preventRotation) return false;
     if (lockedElement) return false;
     return true;
@@ -292,7 +319,7 @@
     return element;
   }
 
-  function getTargetCenter(element: HTMLElement, config: HoverConfig): { x: number, y: number, width?: number, height?: number } {
+  function getTargetCenter(element: HTMLElement, config: HoverConfig): { x: number, y: number, width?: number, height?: number, rotation?: number } {
     if (config.wrapText && currentWord) {
       const bounds = getWordHoverBounds();
       return { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height };
@@ -321,7 +348,12 @@
     let centerX = rect.left + rect.width / 2 + offsetX;
     let centerY = rect.top + rect.height / 2 + offsetY;
 
-    return { x: centerX, y: centerY, width: rect.width, height: rect.height };
+    let rotation = 0;
+    if (config.matchRotation) {
+        rotation = getRotation(target);
+    }
+
+    return { x: centerX, y: centerY, width: rect.width, height: rect.height, rotation };
   }
 
   function dispatchCustomEvent(eventName: string, element: HTMLElement, config?: HoverConfig, index?: number) {
@@ -595,7 +627,7 @@
 
     updateCursorColor(element, config);
 
-    if (config.lockPosition) {
+    if (config.lockPosition || config.matchRotation) {
       lockedElement = element;
       lockedConfig = config;
       
@@ -753,6 +785,7 @@
 
     const speed = 0.3;
     const hoverSpeed = 0.15;
+    const snapSpeed = 0.35; // Faster for snapping to elements
     const transitionDuration = 300;
 
     const handleNavigationStart = () => {
@@ -804,13 +837,21 @@
       let targetY = mouse.y;
       let targetWidth: number | undefined;
       let targetHeight: number | undefined;
+      let targetRotation: number | undefined;
 
-      if (lockedElement && lockedConfig && lockedConfig.lockPosition) {
-         const targetCenter = getTargetCenter(lockedElement, lockedConfig);
-         targetX = targetCenter.x;
-         targetY = targetCenter.y;
-         targetWidth = targetCenter.width;
-         targetHeight = targetCenter.height;
+      if (lockedElement && lockedConfig) {
+         if (lockedConfig.lockPosition || lockedConfig.matchRotation) {
+            const targetCenter = getTargetCenter(lockedElement, lockedConfig);
+            if (lockedConfig.lockPosition) {
+                targetX = targetCenter.x;
+                targetY = targetCenter.y;
+                targetWidth = targetCenter.width;
+                targetHeight = targetCenter.height;
+            }
+            if (lockedConfig.matchRotation) {
+                targetRotation = targetCenter.rotation;
+            }
+         }
       }
 
       const currentSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
@@ -836,8 +877,12 @@
       previousMouse.y = mouse.y;
 
       const mouseVelocity = Math.min(Math.sqrt(deltaMouseX**2 + deltaMouseY**2) * 5, 150);
-      const scaleValue = (mouseVelocity / 150) * 0.5;
-      currentScale += (scaleValue - currentScale) * speed;
+      
+      // Disable velocity stretching when locked to a position
+      const isLockedToPos = lockedElement && lockedConfig && (lockedConfig.lockPosition || lockedConfig.wrapText);
+      const targetScaleValue = isLockedToPos ? 0 : (mouseVelocity / 150) * 0.5;
+      
+      currentScale += (targetScaleValue - currentScale) * speed;
 
       let finalScaleX = (1 + currentScale);
       let finalScaleY = (1 - currentScale);
@@ -854,7 +899,14 @@
 
       const angle = Math.atan2(deltaMouseY, deltaMouseX) * 180 / Math.PI;
 
-      if (mouseVelocity > 10 && allowRotation) {
+      if (lockedElement && lockedConfig?.matchRotation && targetRotation !== undefined) {
+        // Use shortest path interpolation for rotation
+        let diff = (targetRotation - currentAngle) % 360;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        
+        currentAngle += diff * snapSpeed;
+      } else if (mouseVelocity > 10 && allowRotation) {
         currentAngle = angle;
       }
 

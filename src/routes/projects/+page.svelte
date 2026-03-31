@@ -17,7 +17,7 @@
       title: t('site.newhome.title'),
       font: 'Letric',
       description: t('site.newhome.slogan'),
-      icon: '/icons/Logos/FirstParty/newhome.svg',
+      icon: '/icons/logo/FirstParty/newhome.svg',
       width: 8,
       link: '/newhome'
     }

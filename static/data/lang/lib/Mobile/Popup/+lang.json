@@ -17,12 +17,6 @@
     "notice.mobile.never": "Don't show again",
     "notice.mobile.ok": "Got it!"
   },
-  "ja_JP": {
-    "notice.mobile.title": "モバイル通知！",
-    "notice.mobile.body": "このサイトはモバイルやタッチスクリーンでも動作しますが、レイアウトが崩れたり読みにくくなったりする場合があります。マウスやトラックパッドを備えたノートパソコンやデスクトップでご覧いただくことをお勧めします。",
-    "notice.mobile.never": "二度と表示しない",
-    "notice.mobile.ok": "了解！"
-  },
   "ro_RO": {
     "notice.mobile.title": "Atenție!",
     "notice.mobile.body": "Acest site funcționează pe mobile și display-uri cu touch, dar unele lucruri vor arăta ciudat sau vor fi greu de înțeles. Vă rugăm să ne accesați de pe un laptop sau PC, folosind un mouse sau trackpad.",

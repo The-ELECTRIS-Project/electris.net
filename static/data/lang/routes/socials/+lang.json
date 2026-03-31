@@ -29,16 +29,6 @@
     "social.vrrw.gh.desc": "Free code is best code",
     "social.vrrw.x.desc": "I tweet sometimes"
   },
-  "ja_JP": {
-    "social.title": "ソーシャルメディア",
-    "social.undertitle": "すべての変化を追いかけて",
-    "social.etlr.yt.desc": "稲妻と踊る",
-    "social.eltr.gh.desc": "世界への贈り物",
-    "social.elts.ds.desc": "稲妻の伝説",
-    "social.vrrw.yt.desc": "要点直撃",
-    "social.vrrw.gh.desc": "自由なコードこそ最良",
-    "social.vrrw.x.desc": "たまにツイートする"
-  },
   "ro_RO": {
     "social.title": "REȚELE SOCIALE",
     "social.undertitle": "Urmărește toate schimbările din jur",
@@ -46,7 +36,7 @@
     "social.eltr.gh.desc": "Dăruind Lumii",
     "social.elts.ds.desc": "Legendele Fulgerelor",
     "social.vrrw.yt.desc": "Direct la obiect",
-    "social.vrrw.gh.desc": "Codul gratis este cel mai bun cod",
+    "social.vrrw.gh.desc": "Codul liber este cel mai bun",
     "social.vrrw.x.desc": "Dau tweet uneori"
   }
 }

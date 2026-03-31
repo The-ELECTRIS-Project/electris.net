@@ -25,15 +25,6 @@
     "proj.twaos.st": "Wishlist On Steam",
     "proj.twaos.st.desc": "The largest game distribution platform."
   },
-  "ja_JP": {
-    "proj.twaos.title.tw": "素晴らしい",
-    "proj.twaos.title.ao": "アドベンチャー・オブ",
-    "proj.twaos.title.sip": "シップ",
-    "proj.twaos.title.short": "トワオス",
-    "proj.twaos.desc.short": "インディー系ソロ開発者による、オープンソース・インディーゲーム",
-    "proj.twaos.st": "スチームでウィッシュリストに追加",
-    "proj.twaos.st.desc": "最大のゲーム配信プラットフォーム"
-  },
   "ro_RO": {
     "proj.twaos.title.tw": "The Wonderful",
     "proj.twaos.title.ao": "Adventures Of",

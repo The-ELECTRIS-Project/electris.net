@@ -18,7 +18,7 @@
     });
 
     function handleImageError(event: Event) {
-        (event.target as HTMLImageElement).src = '/icons/Logos/ThirdParty/yt.svg';
+        (event.target as HTMLImageElement).src = '/icons/logo/ThirdParty/yt.svg';
     }
 </script>
 
@@ -51,7 +51,7 @@
                 <div class="links-grid">
                     {#if single.links?.youtube}
                         <a href={single.links.youtube} target="_blank" class="link-btn yt option">
-                            <img src="/icons/Logos/ThirdParty/yt.svg" alt="" onerror={handleImageError} />
+                            <img src="/icons/logo/ThirdParty/yt.svg" alt="" onerror={handleImageError} />
                             YouTube
                         </a>
                     {/if}

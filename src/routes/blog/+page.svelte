@@ -18,7 +18,8 @@
     {
       selectors: ['.post-card'],
       className: 'hovered-blog-card',
-      lockPosition: true
+      lockPosition: true,
+      color: 'var(--accent-color, #ff6811)'
     },
     {
       selectors: ['.search-wrapper'],
