@@ -14,12 +14,14 @@
   let isTouchActive = $state(false);
   let touchVisibility = $state(1);
   let isTouchDevice = $state(false);
+  let isMouseDown = $state(false);
 
   let isNavigating = $state(false);
 
   let lockedElement: HTMLElement | null = $state(null);
   let lockedConfig: HoverConfig | null = $state(null);
   let hasSettledPositionLock = $state(false);
+  let lastLockedTargetPosition: { x: number, y: number } | null = $state(null);
   let isTransitioning = $state(false);
   let transitionStartTime = 0;
 
@@ -547,6 +549,7 @@
              lockedElement = null;
              lockedConfig = null;
              hasSettledPositionLock = false;
+             lastLockedTargetPosition = null;
              isTransitioning = true;
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
@@ -589,6 +592,7 @@
         lockedElement = element;
         lockedConfig = config;
         hasSettledPositionLock = false;
+        lastLockedTargetPosition = null;
         
         isTransitioning = true;
         transitionStartTime = performance.now();
@@ -634,6 +638,7 @@
       lockedElement = element;
       lockedConfig = config;
       hasSettledPositionLock = false;
+      lastLockedTargetPosition = null;
       
       if (!circleElement?.classList.contains('hovered-lock')) {
         isTransitioning = true;
@@ -676,6 +681,7 @@
             lockedElement = null;
             lockedConfig = null;
             hasSettledPositionLock = false;
+            lastLockedTargetPosition = null;
             isTransitioning = true;
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
@@ -750,6 +756,7 @@
       lockedElement = null;
       lockedConfig = null;
       hasSettledPositionLock = false;
+      lastLockedTargetPosition = null;
       isTransitioning = true;
       transitionStartTime = performance.now();
       updateCursorColor(null);
@@ -776,6 +783,16 @@
 
   onMount(() => {
     isTouchDevice = 'ontouchstart' in window;
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+    const handleMouseDown = () => {
+      isMouseDown = true;
+    };
+    const handleMouseUp = () => {
+      isMouseDown = false;
+    };
 
     if (isTouchDevice) {
       touchVisibility = 0;
@@ -783,10 +800,10 @@
       window.addEventListener("touchmove", handleTouchMove);
       window.addEventListener("touchend", handleTouchEnd);
     } else {
-      window.addEventListener("mousemove", (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mousedown", handleMouseDown);
+      window.addEventListener("mouseup", handleMouseUp);
+      window.addEventListener("blur", handleMouseUp);
     }
 
     const speed = 0.3;
@@ -822,9 +839,10 @@
       // relative to the document has changed (mouse movement or scrolling).
       const currentScrollX = window.scrollX;
       const currentScrollY = window.scrollY;
+      const didMouseMove = mouse.x !== lastCheckX || mouse.y !== lastCheckY;
+      const didScrollChange = currentScrollX !== lastScrollX || currentScrollY !== lastScrollY;
       
-      if (mouse.x !== lastCheckX || mouse.y !== lastCheckY || 
-          currentScrollX !== lastScrollX || currentScrollY !== lastScrollY) {
+      if (didMouseMove || didScrollChange) {
         handleWordHover();
         lastCheckX = mouse.x;
         lastCheckY = mouse.y;
@@ -862,10 +880,18 @@
 
       const isPositionLocked = Boolean(lockedElement && lockedConfig?.lockPosition);
       const currentSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
+      const didLockedTargetMove = isPositionLocked && lastLockedTargetPosition
+        ? Math.hypot(
+            targetX - lastLockedTargetPosition.x,
+            targetY - lastLockedTargetPosition.y
+          ) > 0.5
+        : false;
+      const shouldForceImmediateLock = didLockedTargetMove &&
+        (didScrollChange || (isMouseDown && didMouseMove) || isTouchActive);
 
       if (isPositionLocked && !hasSettledPositionLock) {
         const remainingDistance = Math.hypot(targetX - circle.x, targetY - circle.y);
-        if (remainingDistance <= 1) {
+        if (shouldForceImmediateLock || remainingDistance <= 1) {
           hasSettledPositionLock = true;
           circle.x = targetX;
           circle.y = targetY;
@@ -880,6 +906,8 @@
         circle.x += (targetX - circle.x) * currentSpeed;
         circle.y += (targetY - circle.y) * currentSpeed;
       }
+
+      lastLockedTargetPosition = isPositionLocked ? { x: targetX, y: targetY } : null;
 
       if (circleElement) {
         if (lockedElement && lockedConfig && lockedConfig.wrapText && targetWidth && targetHeight) {
@@ -980,6 +1008,13 @@
       document.removeEventListener('sveltekit:navigation-start', handleNavigationStart);
       document.removeEventListener('click', handleDocumentClick);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("blur", handleMouseUp);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       if (cleanupHoverDetection) {
         cleanupHoverDetection();
