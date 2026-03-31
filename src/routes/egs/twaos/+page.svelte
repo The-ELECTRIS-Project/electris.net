@@ -33,6 +33,11 @@
       }
     },
     {
+      selectors: [ '.gallery-image' ],
+      className: 'hovered-gallery-image',
+      lockPosition: true
+    },
+    {
       selectors: ['.hero-text'],
       className: 'hovered-button-grow'
     }

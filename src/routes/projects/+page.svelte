@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/stores/i18n.svelte';
   import { onMount } from 'svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
   let iconSize = 150;
 
@@ -17,9 +18,17 @@
       title: t('site.newhome.title'),
       font: 'Letric',
       description: t('site.newhome.slogan'),
-      icon: '/icons/logo/FirstParty/newhome.svg',
+      icon: '/icons/logo/FirstParty/newhome-v1.svg',
       width: 8,
       link: '/newhome'
+    }
+  ]);
+
+  useHoverConfig([
+    {
+      selectors: ['.card'],
+      className: 'hovered-project-card',
+      lockPosition: true
     }
   ]);
 
@@ -45,7 +54,7 @@
 
 <div class="cards">
   {#each projects as project}
-    <a class="card" href={project.link}>
+    <a class="card wrap-no-interact-all" href={project.link}>
       <div class="card-icon" style="margin-right: {Math.min(iconSize * 0.02, 0.44)}vmin;">
         <img
           src={project.icon}

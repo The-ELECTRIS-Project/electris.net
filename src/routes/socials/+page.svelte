@@ -1,6 +1,15 @@
 <script lang="ts">
   import { t } from '$lib/stores/i18n.svelte';
   import { onMount } from 'svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+
+  useHoverConfig([
+    {
+      selectors: ['.card'],
+      className: 'hovered-social-card',
+      lockPosition: true
+    }
+  ]);
 
   onMount(() => {
     const cursorReset = () => {
@@ -29,7 +38,7 @@
     {
       title: t('site.author.vrrw', 'Varrow', 'en-US'),
       description: t('site.author.vrrw.slogan'),
-      profilePicture: '/icons/logo/FirstParty/VArrow.png',
+      profilePicture: '/icons/logo/FirstParty/VArrow-v1.png',
       url: '/socials/VRRW'
     }
   ]);
@@ -47,7 +56,7 @@
   
     <div class="hero">
       {#each socialCards as card}
-        <a class="card" href={card.url} target="_self">
+        <a class="card wrap-no-interact-all" href={card.url} target="_self">
           <div class="icons">
             <img src={card.profilePicture} alt="Person Logo" class="profile-picture" />
           </div>

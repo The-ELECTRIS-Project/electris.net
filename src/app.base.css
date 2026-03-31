@@ -269,6 +269,18 @@ a {
   border-color: var(--circle-hover-search);
 }
 
+.circle.hovered-project-card {
+  width: 46.5vmin;
+  height: 11vmin;
+  border-radius: 1vmin;
+}
+
+.circle.hovered-social-card {
+  width: 46.5vmin;
+  height: 8.5vmin;
+  border-radius: 1vmin;
+}
+
 /* ===== OPTIONS MENU ===== */
 .options-menu {
   background-color: var(--options-menu-bg);

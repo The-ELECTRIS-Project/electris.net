@@ -19,6 +19,7 @@
 
   let lockedElement: HTMLElement | null = $state(null);
   let lockedConfig: HoverConfig | null = $state(null);
+  let hasSettledPositionLock = $state(false);
   let isTransitioning = $state(false);
   let transitionStartTime = 0;
 
@@ -545,6 +546,7 @@
           if (!lockedConfig || !lockedConfig.lockPosition || lockedConfig.wrapText) {
              lockedElement = null;
              lockedConfig = null;
+             hasSettledPositionLock = false;
              isTransitioning = true;
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
@@ -586,6 +588,7 @@
         
         lockedElement = element;
         lockedConfig = config;
+        hasSettledPositionLock = false;
         
         isTransitioning = true;
         transitionStartTime = performance.now();
@@ -630,6 +633,7 @@
     if (config.lockPosition || config.matchRotation) {
       lockedElement = element;
       lockedConfig = config;
+      hasSettledPositionLock = false;
       
       if (!circleElement?.classList.contains('hovered-lock')) {
         isTransitioning = true;
@@ -671,6 +675,7 @@
         if (lockedElement === element) {
             lockedElement = null;
             lockedConfig = null;
+            hasSettledPositionLock = false;
             isTransitioning = true;
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
@@ -744,6 +749,7 @@
     
       lockedElement = null;
       lockedConfig = null;
+      hasSettledPositionLock = false;
       isTransitioning = true;
       transitionStartTime = performance.now();
       updateCursorColor(null);
@@ -854,10 +860,26 @@
          }
       }
 
+      const isPositionLocked = Boolean(lockedElement && lockedConfig?.lockPosition);
       const currentSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
-      
-      circle.x += (targetX - circle.x) * currentSpeed;
-      circle.y += (targetY - circle.y) * currentSpeed;
+
+      if (isPositionLocked && !hasSettledPositionLock) {
+        const remainingDistance = Math.hypot(targetX - circle.x, targetY - circle.y);
+        if (remainingDistance <= 1) {
+          hasSettledPositionLock = true;
+          circle.x = targetX;
+          circle.y = targetY;
+        } else {
+          circle.x += (targetX - circle.x) * currentSpeed;
+          circle.y += (targetY - circle.y) * currentSpeed;
+        }
+      } else if (isPositionLocked) {
+        circle.x = targetX;
+        circle.y = targetY;
+      } else {
+        circle.x += (targetX - circle.x) * currentSpeed;
+        circle.y += (targetY - circle.y) * currentSpeed;
+      }
 
       if (circleElement) {
         if (lockedElement && lockedConfig && lockedConfig.wrapText && targetWidth && targetHeight) {

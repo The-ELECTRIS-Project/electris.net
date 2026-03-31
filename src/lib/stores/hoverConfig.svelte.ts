@@ -48,8 +48,7 @@ const defaultHoverConfigs: HoverConfig[] = [
   {
     selectors: [
       '.option',
-      '.devtools-option',
-      '.card'
+      '.devtools-option'
     ],
     className: 'hovered-button-grow',
     lockPosition: false,
