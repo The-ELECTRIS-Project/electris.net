@@ -1,7 +1,7 @@
 <img src=".github/Assets/ELECTRIS.png" width=150>
 
 # [ELECTRIS.net](https://electris.net)
-#### The official website for the ELECTRIS Project.<br>Built with Svelte and Typescript.
+#### The official website for the ELECTRIS Project.<br>Built with SvelteKit and TypeScript.
 
 ## How to set up dev environment?
 
