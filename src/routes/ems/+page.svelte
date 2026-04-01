@@ -97,4 +97,50 @@
     letter-spacing: 0.07rem;
     margin: 5px 0 0;
   }
+
+  @media (max-width: 900px) {
+    .hero {
+      padding: 6.5rem 1rem 2rem;
+      min-height: auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 11vw, 4rem);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 34rem;
+    }
+
+    .discography {
+      padding: 2rem 1rem 3rem;
+    }
+
+    .card {
+      max-width: 42rem;
+      padding: 1rem 1.25rem;
+      border-radius: 1rem;
+    }
+
+    .card .icon {
+      font-size: 2.5rem;
+      margin-right: 1rem;
+    }
+
+    .card h2 {
+      font-size: 1.6rem;
+    }
+
+    .card p {
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .card {
+      align-items: flex-start;
+    }
+  }
 </style>

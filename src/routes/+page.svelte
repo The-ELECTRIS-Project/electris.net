@@ -31,7 +31,7 @@
   let principleCards = $derived([
     {
       slug: 'make',
-      accent: 'electris',
+      aspect: 'electris',
       eyebrow: t('home.principle.make.eyebrow', 'Make'),
       title: t('home.principle.make.title', 'Take the work seriously.'),
       body: t(
@@ -42,7 +42,7 @@
     },
     {
       slug: 'share',
-      accent: 'electro',
+      aspect: 'electro',
       eyebrow: t('home.principle.share.eyebrow', 'Share'),
       title: t('home.principle.share.title', 'Let it leave the room.'),
       body: t(
@@ -53,7 +53,7 @@
     },
     {
       slug: 'evolve',
-      accent: 'varrow',
+      aspect: 'varrow',
       eyebrow: t('home.principle.evolve.eyebrow', 'Evolve'),
       title: t('home.principle.evolve.title', 'Let the vision change shape.'),
       body: t(
@@ -281,7 +281,7 @@
       <p class="hero-kicker">{t('home.hero.kicker', 'ELECTRIS // creative freedom')}</p>
       <h1 class="hero-title">
         <span>{t('home.hero.title.line1', 'What you create')}</span>
-        <span class="accent">{t('home.hero.title.line2', 'is yours')}</span>
+        <span class="aspect">{t('home.hero.title.line2', 'is yours')}</span>
       </h1>
       <p class="manifesto-copy">
         {t(
@@ -315,7 +315,7 @@
   <section class="pillar-grid reveal-block" data-section="pillars" class:visible={visibleSections.pillars}>
     {#each principleCards as card, index}
       <article
-        class={`signal-card ${card.slug} ${card.accent} wrap-no-interact-all`}
+        class={`signal-card ${card.slug} ${card.aspect} wrap-no-interact-all`}
         style={`--stagger:${index * 140}ms; --lift:${card.lift};`}
       >
         <span class="signal-eyebrow">{card.eyebrow}</span>
@@ -745,7 +745,7 @@
     text-wrap: balance;
   }
 
-  .hero-title .accent {
+  .hero-title .aspect {
     color: color-mix(in srgb, var(--color-electro) 54%, var(--color-primary) 46%);
     text-shadow: 0 0 2rem color-mix(in srgb, var(--color-electro) 28%, transparent);
   }
@@ -1300,11 +1300,11 @@
 
     .hero-frame {
       max-width: 34rem;
-      transform: none;
+      transform: translateY(calc(var(--scroll-soft-neg) * 0.48)) rotate(-2.6deg);
     }
 
     .hero-frame:hover {
-      transform: translateY(-0.35rem);
+      transform: translateY(calc((var(--scroll-soft-neg) * 0.48) - 0.35rem)) rotate(-2.6deg);
     }
 
     .pillar-grid {
@@ -1378,6 +1378,14 @@
     .hero-frame,
     .news-copy {
       padding: 1.15rem;
+    }
+
+    .hero-frame {
+      transform: translateY(calc(var(--scroll-soft-neg) * 0.32)) rotate(-1.8deg);
+    }
+
+    .hero-frame:hover {
+      transform: translateY(calc((var(--scroll-soft-neg) * 0.32) - 0.24rem)) rotate(-1.8deg);
     }
 
     .news-copy h3,
@@ -1494,7 +1502,7 @@
     text-shadow: 0 0 0.8rem color-mix(in srgb, var(--color-primary) 18%, transparent);
   }
 
-  :global([data-theme="cyber-neotic"]) .hero-title .accent {
+  :global([data-theme="cyber-neotic"]) .hero-title .aspect {
     text-shadow:
       0 0 1rem color-mix(in srgb, var(--color-electro) 30%, transparent),
       0 0 2rem color-mix(in srgb, var(--color-primary) 18%, transparent);

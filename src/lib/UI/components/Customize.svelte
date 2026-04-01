@@ -596,57 +596,126 @@
     }
   }
 
-  /* Mobile */
-  @media (max-width: 48vmin) {
+  @media (max-width: 1024px), (any-pointer: coarse) {
+    .customize-container {
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      right: 1rem;
+    }
+
     .customize-button {
-      width: 5vmin;
-      height: 5vmin;
-      bottom: 1vmin;
-      right: 3.54vmin;
+      width: 3.5rem;
+      height: 3.5rem;
+      border-radius: 1rem;
     }
 
     .pen-icon {
-      width: 2.2vmin;
-      height: 2.2vmin;
+      width: 1.4rem;
+      height: 1.4rem;
     }
 
     .menu-content {
-      width: 159.3vmin;
-      height: 70vmin;
-      margin: 5vmin;
+      width: min(32rem, calc(100vw - 1.5rem));
+      max-width: min(32rem, calc(100vw - 1.5rem));
+      max-height: min(75vh, 42rem);
+      border-radius: 1.25rem;
     }
 
     .menu-header {
-      padding: 2vmin 7.08vmin;
+      padding: 1rem 1.25rem;
     }
 
     .menu-body {
-      padding: 2vmin 7.08vmin;
+      padding: 1.25rem;
     }
 
     .menu-header h2 {
-      font-size: 3vmin;
+      font-size: 1.6rem;
+    }
+
+    .edit-close-button {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.5rem;
+      border-radius: 0.85rem;
+    }
+
+    .settings-title {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
+
+    .setting-group {
+      margin-bottom: 1rem;
+    }
+
+    .setting-label {
+      font-size: 1rem;
+      gap: 1rem;
+    }
+
+    .setting-control {
+      gap: 0.75rem;
+    }
+
+    .control-btn {
+      width: 2.75rem;
+      height: 2.75rem;
+      font-size: 1.5rem;
+      border-radius: 0.75rem;
+    }
+
+    .control-value {
+      font-size: 1rem;
+      min-width: 1.5rem;
+    }
+
+    .info-text {
+      font-size: 0.9rem;
     }
 
     .toggle-switch {
-      width: 6vmin;
-      height: 3vmin;
+      width: 3.5rem;
+      height: 2rem;
+      border-radius: 999px;
     }
 
     .toggle-slider {
-      width: 2.4vmin;
-      height: 2.4vmin;
+      top: 0.2rem;
+      left: 0.2rem;
+      width: 1.5rem;
+      height: 1.5rem;
     }
 
     .toggle-switch.active .toggle-slider {
-      transform: translateX(3vmin);
+      transform: translateX(1.5rem);
     }
   }
 
-  @media (max-width: 73.4vmin) {
+  @media (max-width: 640px) {
+    .customize-container {
+      right: 0.75rem;
+      bottom: max(0.75rem, env(safe-area-inset-bottom));
+    }
+
     .menu-content {
-      width: 150.45vmin;
-      height: 65vmin;
+      width: calc(100vw - 1rem);
+      max-height: calc(100vh - 1rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+
+    .menu-header,
+    .menu-body {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .setting-label {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .setting-control {
+      width: 100%;
+      justify-content: flex-end;
     }
   }
 </style>

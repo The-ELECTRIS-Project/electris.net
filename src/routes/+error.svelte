@@ -340,6 +340,23 @@
     }
   }
 
+  @media (max-width: 900px), (any-pointer: coarse) {
+    .error-page {
+      padding: 6rem 1rem 3rem;
+    }
+
+    .error-container {
+      max-width: min(28rem, 100%);
+    }
+
+    .return-button,
+    .back-button {
+      min-height: 3rem;
+      padding: 0.9rem 1.5rem;
+      border-radius: 0.85rem;
+    }
+  }
+
   @keyframes error-sweep {
     0%, 100% { transform: translateX(-100%); }
     50% { transform: translateX(100%); }

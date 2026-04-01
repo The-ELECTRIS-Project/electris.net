@@ -112,4 +112,53 @@
     font-size: 1.8rem;
     letter-spacing: 0.1rem;
   }
+
+  @media (max-width: 900px), (any-pointer: coarse) {
+    .hero {
+      padding-top: 6.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 11vw, 4rem);
+    }
+
+    .slogan {
+      font-size: 1.1rem;
+      padding: 0 1rem;
+      max-width: 34rem;
+    }
+
+    .artists-section {
+      padding: 3rem 1rem 4rem;
+    }
+
+    .artists-grid {
+      gap: 1.5rem;
+    }
+
+    .artist-avatar {
+      width: 9rem;
+      height: 9rem;
+    }
+
+    .artist-name {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .artists-grid {
+      gap: 1rem;
+    }
+
+    .artist-card {
+      width: calc(50% - 0.5rem);
+    }
+
+    .artist-avatar {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+  }
 </style>

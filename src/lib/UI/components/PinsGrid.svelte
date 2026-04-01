@@ -512,6 +512,11 @@
     opacity: 1;
   }
 
+  .pin-card:focus-within .pin-edit-trigger,
+  .pin-card:focus-within .pin-delete-trigger {
+    opacity: 1;
+  }
+
   .pin-edit-trigger:hover {
     background: rgba(255, 154, 59, 0.4);
     border-color: rgba(255, 117, 38, 0.349);
@@ -626,22 +631,91 @@
     opacity: 1;
   }
   
-  @media (max-width: 100.2vmin) {
+  @media (max-width: 900px) {
+    .pins-section {
+      max-width: 100% !important;
+    }
+
     .pins-grid {
-      grid-template-columns: repeat(4, 1fr);
+      width: 100% !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     }
   }
 
-  @media (max-width: 73.4px) {
+  @media (max-width: 720px) {
     .pins-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     }
   }
 
-  @media (max-width: 48vmin) {
+  @media (max-width: 560px) {
     .pins-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.8rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 0.85rem;
+    }
+  }
+
+  @media (any-pointer: coarse) {
+    .pins-section {
+      max-width: 100% !important;
+    }
+
+    .pins-grid {
+      width: 100% !important;
+    }
+
+    .pin-link,
+    .pin-card.empty .pin-empty,
+    .pin-card.editing {
+      border-radius: 1rem;
+    }
+
+    .pin-link {
+      padding: 1rem;
+    }
+
+    .pin-favicon {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pin-title {
+      font-size: 1rem;
+    }
+
+    .pin-domain,
+    .empty-text,
+    .pin-edit-url,
+    .pin-edit-title {
+      font-size: 0.9rem;
+    }
+
+    .empty-icon {
+      font-size: 2.25rem;
+    }
+
+    .pin-save-btn,
+    .pin-cancel-btn,
+    .pin-edit-trigger,
+    .pin-delete-trigger {
+      min-height: 2.5rem;
+    }
+
+    .pin-edit-trigger,
+    .pin-delete-trigger {
+      opacity: 1;
+      padding: 0.35rem 0.55rem;
+    }
+
+    .pin-edit-trigger {
+      right: 2.8rem;
+    }
+
+    .pin-gear,
+    .pin-trash {
+      width: 1rem;
+      height: 1rem;
     }
   }
 </style>

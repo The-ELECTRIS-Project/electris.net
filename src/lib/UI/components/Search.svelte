@@ -149,6 +149,7 @@
   .search-button {
     position: relative;
     width: 15%;
+    min-width: 3.25rem;
     padding: 1rem 1.5rem;
     background: rgba(246, 89, 1, 0.2);
     border: none;
@@ -165,20 +166,35 @@
     background: rgba(246, 89, 1, 0.4);
   }
 
-  @media (max-width: 73.4px) {
+  @media (max-width: 900px), (any-pointer: coarse) {
     .search-section {
-      max-width: 50vmin;
+      max-width: min(100%, 34rem);
+      max-height: none;
+      margin-bottom: 2rem;
     }
-  }
 
-  @media (max-width: 48vmin) {
+    .search-wrapper {
+      border-radius: 1rem;
+    }
+
     .search-input {
       font-size: 1rem;
-      padding: 0.8rem 1.2rem;
+      padding: 0.95rem 1rem;
     }
 
     .search-button {
-      padding: 0.8rem 1.2rem;
+      padding: 0.95rem 1rem;
+    }
+
+    .search-icon {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .search-section {
+      max-width: 100%;
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import gsap from 'gsap';
 
   let currentVideo: HTMLVideoElement;
@@ -22,12 +22,12 @@
     }
   ]);
 
-  const hoverConfigs: HoverConfig[] = $state([
+  useHoverConfig([
     {
       selectors: ['.sip-icon'],
-      className: 'hovered-sip',
-      requireAllSelectors: false,
+      className: 'hovered-styled-sip',
       lockPosition: true,
+      color: 'var(--circle-hover-sip)',
       customPositioning: {
        targetSelector: '.styled-sip'
       }
@@ -42,8 +42,6 @@
       className: 'hovered-button-grow'
     }
   ]);
-
-  useHoverConfig(hoverConfigs);
 
   function getNextClip(currentClip: number): number {
     const availableClips = [2, 3, 4, 5, 7];
@@ -355,8 +353,11 @@
     </div>
   </div>
   <div class="canvas canvas-2">
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <div 
       id="image-track" 
+      role="region"
+      aria-label="Gallery track"
       onmousedown={handleOnDown}
       ontouchstart={handleOnDown}
       onwheel={handleWheel}
@@ -617,5 +618,130 @@
     font-size: 1.2rem;
     margin: 5px 0 0;
     color: #01f619;
+  }
+
+  @media (max-width: 900px), (any-pointer: coarse) {
+    #image-track {
+      gap: 1rem;
+      top: 54%;
+    }
+
+    #image-track > .gallery-image {
+      width: min(68vw, 18rem);
+      height: min(96vw, 25rem);
+    }
+
+    .hero {
+      padding: 6.5rem 1rem 12rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3.5rem, 14vw, 4.8rem);
+    }
+
+    .hero h2 {
+      font-size: clamp(1.9rem, 7vw, 2.6rem);
+    }
+
+    .hero h3 {
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+
+    .hero h5 {
+      font-size: 1.02rem;
+      max-width: 21rem;
+      margin: 1.1rem 0 0;
+    }
+
+    .styled-sip {
+      width: clamp(18rem, 56vw, 24rem);
+      height: clamp(18rem, 56vw, 24rem);
+      left: -2.6rem;
+      bottom: -1.2rem;
+      opacity: 0.9;
+    }
+
+    .eye {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+
+    .eyes .eye:first-child {
+      bottom: 8.7rem !important;
+      left: 10.8rem !important;
+    }
+
+    .eyes .eye:last-child {
+      bottom: 10rem !important;
+      left: 14.7rem !important;
+    }
+
+    .cards-wrapper {
+      left: auto;
+      right: max(1rem, env(safe-area-inset-right));
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      transform: none;
+      width: auto;
+      gap: 0;
+    }
+
+    .card {
+      width: 4rem;
+      height: 4rem;
+      padding: 0.8rem;
+      border-radius: 1rem;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon img {
+      width: 2.2rem !important;
+    }
+
+    .card-content {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero {
+      padding-top: 5.75rem;
+      padding-bottom: 13rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 15vw, 4rem);
+    }
+
+    .hero h2 {
+      font-size: clamp(1.65rem, 7vw, 2.15rem);
+    }
+
+    .hero h3 {
+      font-size: clamp(1.4rem, 6vw, 1.9rem);
+    }
+
+    .hero h5 {
+      font-size: 0.95rem;
+      max-width: 18rem;
+    }
+
+    .styled-sip {
+      width: 17rem;
+      height: 17rem;
+      left: -3.3rem;
+      bottom: -0.8rem;
+    }
+
+    .eyes .eye:first-child {
+      bottom: 7.8rem !important;
+      left: 9.7rem !important;
+    }
+
+    .eyes .eye:last-child {
+      bottom: 9rem !important;
+      left: 13.2rem !important;
+    }
   }
 </style>

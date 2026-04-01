@@ -1245,4 +1245,234 @@
   :global([data-color-scheme="light"]) .color-scheme-description {
     color: rgba(246, 89, 1, 0.6);
   }
+
+  @media (max-width: 900px) {
+    .navbar {
+      height: auto;
+      padding: calc(env(safe-area-inset-top) + 0.9rem) 1rem 0.9rem;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      top: calc(50% + (env(safe-area-inset-top) * 0.5));
+      left: 50%;
+      width: calc(100% - 7.5rem);
+      max-width: 24rem;
+      justify-content: center;
+      gap: 0.6rem;
+      transform: translate(-50%, -50%);
+    }
+
+    .nav-button {
+      font-size: clamp(0.82rem, 2.5vw, 0.96rem);
+      padding: 0.2rem 0.1rem;
+    }
+
+    .hamburger {
+      width: min(20rem, 85vw);
+      padding: 1.25rem;
+      padding-top: calc(env(safe-area-inset-top) + 3.8rem);
+    }
+
+    .options-menu {
+      top: calc(env(safe-area-inset-top) + 4.25rem);
+      right: 0.75rem;
+      width: min(24rem, calc(100vw - 1.5rem));
+      min-width: auto;
+      max-width: none;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .nav-buttons {
+      width: calc(100% - 6.8rem);
+      max-width: 19rem;
+      gap: 0.42rem;
+    }
+
+    .nav-button {
+      font-size: clamp(0.72rem, 2.8vw, 0.84rem);
+      letter-spacing: 0.02em;
+    }
+
+    .hamburger {
+      width: min(18rem, 88vw);
+    }
+
+    .options-menu {
+      left: 0.75rem;
+      right: 0.75rem;
+      width: auto;
+    }
+
+    .option {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+
+    .selector {
+      width: 100%;
+    }
+
+    .theme-button,
+    .color-scheme-button {
+      width: 100%;
+    }
+  }
+
+  @media (any-pointer: coarse) {
+    .navbar {
+      height: auto;
+      padding: calc(env(safe-area-inset-top) + 0.85rem) 1rem 0.85rem;
+    }
+
+    .nav-buttons {
+      position: absolute;
+      top: calc(50% + (env(safe-area-inset-top) * 0.5));
+      left: 50%;
+      width: calc(100% - 7.5rem);
+      max-width: 24rem;
+      justify-content: center;
+      gap: 0.6rem;
+      transform: translate(-50%, -50%);
+    }
+
+    .nav-button {
+      font-size: clamp(0.82rem, 2.5vw, 0.96rem);
+      padding: 0.2rem 0.1rem;
+    }
+
+    .hamburger {
+      width: min(22rem, 86vw);
+      padding: 1.25rem;
+      padding-top: calc(env(safe-area-inset-top) + 4rem);
+    }
+
+    .hamburger-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .menu-item {
+      margin: 0;
+    }
+
+    .menu-item a {
+      line-height: 1.4;
+      font-size: 1.25rem;
+      padding: 0.45rem 0;
+    }
+
+    .hamburger-footer {
+      font-size: 1rem;
+      padding-top: 1rem;
+    }
+
+    .settings-button {
+      min-width: 2.75rem;
+      min-height: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-icon {
+      height: 1.7rem;
+    }
+
+    .options-menu {
+      top: calc(env(safe-area-inset-top) + 4.5rem);
+      right: 0.75rem;
+      min-width: min(26rem, calc(100vw - 1.5rem));
+      max-width: min(28rem, calc(100vw - 1.5rem));
+      padding: 1rem;
+      border-radius: 1rem;
+    }
+
+    .options-menu h2 {
+      font-size: 1.65rem;
+    }
+
+    .option {
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .option > span:first-child {
+      font-size: 1rem;
+    }
+
+    .selector {
+      width: 100%;
+    }
+
+    .switch-button,
+    .theme-button,
+    .color-scheme-button,
+    .theme-option,
+    .color-scheme-option,
+    .reset-button,
+    .confirm-btn {
+      min-height: 2.9rem;
+    }
+
+    .switch-button,
+    .theme-button,
+    .color-scheme-button {
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+    }
+
+    .theme-option,
+    .color-scheme-option {
+      padding: 0.85rem 1rem;
+      gap: 0.75rem;
+      min-height: 3.25rem;
+    }
+
+    .theme-name,
+    .color-scheme-name {
+      font-size: 1rem;
+    }
+
+    .theme-description,
+    .color-scheme-description {
+      font-size: 0.85rem;
+    }
+
+    .dropdown-arrow,
+    .triangle,
+    .checkmark {
+      font-size: 0.95rem;
+    }
+
+    .devtools-option {
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .confirm-dialog {
+      width: min(24rem, calc(100vw - 1.5rem));
+      max-width: min(24rem, calc(100vw - 1.5rem));
+      padding: 1.5rem;
+      border-radius: 1rem;
+    }
+
+    .confirm-dialog p {
+      line-height: 1.6;
+    }
+
+    .confirm-buttons {
+      flex-direction: column;
+    }
+
+    .confirm-btn {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 0.75rem;
+    }
+  }
 </style>

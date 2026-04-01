@@ -373,4 +373,66 @@
     .main-title { font-size: 2.5rem; }
     .section-title { font-size: 1.8rem; }
   }
+
+  @media (max-width: 900px) {
+    .page-container {
+      padding: 6.5rem 1.5rem 4rem;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+    }
+
+    .content-wrapper {
+      max-width: 42rem;
+    }
+
+    .content-text {
+      font-size: 1.12rem;
+      line-height: 1.7;
+    }
+
+    .creator-standard-link {
+      padding: 0.95rem 1.25rem;
+      font-size: 0.82rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .page-container {
+      padding: 5.75rem 1rem 3rem;
+    }
+
+    .main-title {
+      font-size: clamp(2.4rem, 13vw, 3rem);
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .content-wrapper {
+      max-width: none;
+      gap: 3rem;
+    }
+
+    .content-text {
+      font-size: 1rem;
+    }
+
+    .intro {
+      font-size: 1.15rem;
+    }
+
+    .personal-block,
+    .creator-standard-callout,
+    .terminal-block {
+      padding: 1rem;
+    }
+
+    .creator-standard-link {
+      width: 100%;
+      text-align: center;
+    }
+  }
 </style>

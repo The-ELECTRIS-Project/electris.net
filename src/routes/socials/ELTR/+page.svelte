@@ -125,4 +125,61 @@
       font-size: 1rem;
       text-align: left;
     }
+
+    @media (max-width: 900px), (any-pointer: coarse) {
+      .socials-page {
+        padding: 6.5rem 1rem 2rem;
+      }
+
+      .hero {
+        margin-bottom: 2rem;
+        gap: 1rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.4rem, 9vw, 3.4rem);
+      }
+
+      .hero p {
+        font-size: 1.15rem;
+        max-width: 32rem;
+      }
+
+      .card {
+        max-width: 42rem;
+        padding: 1rem;
+        border-radius: 1rem;
+      }
+
+      .platform-logo {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .profile-picture {
+        width: 2.25rem;
+        height: 2.25rem;
+        right: -0.35rem;
+        bottom: -0.35rem;
+      }
+
+      .card-text h2 {
+        font-size: 1.5rem;
+      }
+
+      .card-text p {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        align-items: flex-start;
+      }
+
+      .icons {
+        margin-right: 0.85rem;
+      }
+    }
   </style>

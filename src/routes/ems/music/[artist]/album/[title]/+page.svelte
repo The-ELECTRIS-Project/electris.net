@@ -208,4 +208,74 @@
         opacity: 0.4;
         font-size: 0.9rem;
     }
+
+    @media (max-width: 1000px) {
+        .album-detail {
+            padding: 6.5rem 1rem 4rem;
+        }
+
+        .content-wrapper {
+            gap: 2rem;
+        }
+    }
+
+    @media (max-width: 640px), (any-pointer: coarse) {
+        .album-cover {
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb {
+            flex-wrap: wrap;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .album-meta h1 {
+            font-size: clamp(2.4rem, 12vw, 3.2rem);
+        }
+
+        .release-date,
+        .description {
+            font-size: 1rem;
+        }
+
+        .links-grid {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .link-btn {
+            display: flex;
+            justify-content: center;
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+        }
+
+        .tracklist-container h2 {
+            font-size: 1.6rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+
+        .tracklist-item {
+            padding: 1rem 0.75rem;
+            gap: 0.75rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .track-num {
+            width: auto;
+            min-width: 2ch;
+        }
+
+        .track-title {
+            font-size: 1rem;
+        }
+
+        .track-duration {
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+    }
 </style>

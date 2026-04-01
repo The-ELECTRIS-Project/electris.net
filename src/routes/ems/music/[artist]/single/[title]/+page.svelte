@@ -216,4 +216,59 @@
         width: 20px;
         height: 20px;
     }
+
+    @media (max-width: 900px) {
+        .single-detail {
+            padding: 6.5rem 1rem 4rem;
+            align-items: flex-start;
+        }
+
+        .content-wrapper {
+            gap: 2rem;
+        }
+
+        .cover-art {
+            width: min(100%, 22rem);
+            border-radius: 1rem;
+        }
+
+        .track-info h1 {
+            font-size: clamp(2.6rem, 12vw, 4rem);
+        }
+
+        .artist-name {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .description {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .listen-links h3 {
+            font-size: 0.9rem;
+        }
+
+        .links-grid {
+            width: 100%;
+        }
+
+        .link-btn {
+            flex: 1 1 12rem;
+            justify-content: center;
+            min-height: 3rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .links-grid {
+            flex-direction: column;
+        }
+
+        .link-btn {
+            width: 100%;
+        }
+    }
 </style>

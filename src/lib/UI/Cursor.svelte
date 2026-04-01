@@ -13,8 +13,10 @@
 
   let isTouchActive = $state(false);
   let touchVisibility = $state(1);
-  let isTouchDevice = $state(false);
+  let isTouchCapable = $state(false);
+  let lastInputWasTouch = $state(false);
   let isMouseDown = $state(false);
+  let isCursorEnabled = $state(false);
 
   let isNavigating = $state(false);
 
@@ -297,13 +299,16 @@
   }
 
   function handleTouchStart(e: TouchEvent) {
+    lastInputWasTouch = true;
     isTouchActive = true;
     const touch = e.touches[0];
     mouse.x = touch.clientX;
     mouse.y = touch.clientY;
+    softResetCursor(true);
   }
 
   function handleTouchMove(e: TouchEvent) {
+    lastInputWasTouch = true;
     isTouchActive = true;
     const touch = e.touches[0];
     mouse.x = touch.clientX;
@@ -778,33 +783,55 @@
 
   $effect(() => {
     if (cleanupHoverDetection) cleanupHoverDetection();
+    if (!isCursorEnabled) {
+      cleanupHoverDetection = null;
+      return;
+    }
     cleanupHoverDetection = setupHoverDetection();
   });
 
   onMount(() => {
-    isTouchDevice = 'ontouchstart' in window;
+    isTouchCapable = navigator.maxTouchPoints > 0 ||
+      'ontouchstart' in window ||
+      window.matchMedia('(any-pointer: coarse)').matches;
+
+    isCursorEnabled = !isTouchCapable;
+
+    if (!isCursorEnabled) {
+      if (circleElement) {
+        circleElement.style.display = 'none';
+        circleElement.style.opacity = '0';
+      }
+      return;
+    }
+
+    touchVisibility = isTouchCapable ? 0 : 1;
+
+    if (circleElement) {
+      circleElement.style.display = '';
+      circleElement.style.opacity = '1';
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
+      lastInputWasTouch = false;
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
     const handleMouseDown = () => {
+      lastInputWasTouch = false;
       isMouseDown = true;
     };
     const handleMouseUp = () => {
       isMouseDown = false;
     };
 
-    if (isTouchDevice) {
-      touchVisibility = 0;
-      window.addEventListener("touchstart", handleTouchStart);
-      window.addEventListener("touchmove", handleTouchMove);
-      window.addEventListener("touchend", handleTouchEnd);
-    } else {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mousedown", handleMouseDown);
-      window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("blur", handleMouseUp);
-    }
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("blur", handleMouseUp);
 
     const speed = 0.3;
     const hoverSpeed = 0.15;
@@ -937,10 +964,8 @@
       let finalScaleX = (1 + currentScale);
       let finalScaleY = (1 - currentScale);
 
-      if (isTouchDevice) {
-        finalScaleX *= touchVisibility;
-        finalScaleY *= touchVisibility;
-      }
+      finalScaleX *= touchVisibility;
+      finalScaleY *= touchVisibility;
 
       const allowRotation = shouldAllowRotation();
       const scaleTransform = (!allowRotation)
@@ -970,17 +995,12 @@
         } else {
           circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
         }
+
+        circleElement.style.opacity = `${isNavigating ? 0 : touchVisibility}`;
       }
 
-      if (isTouchDevice) {
-        if (isTouchActive) {
-          touchVisibility += (1 - touchVisibility) * 0.1;
-        } else {
-          touchVisibility += (0 - touchVisibility) * 0.1;
-        }
-      } else {
-        touchVisibility = 1;
-      }
+      const targetVisibility = !isTouchCapable || !lastInputWasTouch ? 1 : 0;
+      touchVisibility += (targetVisibility - touchVisibility) * 0.16;
 
       animationFrameId = requestAnimationFrame(tick);
     };

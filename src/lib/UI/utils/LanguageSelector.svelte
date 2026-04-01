@@ -204,4 +204,45 @@
   :global([data-color-scheme="light"]) .language-option {
     color: #f65901;
   }
+
+  @media (max-width: 900px), (any-pointer: coarse) {
+    .language-selector {
+      width: 100%;
+      max-width: none;
+    }
+
+    .language-button {
+      min-height: 3rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      gap: 0.75rem;
+    }
+
+    .flag {
+      font-size: 1.1rem;
+    }
+
+    .language-name {
+      font-size: 1rem;
+    }
+
+    .dropdown-arrow,
+    .checkmark {
+      font-size: 0.95rem;
+    }
+
+    .language-dropdown {
+      max-height: min(18rem, 45vh);
+      border-radius: 0.75rem;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      overflow: hidden auto;
+    }
+
+    .language-option {
+      min-height: 3rem;
+      padding: 0.75rem 1rem;
+      gap: 0.75rem;
+    }
+  }
 </style>

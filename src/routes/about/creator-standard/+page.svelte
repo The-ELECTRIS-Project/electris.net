@@ -429,4 +429,65 @@
       font-size: 1.1rem;
     }
   }
+
+  @media (max-width: 900px) {
+    .hero {
+      padding: 6.5rem 1rem 2rem;
+      min-height: 30rem;
+    }
+
+    .content {
+      padding: 0 1rem 4rem;
+    }
+
+    .section-header {
+      font-size: 2.1rem;
+    }
+
+    .definition {
+      font-size: 1.8rem;
+    }
+
+    .vision-evolution {
+      padding: 1.25rem;
+      border-radius: 1rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero {
+      padding-top: 5.75rem;
+      min-height: 24rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 11vw, 3rem);
+    }
+
+    .highlight {
+      font-size: clamp(2.5rem, 12vw, 3.2rem);
+    }
+
+    .content {
+      padding-inline: 1rem;
+    }
+
+    .section-header {
+      font-size: 1.75rem;
+    }
+
+    .definition {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .explanation,
+    .vision-evolution p {
+      font-size: 1rem;
+    }
+
+    .vision-evolution h3 {
+      font-size: 1.5rem;
+    }
+  }
 </style>

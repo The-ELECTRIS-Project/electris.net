@@ -480,12 +480,98 @@
     }
 
     .post-meta {
-      flex-direction: column;
-      gap: 0.5rem;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem 0.85rem;
     }
 
     .related-grid {
       grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 900px), (any-pointer: coarse) {
+    .post-container {
+      padding: 6.5rem 1rem 4rem;
+      max-width: min(48rem, 100%);
+    }
+
+    .post-info {
+      padding: 1.25rem;
+    }
+
+    .post-meta {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem 0.85rem;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+    }
+
+    .cover-image {
+      height: min(60vw, 18rem);
+      margin-bottom: 2rem;
+    }
+
+    .post-title {
+      font-size: clamp(2.2rem, 10vw, 3rem);
+    }
+
+    .post-description {
+      font-size: 1.05rem;
+    }
+
+    .post-content {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .post-content :global(h1) {
+      font-size: 2rem;
+    }
+
+    .post-content :global(h2) {
+      font-size: 1.7rem;
+    }
+
+    .post-content :global(h3) {
+      font-size: 1.35rem;
+    }
+
+    .post-content :global(blockquote) {
+      padding: 1rem;
+    }
+
+    .related-posts {
+      margin-top: 3rem;
+      padding-top: 2rem;
+    }
+
+    .related-posts h3 {
+      font-size: 1.6rem;
+    }
+
+    .related-card {
+      padding: 1.1rem;
+      border-radius: 1rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .post-meta {
+      gap: 0.45rem 0.75rem;
+    }
+
+    .post-tags {
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.8rem;
     }
   }
 </style>

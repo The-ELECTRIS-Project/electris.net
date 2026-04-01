@@ -201,4 +201,30 @@
   .hamburger-animated.hovered .line {
     transition-delay: 0s;
   }
+
+  @media (max-width: 900px) {
+    .hamburger-button {
+      width: 3rem;
+      height: 3rem;
+      left: 0.25rem;
+    }
+  }
+
+  @media (any-pointer: coarse) {
+    .hamburger-button {
+      width: 3.5rem;
+      height: 3.5rem;
+      left: 0.4rem;
+    }
+
+    .hamburger-svg {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .closed.hovered .hamburger-svg,
+    .open.hovered .hamburger-svg {
+      animation: none;
+    }
+  }
 </style>

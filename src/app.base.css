@@ -2,8 +2,14 @@
 @import '../static/fonts/fonts.css';
 
 /* ===== BASE STYLES ===== */
+:root {
+  --touch-target-size: 2.75rem;
+}
+
 html {
   font-size: clamp(1vmin, 2.13vmin, 1.36vmin);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -14,14 +20,28 @@ body {
   background-color: var(--bg-body);
   color: var(--color-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-electro, #f65901) 22%, transparent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-electro, #f65901) 22%, transparent);
 }
 
 .twaos-logo {
   font-family: 'Nightcore';
+}
+
+main {
+  overflow-x: clip;
 }
 
 /* ===== LAYOUT COMPONENTS ===== */
@@ -251,11 +271,10 @@ a {
   --circle-size: 4vmin;
 }
 
-.circle.hovered-sip {
+.circle.hovered-styled-sip {
   --circle-size: 37vmin;
   top: -0.3vmin;
   left: -1.4vmin;
-  border-color: var(--circle-hover-sip);
 }
 
 .circle.hovered-crown {
@@ -845,4 +864,34 @@ a {
   
   --spark-bg: #70ff20;
   --spark-shadow: 0 0 15px #70ff20, 0 0 30px #70ff20, 0 0 45px #70ff20;
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: clamp(14px, 1.45vw, 17px);
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: clamp(16px, 3.9vw, 18px);
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: clamp(16px, 4.4vw, 19px);
+  }
+}
+
+@media (any-pointer: coarse) {
+  :where(button, input, select, textarea, [role='button']) {
+    min-height: var(--touch-target-size);
+    touch-action: manipulation;
+  }
+
+  .box:hover .hover-overlay {
+    opacity: 0;
+    background: var(--hover-overlay-bg);
+  }
 }

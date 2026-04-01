@@ -190,4 +190,65 @@
         font-weight: bold;
         opacity: 0.3;
     }
+
+    @media (max-width: 900px), (any-pointer: coarse) {
+        .artist-hub {
+            min-height: auto;
+            padding: 6.5rem 1rem 4rem;
+        }
+
+        .artist-header {
+            max-width: 36rem;
+            margin-bottom: 3rem;
+        }
+
+        .avatar-container {
+            width: 9rem;
+            height: 9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .artist-header h1 {
+            font-size: clamp(2.8rem, 12vw, 4rem);
+        }
+
+        .bio {
+            font-size: 1.1rem;
+        }
+
+        .links-container {
+            gap: 1rem;
+            padding: 0;
+            flex-direction: column;
+            align-items: stretch;
+            max-width: 32rem;
+        }
+
+        .hub-card {
+            width: 100%;
+            padding: 2rem 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .icon-bg {
+            width: 4.25rem;
+            height: 4.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .icon-bg img {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .hub-card h2 {
+            font-size: 1.6rem;
+        }
+
+        .count {
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.25rem;
+        }
+    }
 </style>

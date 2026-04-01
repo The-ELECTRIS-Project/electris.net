@@ -231,4 +231,75 @@
         color: white;
         box-shadow: 0 5px 15px rgba(246, 89, 1, 0.3);
     }
+
+    @media (max-width: 900px) {
+        .albums-page {
+            padding: 6.5rem 1rem 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 11vw, 3.4rem);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.75rem;
+            font-size: 1rem;
+        }
+
+        .albums-grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .none-found {
+            padding-top: 3rem;
+        }
+
+        .empty-icon {
+            width: 6.5rem;
+            height: 6.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-icon img {
+            width: 3rem;
+        }
+
+        .none-found h2 {
+            font-size: 2.2rem;
+        }
+
+        .btn-return {
+            padding: 0.9rem 1.25rem;
+            min-height: 2.75rem;
+            display: inline-flex;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .albums-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (any-pointer: coarse) {
+        .overlay {
+            opacity: 1;
+            background: linear-gradient(180deg, transparent 0%, rgba(246, 89, 1, 0.82) 100%);
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .overlay span {
+            font-size: 0.9rem;
+            letter-spacing: 0.16em;
+        }
+    }
 </style>

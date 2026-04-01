@@ -22,7 +22,10 @@
     
     onMount(() => {
       if (getCookie("mobilePopupDismissed") === "true") return;
-      if ("ontouchstart" in window) showPopup = true;
+      const isMobileLike = navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(max-width: 900px), (any-pointer: coarse)').matches;
+
+      if (isMobileLike) showPopup = true;
     });
   </script>
   
@@ -48,6 +51,7 @@
       left: 0;
       right: 0;
       bottom: 0;
+      padding: 0.75rem;
       background-color: rgba(0, 0, 0, 0.5);
       display: flex;
       align-items: center;
@@ -58,52 +62,71 @@
     .mobile-popup {
       background-color: #131615;
       color: #f65901;
-      padding: 2rem;
-      border-radius: 8.85vmin;
-      max-width: 90%;
+      width: min(19rem, calc(100vw - 1.5rem));
+      padding: 1rem;
+      border-radius: 1rem;
+      max-width: 100%;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       animation: fadeInGrow 0.3s ease;
     }
 
     .mobile-popup-title {
       user-select: none;
-      font-size: 4.5rem;
+      margin: 0 0 0.65rem;
+      font-size: 1.55rem;
+      line-height: 1.05;
       font-family: 'Letric';
     }
 
     .mobile-popup-body {
       user-select: none;
-      font-size: 2rem;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
       font-family: 'Redwing';
       font-weight: 300;
-      padding-bottom: 2vmin;
-      padding-top: 1.5vmin;
+      padding-bottom: 0.75rem;
+      padding-top: 0.2rem;
     }
 
     .mobile-popup label {
       user-select: none;
-      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      line-height: 1.35;
     }
 
     .mobile-popup button {
       user-select: none;
-      font-size: 2rem;
+      min-height: 2.5rem;
+      font-size: 0.95rem;
     }
 
     .popup-controls {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
     }
 
     button {
       background-color: #0f1010;
       color: #f65901;
       border: 1px solid #f65901;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
+      padding: 0.65rem 0.95rem;
+      border-radius: 0.75rem;
       cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      width: 0.95rem;
+      height: 0.95rem;
+      margin: 0;
+      accent-color: #f65901;
+      flex: 0 0 auto;
     }
     
     @keyframes fadeInGrow {

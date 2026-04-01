@@ -349,35 +349,59 @@
     position: relative;
   }
   
-  @media (max-width: 73.4px) {
+  @media (max-width: 900px) {
     .newhome-container {
-      padding: 5rem 1rem 4rem;
+      padding: 6.5rem 1.5rem 5rem;
+      max-width: 48rem;
     }
 
     .newhome-title {
-      font-size: 2.8rem;
+      font-size: clamp(3rem, 9vw, 4.2rem);
+    }
+
+    .newhome-subtitle {
+      top: -1rem;
     }
     
     .time {
-      font-size: 2.5rem;
+      font-size: clamp(2.6rem, 10vw, 3.3rem);
+    }
+
+    .date {
+      font-size: 1.05rem;
     }
   }
 
-  @media (max-width: 48vh) {
+  @media (max-width: 560px) {
     .newhome-container {
-      padding: 4rem 1rem 4rem;
+      padding: 5.75rem 1rem 5rem;
+    }
+
+    .welcome-section {
+      margin-bottom: 2.25rem;
     }
 
     .newhome-title {
-      font-size: 2.2rem;
+      font-size: clamp(2.4rem, 12vw, 3.2rem);
+      gap: 0.35rem;
+    }
+
+    .newhome-subtitle {
+      top: -0.4rem;
     }
 
     .time {
-      font-size: 2rem;
+      font-size: clamp(2.2rem, 13vw, 2.8rem);
+    }
+
+    .date {
+      font-size: 1rem;
+      line-height: 1.5;
     }
 
     .section-title {
-      font-size: 1.4rem;
+      font-size: 1.7rem;
+      margin-bottom: 1.5rem;
     }
   }
 </style>

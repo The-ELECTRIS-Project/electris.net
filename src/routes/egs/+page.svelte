@@ -46,4 +46,26 @@
     font-size: 1.5rem;
     margin-top: 10px;
   }
+
+  @media (max-width: 900px) {
+    .hero {
+      min-height: auto;
+      padding: 6.5rem 1rem 3rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 11vw, 4rem);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 32rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero {
+      padding-top: 5.75rem;
+    }
+  }
 </style>
