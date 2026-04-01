@@ -1,4 +1,4 @@
-import type { BlogPost, BlogMetadata } from '$lib/types/blog';
+import type { BlogPost } from '$lib/types/blog';
 
 export function filterPosts(posts: BlogPost[], searchQuery: string, selectedTag: string): BlogPost[] {
   return posts.filter(post => {

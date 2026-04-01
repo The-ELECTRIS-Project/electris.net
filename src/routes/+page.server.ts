@@ -1,9 +1,9 @@
 import { loadBlogPosts } from '$lib/utils/blog.server';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ fetch, platform, url }) => {
   try {
-    const posts = await loadBlogPosts();
+    const posts = await loadBlogPosts({ fetch, platform, url });
 
     return {
       latestPost: posts[0] ?? null

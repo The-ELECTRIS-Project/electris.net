@@ -22,3 +22,8 @@ export interface BlogMetadata {
   readTime?: number;
   featured?: boolean;
 }
+
+export interface BlogIndexEntry {
+  slug: string;
+  metadata: BlogMetadata;
+}

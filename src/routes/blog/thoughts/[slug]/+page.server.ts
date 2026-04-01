@@ -1,38 +1,23 @@
 import { error } from '@sveltejs/kit';
-import fs from 'node:fs';
-import path from 'node:path';
-import { loadBlogPosts, getRelatedPosts } from '$lib/utils/blog.server';
+import { getRelatedPosts, loadBlogPost, loadBlogPosts } from '$lib/utils/blog.server';
 import type { PageServerLoad } from './$types';
-import type { BlogMetadata } from '$lib/types/blog';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ fetch, params, platform, url }) => {
   const { slug } = params;
-  
-  if (slug.startsWith('_')) {
-    throw error(404, 'Post not found');
-  }
-  
+  const context = { fetch, platform, url };
+
   try {
-    const blogDir = path.join(process.cwd(), 'static/data/blog');
-    const postDir = path.join(blogDir, slug);
-    const metadataPath = path.join(postDir, 'metadata.json');
-    const contentPath = path.join(postDir, 'post.html');
-    
-    if (!fs.existsSync(metadataPath) || !fs.existsSync(contentPath)) {
+    const [postData, allPosts] = await Promise.all([loadBlogPost(slug, context), loadBlogPosts(context)]);
+
+    if (!postData) {
       throw error(404, 'Post not found');
     }
-    
-    const metadataRaw = fs.readFileSync(metadataPath, 'utf-8');
-    const metadata = JSON.parse(metadataRaw) as BlogMetadata;
-    const content = fs.readFileSync(contentPath, 'utf-8');
-    
-    const allPosts = await loadBlogPosts();
-    const currentPost = { slug, ...metadata };
-    const relatedPosts = getRelatedPosts(allPosts, currentPost);
-    
+
+    const relatedPosts = getRelatedPosts(allPosts, postData.post);
+
     return {
-      post: currentPost,
-      content,
+      post: postData.post,
+      content: postData.content,
       relatedPosts
     };
   } catch (err) {
