@@ -432,8 +432,8 @@
     --surface-border-strong: color-mix(in srgb, var(--color-primary) 32%, transparent);
     --surface-base: color-mix(in srgb, var(--bg-body) 82%, transparent);
     --surface-elevated: color-mix(in srgb, var(--bg-body) 90%, transparent);
-    min-height: 100vh;
-    max-width: 1600px;
+    min-height: 100vmin;
+    max-width: 121vmin;
     margin: 0 auto;
     padding: 7rem clamp(1.25rem, 3.4vw, 3.6rem) 4rem;
     position: relative;
@@ -581,7 +581,7 @@
       radial-gradient(circle at var(--pointer-x) var(--pointer-y), color-mix(in srgb, var(--color-primary) 20%, transparent) 0%, transparent 28%),
       radial-gradient(circle at calc(var(--pointer-x) - 18%) calc(var(--pointer-y) + 12%), color-mix(in srgb, var(--color-electro) 16%, transparent) 0%, transparent 26%),
       radial-gradient(circle at calc(var(--pointer-x) + 22%) calc(var(--pointer-y) - 18%), color-mix(in srgb, var(--color-varrow) 12%, transparent) 0%, transparent 24%);
-    filter: blur(14px);
+    filter: blur(1.4vmin);
     opacity: 0.95;
   }
 
@@ -751,8 +751,8 @@
   }
 
   .manifesto-copy {
-    max-width: 40rem;
-    margin: 1.3rem 0 1.75rem;
+    max-width: 40vmin;
+    margin: 1.3vmin 0 1.75vmin;
     font-family: 'Redwing', Aileron;
     font-size: clamp(1.08rem, 2vw, 1.42rem);
     line-height: 1.6;
