@@ -74,7 +74,7 @@
 
 <style>
   .hero {
-    font-family: 'sans-serif';
+    font-family: 'Aileron';
     text-align: center;
     padding-top: 80px;
     margin-bottom: 40px;
@@ -102,7 +102,7 @@
   }
 
   .card {
-    font-family: 'sans-serif';
+    font-family: 'Aileron';
     display: flex;
     flex-direction: line;
     align-items: left;

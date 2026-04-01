@@ -72,7 +72,7 @@
     .hero p {
       font-size: 1.5rem;
       margin: 10px 0 0;
-      font-family: sans-serif;
+      font-family: Aileron;
     }
   
     .card {

@@ -52,7 +52,7 @@
   }
 
   .hero p {
-    font-family: sans-serif;
+    font-family: Aileron;
     font-size: 1.5rem;
     margin-top: 10px;
     max-width: 80%;

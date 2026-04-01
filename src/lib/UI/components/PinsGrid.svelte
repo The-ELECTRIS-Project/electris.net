@@ -356,7 +356,7 @@
     transition: all 0.3s ease;
     background: transparent;
     cursor: pointer;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     color: inherit;
   }
 
@@ -438,7 +438,7 @@
     border-radius: 0.6vmin;
     background: rgba(246, 89, 1, 0.05);
     color: inherit;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     font-size: 0.8rem;
     outline: none;
   }
@@ -536,7 +536,7 @@
   .empty-text {
     font-size: 0.8rem;
     opacity: 0.6;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
   
   .pin-link {
@@ -601,7 +601,7 @@
     font-weight: 600;
     font-size: 0.9rem;
     margin-bottom: 0.2rem;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -610,7 +610,7 @@
   .pin-domain {
     font-size: 0.7rem;
     opacity: 0.6;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

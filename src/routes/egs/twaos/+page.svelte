@@ -573,7 +573,7 @@
   }
 
   .card {
-    font-family: 'sans-serif';
+    font-family: 'Aileron';
     display: flex;
     flex-direction: line;
     align-items: left;

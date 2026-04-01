@@ -690,7 +690,7 @@
   }
 
   .nav-button {
-    font-family: sans-serif;
+    font-family: Aileron;
     text-decoration: none;
     font-size: 1.2rem;
     white-space: nowrap;
@@ -720,7 +720,7 @@
   .hamburger-footer {
     user-select: none;
     text-align: center;
-    font-family: sans-serif;
+    font-family: Aileron;
     font-size: 0.9rem;
     border-top: 0.1vmin solid;
     padding-top: 1vmin;
@@ -764,7 +764,7 @@
   }
   
   .options-menu h2 {
-    font-family: 'sans-sherif';
+    font-family: 'Aileron';
     margin-top: 0;
     font-size: 1.5rem;
   }
@@ -1039,7 +1039,7 @@
   .menu-item a {
     display: inline-block;
     line-height: 2.25vmin;
-    font-family: sans-serif;
+    font-family: Aileron;
     text-decoration: none;
     color: #f65901;
     font-size: 1.2rem;

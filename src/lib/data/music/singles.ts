@@ -23,7 +23,7 @@ export const singles: Single[] = [
             youtube: 'https://youtu.be/xVaTP_cPid0',
             soundcloud: 'https://soundcloud.com/electro_dev/zero'
         },
-        titleFont: 'sans-serif',
+        titleFont: 'Aileron',
         artistFont: 'Letric'
     }
 ];

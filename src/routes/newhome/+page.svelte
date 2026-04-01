@@ -332,13 +332,13 @@
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 0.5rem;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
   
   .date {
     font-size: 1.1rem;
     opacity: 0.7;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
 
   .section-title {

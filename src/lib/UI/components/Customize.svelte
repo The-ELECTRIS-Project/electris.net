@@ -358,7 +358,7 @@
   .menu-header h2 {
     margin: 0;
     font-size: 2.5vmin;
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric', Aileron;
     color: hsl(20, 95%, 61%);
     text-shadow: 0 0 1vmin hsla(20, 95%, 51%, 0.3);
   }
@@ -402,7 +402,7 @@
 
   .settings-title {
     font-size: 1.8vmin;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     color: hsl(0, 0%, 90%);
     margin: 0 0 2.5vmin 0;
     font-weight: 500;
@@ -425,7 +425,7 @@
     width: 100%;
     font-size: 1.5vmin;
     color: hsl(0, 0%, 70%);
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     font-weight: 400;
   }
 
@@ -449,7 +449,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.15s ease;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
 
   .control-btn:hover:not(:disabled) {
@@ -473,7 +473,7 @@
     color: hsl(0, 0%, 90%);
     min-width: 3vmin;
     text-align: center;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
 
   .grid-info {
@@ -485,7 +485,7 @@
   .info-text {
     font-size: 1.3vmin;
     color: hsl(0, 0%, 55%);
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
 
   .toggle-switch {

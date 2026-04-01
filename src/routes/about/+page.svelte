@@ -162,7 +162,7 @@
   }
 
   .main-title {
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric';
     font-size: 3.5rem;
     color: var(--color-primary);
     margin: 0;
@@ -189,7 +189,7 @@
   }
 
   .section-title {
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric';
     font-size: 2.2rem;
     margin: 0 0 1rem 0;
     border-bottom: 2px solid;
@@ -198,7 +198,7 @@
   }
 
   .content-text {
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing';
     font-size: 1.15rem;
     line-height: 1.6;
     opacity: 0.9;
@@ -266,7 +266,7 @@
 
   .callout-kicker {
     margin: 0 0 0.75rem;
-    font-family: sans-serif;
+    font-family: Aileron;
     font-size: 0.78rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -290,7 +290,7 @@
     border: 1px solid color-mix(in srgb, var(--color-electro) 28%, transparent);
     background: color-mix(in srgb, var(--color-electro) 10%, transparent);
     color: var(--color-electro);
-    font-family: sans-serif;
+    font-family: Aileron;
     font-size: 0.74rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;

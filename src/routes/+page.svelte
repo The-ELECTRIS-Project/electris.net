@@ -722,7 +722,7 @@
   .mini-label,
   .news-meta,
   .note-kicker {
-    font-family: 'Nightcore', sans-serif;
+    font-family: 'Nightcore', Aileron;
     text-transform: uppercase;
     letter-spacing: 0.18em;
   }
@@ -737,7 +737,7 @@
     margin: 0;
     display: grid;
     gap: 0.35rem;
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric', Aileron;
     font-size: clamp(4rem, 10vw, 8.5rem);
     line-height: 0.88;
     text-transform: uppercase;
@@ -753,7 +753,7 @@
   .manifesto-copy {
     max-width: 40rem;
     margin: 1.3rem 0 1.75rem;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     font-size: clamp(1.08rem, 2vw, 1.42rem);
     line-height: 1.6;
     opacity: 0.94;
@@ -775,7 +775,7 @@
     border: 1px solid color-mix(in srgb, var(--color-primary) 24%, transparent);
     background: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
     color: inherit;
-    font-family: sans-serif;
+    font-family: Aileron;
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -865,7 +865,7 @@
 
   .frame-quote {
     margin: 0 0 1rem;
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric', Aileron;
     font-size: clamp(2rem, 4vw, 3.1rem);
     line-height: 1.02;
     text-transform: uppercase;
@@ -875,7 +875,7 @@
   .frame-copy {
     margin: 0;
     max-width: 25rem;
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
     font-size: 1.05rem;
     line-height: 1.6;
     opacity: 0.88;
@@ -951,7 +951,7 @@
   .snapshot-header h2,
   .snapshot-mini h3,
   .news-copy h3 {
-    font-family: 'Letric', sans-serif;
+    font-family: 'Letric', Aileron;
     text-transform: uppercase;
   }
 
@@ -969,7 +969,7 @@
   .news-copy p,
   .note-copy,
   .news-intro {
-    font-family: 'Redwing', sans-serif;
+    font-family: 'Redwing', Aileron;
   }
 
   .signal-card p {
@@ -1065,7 +1065,7 @@
     border-radius: 999px;
     background: rgba(5, 8, 5, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.16);
-    font-family: 'Nightcore', sans-serif;
+    font-family: 'Nightcore', Aileron;
     font-size: 0.72rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -1118,7 +1118,7 @@
     border-radius: 999px;
     border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
     background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    font-family: 'Nightcore', sans-serif;
+    font-family: 'Nightcore', Aileron;
     font-size: 0.72rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -1128,7 +1128,7 @@
     display: inline-flex;
     align-items: center;
     margin-top: 1rem;
-    font-family: 'Nightcore', sans-serif;
+    font-family: 'Nightcore', Aileron;
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
