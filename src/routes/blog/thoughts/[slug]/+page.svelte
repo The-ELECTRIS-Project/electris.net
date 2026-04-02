@@ -70,20 +70,24 @@
 
 
 <div class="post-container">
-  <div class="post-nav wrap-no-interact-all">
-    <a 
-      href={backHref} 
-      class="back-link"
-    >
-      ← {backText}
-    </a>
-  </div>
+  {#if from}
+    <div class="post-nav wrap-no-interact-all">
+      <a 
+        href={backHref} 
+        class="back-link"
+      >
+        ← {backText}
+      </a>
+    </div>
+  {/if}
 
   {#if !data.post}
     <div class="error">
       <h2>Thought Not Found</h2>
       <p>The requested post could not be found.</p>
-      <a href={backHref} class="back-link">← {backText}</a>
+      {#if from}
+        <a href={backHref} class="back-link">← {backText}</a>
+      {/if}
     </div>
   {:else}
     <article class="post">
@@ -129,7 +133,7 @@
           <h3>Related Thoughts</h3>
           <div class="related-grid">
             {#each relatedPosts as related}
-              <a href="/blog/thoughts/{related.slug}" class="related-card">
+              <a href="/blog/thoughts/{related.slug}?from=blogs" class="related-card">
                 {#if related.icon}
                   <div class="related-icon">
                     <img src={related.icon} alt="{related.title} icon" />

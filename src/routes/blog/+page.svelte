@@ -140,7 +140,7 @@
       <div class="posts-grid">
         {#each filteredPosts as post}
           <article class="post-card wrap-no-interact-all" class:has-cover={post.coverImage}>
-            <a href="/blog/thoughts/{post.slug}" class="post-link">
+            <a href="/blog/thoughts/{post.slug}?from=blogs" class="post-link">
               {#if post.coverImage}
                 <div class="post-background" style="background-image: url({post.coverImage});"></div>
               {/if}
