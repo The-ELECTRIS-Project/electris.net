@@ -10,5 +10,6 @@
   ],
   "coverImage": "/data/blog/_template/cover.jpg",
   "readTime": 999,
-  "featured": false
+  "featured": false,
+  "hidden": true
 }

@@ -4,12 +4,12 @@
   "author": "ELECTRO",
   "date": "2026-04-02",
   "tags": [
-    "creativity",
     "indie",
     "film",
     "projects"
   ],
   "coverImage": "/data/blog/filmi/cover.png",
   "readTime": 2,
-  "featured": true
+  "featured": true,
+  "hidden": false
 }

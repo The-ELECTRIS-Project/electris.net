@@ -10,5 +10,6 @@
   ],
   "coverImage": "/data/blog/intrusive-thoughts/cover.png",
   "readTime": 2,
-  "featured": true
+  "featured": false,
+  "hidden": false
 }
