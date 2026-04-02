@@ -17,7 +17,7 @@
   });
 
   let latestPost = $derived(data.latestPost ?? null);
-  let latestPostHref = $derived(latestPost ? `/blog/thoughts/${latestPost.slug}` : '/blog');
+  let latestPostHref = $derived(latestPost ? `/blog/thoughts/${latestPost.slug}?from=home` : '/blog');
   let latestPostDate = $derived(
     latestPost
       ? new Intl.DateTimeFormat(i18nState.currentLocale || 'en-US', {
@@ -340,7 +340,7 @@
     <div class="snapshot-grid">
       {#if latestPost}
         <a
-          href={`/blog/thoughts/${latestPost.slug}`}
+          href={`/blog/thoughts/${latestPost.slug}?from=home`}
           class="news-card latest-blog wrap-no-interact-all"
           class:no-cover={!latestPost.coverImage}
         >

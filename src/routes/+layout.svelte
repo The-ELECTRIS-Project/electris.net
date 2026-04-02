@@ -1,4 +1,5 @@
 <script lang="ts">
+  import '/src/app.base.css';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
@@ -7,7 +8,6 @@
   import Popup from '$lib/Mobile/Popup.svelte';
   import CyberNeotic from '$lib/UI/ThemeEffects/Cyber-Neotic.svelte';
   import { initializeI18n, loadRouteLocale } from '$lib/stores/i18n.svelte';
-  import '/src/app.base.css';
 
   let { children } = $props();
 

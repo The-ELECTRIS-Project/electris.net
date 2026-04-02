@@ -2,10 +2,19 @@
   import { onMount } from 'svelte';
   import { formatDate } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { t } from '$lib/stores/i18n.svelte';
+  import { page } from '$app/state';
 
   let { data } = $props();
 
   let relatedPosts = $derived(data.relatedPosts || []);
+
+  let from = $derived(page.url.searchParams.get('from'));
+  let backHref = $derived(from === 'home' ? '/' : '/blog');
+  let backText = $derived(from === 'home' 
+    ? t('blog.return.home', 'Back to Home') 
+    : t('blog.return.hub', 'Back to Thoughts')
+  );
 
   useHoverConfig([
     {
@@ -63,10 +72,10 @@
 <div class="post-container">
   <div class="post-nav wrap-no-interact-all">
     <a 
-      href="/blog" 
+      href={backHref} 
       class="back-link"
     >
-      ← Back to Thoughts
+      ← {backText}
     </a>
   </div>
 
@@ -74,7 +83,7 @@
     <div class="error">
       <h2>Thought Not Found</h2>
       <p>The requested post could not be found.</p>
-      <a href="/blog" class="back-link">← Back to Thoughts</a>
+      <a href={backHref} class="back-link">← {backText}</a>
     </div>
   {:else}
     <article class="post">
