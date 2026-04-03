@@ -94,22 +94,22 @@
       color: 'color-mix(in srgb, var(--color-primary) 78%, var(--color-electro) 22%)'
     },
     {
-      selectors: ['.manifesto-link.about-link'],
+      selectors: ['.info-buttons.about-link'],
       className: 'hovered-home-link-about',
       lockPosition: true,
       preventRotation: true,
       color: 'color-mix(in srgb, var(--color-primary) 74%, var(--color-electris) 26%)'
     },
     {
-      selectors: ['.manifesto-link.latest-link'],
+      selectors: ['.info-buttons.latest-link'],
       className: 'hovered-home-link-latest',
       lockPosition: true,
       preventRotation: true,
       color: 'color-mix(in srgb, var(--color-electro) 62%, var(--color-primary) 38%)'
     },
     {
-      selectors: ['.hero-frame.manifesto-frame'],
-      className: 'hovered-home-manifesto-frame',
+      selectors: ['.hero-frame.slogan-frame'],
+      className: 'hovered-home-slogan',
       lockPosition: true,
       matchRotation: true,
       color: 'color-mix(in srgb, var(--color-electro) 58%, var(--color-primary) 42%)'
@@ -290,16 +290,16 @@
         )}
       </p>
       <div class="action-row">
-        <a href="/about" class="manifesto-link about-link wrap-no-interact-all">
+        <a href="/about" class="info-buttons about-link wrap-no-interact-all">
           {t('home.hero.link.about', 'Read About ELECTRIS')}
         </a>
-        <a href={latestPostHref} class="manifesto-link latest-link ghost wrap-no-interact-all">
+        <a href={latestPostHref} class="info-buttons latest-link ghost wrap-no-interact-all">
           {t('home.hero.link.latest', 'Open Latest Thought')}
         </a>
       </div>
     </div>
 
-    <aside class="hero-frame manifesto-frame wrap-no-interact-all">
+    <aside class="hero-frame slogan-frame wrap-no-interact-all">
       <div class="frame-lines" aria-hidden="true"></div>
       <p class="frame-label">{t('home.frame.label', 'Always on purpose')}</p>
       <p class="frame-quote">{t('site.slogan', 'Heart like a pen, On paper it bleeds')}</p>
@@ -327,7 +327,6 @@
 
   <section class="snapshot-section reveal-block" data-section="news" class:visible={visibleSections.news}>
     <div class="snapshot-header">
-      <p class="section-kicker">{t('home.latest-signal.kicker', 'Living snapshot')}</p>
       <h2>{t('home.snapshot.title', 'Latest Stuff')}</h2>
       <p class="news-intro">
         {t(
@@ -722,7 +721,7 @@
   .mini-label,
   .news-meta,
   .note-kicker {
-    font-family: 'Nightcore', Aileron;
+    font-family: 'Redwing', Aileron;
     text-transform: uppercase;
     letter-spacing: 0.18em;
   }
@@ -737,7 +736,7 @@
     margin: 0;
     display: grid;
     gap: 0.35rem;
-    font-family: 'Letric', Aileron;
+    font-family: 'Letric';
     font-size: clamp(4rem, 10vw, 8.5rem);
     line-height: 0.88;
     text-transform: uppercase;
@@ -753,7 +752,7 @@
   .manifesto-copy {
     max-width: 40vmin;
     margin: 1.3vmin 0 1.75vmin;
-    font-family: 'Redwing', Aileron;
+    font-family: 'Redwing';
     font-size: clamp(1.08rem, 2vw, 1.42rem);
     line-height: 1.6;
     opacity: 0.94;
@@ -766,7 +765,7 @@
     gap: 0.85rem;
   }
 
-  .manifesto-link {
+  .info-buttons {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -787,18 +786,18 @@
     box-shadow: 0 0.8rem 2.2rem rgba(0, 0, 0, 0.12);
   }
 
-  .manifesto-link:hover {
+  .info-buttons:hover {
     transform: translateY(-0.2rem);
     border-color: color-mix(in srgb, var(--color-primary) 42%, transparent);
     background: color-mix(in srgb, var(--color-primary) 12%, var(--surface-elevated));
     box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, 0.18);
   }
 
-  .manifesto-link.ghost {
+  .info-buttons.ghost {
     background: transparent;
   }
 
-  .manifesto-link.small {
+  .info-buttons.small {
     padding: 0.75rem 1rem;
     font-size: 0.72rem;
   }
@@ -865,7 +864,7 @@
 
   .frame-quote {
     margin: 0 0 1rem;
-    font-family: 'Letric', Aileron;
+    font-family: 'Letric';
     font-size: clamp(2rem, 4vw, 3.1rem);
     line-height: 1.02;
     text-transform: uppercase;
@@ -875,7 +874,7 @@
   .frame-copy {
     margin: 0;
     max-width: 25rem;
-    font-family: 'Redwing', Aileron;
+    font-family: 'Redwing';
     font-size: 1.05rem;
     line-height: 1.6;
     opacity: 0.88;
@@ -951,7 +950,7 @@
   .snapshot-header h2,
   .snapshot-mini h3,
   .news-copy h3 {
-    font-family: 'Letric', Aileron;
+    font-family: 'Letric';
     text-transform: uppercase;
   }
 
@@ -969,7 +968,7 @@
   .news-copy p,
   .note-copy,
   .news-intro {
-    font-family: 'Redwing', Aileron;
+    font-family: 'Redwing';
   }
 
   .signal-card p {
@@ -982,7 +981,8 @@
   }
 
   .snapshot-section {
-    margin-bottom: 4rem;
+    margin-top: 8vmin;
+    margin-bottom: 4vmin;
   }
 
   .snapshot-header {
@@ -1065,7 +1065,7 @@
     border-radius: 999px;
     background: rgba(5, 8, 5, 0.62);
     border: 1px solid rgba(255, 255, 255, 0.16);
-    font-family: 'Nightcore', Aileron;
+    font-family: 'Nightcore';
     font-size: 0.72rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -1118,7 +1118,7 @@
     border-radius: 999px;
     border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
     background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    font-family: 'Nightcore', Aileron;
+    font-family: 'Nightcore';
     font-size: 0.72rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -1128,7 +1128,7 @@
     display: inline-flex;
     align-items: center;
     margin-top: 1rem;
-    font-family: 'Nightcore', Aileron;
+    font-family: 'Nightcore';
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -1183,7 +1183,7 @@
   }
 
   .restructure-note {
-    max-width: 48rem;
+    max-width: 64.5vmin;
     margin: 0 auto;
     padding: 0.2rem 0;
     display: flex;
@@ -1418,7 +1418,7 @@
     .snapshot-mini,
     .restructure-note,
     .news-card,
-    .manifesto-link,
+    .info-buttons,
     .hero-frame {
       transition: none;
     }
@@ -1508,14 +1508,14 @@
       0 0 2rem color-mix(in srgb, var(--color-primary) 18%, transparent);
   }
 
-  :global([data-theme="cyber-neotic"]) .manifesto-link {
+  :global([data-theme="cyber-neotic"]) .info-buttons {
     border-color: color-mix(in srgb, var(--color-electro) 24%, var(--color-primary) 22%);
     box-shadow:
       0 0.8rem 2.2rem rgba(0, 0, 0, 0.16),
       inset 0 0 1rem color-mix(in srgb, var(--color-primary) 6%, transparent);
   }
 
-  :global([data-theme="cyber-neotic"]) .manifesto-link:hover {
+  :global([data-theme="cyber-neotic"]) .info-buttons:hover {
     box-shadow:
       0 1rem 2.4rem rgba(0, 0, 0, 0.22),
       0 0 1.3rem color-mix(in srgb, var(--color-electro) 14%, transparent);

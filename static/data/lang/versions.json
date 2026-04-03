@@ -2,7 +2,7 @@
   "commons.json": "0.0.4.1",
   "lib/Mobile/Popup/+lang.json": "0.0.4.1",
   "lib/UI/NavBar/+lang.json": "0.0.4.1",
-  "routes/+lang.json": "0.0.4.2",
+  "routes/+lang.json": "0.0.4.3",
   "routes/about/+lang.json": "0.0.4.1",
   "routes/about/creator-standard/+lang.json": "0.0.4.1",
   "routes/blog/+lang.json": "0.0.4.1",

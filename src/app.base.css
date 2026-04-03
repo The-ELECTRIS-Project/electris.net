@@ -188,8 +188,7 @@ main {
   border-radius: 2.4vmin;
 }
 
-.circle.hovered-home-manifesto-frame {
-  left: -0.1vmin;
+.circle.hovered-home-slogan {
   width: 45.5vmin;
   height: 28.4vmin;
   border-radius: 2.8vmin;
@@ -202,27 +201,24 @@ main {
 }
 
 .circle.hovered-home-latest-small {
-  width: 39.2vmin;
-  height: 20vmin;
-  border-radius: 2.8vmin;
+  width: 39.1vmin;
+  height: 19.7vmin;
+  border-radius: 2.6vmin;
 }
 
 .circle.hovered-home-link-about {
-  left: -0.1vmin;
   width: 19vmin;
   height: 4.6vmin;
   border-radius: 2.8vmin;
 }
 
 .circle.hovered-about-link {
-  left: -0.1vmin;
   width: 22vmin;
   height: 4.6vmin;
   border-radius: 2.8vmin;
 }
 
 .circle.hovered-home-link-latest {
-  left: -0.1vmin;
   width: 19.4vmin;
   height: 4.6vmin;
   border-radius: 2.8vmin;
