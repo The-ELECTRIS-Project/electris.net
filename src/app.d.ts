@@ -2,6 +2,16 @@
 // for information about these interfaces
 declare global {
 	namespace App {
+		interface PageData {
+			meta?: {
+				title?: string;
+				description?: string;
+				image?: string;
+				url?: string;
+				type?: string;
+				twitterCard?: string;
+			};
+		}
 		interface Platform {
 			env?: {
 				ASSETS?: {

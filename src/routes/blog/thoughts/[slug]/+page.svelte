@@ -60,9 +60,6 @@
     <title>{data.post.title} | ELECTRIS</title>
     <meta name="description" content={data.post.description} />
     <meta name="author" content={data.post.author} />
-    {#if data.post.coverImage}
-      <meta property="og:image" content={data.post.coverImage} />
-    {/if}
   {:else}
     <title>Thought Not Found | ELECTRIS</title>
   {/if}

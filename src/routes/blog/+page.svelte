@@ -11,7 +11,6 @@
   let selectedTag = $state('');
   let allTags = $derived(getAllTags(posts));
   let loading = $state(false);
-
   let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTag));
 
   useHoverConfig([
