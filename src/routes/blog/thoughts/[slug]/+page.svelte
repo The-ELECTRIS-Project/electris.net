@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { formatDate, resolveCover } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { t } from '$lib/stores/i18n.svelte';
@@ -10,12 +10,61 @@
 
   let relatedPosts = $derived(data.relatedPosts || []);
 
-  let from = $derived(page.url.searchParams.get('from'));
+  let fromParam = $derived(page.url.searchParams.get('from'));
+  let from = $derived(fromParam && fromParam.length ? fromParam : 'blogs');
   let backHref = $derived(from === 'home' ? '/' : '/blog');
-  let backText = $derived(from === 'home' 
-    ? t('blog.return.home', 'Back to Home') 
-    : t('blog.return.hub', 'Back to Thoughts')
+  let backText = $derived(
+    from === 'home'
+      ? t('blog.return.home', 'Back to Home')
+      : from === 'share'
+        ? t('blog.return.share', 'Go to Thoughts')
+        : t('blog.return.hub', 'Back to Thoughts')
   );
+  const buildShareUrl = (currentUrl: URL) => {
+    const url = new URL(currentUrl);
+    url.searchParams.set('from', 'share');
+    return url.toString();
+  };
+  let shareUrl = $derived(buildShareUrl(page.url));
+  let showCopyToast = $state(false);
+  let toastCycle = $state(0);
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const triggerCopyToast = () => {
+    toastCycle += 1;
+    showCopyToast = true;
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
+    toastTimer = setTimeout(() => {
+      showCopyToast = false;
+      toastTimer = null;
+    }, 1500);
+  };
+
+  async function handleShare() {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: data.post?.title ?? 'ELECTRIS Thought',
+          url: shareUrl
+        });
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        triggerCopyToast();
+        return;
+      }
+    } catch (err) {
+      if ((err as DOMException)?.name === 'AbortError') {
+        return;
+      }
+    }
+
+    window.prompt('Copy this link to share:', shareUrl);
+  }
 
   useHoverConfig([
     {
@@ -29,6 +78,11 @@
         ignoreCharacters: false,
         ignorePunctuation: false
       }
+    },
+    {
+      selectors: ['.share-button'],
+      className: 'hovered-blog-share',
+      lockPosition: true
     }
   ]);
 
@@ -60,6 +114,12 @@
       clearInterval(particleInterval);
     };
   });
+
+  onDestroy(() => {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+    }
+  });
 </script>
 
 <svelte:head>
@@ -73,25 +133,29 @@
 </svelte:head>
 
 
-<div class="post-container">
-  {#if from}
-    <div class="post-nav">
-      <a 
-        href={backHref} 
-        class="back-link"
-      >
-        ← {backText}
-      </a>
+{#if showCopyToast}
+  {#key toastCycle}
+    <div class="copy-toast" role="status" aria-live="polite">
+      Link copied to clipboard
     </div>
-  {/if}
+  {/key}
+{/if}
+
+<div class="post-container">
+  <div class="post-nav">
+    <a 
+      href={backHref} 
+      class="back-link"
+    >
+      ← {backText}
+    </a>
+  </div>
 
   {#if !data.post}
     <div class="error">
       <h2>Thought Not Found</h2>
       <p>The requested post could not be found.</p>
-      {#if from}
-        <a href={backHref} class="back-link">← {backText}</a>
-      {/if}
+      <a href={backHref} class="back-link">← {backText}</a>
     </div>
   {:else}
     {@const currentCover = resolveCover(data.post, themeState.resolvedColorScheme)}
@@ -122,10 +186,23 @@
 
         <p class="post-description">{data.post.description}</p>
 
-        <div class="post-tags">
-          {#each data.post.tags as tag}
-            <span class="tag">{tag}</span>
-          {/each}
+        <div class="post-tags-row">
+          <div class="post-tags">
+            {#each data.post.tags as tag}
+              <span class="tag">{tag}</span>
+            {/each}
+          </div>
+
+          <button
+            type="button"
+            class="share-button"
+            onclick={handleShare}
+            aria-label="Share this thought"
+            title="Share"
+          >
+            <span class="share-label">Share</span>
+            <img src="/icons/buttons/share.svg" class="share-icon" alt="" aria-hidden="true" />
+          </button>
         </div>
       </div>
 
@@ -188,6 +265,41 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  @keyframes copy-toast-fade {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+    66.666% {
+      opacity: 0.65;
+      transform: translate(-50%, -0.2rem);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -0.45rem);
+    }
+  }
+
+  .copy-toast {
+    position: fixed;
+    top: calc(env(safe-area-inset-top, 0px) + 4.5rem);
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 120;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
+    background: rgba(20, 8, 0, 0.75);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.45);
+    color: rgba(246, 89, 1, 0.95);
+    font-family: 'Redwing';
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.35), 0 0 1.4rem rgba(246, 89, 1, 0.2);
+    backdrop-filter: blur(0.6rem);
+    pointer-events: none;
+    animation: copy-toast-fade 1.5s ease forwards;
   }
 
   .error h2 {
@@ -309,11 +421,19 @@
     font-style: italic;
   }
 
+  .post-tags-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
   .post-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    margin-bottom: 2rem;
+    margin: 0;
   }
 
   .tag {
@@ -323,6 +443,57 @@
     border-radius: 0.5rem;
     font-size: 0.85rem;
     font-family: 'Redwing';
+  }
+
+  .share-button {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.2vmin;
+    height: 3.25vmin;
+    width: 3.5vmin;
+    padding: 0.35vmin 0.86vmin;
+    border-radius: 5vmin;
+    background: rgba(246, 89, 1, 0.12);
+    border: 0.1vmin solid rgba(246, 89, 1, 0.35);
+    color: rgba(246, 89, 1, 0.95);
+    font-family: 'Redwing';
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: width 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+  }
+
+  .share-button:hover,
+  .share-button:focus-visible {
+    width: 6.5vmin;
+    background: rgba(246, 89, 1, 0.18);
+    border-color: rgba(246, 89, 1, 0.55);
+    box-shadow: 0 0.45rem 1rem rgba(246, 89, 1, 0.15);
+  }
+
+  .share-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .share-label {
+    white-space: nowrap;
+    max-width: 0;
+    overflow: hidden;
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(0.35rem);
+    transition: max-width 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .share-button:hover .share-label,
+  .share-button:focus-visible .share-label {
+    max-width: 6rem;
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .post-content {
@@ -514,6 +685,11 @@
       max-width: min(48rem, 100%);
     }
 
+    .copy-toast {
+      top: calc(env(safe-area-inset-top, 0px) + 4.15rem);
+      font-size: 0.9rem;
+    }
+
     .post-info {
       padding: 1.25rem;
     }
@@ -541,6 +717,26 @@
 
     .post-description {
       font-size: 1.05rem;
+    }
+
+    .post-tags-row {
+      gap: 0.75rem;
+    }
+
+    .share-button {
+      width: auto;
+      padding: 0.35rem 0.85rem;
+    }
+
+    .share-button:hover,
+    .share-button:focus-visible {
+      width: auto;
+    }
+
+    .share-label {
+      max-width: 6rem;
+      opacity: 1;
+      transform: none;
     }
 
     .post-content {
@@ -590,6 +786,22 @@
 
     .tag {
       font-size: 0.8rem;
+    }
+
+    .share-button {
+      height: 2.1rem;
+      font-size: 0.85rem;
+    }
+
+    .share-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .copy-toast {
+      width: min(90vw, 22rem);
+      text-align: center;
+      padding: 0.55rem 1rem;
     }
   }
 </style>

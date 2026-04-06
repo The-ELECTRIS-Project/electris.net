@@ -152,10 +152,10 @@ main {
   border-radius: 0.6vmin;
 }
 
-.circle.hovered-blog-return {
-  height: 3vmin;
-  width: 10.8vmin;
-  border-radius: 0.6vmin;
+.circle.hovered-blog-share {
+  height: 3.5vmin;
+  width: 6.8vmin;
+  border-radius: 5vmin;
 }
 
 .circle.hovered-blog-card {
