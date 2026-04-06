@@ -13,19 +13,37 @@
 
   const defaultMeta = {
     title: 'ELECTRIS',
-    description: 'What you create is YOURS.',
+    description: 'ELECTRIS, where the art matters more than the revenue.',
     image: 'https://electris.net/media/ELECTRIS-Embed-Banner.png',
     url: 'https://electris.net/',
     type: 'website',
     twitterCard: 'summary_large_image'
   };
 
-  let ogTitle = $derived(page.data?.meta?.title ?? defaultMeta.title);
-  let ogDescription = $derived(page.data?.meta?.description ?? defaultMeta.description);
-  let ogImage = $derived(page.data?.meta?.image ?? defaultMeta.image);
-  let ogUrl = $derived(page.data?.meta?.url ?? defaultMeta.url);
-  let ogType = $derived(page.data?.meta?.type ?? defaultMeta.type);
-  let twitterCard = $derived(page.data?.meta?.twitterCard ?? defaultMeta.twitterCard);
+  const resolveAbsoluteUrl = (value: string, fallbackOrigin: string) => {
+    try {
+      return new URL(value, fallbackOrigin).href;
+    } catch {
+      return value;
+    }
+  };
+
+  let ogTitle = $derived(page.data?.meta?.title || defaultMeta.title);
+  let ogDescription = $derived(page.data?.meta?.description || defaultMeta.description);
+  let ogImage = $derived(
+    resolveAbsoluteUrl(
+      page.data?.meta?.image || page.data?.post?.coverImage || defaultMeta.image,
+      page.url.origin
+    )
+  );
+  let ogUrl = $derived(
+    resolveAbsoluteUrl(
+      page.data?.meta?.url || defaultMeta.url,
+      page.url.origin
+    )
+  );
+  let ogType = $derived(page.data?.meta?.type || defaultMeta.type);
+  let twitterCard = $derived(page.data?.meta?.twitterCard || defaultMeta.twitterCard);
 
   onMount(() => {
     const init = async () => {
@@ -43,16 +61,13 @@
   <meta property="og:title" content={ogTitle} />
   <meta property="og:description" content={ogDescription} />
   <meta property="og:url" content={ogUrl} />
-  {#if ogImage}
-    <meta property="og:image" content={ogImage} />
-  {/if}
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:secure_url" content={ogImage} />
   <meta property="og:type" content={ogType} />
   <meta name="twitter:card" content={twitterCard} />
   <meta name="twitter:title" content={ogTitle} />
   <meta name="twitter:description" content={ogDescription} />
-  {#if ogImage}
-    <meta name="twitter:image" content={ogImage} />
-  {/if}
+  <meta name="twitter:image" content={ogImage} />
 </svelte:head>
 
 <NavBar />

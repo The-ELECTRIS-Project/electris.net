@@ -8,7 +8,9 @@
     "announcement",
     "electris"
   ],
-  "coverImage": "/data/blog/intrusive-thoughts/cover.png",
+  "coverImage": "/data/blog/intrusive-thoughts/cover-dark.png",
+  "coverLight": "/data/blog/intrusive-thoughts/cover-light.png",
+  "coverDark": "/data/blog/intrusive-thoughts/cover-dark.png",
   "readTime": 2,
   "featured": false,
   "hidden": false

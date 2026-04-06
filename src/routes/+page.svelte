@@ -1,7 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/stores/i18n.svelte';
+  import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { resolveCover } from '$lib/utils/blog';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 
@@ -338,15 +340,16 @@
 
     <div class="snapshot-grid">
       {#if latestPost}
+        {@const currentCover = resolveCover(latestPost, themeState.resolvedColorScheme)}
         <a
           href={`/blog/thoughts/${latestPost.slug}?from=home`}
           class="news-card latest-blog wrap-no-interact-all"
-          class:no-cover={!latestPost.coverImage}
+          class:no-cover={!currentCover}
         >
-          {#if latestPost.coverImage}
+          {#if currentCover}
             <div
               class="news-visual"
-              style={`background-image: linear-gradient(160deg, rgba(8, 10, 9, 0.05), rgba(8, 10, 9, 0.55)), url(${latestPost.coverImage});`}
+              style={`background-image: linear-gradient(160deg, rgba(8, 10, 9, 0.05), rgba(8, 10, 9, 0.55)), url(${currentCover});`}
             >
               <span class="news-badge">{t('home.snapshot.badge.latest', 'Latest blog post')}</span>
             </div>

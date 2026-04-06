@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n.svelte';
-  import { filterPosts, getAllTags, formatDate } from '$lib/utils/blog';
+  import { themeState } from '$lib/stores/theme.svelte';
+  import { filterPosts, getAllTags, formatDate, resolveCover } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
   let { data } = $props();
@@ -138,10 +139,11 @@
     {:else}
       <div class="posts-grid">
         {#each filteredPosts as post}
-          <article class="post-card wrap-no-interact-all" class:has-cover={post.coverImage}>
+          {@const currentCover = resolveCover(post, themeState.resolvedColorScheme)}
+          <article class="post-card wrap-no-interact-all" class:has-cover={currentCover}>
             <a href="/blog/thoughts/{post.slug}?from=blogs" class="post-link">
-              {#if post.coverImage}
-                <div class="post-background" style="background-image: url({post.coverImage});"></div>
+              {#if currentCover}
+                <div class="post-background" style="background-image: url({currentCover});"></div>
               {/if}
         
               <div class="post-content">

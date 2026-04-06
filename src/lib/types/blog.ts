@@ -6,6 +6,9 @@ export interface BlogPost {
   date: string;
   tags: string[];
   coverImage?: string;
+  coverLight?: string;
+  coverDark?: string;
+  coverMidnight?: string;
   icon?: string;
   readTime?: number;
   featured?: boolean;
@@ -18,6 +21,9 @@ export interface BlogMetadata {
   date: string;
   tags: string[];
   coverImage?: string;
+  coverLight?: string;
+  coverDark?: string;
+  coverMidnight?: string;
   icon?: string;
   readTime?: number;
   featured?: boolean;

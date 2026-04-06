@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { formatDate } from '$lib/utils/blog';
+  import { formatDate, resolveCover } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { t } from '$lib/stores/i18n.svelte';
+  import { themeState } from '$lib/stores/theme.svelte';
   import { page } from '$app/state';
 
   let { data } = $props();
@@ -20,8 +21,14 @@
     {
       type: ['a'],
       selectors: ['.back-link'],
-      className: 'hovered-blog-return',
-      lockPosition: true
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        words: false,
+        sentences: true,
+        ignoreCharacters: false,
+        ignorePunctuation: false
+      }
     }
   ]);
 
@@ -68,7 +75,7 @@
 
 <div class="post-container">
   {#if from}
-    <div class="post-nav wrap-no-interact-all">
+    <div class="post-nav">
       <a 
         href={backHref} 
         class="back-link"
@@ -87,6 +94,7 @@
       {/if}
     </div>
   {:else}
+    {@const currentCover = resolveCover(data.post, themeState.resolvedColorScheme)}
     <article class="post">
       <div class="post-info">
         <div class="post-meta">
@@ -100,9 +108,9 @@
           {/if}
         </div>
 
-        {#if data.post.coverImage}
+        {#if currentCover}
           <div class="cover-image">
-            <div class="banner-image" style="background-image: url({data.post.coverImage});"></div>
+            <div class="banner-image" style="background-image: url({currentCover});"></div>
           </div>
         {/if}
 

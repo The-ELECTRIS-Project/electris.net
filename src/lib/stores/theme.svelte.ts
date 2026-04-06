@@ -37,6 +37,7 @@ const initialColorScheme: ColorScheme = storedColorScheme && availableColorSchem
 class ThemeState {
   theme = $state<Theme>(initialTheme);
   colorScheme = $state<ColorScheme>(initialColorScheme);
+  resolvedColorScheme = $derived(resolveColorScheme(this.colorScheme));
 
   constructor() {
     if (browser) {

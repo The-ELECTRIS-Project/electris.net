@@ -1,5 +1,12 @@
 import type { BlogPost } from '$lib/types/blog';
 
+export function resolveCover(post: BlogPost, resolvedColorScheme: 'light' | 'dark' | 'midnight'): string | undefined {
+  if (resolvedColorScheme === 'midnight' && post.coverMidnight) return post.coverMidnight;
+  if ((resolvedColorScheme === 'dark' || resolvedColorScheme === 'midnight') && post.coverDark) return post.coverDark;
+  if (resolvedColorScheme === 'light' && post.coverLight) return post.coverLight;
+  return post.coverImage;
+}
+
 export function filterPosts(posts: BlogPost[], searchQuery: string, selectedTag: string): BlogPost[] {
   return posts.filter(post => {
     const matchesSearch = !searchQuery || 
