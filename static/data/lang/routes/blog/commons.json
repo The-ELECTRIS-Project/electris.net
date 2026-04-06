@@ -3,14 +3,23 @@
         
     },
     "en_GB": {
+        "blog.share": "Share",
+        "blog.share.toast": "Link copied to clipboard",
+        "blog.return.share": "Go to Thoughts",
         "blog.return.hub": "Back to Thoughts",
         "blog.return.home": "Back to Home"
     },
     "en_US": {
+        "blog.share": "Share",
+        "blog.share.toast": "Link copied to clipboard",
+        "blog.return.share": "Go to Thoughts",
         "blog.return.hub": "Back to Thoughts",
         "blog.return.home": "Back to Home"
     },
     "ro_RO": {
+        "blog.share": "Trimite",
+        "blog.share.toast": "Link copiat în clipboard",
+        "blog.return.share": "Du-te la Gânduri",
         "blog.return.hub": "Înapoi la Gânduri",
         "blog.return.home": "Înapoi Acasă"
     }

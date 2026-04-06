@@ -136,7 +136,7 @@
 {#if showCopyToast}
   {#key toastCycle}
     <div class="copy-toast" role="status" aria-live="polite">
-      Link copied to clipboard
+      {t('blog.share.toast', 'Link copied to clipboard')}
     </div>
   {/key}
 {/if}
@@ -200,7 +200,7 @@
             aria-label="Share this thought"
             title="Share"
           >
-            <span class="share-label">Share</span>
+            <span class="share-label">{t('blog.share', 'Share')}</span>
             <img src="/icons/buttons/share.svg" class="share-icon" alt="" aria-hidden="true" />
           </button>
         </div>
