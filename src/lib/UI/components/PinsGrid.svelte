@@ -61,8 +61,7 @@
         loadPins();
       }, 0);
       
-      const handleModsChanged = (event: CustomEvent) => {
-        const config = event.detail;
+      const handleModsChanged = () => {
         // We don't strictly need to check gridCols/gridRows here if we react to totalPins
         // but we'll keep the save logic for when layout changes.
         setTimeout(() => {

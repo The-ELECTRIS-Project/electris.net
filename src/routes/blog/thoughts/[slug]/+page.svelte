@@ -319,21 +319,6 @@
     background-repeat: no-repeat;
   }
 
-  .banner-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.3) 0%,
-      rgba(0, 0, 0, 0.5) 60%,
-      rgba(0, 0, 0, 0.8) 100%
-    );
-  }
-
   .post-nav {
     margin-bottom: 2rem;
   }

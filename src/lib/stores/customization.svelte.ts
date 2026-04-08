@@ -77,7 +77,7 @@ export const modsState = new ModsState();
 // Backward compatibility (optional)
 export const mods = {
   get config() { return modsState.config; },
-  updateSetting: (key: any, value: any) => modsState.updateSetting(key, value),
-  updateSettings: (updates: any) => modsState.updateSettings(updates),
+  updateSetting: <K extends keyof ModsConfig>(key: K, value: ModsConfig[K]) => modsState.updateSetting(key, value),
+  updateSettings: (updates: Partial<ModsConfig>) => modsState.updateSettings(updates),
   init: () => modsState.init()
 };

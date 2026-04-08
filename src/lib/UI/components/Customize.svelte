@@ -66,7 +66,7 @@
     }
   }
 
-  function handleOverlayClick(event: MouseEvent) {
+  function handleOverlayClick(event: MouseEvent | KeyboardEvent) {
     if (event.target === event.currentTarget) {
       closeMenu();
     }
@@ -93,7 +93,7 @@
       tabindex="0"
       class:closing={isClosing}
       onclick={handleOverlayClick}
-      onkeydown={(e) => e.key === 'Escape' && handleOverlayClick(e as any)}
+      onkeydown={(e) => e.key === 'Escape' && handleOverlayClick(e)}
       aria-label="Close Menu"
     >
       <div class="menu-content" class:closing={isClosing}>

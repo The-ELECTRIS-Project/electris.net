@@ -40,9 +40,14 @@
   let lastScrollY = -1;
   let animationFrameId: number;
 
+  type TransformCapableStyle = CSSStyleDeclaration & {
+    webkitTransform?: string;
+    mozTransform?: string;
+  };
+
   function getRotation(element: HTMLElement): number {
-    const style = window.getComputedStyle(element);
-    const transform = style.transform || (style as any).webkitTransform || (style as any).mozTransform;
+    const style = window.getComputedStyle(element) as TransformCapableStyle;
+    const transform = style.transform || style.webkitTransform || style.mozTransform;
     
     if (transform && transform !== 'none') {
       const values = transform.split('(')[1].split(')')[0].split(',');
@@ -191,9 +196,10 @@
       }
     );
 
-    let node;
-    while (node = walker.nextNode()) {
+    let node = walker.nextNode();
+    while (node) {
       textNodes.push(node as Text);
+      node = walker.nextNode();
     }
     return textNodes;
   }
@@ -229,7 +235,7 @@
             continue;
           }
         } else if (filterConfig.ignorePunctuation) {
-          const match = word.match(/[\p{L}\p{N}\s\[\]{}|\\\/\-_+=<>~`@#$%^&*()'"”]+/u);
+          const match = word.match(/[\p{L}\p{N}\s\p{P}\p{S}]+/u);
           if (match) {
             cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
@@ -315,7 +321,7 @@
     mouse.y = touch.clientY;
   }
 
-  function handleTouchEnd(e: TouchEvent) {
+  function handleTouchEnd() {
     isTouchActive = false;
   }
 
@@ -367,7 +373,7 @@
   function dispatchCustomEvent(eventName: string, element: HTMLElement, config?: HoverConfig, index?: number) {
     if (!config) return;
     const center = getTargetCenter(element, config);
-    const detail: any = { x: center.x, y: center.y };
+    const detail: { x: number, y: number, index?: number } = { x: center.x, y: center.y };
     if (index !== undefined) {
       detail.index = index;
     }

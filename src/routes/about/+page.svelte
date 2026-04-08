@@ -8,6 +8,7 @@
     electro: false,
     varrow: false
   });
+  const withLineBreaks = (text: string): string => text.replace(/<br\s*\/?>/gi, '\n');
 
   useHoverConfig([
     {
@@ -47,7 +48,7 @@
           visibleSections[entry.target.id] = true;
         }
       });
-    }, { threshold: 0.1 }); // Trigger earlier
+    }, { threshold: 0.1 });
 
     document.querySelectorAll('section').forEach(section => {
       observer.observe(section);
@@ -83,7 +84,7 @@
         <p class="intro">{t('about.elts.intro')}</p>
         <p>{t('about.elts.p1')}</p>
         <p>{t('about.elts.p2')}</p>
-        <p class="statement">{@html t('about.elts.statement')}</p>
+        <p class="statement">{withLineBreaks(t('about.elts.statement'))}</p>
       </div>
     </section>
 
@@ -150,7 +151,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 120px 20px 60px; /* Adjusted padding */
+    padding: 120px 20px 60px;
     position: relative;
     overflow-x: hidden;
   }
@@ -233,6 +234,7 @@
     padding-left: 1rem;
     font-style: italic;
     margin-top: 1.5rem;
+    white-space: pre-line;
   }
 
 

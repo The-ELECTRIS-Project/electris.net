@@ -1,4 +1,4 @@
-import type { Artist, Single, Album } from '$lib/types/music';
+import type { Single } from '$lib/types/music';
 
 export const singles: Single[] = [
     {

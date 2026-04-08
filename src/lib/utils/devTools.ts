@@ -66,7 +66,7 @@ export function deleteAllCookies(): { deleted: string[], failed: string[] } {
       } else {
         failed.push(cookie.name);
       }
-    } catch (error) {
+    } catch {
       failed.push(cookie.name);
     }
   });
@@ -131,7 +131,7 @@ export function clearAllLocalStorage(): { deleted: string[], failed: string[] } 
       } else {
         failed.push(item.key);
       }
-    } catch (error) {
+    } catch {
       failed.push(item.key);
     }
   });

@@ -60,7 +60,7 @@ class EnvironmentState {
 
   async detectEnvironment(): Promise<EnvironmentInfo> {
     let environment: Environment = 'unknown';
-    let environmentSecondary: Environment = 'unknown';
+    const environmentSecondary: Environment = 'unknown';
     let hostname = '';
     let siteUrl = '';
     
@@ -102,6 +102,7 @@ export const environmentStore = {
   get info() { return environmentState.info; },
   refresh: () => environmentState.refresh(),
   subscribe: (fn: (v: EnvironmentInfo) => void) => {
+    void fn;
     // For legacy store compatibility if needed
     return () => {};
   }

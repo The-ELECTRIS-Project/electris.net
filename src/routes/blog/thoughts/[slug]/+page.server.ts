@@ -3,6 +3,12 @@ import { getRelatedPosts, loadBlogPost, loadBlogPosts } from '$lib/utils/blog.se
 import type { PageServerLoad } from './$types';
 
 const SITE_ORIGIN = 'https://electris.net';
+const isErrorWithStatus = (value: unknown): value is { status: number } => {
+  return typeof value === 'object' &&
+    value !== null &&
+    'status' in value &&
+    typeof (value as { status?: unknown }).status === 'number';
+};
 
 const getEmbedCoverPath = (coverImage?: string): string | undefined => {
   if (!coverImage) return undefined;
@@ -42,8 +48,8 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url }) => 
         type: 'article'
       }
     };
-  } catch (err) {
-    if ((err as any).status === 404) throw err;
+  } catch (err: unknown) {
+    if (isErrorWithStatus(err) && err.status === 404) throw err;
     console.error('Error loading post:', err);
     throw error(404, 'Post not found');
   }

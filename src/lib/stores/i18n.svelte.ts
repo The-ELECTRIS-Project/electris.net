@@ -64,17 +64,17 @@ class I18nState {
     return familyMatch || defaultLocale;
   }
 
-  async fetchJson(path: string) {
+  async fetchJson(path: string): Promise<unknown | null> {
     try {
       const response = await fetch(path);
       if (!response.ok) return null;
       return await response.json();
-    } catch (e) {
+    } catch {
       return null;
     }
   }
 
-  async fetchWithCache(path: string) {
+  async fetchWithCache(path: string): Promise<unknown | null> {
     if (!browser) return await this.fetchJson(path);
 
     const manifestKey = path.startsWith('/data/lang/') ? path.replace('/data/lang/', '') : path.replace(/^\//, '');
@@ -85,9 +85,11 @@ class I18nState {
 
     if (cached && expectedVersion) {
       try {
-        const { data, v } = JSON.parse(cached);
-        if (v === expectedVersion) return data;
-      } catch (e) {
+        const parsed = JSON.parse(cached) as { data?: unknown, v?: string };
+        if (parsed.v === expectedVersion) {
+          return parsed.data ?? null;
+        }
+      } catch {
         // Ignore parse errors
       }
     }
@@ -103,22 +105,39 @@ class I18nState {
     if (!browser) return;
     try {
       const data = await this.fetchJson('/data/lang/versions.json');
-      if (data) {
-        this.i18nManifest = data;
+      if (data && typeof data === 'object' && !Array.isArray(data)) {
+        this.i18nManifest = {};
+        for (const [key, value] of Object.entries(data)) {
+          if (typeof value === 'string') {
+            this.i18nManifest[key] = value;
+          }
+        }
       }
     } catch (e) {
       console.error('Failed to load i18n manifest:', e);
     }
   }
 
-  normalizeLocaleData(data: any): MultiLocaleData {
+  normalizeLocaleData(data: unknown): MultiLocaleData {
     const normalized: MultiLocaleData = {};
-    if (!data) return normalized;
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return normalized;
 
     for (const locale in data) {
       if (locale === '__version') continue;
+      const localeValue = (data as Record<string, unknown>)[locale];
+      if (!localeValue || typeof localeValue !== 'object' || Array.isArray(localeValue)) {
+        continue;
+      }
+
+      const localeData: LocaleData = {};
+      for (const [key, value] of Object.entries(localeValue)) {
+        if (typeof value === 'string') {
+          localeData[key] = value;
+        }
+      }
+
       const safeLocale = locale.replace('-', '_');
-      normalized[safeLocale] = { ...normalized[safeLocale], ...data[locale] };
+      normalized[safeLocale] = { ...normalized[safeLocale], ...localeData };
     }
     return normalized;
   }

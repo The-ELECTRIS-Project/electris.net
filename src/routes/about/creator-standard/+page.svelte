@@ -4,11 +4,12 @@
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
   let isPageJapanese = $derived(i18nState.currentLocale === 'ja-JP');
+  const withLineBreaks = (text: string): string => text.replace(/<br\s*\/?>/gi, '\n');
 
   function glitchAction(node: HTMLElement, text: string) {
     let currentText = text;
     let isCorrupted = false;
-    let corruptInterval: any;
+    let corruptInterval: ReturnType<typeof setInterval> | null = null;
 
     const corruptText = (html: string, intensity = 0.1): string => {
       let result = '';
@@ -43,7 +44,10 @@
               node.innerHTML = currentText;
               isCorrupted = false;
             }, 100);
-            clearInterval(corruptInterval);
+            if (corruptInterval !== null) {
+              clearInterval(corruptInterval);
+              corruptInterval = null;
+            }
           }
         }, 50);
       }
@@ -60,7 +64,7 @@
       },
       destroy() {
         node.removeEventListener('mouseenter', handleMouseEnter);
-        if (corruptInterval) clearInterval(corruptInterval);
+        if (corruptInterval !== null) clearInterval(corruptInterval);
       }
     };
   }
@@ -145,11 +149,11 @@
     
     <div class="explanation">
       <p use:glitchAction={t('creator.standard.explanation.p1')}>
-        {@html t('creator.standard.explanation.p1')}
+        {withLineBreaks(t('creator.standard.explanation.p1'))}
       </p>
       
       <p use:glitchAction={t('creator.standard.explanation.p2')}>
-        {@html t('creator.standard.explanation.p2')}
+        {withLineBreaks(t('creator.standard.explanation.p2'))}
       </p>
       
       <div class="vision-evolution">
@@ -330,6 +334,7 @@
     position: relative;
     transition: all 0.2s ease;
     cursor: default;
+    white-space: pre-line;
   }
 
   .explanation p:hover {

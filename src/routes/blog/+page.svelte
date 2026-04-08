@@ -486,6 +486,16 @@
     }
   }
 
+  :global([data-color-scheme='light']) .post-background::after {
+    background: linear-gradient(
+      to right,
+      rgba(255, 245, 236, 0) 0%,
+      rgba(255, 245, 236, 0.12) 30%,
+      rgba(255, 245, 236, 0.28) 70%,
+      rgba(255, 245, 236, 0.48) 100%
+    );
+  }
+
   .post-content {
     padding: 1.5rem;
     position: relative;
