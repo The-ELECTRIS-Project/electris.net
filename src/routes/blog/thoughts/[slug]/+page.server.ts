@@ -2,7 +2,6 @@ import { error } from '@sveltejs/kit';
 import { getRelatedPosts, loadBlogPost, loadBlogPosts } from '$lib/utils/blog.server';
 import type { PageServerLoad } from './$types';
 
-const SITE_ORIGIN = 'https://electris.net';
 const isErrorWithStatus = (value: unknown): value is { status: number } => {
   return typeof value === 'object' &&
     value !== null &&
@@ -30,11 +29,28 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url }) => 
 
     const relatedPosts = getRelatedPosts(allPosts, postData.post);
     const pageTitle = `${postData.post.title} | ELECTRIS`;
-    const canonicalUrl = new URL(url.pathname, SITE_ORIGIN).href;
+    const origin = url.origin;
+    const canonicalUrl = new URL(url.pathname, origin).href;
     const embedCoverPath = getEmbedCoverPath(postData.post.coverImage);
-    const coverImage = embedCoverPath
-      ? new URL(embedCoverPath, SITE_ORIGIN).href
-      : undefined;
+
+    let coverImage: string | undefined;
+    if (embedCoverPath) {
+      const embedUrl = new URL(embedCoverPath, origin).href;
+      try {
+        const embedResponse = await fetch(embedUrl, {
+          headers: { Range: 'bytes=0-0' }
+        });
+        if (embedResponse.ok || embedResponse.status === 206) {
+          coverImage = embedUrl;
+        }
+      } catch (err) {
+        console.warn('Failed to probe embed cover image:', err);
+      }
+    }
+
+    if (!coverImage && postData.post.coverImage) {
+      coverImage = new URL(postData.post.coverImage, origin).href;
+    }
 
     return {
       post: postData.post,
