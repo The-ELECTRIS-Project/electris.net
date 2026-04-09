@@ -117,9 +117,9 @@
   let themeOptions = $derived([
     { 
       value: 'default' as Theme, 
-      label: t('nav.options.theme.default', 'Default'), 
+      label: t('nav.options.theme.electrified', 'Electrified'), 
       icon: '🎨',
-      description: t('nav.options.theme.default.desc', 'The ELECTRIS Style')
+      description: t('nav.options.theme.electrified.desc', 'The ELECTRIS Style')
     },
     { 
       value: 'cyber-neotic' as Theme, 

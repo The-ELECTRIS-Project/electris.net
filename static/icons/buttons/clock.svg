@@ -1,0 +1,95 @@
+<svg
+  width="100"
+  height="100"
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <radialGradient id="orange-clock" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="hsl(22, 99%, 55%)"/>
+      <stop offset="100%" stop-color="hsl(22, 99%, 45%)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Outer Ring (Rim) -->
+  <circle cx="50" cy="50" r="48" fill="url(#orange-clock)" />
+  
+  <!-- Clock Face -->
+  <circle cx="50" cy="50" r="41" fill="#111" />
+
+  <!-- The Twelve Upright Zeros -->
+  <g transform="translate(50 50)">
+    <!-- 12 o'clock -->
+    <g transform="rotate(0) translate(0 -31) rotate(0)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 1 o'clock -->
+    <g transform="rotate(30) translate(0 -31) rotate(-30)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 2 o'clock -->
+    <g transform="rotate(60) translate(0 -31) rotate(-60)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 3 o'clock -->
+    <g transform="rotate(90) translate(0 -31) rotate(-90)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 4 o'clock -->
+    <g transform="rotate(120) translate(0 -31) rotate(-120)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 5 o'clock -->
+    <g transform="rotate(150) translate(0 -31) rotate(-150)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 6 o'clock -->
+    <g transform="rotate(180) translate(0 -31) rotate(-180)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 7 o'clock -->
+    <g transform="rotate(210) translate(0 -31) rotate(-210)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 8 o'clock -->
+    <g transform="rotate(240) translate(0 -31) rotate(-240)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 9 o'clock -->
+    <g transform="rotate(270) translate(0 -31) rotate(-270)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 10 o'clock -->
+    <g transform="rotate(300) translate(0 -31) rotate(-300)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+    <!-- 11 o'clock -->
+    <g transform="rotate(330) translate(0 -31) rotate(-330)">
+      <rect x="-3.5" y="-5.5" width="7" height="11" rx="3.5" fill="url(#orange-clock)"/>
+      <rect x="-1.5" y="-3.5" width="3" height="7" rx="1.5" fill="#111"/>
+    </g>
+  </g>
+
+  <!-- Hands -->
+  <g transform="translate(50 50)">
+    <!-- Hour Hand -->
+    <rect x="-2" y="-22" width="4" height="24" rx="2" fill="url(#orange-clock)" transform="rotate(130)" />
+    <!-- Minute Hand -->
+    <rect x="-1.5" y="-35" width="3" height="37" rx="1.5" fill="url(#orange-clock)" transform="rotate(10)" />
+    
+    <!-- Center Pin -->
+    <circle cx="0" cy="0" r="3.5" fill="url(#orange-clock)" />
+    <circle cx="0" cy="0" r="1.5" fill="#111" />
+  </g>
+</svg>

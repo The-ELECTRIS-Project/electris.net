@@ -29,3 +29,9 @@ export default ts.config(
 	  }
   }
 );
+
+module.exports = {
+  rules: {
+    "no-unused-vars": "warn"
+  }
+};

@@ -490,21 +490,18 @@
 
   /* Blog content styling */
   .post-content :global(h1) {
-    font-family: 'Letric';
     font-size: 2.5rem;
     margin: 3rem 0 1.5rem;
     color: var(--accent-color, #ff6811);
   }
 
   .post-content :global(h2) {
-    font-family: 'Letric';
     font-size: 2rem;
     margin: 2.5rem 0 1rem;
     color: var(--accent-color, #ff6811);
   }
 
   .post-content :global(h3) {
-    font-family: 'Letric';
     font-size: 1.5rem;
     margin: 2rem 0 1rem;
   }
@@ -639,7 +636,7 @@
     font-family: 'Redwing';
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 53.33vmin) {
     .post-container {
       padding: 5rem 1rem 4rem;
       max-width: none;
@@ -664,7 +661,7 @@
     }
   }
 
-  @media (max-width: 900px), (any-pointer: coarse) {
+  @media (max-width: 62.5vmin), (any-pointer: coarse) {
     .post-container {
       padding: 6.5rem 1rem 4rem;
       max-width: min(48rem, 100%);
@@ -760,7 +757,7 @@
     }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 38.8vmin) {
     .post-meta {
       gap: 0.45rem 0.75rem;
     }
