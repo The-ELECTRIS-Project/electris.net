@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/stores/i18n.svelte';
   import { themeState } from '$lib/stores/theme.svelte';
-  import { filterPosts, getAllTags, formatDate, resolveCover } from '$lib/utils/blog';
+  import { filterPosts, getAllTags, formatDate, resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
 
   let { data } = $props();
@@ -140,7 +140,8 @@
       <div class="posts-grid">
         {#each filteredPosts as post}
           {@const currentCover = resolveCover(post, themeState.resolvedColorScheme)}
-          <article class="post-card wrap-no-interact-all" class:has-cover={currentCover}>
+          {@const postTypographyStyle = resolvePostTypographyStyle(post)}
+          <article class="post-card wrap-no-interact-all" class:has-cover={currentCover} style={postTypographyStyle}>
             <a href="/blog/thoughts/{post.slug}?from=blogs" class="post-link">
               {#if currentCover}
                 <div class="post-background" style="background-image: url({currentCover});"></div>
@@ -559,7 +560,7 @@
   }
 
   .post-title {
-    font-family: 'Letric';
+    font-family: var(--post-title-font, 'Letric');
     font-size: 1.8rem;
     margin: 0 0 0.8vmin;
     line-height: 1.5;
@@ -568,7 +569,7 @@
   }
 
   .post-description {
-    font-family: 'Redwing';
+    font-family: var(--post-description-font, 'Redwing');
     font-size: 1rem;
     line-height: 1.5;
     margin: 0 0 1.2rem;

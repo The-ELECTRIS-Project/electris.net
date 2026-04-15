@@ -8,7 +8,32 @@
     "filler",
     "testing"
   ],
+  "titleFont": "Letric",
+  "descriptionFont": "Redwing",
   "coverImage": "/data/blog/_template/cover.jpg",
+  "links": [
+    {
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "type": "youtube"
+    },
+    {
+      "url": "https://open.spotify.com/track/3n3Ppam7vgaVa1iaRUc9Lp",
+      "type": "spotify"
+    }
+  ],
+  "infoCardStyle": {
+    "background": "rgba(255, 120, 40, 0.08)",
+    "borderColor": "rgba(255, 120, 40, 0.45)",
+    "titleColor": "#ff8f47",
+    "descriptionColor": "rgba(255, 226, 202, 0.92)",
+    "metaColor": "rgba(255, 210, 178, 0.92)",
+    "metaFont": "Aileron",
+    "tagFont": "Tourner",
+    "linkFont": "Nightcore",
+    "tagBackground": "rgba(255, 143, 71, 0.22)",
+    "tagBorderColor": "rgba(255, 143, 71, 0.44)",
+    "tagTextColor": "#ffd8b9"
+  },
   "readTime": 999,
   "featured": false,
   "hidden": true

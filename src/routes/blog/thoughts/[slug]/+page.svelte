@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { formatDate, resolveCover } from '$lib/utils/blog';
+  import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { t } from '$lib/stores/i18n.svelte';
   import { themeState } from '$lib/stores/theme.svelte';
@@ -9,6 +9,15 @@
   let { data } = $props();
 
   let relatedPosts = $derived(data.relatedPosts || []);
+  let resolvedLinks = $derived(data.post ? resolveBlogLinks(data.post) : []);
+  let youtubeLinks = $derived(resolvedLinks.filter((link) => Boolean(link.youtubeEmbedUrl)));
+  let spotifyLinks = $derived(resolvedLinks.filter((link) => Boolean(link.spotifyEmbedUrl)));
+  let labeledLinks = $derived(resolvedLinks.filter((link) => Boolean(link.label)));
+  let youtubeEmbedUrl = $derived(youtubeLinks[0]?.youtubeEmbedUrl);
+  let youtubeEmbedAspectRatio = $derived(youtubeLinks[0]?.youtubeEmbedAspectRatio ?? '16 / 9');
+  let postInfoStyle = $derived(data.post ? resolveInfoCardStyle(data.post.infoCardStyle) : undefined);
+  let postTypographyStyle = $derived(data.post ? resolvePostTypographyStyle(data.post) : undefined);
+  let postInfoInlineStyle = $derived([postInfoStyle, postTypographyStyle].filter(Boolean).join('; ') || undefined);
 
   let fromParam = $derived(page.url.searchParams.get('from'));
   let from = $derived(fromParam && fromParam.length ? fromParam : 'blogs');
@@ -82,6 +91,30 @@
     {
       selectors: ['.share-button'],
       className: 'hovered-blog-share',
+      lockPosition: true
+    },
+    {
+      type: ['a'],
+      selectors: ['.post-link-out'],
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        words: false,
+        sentences: true,
+        ignoreCharacters: false,
+        ignorePunctuation: false
+      }
+    },
+    {
+      selectors: ['.cover-embed'],
+      className: 'hovered-blog-media-youtube',
+      color: 'hsl(0, 100%, 50%)',
+      lockPosition: true
+    },
+    {
+      selectors: ['.spotify-embed-wrap'],
+      className: 'hovered-blog-media-spotify',
+      color: 'hsl(141, 76%, 48%)',
       lockPosition: true
     }
   ]);
@@ -160,7 +193,7 @@
   {:else}
     {@const currentCover = resolveCover(data.post, themeState.resolvedColorScheme)}
     <article class="post">
-      <div class="post-info">
+      <div class="post-info" style={postInfoInlineStyle}>
         <div class="post-meta">
           <time class="post-date">{formatDate(data.post.date)}</time>
           <span class="author">by {data.post.author}</span>
@@ -172,9 +205,21 @@
           {/if}
         </div>
 
-        {#if currentCover}
+        {#if youtubeEmbedUrl}
+          <div class="cover-image cover-embed" style="--embed-aspect-ratio: {youtubeEmbedAspectRatio};">
+            <iframe
+              class="youtube-embed"
+              src={youtubeEmbedUrl}
+              title="{data.post.title} on YouTube"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        {:else if currentCover}
           <div class="cover-image">
-            <div class="banner-image" style="background-image: url({currentCover});"></div>
+            <img class="banner-image" src={currentCover} alt="{data.post.title} cover" loading="eager" decoding="async" />
           </div>
         {/if}
 
@@ -185,6 +230,35 @@
         </h1>
 
         <p class="post-description">{data.post.description}</p>
+
+        {#if labeledLinks.length > 0}
+          <div class="post-links">
+            {#each labeledLinks as link, index (`${link.url}-${index}`)}
+              <a
+                href={link.url}
+                class="post-link-out"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.label}
+              </a>
+            {/each}
+          </div>
+        {/if}
+
+        {#if spotifyLinks.length > 0}
+          {#each spotifyLinks as spotifyLink, index (`${spotifyLink.url}-${index}`)}
+            <div class="spotify-embed-wrap">
+              <iframe
+                class="spotify-embed"
+                src={spotifyLink.spotifyEmbedUrl}
+                title="{data.post.title} on Spotify {index + 1}"
+                loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              ></iframe>
+            </div>
+          {/each}
+        {/if}
 
         <div class="post-tags-row">
           <div class="post-tags">
@@ -215,7 +289,8 @@
           <h3>Related Thoughts</h3>
           <div class="related-grid">
             {#each relatedPosts as related}
-              <a href="/blog/thoughts/{related.slug}?from=blogs" class="related-card">
+              {@const relatedTypographyStyle = resolvePostTypographyStyle(related)}
+              <a href="/blog/thoughts/{related.slug}?from=blogs" class="related-card" style={relatedTypographyStyle}>
                 {#if related.icon}
                   <div class="related-icon">
                     <img src={related.icon} alt="{related.title} icon" />
@@ -309,14 +384,9 @@
   }
 
   .banner-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .post-nav {
@@ -334,8 +404,6 @@
   
   .cover-image {
     width: 100%;
-    height: 35vmin;
-    position: relative;
     border-radius: 1rem;
     overflow: hidden;
     margin-bottom: 3rem;
@@ -344,9 +412,9 @@
   .post-info {
     margin-bottom: 3rem;
     padding: 2rem;
-    background: rgba(246, 89, 1, 0.03);
+    background: var(--post-info-bg, rgba(246, 89, 1, 0.03));
     border-radius: 1rem;
-    border: 0.1vmin solid rgba(246, 89, 1, 0.1);
+    border: 0.1vmin solid var(--post-info-border, rgba(246, 89, 1, 0.1));
   }
 
   .post-nav {
@@ -372,11 +440,12 @@
     gap: 1rem;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
+    color: var(--post-info-meta, inherit);
     opacity: 0.7;
   }
 
   .post-date, .author, .read-time {
-    font-family: 'Redwing';
+    font-family: var(--post-info-meta-font, 'Redwing');
   }
 
   .featured-badge {
@@ -385,25 +454,82 @@
     border-radius: 0.4rem;
     font-size: 0.8rem;
     font-weight: 600;
+    font-family: var(--post-info-meta-font, 'Redwing');
   }
 
   .post-title {
-    font-family: 'Letric';
+    font-family: var(--post-title-font, 'Letric');
     font-size: 3rem;
     line-height: 1.2;
     margin: 0 0 1.5rem;
     cursor: default;
-    color: var(--accent-color, #ff6811);
+    color: var(--post-info-title, var(--accent-color, #ff6811));
     text-shadow: 0 0 15px rgba(246, 89, 1, 0.2);
   }
 
   .post-description {
-    font-family: 'Redwing';
+    font-family: var(--post-description-font, 'Redwing');
     font-size: 1.2rem;
     line-height: 1.6;
     margin: 0 0 2rem;
+    color: var(--post-info-description, inherit);
     opacity: 0.9;
     font-style: italic;
+  }
+
+  .post-link-out {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0.55rem 1rem;
+    border-radius: 0.65rem;
+    border: 0.1vmin solid rgba(246, 89, 1, 0.35);
+    background: rgba(246, 89, 1, 0.12);
+    color: rgba(246, 89, 1, 0.95);
+    text-decoration: none;
+    font-family: var(--post-info-link-font, 'Redwing');
+    font-size: 0.95rem;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .post-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .post-link-out:hover,
+  .post-link-out:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(246, 89, 1, 0.55);
+    background: rgba(246, 89, 1, 0.2);
+    box-shadow: 0 0.4rem 0.9rem rgba(246, 89, 1, 0.16);
+  }
+
+  .cover-embed {
+    background: rgba(0, 0, 0, 0.2);
+    aspect-ratio: var(--embed-aspect-ratio, 16 / 9);
+  }
+
+  .youtube-embed {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .spotify-embed-wrap {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .spotify-embed {
+    width: 100%;
+    min-height: 9.5rem;
+    border: 0;
+    border-radius: 0.95rem;
+    display: block;
+    background: rgba(0, 0, 0, 0.25);
   }
 
   .post-tags-row {
@@ -422,12 +548,13 @@
   }
 
   .tag {
-    background: rgba(246, 89, 1, 0.15);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    background: var(--post-info-tag-bg, rgba(246, 89, 1, 0.15));
+    border: 0.1vmin solid var(--post-info-tag-border, rgba(246, 89, 1, 0.3));
     padding: 0.4rem 0.8rem;
     border-radius: 0.5rem;
     font-size: 0.85rem;
-    font-family: 'Redwing';
+    font-family: var(--post-info-tag-font, 'Redwing');
+    color: var(--post-info-tag-text, inherit);
   }
 
   .share-button {
@@ -618,12 +745,13 @@
   }
 
   .related-content h4 {
-    font-family: 'Letric';
+    font-family: var(--post-title-font, 'Letric');
     font-size: 1.2rem;
     margin: 0 0 0.5rem;
   }
 
   .related-content p {
+    font-family: var(--post-description-font, 'Redwing');
     font-size: 0.9rem;
     opacity: 0.8;
     margin: 0 0 0.8rem;
@@ -644,10 +772,6 @@
 
     .post-title {
       font-size: 2.5rem;
-    }
-
-    .cover-image {
-      height: 25vmin;
     }
 
     .post-meta {
@@ -688,10 +812,7 @@
       min-height: 2.75rem;
     }
 
-    .cover-image {
-      height: min(60vw, 18rem);
-      margin-bottom: 2rem;
-    }
+    .cover-image { margin-bottom: 2rem; }
 
     .post-title {
       font-size: clamp(2.2rem, 10vw, 3rem);

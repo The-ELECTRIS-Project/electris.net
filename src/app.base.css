@@ -158,6 +158,25 @@ main {
   border-radius: 5vmin;
 }
 
+.circle.hovered-blog-media-cover {
+  height: 40.2vmin;
+  width: 70vmin;
+  border-radius: 1.2vmin;
+}
+
+.circle.hovered-blog-media-youtube {
+  height: 40.2vmin;
+  width: 70vmin;
+  border-radius: 2vmin;
+}
+
+.circle.hovered-blog-media-spotify {
+  height: 12.8vmin;
+  width: 69.8vmin;
+  top: -0.4vmin;
+  border-radius: 1.5vmin;
+}
+
 .circle.hovered-blog-card {
   width: 100vmin;
   height: 18.5vmin;

@@ -3,7 +3,7 @@
   import { t, i18nState } from '$lib/stores/i18n.svelte';
   import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import { resolveCover } from '$lib/utils/blog';
+  import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 
@@ -341,10 +341,12 @@
     <div class="snapshot-grid">
       {#if latestPost}
         {@const currentCover = resolveCover(latestPost, themeState.resolvedColorScheme)}
+        {@const latestPostTypographyStyle = resolvePostTypographyStyle(latestPost)}
         <a
           href={`/blog/thoughts/${latestPost.slug}?from=home`}
           class="news-card latest-blog wrap-no-interact-all"
           class:no-cover={!currentCover}
+          style={latestPostTypographyStyle}
         >
           {#if currentCover}
             <div
@@ -1100,12 +1102,20 @@
     line-height: 0.96;
   }
 
+  .latest-blog .news-copy h3 {
+    font-family: var(--post-title-font, 'Letric');
+  }
+
   .news-copy p {
     margin: 0;
     max-width: 30rem;
     font-size: 1.05rem;
     line-height: 1.65;
     opacity: 0.92;
+  }
+
+  .latest-blog .news-copy p {
+    font-family: var(--post-description-font, 'Redwing');
   }
 
   .news-tags {
