@@ -10,7 +10,7 @@ This project supports self-hosting using Docker and `docker-compose`. It uses `@
     ```bash
     cp .env.example .env
     ```
-4.  (Optional) Edit `.env` to set your API keys and configuration.
+4.  (Optional) Edit `.env` to set needed API keys and configuration.
 5.  Run the following command to build and start the container:
 
     ```bash
@@ -31,7 +31,7 @@ You can configure the deployment using the `.env` file. Docker Compose is config
 | `ORIGIN` | The public URL of the website (critical for CSRF protection). | `http://localhost:3000` |
 | `YOUTUBE_DATA_API_V3_KEY` | API Key for YouTube data integration. | (Empty) |
 | `NODE_ENV` | The Node.js environment. | `production` |
-| `ADAPTER` | The SvelteKit adapter to use (set to `node` for Docker). | `node` |
+| `ADAPTER` | The SvelteKit adapter to use. | `node` |
 
 ### Production Deployment
 
@@ -39,13 +39,13 @@ For a production deployment, you **must** set the `ORIGIN` variable to your publ
 
 ```ini
 # .env
-ORIGIN=https://electris.net
-YOUTUBE_DATA_API_V3_KEY=your_actual_api_key_here
+ORIGIN=https://example.org
+YOUTUBE_DATA_API_V3_KEY=put_an_actual_api_key_here
 ```
 
 ### Behind a Reverse Proxy
 
-If you are running the container behind a reverse proxy (like Nginx, Traefik, or Caddy), you may need to configure additional headers in your `.env`:
+If you are running the container behind a reverse proxy (like Nginx, Traefik, or Caddy), you may need to configure additional headers in `.env`:
 
 ```ini
 # .env
@@ -76,6 +76,20 @@ docker compose logs -f
 ```bash
 docker compose down
 ```
+
+## Real-Time Content Updates
+
+By default, the `docker-compose.yml` file is configured with **bind mounts** for several subdirectories of your `static/` folder:
+
+- `static/data/blog`
+- `static/fonts`
+- `static/media`
+
+This means you can add or edit blog posts, add new fonts, or update images on your local machine, and the running container will serve them **immediately** without needing a rebuild or restart.
+
+### Updating Blog Posts
+
+Since the blog list is driven by a generated `index.json` blob, you can modify existing posts, but cannot add new ones without rebuilding the image to ensure the changes are reflected. The container maps your host's `static/data/blog/index.json`, which is generated when the image is built, so you *can* edit it manually, but it would be simpler to just rebuild the container image to add new blogs.
 
 ## Multi-Adapter Support
 

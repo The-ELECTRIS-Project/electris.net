@@ -27,6 +27,15 @@ services:
       # - HOST_HEADER=x-forwarded-host
     networks:
       - electris-network
+    volumes:
+      # Map specific static subdirectories for real-time updates
+      # This allows you to add blog posts, fonts, or media without rebuilding
+      - ./static/data/blog:/app/build/client/data/blog:ro
+      - ./static/fonts:/app/build/client/fonts:ro
+      - ./static/media:/app/build/client/media:ro
+      # Optional: if you want the generated index to update in real-time, 
+      # ensure you run the generation script on your host.
+      - ./static/data/blog/index.json:/app/build/client/data/blog/index.json:ro
 
 networks:
   electris-network:
