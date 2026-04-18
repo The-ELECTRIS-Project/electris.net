@@ -11,12 +11,12 @@ services:
       # Map the host port (left) to the container port (right)
       - "${PORT:-3000}:3000"
     environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - ADAPTER=node
+      - NODE_ENV=$(NODE_ENV)
+      - PORT=${PORT}
+      - ADAPTER=${ADAPTER}
       
       # For SvelteKit CSRF protection, set this to your public domain
-      # e.g., https://electris.net
+      # e.g. https://electris.net
       - ORIGIN=${ORIGIN:-http://localhost:3000}
       
       # YouTube Data API Key
@@ -29,12 +29,12 @@ services:
       - electris-network
     volumes:
       # Map specific static subdirectories for real-time updates
-      # This allows you to add blog posts, fonts, or media without rebuilding
+      # This allows you to update blog posts and add fonts or media without rebuilding
       - ./static/data/blog:/app/build/client/data/blog:ro
       - ./static/fonts:/app/build/client/fonts:ro
       - ./static/media:/app/build/client/media:ro
       # Optional: if you want the generated index to update in real-time, 
-      # ensure you run the generation script on your host.
+      # ensure you update the index file on your host.
       - ./static/data/blog/index.json:/app/build/client/data/blog/index.json:ro
 
 networks:
