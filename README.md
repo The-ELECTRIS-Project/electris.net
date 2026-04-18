@@ -3,7 +3,13 @@
 # [ELECTRIS.net](https://electris.net)
 #### The official website for the ELECTRIS Project.<br>Built with SvelteKit and TypeScript.
 
-## How to set up dev environment?
+## AI generated code disclosure
+
+The vast majority of this code is created with coding agents like Codex or Gemini-cli. It is afterwards modified and ajusted manually. All text content, the majority of art, images and assets are created by people.
+
+We see LLMs as a tool, but also something we need to be honest about. We use them to make up for what we lack, to be able to focus more on what we are good at. Creating.
+
+## How to set up a development environment?
 
 #### First, clone the project and navigate into the directory
     git clone https://github.com/ItzELECTR0/electris.net.git
