@@ -1,0 +1,33 @@
+services:
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: electris-net
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      # Map the host port (left) to the container port (right)
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ADAPTER=node
+      
+      # For SvelteKit CSRF protection, set this to your public domain
+      # e.g., https://electris.net
+      - ORIGIN=${ORIGIN:-http://localhost:3000}
+      
+      # YouTube Data API Key
+      - YOUTUBE_DATA_API_V3_KEY=${YOUTUBE_DATA_API_V3_KEY}
+      
+      # Optional: Trust proxy headers if behind a reverse proxy (Nginx, Traefik, etc.)
+      # - PROTOCOL_HEADER=x-forwarded-proto
+      # - HOST_HEADER=x-forwarded-host
+    networks:
+      - electris-network
+
+networks:
+  electris-network:
+    driver: bridge

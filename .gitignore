@@ -1,5 +1,8 @@
 node_modules
 
+# Credentials
+.env
+
 # Output
 .output
 .vercel
