@@ -68,16 +68,21 @@
       
       if (config.color) {
         circleElement.style.borderColor = config.color;
+        circleElement.style.color = config.color;
       } else if (config.wrapText) {
         const color = window.getComputedStyle(element).color;
         circleElement.style.borderColor = color;
+        circleElement.style.color = color;
       } else {
         circleElement.style.borderColor = '';
+        // Synchronously get the border color applied by CSS classes
+        circleElement.style.color = window.getComputedStyle(circleElement).borderTopColor;
       }
     } else {
       if (lastColorElement === null) return;
       lastColorElement = null;
       circleElement.style.borderColor = '';
+      circleElement.style.color = '';
     }
   }
   

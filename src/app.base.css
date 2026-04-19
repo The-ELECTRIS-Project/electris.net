@@ -728,13 +728,14 @@ main {
   box-shadow: 0 0 2vmin color-mix(in srgb, var(--color-primary) 20%, transparent);
 }
 
-[data-theme="cyber-neotic"] .circle {
+:where([data-theme="cyber-neotic"]) .circle {
   border-width: 0.3vmin;
-  box-shadow: 0 0 1vmin var(--color-primary), inset 0 0 0.5vmin var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 1vmin currentColor, inset 0 0 0.5vmin currentColor;
 }
 
-[data-theme="cyber-neotic"] .circle.hovered-lock {
-  box-shadow: 0 0 1.5vmin var(--color-primary), inset 0 0 0.8vmin var(--color-primary);
+:where([data-theme="cyber-neotic"]) .circle:where(.hovered-lock) {
+  box-shadow: 0 0 1.5vmin currentColor, inset 0 0 0.8vmin currentColor;
 }
 
 /* Light Scheme */
