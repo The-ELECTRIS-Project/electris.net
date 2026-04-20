@@ -1,0 +1,22 @@
+{
+  "title": "DUCKW/LAZĂR",
+  "description": "Inspirations and insights behind the project",
+  "author": "ELECTRO",
+  "date": "2026-04-20",
+  "tags": [
+    "video",
+    "afterword",
+    "behind the scenes"
+  ],
+  "titleFont": "Storyteller",
+  "coverImage": "/data/blog/duckworth/cover.png",
+  "links": [
+    {
+      "url": "https://www.youtube.com/watch?v=2FNziah2QtA",
+      "type": "youtube"
+    }
+  ],
+  "readTime": 8,
+  "featured": true,
+  "hidden": false
+}

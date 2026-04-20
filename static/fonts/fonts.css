@@ -215,6 +215,14 @@
 }
 
 @font-face {
+    font-family: 'Storyteller';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Storyteller/Storyteller.ttf') format('truetype');
+}
+
+@font-face {
     font-family: 'Tourner';
     font-style: normal;
     font-weight: 600;
