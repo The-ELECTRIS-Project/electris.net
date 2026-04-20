@@ -757,7 +757,7 @@
     padding: 1.5vmin;
     border-radius: 1vmin;
     z-index: 200;
-    color: #f65901;
+    color: var(--color-primary);
     min-width: 35vmin;
     max-width: 40vmin;
     transition: all 0.3s ease;
@@ -805,8 +805,8 @@
 
   .theme-button {
     background: none;
-    border: 0.1vmin solid #f65901;
-    color: #f65901;
+    border: 0.1vmin solid var(--color-primary);
+    color: var(--color-primary);
     padding: 0.5vmin 1vmin;
     border-radius: 0.4vmin;
     cursor: pointer;
@@ -821,7 +821,7 @@
   }
 
   .theme-button:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .theme-icon {
@@ -855,7 +855,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary, #1a1a1a);
+    background: var(--bg-secondary);
     border: 0.1vmin solid;
     border-radius: 0.4vmin;
     border-top: none;
@@ -872,7 +872,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: #f65901;
+    color: var(--color-primary);
     padding: 0.75vmin 1vmin;
     cursor: pointer;
     display: flex;
@@ -886,11 +886,11 @@
   }
 
   .theme-option:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .theme-option.active {
-    background-color: rgba(246, 89, 1, 0.2);
+    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     font-weight: 500;
   }
 
@@ -910,7 +910,7 @@
 
   .theme-description {
     font-size: 0.75rem;
-    color: rgba(246, 89, 1, 0.7);
+    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -919,8 +919,8 @@
 
   .color-scheme-button {
     background: none;
-    border: 0.1vmin solid #f65901;
-    color: #f65901;
+    border: 0.1vmin solid var(--color-primary);
+    color: var(--color-primary);
     padding: 0.5vmin 1vmin;
     border-radius: 0.4vmin;
     cursor: pointer;
@@ -935,7 +935,7 @@
   }
 
   .color-scheme-button:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .color-scheme-icon {
@@ -959,7 +959,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary, #1a1a1a);
+    background: var(--bg-secondary);
     border: 0.1vmin solid;
     border-radius: 0.4vmin;
     border-top: none;
@@ -976,7 +976,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: #f65901;
+    color: var(--color-primary);
     padding: 0.75vmin 1vmin;
     cursor: pointer;
     display: flex;
@@ -990,11 +990,11 @@
   }
 
   .color-scheme-option:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .color-scheme-option.active {
-    background-color: rgba(246, 89, 1, 0.2);
+    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     font-weight: 500;
   }
 
@@ -1014,7 +1014,7 @@
 
   .color-scheme-description {
     font-size: 0.75rem;
-    color: rgba(246, 89, 1, 0.7);
+    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1022,7 +1022,7 @@
   }
 
   .checkmark {
-    color: #f65901;
+    color: var(--color-primary);
     font-weight: bold;
     font-size: 0.9rem;
     flex-shrink: 0;
@@ -1041,16 +1041,16 @@
     line-height: 2.25vmin;
     font-family: Aileron;
     text-decoration: none;
-    color: #f65901;
+    color: var(--color-primary);
     font-size: 1.2rem;
   }
 
   .env-indicator {
     margin-left: 0.5rem;
-    color: #f65901;
+    color: var(--color-primary);
     font-size: 0.8rem;
     letter-spacing: 0.045vmin;
-    background-color: rgba(246, 89, 1, 0.2);
+    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     padding: 0.1rem 0.3rem;
     border-radius: 0.4vmin;
     font-family: monospace;
@@ -1063,8 +1063,8 @@
   .reset-button {
     background: none;
     width: auto;
-    border: 0.1vmin solid #f65901;
-    color: #f65901;
+    border: 0.1vmin solid var(--color-primary);
+    color: var(--color-primary);
     padding: 0.3vmin 0.6vmin;
     border-radius: 0.3vmin;
     cursor: pointer;
@@ -1076,16 +1076,16 @@
   }
 
   .reset-button:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .devtools-section {
-    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
+    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 30%, transparent);
     border-radius: 0.5vmin;
     padding: 0.5vmin;
     margin: 2.5vmin 0;
     margin-bottom: -1.5vmin;
-    background: rgba(246, 89, 1, 0.05);
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
   }
 
   .devtools-header {
@@ -1103,7 +1103,7 @@
   }
 
   .devtools-header:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
   .triangle {
@@ -1111,7 +1111,7 @@
     transform-origin: center;
     display: inline-block;
     font-size: 0.8rem;
-    color: #f65901;
+    color: var(--color-primary);
     pointer-events: none;
   }
 
@@ -1120,7 +1120,7 @@
   }
 
   .devtools-submenu {
-    border-top: 0.2vmin solid rgba(246, 89, 1, 0.2);
+    border-top: 0.2vmin solid color-mix(in srgb, var(--color-primary) 20%, transparent);
     margin-top: 0.5vmin;
     padding-top: 0.5vmin;
   }
@@ -1135,7 +1135,7 @@
   }
 
   .devtools-option span {
-    color: rgba(246, 89, 1, 0.9);
+    color: color-mix(in srgb, var(--color-primary) 90%, transparent);
   }
 
   .confirm-overlay {
@@ -1154,20 +1154,20 @@
   }
 
   .confirm-dialog {
-    background: var(--bg-primary, #1a1a1a);
-    border: 0.2vmin solid #f65901;
+    background: var(--bg-body, #1a1a1a);
+    border: 0.2vmin solid var(--color-primary);
     border-radius: 1vmin;
     padding: 2vmin;
     max-width: 30vmin;
     width: 30vmin;
     text-align: center;
-    color: #f65901;
+    color: var(--color-primary);
   }
 
   .confirm-dialog h3 {
     margin: 0 0 1vmin 0;
     font-size: 1.3rem;
-    color: #f65901;
+    color: var(--color-primary);
   }
 
   .confirm-dialog p {
@@ -1179,12 +1179,12 @@
   .cookie-stats {
     margin: 1vmin 0;
     padding: 0.5vmin;
-    background: rgba(246, 89, 1, 0.1);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
     border-radius: 0.4vmin;
   }
 
   .cookie-stats small {
-    color: rgba(246, 89, 1, 0.8);
+    color: color-mix(in srgb, var(--color-primary) 80%, transparent);
     font-family: monospace;
   }
 
@@ -1226,24 +1226,6 @@
   .confirm-reset:hover {
     background-color: #dc2626;
     color: white;
-  }
-
-  :global([data-color-scheme="light"]) .theme-dropdown,
-  :global([data-theme="light"]) .color-scheme-dropdown {
-    background: var(--bg-secondary, #f0f0f0);
-    color: #333;
-  }
-
-  :global([data-color-scheme="light"]) .theme-button,
-  :global([data-color-scheme="light"]) .theme-option,
-  :global([data-color-scheme="light"]) .color-scheme-button,
-  :global([data-color-scheme="light"]) .color-scheme-option {
-    color: #f65901;
-  }
-
-  :global([data-color-scheme="light"]) .theme-description,
-  :global([data-color-scheme="light"]) .color-scheme-description {
-    color: rgba(246, 89, 1, 0.6);
   }
 
   @media (max-width: 900px) {

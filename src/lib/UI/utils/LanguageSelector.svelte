@@ -88,8 +88,8 @@
   
   .language-button {
     background: none;
-    border: 1px solid #f65901;
-    color: #f65901;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
     padding: 0.5vmin 1vmin;
     border-radius: 4px;
     cursor: pointer;
@@ -104,7 +104,7 @@
   }
   
   .language-button:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
   
   .flag {
@@ -138,8 +138,8 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary, #1a1a1a);
-    border: 1px solid #f65901;
+    background: var(--bg-secondary);
+    border: 1px solid var(--color-primary);
     border-radius: 4px;
     border-top: none;
     border-top-left-radius: 0;
@@ -155,7 +155,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: #f65901;
+    color: var(--color-primary);
     padding: 0.5vmin 1vmin;
     cursor: pointer;
     display: flex;
@@ -168,11 +168,11 @@
   }
   
   .language-option:hover {
-    background-color: rgba(246, 89, 1, 0.1);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
   
   .language-option.active {
-    background-color: rgba(246, 89, 1, 0.2);
+    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     font-weight: 500;
   }
   
@@ -189,20 +189,10 @@
   }
   
   .checkmark {
-    color: #f65901;
+    color: var(--color-primary);
     font-weight: bold;
     font-size: 0.9rem;
     flex-shrink: 0;
-  }
-  
-  :global([data-color-scheme="light"]) .language-dropdown {
-    background: var(--bg-secondary, #f0f0f0);
-    color: #333;
-  }
-  
-  :global([data-color-scheme="light"]) .language-button,
-  :global([data-color-scheme="light"]) .language-option {
-    color: #f65901;
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {

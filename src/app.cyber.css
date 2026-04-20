@@ -1,0 +1,191 @@
+/* ===== THEME: Cyber-Neotic ===== */
+
+[data-theme="cyber-neotic"] body {
+  background-image: 
+    linear-gradient(var(--cyber-grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cyber-grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-attachment: fixed;
+}
+
+[data-theme="cyber-neotic"] .navbar {
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border-bottom: 0.1vmin solid var(--color-primary);
+  background-color: var(--navbar-bg);
+}
+
+[data-theme="cyber-neotic"] .hamburger {
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border-right: 0.1vmin solid var(--color-primary);
+}
+
+[data-theme="cyber-neotic"] .nav-button:hover {
+  text-shadow: 0 0 0.8vmin var(--color-primary), 0 0 1.5vmin var(--color-primary);
+  color: #fff;
+}
+
+[data-theme="cyber-neotic"] .options-menu {
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  border: 0.1vmin solid var(--color-primary);
+  box-shadow: 0 0 2vmin color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+:where([data-theme="cyber-neotic"]) .circle {
+  border-width: 0.3vmin;
+  color: var(--color-primary);
+  box-shadow: 0 0 1vmin currentColor, inset 0 0 0.5vmin currentColor;
+}
+
+:where([data-theme="cyber-neotic"]) .circle:where(.hovered-lock) {
+  box-shadow: 0 0 1.5vmin currentColor, inset 0 0 0.8vmin currentColor;
+}
+
+/* Light Scheme */
+[data-theme="cyber-neotic"][data-color-scheme="light"] {
+  --bg-body: #f5f1f8;
+  --color-primary: #ff5608;
+  --color-link: #ff6811;
+  --color-electris: #ff983e;
+  --color-electro: #00bf80;
+  --color-varrow: #88cc00;
+  
+  --navbar-bg: rgba(245, 241, 248, 0.7);
+  --bg-secondary: rgba(240, 240, 240, 0.9);
+  --hamburger-bg: #f5f1f8;
+  --options-menu-bg: rgba(231, 231, 231, 0.8);
+  
+  --overlay-bg: rgba(255, 86, 8, 0.1);
+  --hover-overlay-bg: rgba(255, 86, 8, 0.05);
+  --hover-overlay-active: rgba(255, 104, 17, 0.1);
+  
+  --circle-border: #ff5608;
+  --circle-hover-search: hsl(28, 97%, 55%);
+  --circle-hover-footer: #ffa366;
+  --circle-hover-sip: #4cc200;
+  --circle-hover-crown: #ffffff;
+  
+  --video-overlay: linear-gradient(rgba(245, 241, 248, 0.1), rgba(245, 241, 248, 0.6));
+  
+  --box-1-bg: #afdff4;
+  --box-2-bg: #ddf2af;
+  --main-card-1-bg: #f4d8ca;
+  --main-card-2-bg: #afdff4;
+  --card-bg: #dedede;
+  --game-card-bg: #5ad2391a;
+  
+  --cyber-grid-color: rgba(255, 86, 8, 0.1);
+  
+  --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 151, 55, 0.5) 0%, transparent 50%),
+                   radial-gradient(circle at 80% 70%, rgba(255, 151, 55, 0.5) 0%, transparent 50%);
+  
+  --notice-bg: linear-gradient(135deg, rgba(255, 140, 33, 0.068), rgba(255, 140, 33, 0.068));
+  --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 140, 33, 0.185) 50%, transparent 70%);
+  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(255, 94, 0, 0.116) 50%, transparent 70%);
+  
+  --gear-border: #ff5608;
+  --gear-before: radial-gradient(circle, transparent 40%, #ff5608 42%, #ff5608 58%, transparent 60%);
+  
+  --spark-bg: #4cc200;
+  --spark-shadow: 0 0 8px #4cc200, 0 0 16px #4cc200;
+}
+
+/* Dark Scheme */
+[data-theme="cyber-neotic"][data-color-scheme="dark"] {
+  --bg-body: hsl(244, 33%, 10%);
+  --color-primary: hsl(22, 99%, 48%);
+  --color-link: hsl(22, 100%, 53%);
+  --color-electris: #ffa251;
+  --color-electro: #00ffaa;
+  --color-varrow: #ccff00;
+  
+  --navbar-bg: rgba(15, 16, 16, 0.7);
+  --bg-secondary: rgba(26, 26, 26, 0.9);
+  --hamburger-bg: hsl(210, 37%, 12%);
+  --options-menu-bg: rgba(30, 34, 40, 0.8);
+  
+  --overlay-bg: rgba(0, 0, 0, 0.2);
+  --hover-overlay-bg: rgba(255, 123, 0, 0.1);
+  --hover-overlay-active: rgba(255, 134, 17, 0.2);
+  
+  --circle-border: hsl(22, 99%, 48%);
+  --circle-hover-search: hsl(28, 97%, 55%);
+  --circle-hover-footer: hsl(28, 100%, 70%);
+  --circle-hover-sip: hsl(98, 100%, 50%);
+  --circle-hover-crown: #ffffff;
+  
+  --video-overlay: linear-gradient(rgba(15, 16, 16, 0.05), rgba(15, 16, 16, 0.8));
+  
+  --box-1-bg: #151922;
+  --box-2-bg: #192215;
+  --main-card-1-bg: #25211f;
+  --main-card-2-bg: #151a22;
+  --card-bg: #1d1d35;
+  --game-card-bg: #214f141a;
+  
+  --cyber-grid-color: rgba(255, 123, 0, 0.08);
+  
+  --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 123, 0, 0.3) 0%, transparent 50%),
+                   radial-gradient(circle at 80% 70%, rgba(255, 123, 0, 0.3) 0%, transparent 50%);
+  
+  --notice-bg: linear-gradient(135deg, rgba(255, 134, 17, 0.03), rgba(255, 134, 17, 0.01));
+  --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 134, 17, 0.05) 50%, transparent 70%);
+  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(246, 89, 1, 0.05) 50%, transparent 70%);
+  
+  --gear-border: #f65901;
+  --gear-before: radial-gradient(circle, transparent 40%, #f65901 42%, #f65901 58%, transparent 60%);
+  
+  --spark-bg: #5eff00;
+  --spark-shadow: 0 0 10px #5eff00, 0 0 20px #5eff00;
+}
+
+/* Midnight Scheme */
+[data-theme="cyber-neotic"][data-color-scheme="midnight"] {
+  --bg-body: hsl(0, 0%, 0.5%);
+  --color-primary: hsl(22, 100%, 56%);
+  --color-link: hsl(22, 100%, 65%);
+  --color-electris: #ffa251;
+  --color-electro: #20ffb0;
+  --color-varrow: #d4ff33;
+  
+  --navbar-bg: rgba(0, 0, 0, 0.8);
+  --bg-secondary: rgba(2, 2, 2, 0.95);
+  --hamburger-bg: hsl(0, 0%, 0%);
+  --options-menu-bg: rgba(5, 5, 5, 0.9);
+  
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --hover-overlay-bg: rgba(255, 140, 0, 0.15);
+  --hover-overlay-active: rgba(255, 150, 30, 0.3);
+  
+  --circle-border: hsl(22, 100%, 56%);
+  --circle-hover-search: hsl(28, 85%, 42%);
+  --circle-hover-footer: hsl(28, 100%, 75%);
+  --circle-hover-sip: hsl(98, 100%, 60%);
+  --circle-hover-crown: hsl(0, 0%, 100%);
+  
+  --video-overlay: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.95));
+  
+  --box-1-bg: #050505;
+  --box-2-bg: #040404;
+  --main-card-1-bg: #080808;
+  --main-card-2-bg: #050505;
+  --card-bg: #0a0a0a;
+  --game-card-bg: #3c962826;
+  
+  --cyber-grid-color: rgba(255, 140, 0, 0.12);
+  
+  --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.4) 0%, transparent 50%),
+                   radial-gradient(circle at 80% 70%, rgba(255, 140, 0, 0.4) 0%, transparent 50%);
+  
+  --notice-bg: linear-gradient(135deg, rgba(255, 150, 30, 0.08), rgba(255, 150, 30, 0.02));
+  --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 150, 30, 0.12) 50%, transparent 70%);
+  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(246, 110, 20, 0.12) 50%, transparent 70%);
+  
+  --gear-border: #ff6b20;
+  --gear-before: radial-gradient(circle, transparent 40%, #ff6b20 42%, #ff6b20 58%, transparent 60%);
+  
+  --spark-bg: #70ff20;
+  --spark-shadow: 0 0 15px #70ff20, 0 0 30px #70ff20, 0 0 45px #70ff20;
+}
