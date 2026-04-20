@@ -3,6 +3,9 @@ node_modules
 # Credentials
 .env
 
+# Cache
+.youtube-cache
+
 # Output
 .output
 .vercel

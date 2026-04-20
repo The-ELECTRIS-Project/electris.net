@@ -10,7 +10,7 @@ This project supports self-hosting using Docker and `docker-compose`. It uses `@
     ```bash
     cp .env.example .env
     ```
-4.  (Optional) Edit `.env` to set needed API keys and configuration.
+4.  Edit `.env` to set needed API keys and configuration.
 5.  Run the following command to build and start the container:
 
     ```bash
@@ -29,17 +29,19 @@ You can configure the deployment using the `.env` file. Docker Compose is config
 | :--- | :--- | :--- |
 | `PORT` | The port the container listens on (mapped to host). | `3000` |
 | `ORIGIN` | The public URL of the website (critical for CSRF protection). | `http://localhost:3000` |
+| `REFERRER` | The URL fed into API requests as referrer source. | `https://electris.net` |
 | `YOUTUBE_DATA_API_V3_KEY` | API Key for YouTube data integration. | (Empty) |
 | `NODE_ENV` | The Node.js environment. | `production` |
 | `ADAPTER` | The SvelteKit adapter to use. | `node` |
 
 ### Production Deployment
 
-For a production deployment, you **must** set the `ORIGIN` variable to your public domain to ensure CSRF protection works correctly:
+For a production deployment, you **must** set the `ORIGIN` variable to your public domain to ensure CSRF protection works correctly. If you are using YouTube API, the `REFERRER` variable must match your API key restrictions set in the Google Cloud Console.
 
 ```ini
 # .env
 ORIGIN=https://example.org
+REFERER=https://example.org
 YOUTUBE_DATA_API_V3_KEY=put_an_actual_api_key_here
 ```
 

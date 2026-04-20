@@ -4,10 +4,28 @@
   import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
+  import YoutubeCard from '$lib/UI/components/YoutubeCard.svelte';
+  import YoutubeLiveSection from '$lib/UI/components/YoutubeLiveSection.svelte';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 
   let { data } = $props();
+  let youtube = $derived(data.youtube);
+
+  const liveAndUpcoming = $derived(youtube.videos.filter(v => v.status === 'live' || v.status === 'upcoming'));
+  
+  const newestPerChannel = $derived.by(() => {
+    const map = new Map();
+    youtube.videos
+      .filter(v => v.status === 'finished')
+      .forEach(v => {
+        if (!map.has(v.channelId)) map.set(v.channelId, v);
+      });
+    return Array.from(map.values()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  });
+
+  const displayVideos = $derived(newestPerChannel.slice(0, 2));
+  const hasMoreVideos = $derived(newestPerChannel.length > 2 || liveAndUpcoming.length > 1); // 1 is already shown in live section
 
   let pointer = $state({ x: 50, y: 22 });
   let scrollShift = $state(0);
@@ -149,10 +167,32 @@
       className: 'hovered-home-latest-big',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 58%, var(--color-varrow) 42%)'
+      color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)'
+    },
+    {
+      selectors: ['.youtube-card'],
+      className: 'hovered-home-youtube-card',
+      lockPosition: true,
+      preventRotation: true,
+      color: 'color-mix(in srgb, var(--color-electro) 40%, var(--color-primary) 60%)'
+    },
+    {
+      selectors: ['.live-signal-bar'],
+      className: 'hovered-home-live-signal',
+      lockPosition: true,
+      preventRotation: true,
+      color: 'color-mix(in srgb, var(--color-electro) 70%, var(--color-primary) 30%)'
+    },
+    {
+      selectors: ['.show-all-link'],
+      className: 'hovered-home-show-all',
+      lockPosition: true,
+      preventRotation: true,
+      color: 'color-mix(in srgb, var(--color-electro) 40%, var(--color-primary) 60%)'
     },
     {
       selectors: ['.snapshot-mini.devlog'],
+
       className: 'hovered-home-latest-small',
       lockPosition: true,
       preventRotation: true,
@@ -278,6 +318,8 @@
     </div>
   </section>
 
+  <YoutubeLiveSection videos={liveAndUpcoming} />
+
   <section class="hero-grid reveal-block" data-section="hero" class:visible={visibleSections.hero}>
     <div class="hero-copy">
       <p class="hero-kicker">{t('home.hero.kicker', 'ELECTRIS // creative freedom')}</p>
@@ -337,6 +379,24 @@
         )}
       </p>
     </div>
+
+    {#if displayVideos.length > 0}
+      <div class="youtube-row" class:single={displayVideos.length === 1}>
+        {#each displayVideos as video}
+          <YoutubeCard {video} big={displayVideos.length === 1} />
+        {/each}
+        {#if hasMoreVideos}
+          <div class="show-all-container">
+            <a href="/news/videos/feed" class="show-all-link wrap-no-interact-all">
+              <span>View all new uploads</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <div class="snapshot-grid">
       {#if latestPost}
@@ -903,9 +963,9 @@
 
   .signal-card {
     position: relative;
-    min-height: 18rem;
-    padding: 1.45rem;
-    border-radius: 1.65rem;
+    min-height: 20vmin;
+    padding: 2vmin;
+    border-radius: 2vmin;
     border: 1px solid var(--surface-border);
     overflow: hidden;
     background: linear-gradient(180deg, color-mix(in srgb, currentColor 8%, transparent), transparent 68%), color-mix(in srgb, var(--surface-elevated) 92%, transparent);
@@ -916,9 +976,9 @@
   .signal-card::after {
     content: '';
     position: absolute;
-    inset: auto 0.65rem 0.65rem;
+    inset: auto 1vmin 1vmin;
     height: 34%;
-    border-radius: 1.1rem;
+    border-radius: 1.4vmin;
     background: linear-gradient(180deg, transparent, color-mix(in srgb, currentColor 10%, transparent));
     opacity: 0.42;
     pointer-events: none;
@@ -1019,6 +1079,57 @@
     grid-template-columns: minmax(0, 1.35fr) minmax(19rem, 0.72fr);
     gap: 1rem;
     align-items: stretch;
+  }
+
+  .youtube-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .youtube-row.single {
+    grid-template-columns: 1fr;
+  }
+
+  .show-all-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -0.5rem;
+  }
+
+  .show-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface-elevated) 80%, transparent);
+    border: 1px solid var(--surface-border);
+    font-family: 'Nightcore';
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+  }
+
+  .show-all-link:hover {
+    background: color-mix(in srgb, var(--surface-elevated) 95%, transparent);
+    border-color: var(--color-electro);
+    transform: translateX(0.35rem);
+  }
+
+  .show-all-link svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    transition: transform 0.25s ease;
+  }
+
+  .show-all-link:hover svg {
+    transform: translateX(0.2rem);
   }
 
   .news-card {

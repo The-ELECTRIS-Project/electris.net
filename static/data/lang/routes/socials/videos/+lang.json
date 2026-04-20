@@ -1,0 +1,34 @@
+{
+  "ar": {
+    "videos.page.title": "بث الإشارات",
+    "videos.page.intro": "أحدث الإرسالات من قنوات شبكة ELECTRIS.",
+    "videos.section.live": "مباشر وقادم",
+    "videos.section.latest": "أحدث التحميلات",
+    "videos.back_home": "العودة إلى القاعدة",
+    "videos.empty_state": "لم يتم العثور على أي إشارات. يرجى التحقق مرة أخرى لاحقًا."
+  },
+  "en_GB": {
+    "videos.page.title": "Signal Broadcasts",
+    "videos.page.intro": "The latest transmissions from the ELECTRIS network channels.",
+    "videos.section.live": "Live & Upcoming",
+    "videos.section.latest": "Latest Uploads",
+    "videos.back_home": "Back to Base",
+    "videos.empty_state": "No signals found. Please check back later."
+  },
+  "en_US": {
+    "videos.page.title": "Signal Broadcasts",
+    "videos.page.intro": "The latest transmissions from the ELECTRIS network channels.",
+    "videos.section.live": "Live & Upcoming",
+    "videos.section.latest": "Latest Uploads",
+    "videos.back_home": "Back to Base",
+    "videos.empty_state": "No signals found. Please check back later."
+  },
+  "ro_RO": {
+    "videos.page.title": "Transmisiuni Semnal",
+    "videos.page.intro": "Ultimele transmisii de pe canalele rețelei ELECTRIS.",
+    "videos.section.live": "Live și În curând",
+    "videos.section.latest": "Ultimele videoclipuri",
+    "videos.back_home": "Înapoi la bază",
+    "videos.empty_state": "Niciun semnal găsit. Te rugăm să revii mai târziu."
+  }
+}
