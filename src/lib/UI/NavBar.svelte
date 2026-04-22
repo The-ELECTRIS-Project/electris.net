@@ -19,7 +19,9 @@
     getCookieCount,
     deleteAllCookies, 
     getLocalStorageCount, 
-    resetAllStates 
+    resetAllStates,
+    getIgnoreExcludedSuffixes,
+    setIgnoreExcludedSuffixes
   } from '$lib/utils/devTools';
   import Hamburger from './utils/Hamburger.svelte';
 
@@ -43,6 +45,7 @@
   let showCookieConfirmDialog = $state(false);
   let showStatesConfirmDialog = $state(false);
   let showDevToolsSubmenu = $state(false);
+  let ignoreExcludedSuffixes = $state(false);
   let isOpen = $state(false);
   let siteHref = $state("");
   let gearElement: HTMLImageElement | undefined = $state();
@@ -248,6 +251,7 @@
 
   onMount(async () => {
     await environmentState.refresh();
+    ignoreExcludedSuffixes = getIgnoreExcludedSuffixes();
     
     if (typeof document !== 'undefined') {
       document.addEventListener('click', handleClickOutside);
@@ -362,6 +366,11 @@
   function toggleDevToolsSubmenu(event: MouseEvent | KeyboardEvent) {
     event.stopPropagation();
     showDevToolsSubmenu = !showDevToolsSubmenu;
+  }
+
+  function toggleIgnoreExcludedSuffixes() {
+    ignoreExcludedSuffixes = !ignoreExcludedSuffixes;
+    setIgnoreExcludedSuffixes(ignoreExcludedSuffixes);
   }
 
   function handleCookieReset() {
@@ -565,6 +574,17 @@
           </div>
           {#if showDevToolsSubmenu}
             <div class="devtools-submenu" transition:slide={{ duration: 300 }}>
+              <div class="devtools-option">
+                <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
+                <button 
+                  class="toggle-switch-mini" 
+                  class:active={ignoreExcludedSuffixes}
+                  onclick={toggleIgnoreExcludedSuffixes}
+                  aria-label="Toggle ignore excluded suffixes"
+                >
+                  <span class="toggle-slider-mini"></span>
+                </button>
+              </div>
               <div class="devtools-option">
                 <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
                 <button 
@@ -1136,6 +1156,57 @@
 
   .devtools-option span {
     color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+  }
+
+  .toggle-switch-mini {
+    position: relative;
+    width: 3.5vmin;
+    height: 1.8vmin;
+    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: 0.9vmin;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+  }
+
+  .toggle-switch-mini.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .toggle-slider-mini {
+    position: absolute;
+    top: 0.2vmin;
+    left: 0.2vmin;
+    width: 1.2vmin;
+    height: 1.2vmin;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toggle-switch-mini.active .toggle-slider-mini {
+    transform: translateX(1.7vmin);
+  }
+
+  @media (any-pointer: coarse) {
+    .toggle-switch-mini {
+      width: 2.8rem;
+      height: 1.6rem;
+      border-radius: 0.8rem;
+    }
+
+    .toggle-slider-mini {
+      top: 0.2rem;
+      left: 0.2rem;
+      width: 1.1rem;
+      height: 1.1rem;
+    }
+
+    .toggle-switch-mini.active .toggle-slider-mini {
+      transform: translateX(1.1rem);
+    }
   }
 
   .confirm-overlay {

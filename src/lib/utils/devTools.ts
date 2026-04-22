@@ -182,3 +182,16 @@ export function resetPinsGrid(): boolean {
     return false;
   }
 }
+
+export function getIgnoreExcludedSuffixes(): boolean {
+  if (!browser) return false;
+  return document.cookie.includes('devtools-ignore-excluded-suffixes=true');
+}
+
+export function setIgnoreExcludedSuffixes(value: boolean): void {
+  if (!browser) return;
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+  document.cookie = `devtools-ignore-excluded-suffixes=${value}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+  window.dispatchEvent(new CustomEvent('devtoolsIgnoreExcludedSuffixesChanged', { detail: value }));
+}

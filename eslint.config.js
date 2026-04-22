@@ -4,34 +4,32 @@ import svelte from 'eslint-plugin-svelte';
 import globals from 'globals';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript-eslint';
-const gitignorePath = fileURLToPath(new URL("./.gitignore", import.meta.url));
+
+const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url));
 
 export default ts.config(
   includeIgnoreFile(gitignorePath),
   js.configs.recommended,
   ...ts.configs.recommended,
-  ...svelte.configs["flat/recommended"],
+  ...svelte.configs['flat/recommended'],
   {
     languageOptions: {
-	  globals: {
-	    ...globals.browser,
-	    ...globals.node
-	  }
-	}
+      globals: {
+        ...globals.browser,
+        ...globals.node
+      }
+    },
+    rules: {
+      'no-unused-vars': 'warn'
+    }
   },
   {
-    files: ["**/*.svelte"],
+    files: ['**/*.svelte'],
 
     languageOptions: {
-	    parserOptions: {
-	      parser: ts.parser
-	    }
-	  }
+      parserOptions: {
+        parser: ts.parser
+      }
+    }
   }
 );
-
-module.exports = {
-  rules: {
-    "no-unused-vars": "warn"
-  }
-};

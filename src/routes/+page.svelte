@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { invalidateAll } from '$app/navigation';
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/stores/i18n.svelte';
   import { themeState } from '$lib/stores/theme.svelte';
@@ -234,6 +235,12 @@
   }
 
   onMount(() => {
+    const handleSuffixToggle = () => {
+      invalidateAll();
+    };
+
+    window.addEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -265,7 +272,10 @@
     setTimeout(cursorReset, 10);
     handleScroll();
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
+    };
   });
 </script>
 
@@ -1085,6 +1095,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+    align-items: start;
     margin-bottom: 1.5rem;
   }
 
@@ -1096,7 +1107,7 @@
     grid-column: 1 / -1;
     display: flex;
     justify-content: flex-end;
-    margin-top: -0.5rem;
+    margin-top: -0.15rem;
   }
 
   .show-all-link {
