@@ -1,5 +1,6 @@
 <script lang="ts">
   import { i18nState } from '$lib/stores/i18n.svelte';
+  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import type { YoutubeVideo } from '$lib/types/youtube';
   import {
     formatYoutubeDate,
@@ -85,18 +86,88 @@
   });
 
   // CONTENT-DYNAMIC SIZING
-  // We calculate length to help CSS scale the font
-  let titleLength = $derived(video.title.length);
   let summaryLength = $derived(summary.length);
+
+  function fitText(node: HTMLElement, params?: { min?: number; max?: number }) {
+    const getMin = () => params?.min ?? 14;
+    const getMax = () => params?.max ?? 32;
+
+    function fit() {
+      const min = getMin();
+      const max = getMax();
+      node.style.fontSize = `${max}px`;
+
+      if (node.scrollWidth <= node.clientWidth) {
+        return;
+      }
+
+      let lo = min;
+      let hi = max;
+      while (hi - lo > 0.25) {
+        const mid = (lo + hi) / 2;
+        node.style.fontSize = `${mid}px`;
+        if (node.scrollWidth <= node.clientWidth) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      node.style.fontSize = `${lo}px`;
+    }
+
+    const ro = new ResizeObserver(fit);
+    ro.observe(node);
+    fit();
+
+    return {
+      update(newParams?: { min?: number; max?: number }) {
+        params = newParams;
+        fit();
+      },
+      destroy() {
+        ro.disconnect();
+      }
+    };
+  }
+
+  useHoverConfig([
+    {
+      selectors: ['.media-frame'],
+      className: 'hovered-home-media-youtube',
+      lockPosition: true,
+      color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--color-primary) 28%)'
+    },
+    {
+      type: ['h3'],
+      selectors: ['.summary'],
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        words: true,
+        sentences: false
+      }
+    },
+    {
+      type: ['h3', 'span'],
+      selectors: ['.channel-pill', '.watch-link'],
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        words: false,
+        ignoreCharacters: false,
+        sentences: true
+      }
+    }
+  ]);
 </script>
 
 <article
-  class="youtube-card wrap-no-interact-all"
+  class="youtube-card"
   class:big-card={big}
   class:portrait={aspect === 'portrait'}
   class:square={aspect === 'square'}
   class:landscape={aspect === 'landscape'}
-  style={`--media-width:${mediaDimensions.width}; --media-height:${mediaDimensions.height}; --title-len:${titleLength}; --summary-len:${summaryLength};`}
+  style={`--media-width:${mediaDimensions.width}; --media-height:${mediaDimensions.height}; --summary-len:${summaryLength};`}
 >
   <div class="card-chassis">
     <div class="media-stack">
@@ -121,12 +192,7 @@
     </div>
 
     <div class="content">
-      <div class="meta-strip">
-        <span class="channel-pill">{video.channelName}</span>
-        <span class="signal-pill">{video.status === 'live' ? 'Signal active' : video.status === 'upcoming' ? 'Signal queued' : 'Signal received'}</span>
-      </div>
-
-      <h3>{video.title}</h3>
+      <h3 use:fitText={{ min: 14, max: big ? 36 : 28 }}>{video.title}</h3>
       <p class="summary">{summary}</p>
 
       <div class="detail-grid">
@@ -142,10 +208,7 @@
 
       <div class="card-footer">
         <a href={watchUrl} target="_blank" rel="noreferrer" class="watch-link">
-          <span>Open on YouTube</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
+          <span>Open on YouTube →</span>
         </a>
       </div>
     </div>
@@ -156,7 +219,7 @@
   .youtube-card {
     --youtube-brand: #ff0000;
     --youtube-brand-deep: #c40000;
-    --youtube-accent: #ff4d00; /* Blood Orange */
+    --youtube-accent: #ff4d00;
     --youtube-surface-base: var(--surface-base, color-mix(in srgb, var(--bg-body) 82%, transparent));
     --youtube-surface-elevated: var(--surface-elevated, color-mix(in srgb, var(--bg-body) 90%, transparent));
     --youtube-border: color-mix(in srgb, var(--youtube-brand) 12%, transparent);
@@ -208,14 +271,6 @@
     pointer-events: none;
   }
 
-  .youtube-card:hover .card-chassis {
-    transform: translateY(-0.4rem);
-    border-color: var(--youtube-border-strong);
-    box-shadow:
-      0 1.75rem 3.4rem rgba(0, 0, 0, 0.2),
-      0 0 1.4rem color-mix(in srgb, var(--youtube-brand) 12%, transparent);
-  }
-
   .media-stack,
   .content {
     min-width: 0;
@@ -228,14 +283,12 @@
   }
 
   .frame-topline,
-  .meta-strip,
   .detail-label,
   .watch-link {
     font-family: 'Redwing', Aileron, sans-serif;
   }
 
-  .frame-topline,
-  .meta-strip {
+  .frame-topline {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
@@ -244,8 +297,7 @@
 
   .platform-badge,
   .status-badge,
-  .channel-pill,
-  .signal-pill {
+  .channel-pill {
     display: inline-flex;
     align-items: center;
     padding: 0.45rem 0.78rem;
@@ -264,8 +316,7 @@
   }
 
   .status-badge,
-  .channel-pill,
-  .signal-pill {
+  .channel-pill {
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 22%, transparent);
     background: color-mix(in srgb, var(--youtube-brand) 10%, transparent);
     color: inherit;
@@ -293,12 +344,6 @@
     background: color-mix(in srgb, var(--youtube-accent) 12%, transparent);
   }
 
-  .signal-pill {
-    background: color-mix(in srgb, var(--youtube-brand) 10%, transparent);
-    border-color: color-mix(in srgb, var(--youtube-brand) 22%, transparent);
-    opacity: 0.88;
-  }
-
   .media-frame {
     position: relative;
     width: 100%;
@@ -309,9 +354,10 @@
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, white 4%, transparent),
       0 1rem 2rem rgba(0, 0, 0, 0.22);
-    /* Simplified clipping: remove clip-path and use clean overflow: hidden */
     overflow: hidden;
     isolation: isolate;
+    clip-path: inset(0 round 1.45rem);
+    transform: translateZ(0);
   }
 
   .portrait .media-frame {
@@ -334,7 +380,7 @@
 
   .player-frame {
     position: absolute;
-    inset: -1px; /* Slight bleed to avoid sub-pixel edge gaps */
+    inset: -1px;
     width: calc(100% + 2px);
     height: calc(100% + 2px);
     border: 0;
@@ -345,41 +391,33 @@
     display: flex;
     flex-direction: column;
     gap: 0.95rem;
-    min-width: 0; /* Crucial for internal truncation */
+    padding-top: calc(0.72rem + 0.9rem + 0.95rem);
+    min-width: 0;
     overflow: hidden;
   }
 
   h3 {
     margin: 0;
     font-family: 'Redwing', Aileron, sans-serif;
-    /* Formula adjusted for wide fonts and card padding: 
-       Scale by container width, divide by length with safety offset */
-    font-size: clamp(1rem, calc(140cqw / (var(--title-len) + 6)), 2rem);
     line-height: 1.16;
     font-weight: 700;
-    text-wrap: nowrap;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
     width: 100%;
     max-width: 100%;
-  }
-
-  .big-card h3 {
-    font-size: clamp(1.25rem, calc(160cqw / (var(--title-len) + 8)), 2.35rem);
   }
 
   .summary {
     margin: 0;
     font-family: Aileron, sans-serif;
-    /* Also scale summary slightly if it's very long */
     font-size: clamp(0.85rem, calc(350cqw / (var(--summary-len) + 100)), 1.05rem);
     line-height: 1.68;
     opacity: 0.9;
     white-space: pre-line;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+    line-clamp: 4;
+    box-orient: vertical;
     overflow: hidden;
   }
 
@@ -477,10 +515,11 @@
 
     .media-frame {
       border-radius: 1.2rem;
+      clip-path: inset(0 round 1.2rem);
     }
 
     .media-clip {
-      clip-path: inset(0 round 1.1rem);
+      clip-path: none;
     }
 
     .detail-grid {
@@ -491,10 +530,6 @@
   @media (max-width: 560px) {
     .card-chassis {
       padding: 1rem;
-    }
-
-    h3 {
-      font-size: clamp(1.25rem, 6.8vw, 1.7rem);
     }
   }
 
@@ -523,8 +558,7 @@
 
   :global([data-theme="cyber-neotic"]) .detail-card,
   :global([data-theme="cyber-neotic"]) .status-badge,
-  :global([data-theme="cyber-neotic"]) .channel-pill,
-  :global([data-theme="cyber-neotic"]) .signal-pill {
+  :global([data-theme="cyber-neotic"]) .channel-pill {
     box-shadow: inset 0 0 0.9rem color-mix(in srgb, var(--youtube-brand) 4%, transparent);
   }
 </style>

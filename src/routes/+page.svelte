@@ -171,20 +171,6 @@
       color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)'
     },
     {
-      selectors: ['.youtube-card'],
-      className: 'hovered-home-youtube-card',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 40%, var(--color-primary) 60%)'
-    },
-    {
-      selectors: ['.live-signal-bar'],
-      className: 'hovered-home-live-signal',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 70%, var(--color-primary) 30%)'
-    },
-    {
       selectors: ['.show-all-link'],
       className: 'hovered-home-show-all',
       lockPosition: true,

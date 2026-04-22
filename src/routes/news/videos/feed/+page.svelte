@@ -44,13 +44,6 @@
 
   useHoverConfig([
     {
-      selectors: ['.youtube-card'],
-      className: 'hovered-youtube-card',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 42%, var(--color-primary) 58%)'
-    },
-    {
       selectors: ['.video-shell'],
       className: 'hovered-youtube-shell',
       lockPosition: true,
