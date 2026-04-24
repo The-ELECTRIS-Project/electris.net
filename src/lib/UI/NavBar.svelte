@@ -47,6 +47,7 @@
   let showLocalStorageConfirmDialog = $state(false);
   let showEverythingConfirmDialog = $state(false);
   let showDevToolsSubmenu = $state(false);
+  let devToolsSpace: 'site-data' | 'youtube-api' | null = $state(null);
   let ignoreExcludedSuffixes = $state(false);
   let isOpen = $state(false);
   let siteHref = $state("");
@@ -295,6 +296,7 @@
         showLocalStorageConfirmDialog = false;
         showEverythingConfirmDialog = false;
         showDevToolsSubmenu = false;
+        devToolsSpace = null;
         startGearAnimation();
       }
     }
@@ -363,6 +365,7 @@
       showLocalStorageConfirmDialog = false;
       showEverythingConfirmDialog = false;
       showDevToolsSubmenu = false;
+      devToolsSpace = null;
     }
     startGearAnimation();
   }
@@ -594,49 +597,94 @@
           </div>
           {#if showDevToolsSubmenu}
             <div class="devtools-submenu" transition:slide={{ duration: 300 }}>
-              <div class="devtools-option">
-                <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
-                <button 
-                  class="toggle-switch-mini" 
-                  class:active={ignoreExcludedSuffixes}
-                  onclick={toggleIgnoreExcludedSuffixes}
-                  aria-label="Toggle ignore excluded suffixes"
+              <div class="devtools-workspace-viewport">
+                <div
+                  class="devtools-panel-track"
+                  style="transform: translateX({devToolsSpace ? '-50%' : '0%'})"
                 >
-                  <span class="toggle-slider-mini"></span>
-                </button>
-              </div>
-              <div class="devtools-option">
-                <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
-                <button 
-                  type="button" 
-                  class="reset-button"
-                  onclick={handleCookieReset}
-                  title="Reset all cookies"
-                >
-                  🍪 {t('devtools.reset', 'Reset')}
-                </button>
-              </div>
-              <div class="devtools-option">
-                <span>{t('devtools.reset.localstorage', 'Reset LocalStorage')}</span>
-                <button 
-                  type="button" 
-                  class="reset-button"
-                  onclick={handleLocalStorageReset}
-                  title="Reset all LocalStorage data"
-                >
-                  💾 {t('devtools.reset', 'Reset')}
-                </button>
-              </div>
-              <div class="devtools-option">
-                <span>{t('devtools.reset.everything', 'Reset Everything')}</span>
-                <button 
-                  type="button" 
-                  class="reset-button"
-                  onclick={handleEverythingReset}
-                  title="Reset all cookies and LocalStorage"
-                >
-                  🧨 {t('devtools.reset', 'Reset')}
-                </button>
+                  <!-- Home panel: space list -->
+                  <div class="devtools-panel">
+                    <button
+                      class="devtools-space-item"
+                      onclick={() => devToolsSpace = 'site-data'}
+                    >
+                      <span>🗄️ {t('devtools.space.sitedata', 'Manage Site Data')}</span>
+                      <span class="space-chevron">›</span>
+                    </button>
+                    <button
+                      class="devtools-space-item"
+                      onclick={() => devToolsSpace = 'youtube-api'}
+                    >
+                      <span>▶️ {t('devtools.space.ytapi', 'YouTube API')}</span>
+                      <span class="space-chevron">›</span>
+                    </button>
+                  </div>
+
+                  <!-- Sub-panel -->
+                  <div class="devtools-panel">
+                    {#if devToolsSpace === 'site-data'}
+                      <button
+                        class="devtools-back"
+                        onclick={(e) => { e.stopPropagation(); devToolsSpace = null; }}
+                      >
+                        {t('devtools.back', 'Back')}
+                      </button>
+                      <p class="devtools-space-title">🗄️ {t('devtools.space.sitedata', 'Manage Site Data')}</p>
+                      <div class="devtools-option">
+                        <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
+                        <button
+                          type="button"
+                          class="reset-button"
+                          onclick={handleCookieReset}
+                          title="Reset all cookies"
+                        >
+                          🍪 {t('devtools.reset', 'Reset')}
+                        </button>
+                      </div>
+                      <div class="devtools-option">
+                        <span>{t('devtools.reset.localstorage', 'Reset LocalStorage')}</span>
+                        <button
+                          type="button"
+                          class="reset-button"
+                          onclick={handleLocalStorageReset}
+                          title="Reset all LocalStorage data"
+                        >
+                          💾 {t('devtools.reset', 'Reset')}
+                        </button>
+                      </div>
+                      <div class="devtools-option">
+                        <span>{t('devtools.reset.everything', 'Reset Everything')}</span>
+                        <button
+                          type="button"
+                          class="reset-button"
+                          onclick={handleEverythingReset}
+                          title="Reset all cookies and LocalStorage"
+                        >
+                          🧨 {t('devtools.reset', 'Reset')}
+                        </button>
+                      </div>
+                    {:else if devToolsSpace === 'youtube-api'}
+                      <button
+                        class="devtools-back"
+                        onclick={(e) => { e.stopPropagation(); devToolsSpace = null; }}
+                      >
+                        ‹ {t('devtools.back', 'Back')}
+                      </button>
+                      <p class="devtools-space-title">▶️ {t('devtools.space.ytapi', 'YouTube API')}</p>
+                      <div class="devtools-option">
+                        <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
+                        <button
+                          class="toggle-switch-mini"
+                          class:active={ignoreExcludedSuffixes}
+                          onclick={toggleIgnoreExcludedSuffixes}
+                          aria-label="Toggle ignore excluded suffixes"
+                        >
+                          <span class="toggle-slider-mini"></span>
+                        </button>
+                      </div>
+                    {/if}
+                  </div>
+                </div>
               </div>
             </div>
           {/if}
@@ -833,14 +881,14 @@
   
   .options-menu {
     position: fixed;
-    top: 5vmin;
+    top: 5.15vmin;
     right: 1vmin;
     padding: 1.5vmin;
     border-radius: 1vmin;
     z-index: 200;
     color: var(--color-primary);
-    min-width: 35vmin;
-    max-width: 40vmin;
+    min-width: 40vmin;
+    max-width: 46vmin;
     transition: all 0.3s ease;
   }
   
@@ -1206,6 +1254,82 @@
     padding-top: 0.5vmin;
   }
 
+  /* Workspace panel system */
+  .devtools-workspace-viewport {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .devtools-panel-track {
+    display: flex;
+    width: 200%;
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .devtools-panel {
+    width: 50%;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  .devtools-space-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    padding: 0.65vmin 0.5vmin;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    border-radius: 0.3vmin;
+    transition: background-color 0.2s;
+    text-align: left;
+  }
+
+  .devtools-space-item:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+
+  .space-chevron {
+    font-size: 1.1rem;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .devtools-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3vmin;
+    background: none;
+    border: none;
+    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.82rem;
+    padding: 0.3vmin 0.4vmin;
+    border-radius: 0.3vmin;
+    margin-bottom: 0.3vmin;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .devtools-back:hover {
+    color: var(--color-primary);
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+
+  .devtools-space-title {
+    margin: 0 0 0.6vmin 0;
+    padding: 0 0.5vmin;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--color-primary) 75%, transparent);
+    border-bottom: 0.1vmin solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    padding-bottom: 0.4vmin;
+  }
+
   .devtools-option {
     display: flex;
     align-items: center;
@@ -1391,7 +1515,7 @@
     .options-menu {
       top: calc(env(safe-area-inset-top) + 4.25rem);
       right: 0.75rem;
-      width: min(24rem, calc(100vw - 1.5rem));
+      width: min(26rem, calc(100vw - 1.5rem));
       min-width: auto;
       max-width: none;
       padding: 1rem;
@@ -1500,8 +1624,8 @@
     .options-menu {
       top: calc(env(safe-area-inset-top) + 4.5rem);
       right: 0.75rem;
-      min-width: min(26rem, calc(100vw - 1.5rem));
-      max-width: min(28rem, calc(100vw - 1.5rem));
+      min-width: min(28rem, calc(100vw - 1.5rem));
+      max-width: min(30rem, calc(100vw - 1.5rem));
       padding: 1rem;
       border-radius: 1rem;
     }
