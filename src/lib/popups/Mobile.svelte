@@ -22,8 +22,10 @@
     
     onMount(() => {
       if (getCookie("mobilePopupDismissed") === "true") return;
-      const isMobileLike = navigator.maxTouchPoints > 0 ||
-        window.matchMedia('(max-width: 900px), (any-pointer: coarse)').matches;
+      
+      const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+      const isMobileLike = !hasFinePointer && (navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(max-width: 900px), (any-pointer: coarse)').matches);
 
       if (isMobileLike) showPopup = true;
     });

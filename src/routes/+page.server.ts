@@ -5,21 +5,23 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ fetch, platform, url, cookies }) => {
   try {
     const ignoreExcluded = cookies.get('devtools-ignore-excluded-suffixes') === 'true';
-    const [posts, youtubeData] = await Promise.all([
-      loadBlogPosts({ fetch, platform, url }),
-      getYoutubeData({ fetch, platform, url, ignoreExcluded })
-    ]);
+    const posts = await loadBlogPosts({ fetch, platform, url });
+    const youtubeDataPromise = getYoutubeData({ fetch, platform, url, ignoreExcluded });
 
     return {
       latestPost: posts[0] ?? null,
-      youtube: youtubeData
+      streamed: {
+        youtube: youtubeDataPromise
+      }
     };
   } catch (error) {
     console.error('Failed to load landing page data:', error);
 
     return {
       latestPost: null,
-      youtube: { videos: [], lastUpdated: 0 }
+      streamed: {
+        youtube: Promise.resolve({ videos: [], lastUpdated: 0 })
+      }
     };
   }
 };

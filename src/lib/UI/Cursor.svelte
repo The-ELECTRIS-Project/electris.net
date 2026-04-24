@@ -806,7 +806,8 @@
       'ontouchstart' in window ||
       window.matchMedia('(any-pointer: coarse)').matches;
 
-    isCursorEnabled = !isTouchCapable;
+    const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+    isCursorEnabled = hasFinePointer;
 
     if (!isCursorEnabled) {
       if (circleElement) {

@@ -6,7 +6,7 @@
   import { afterNavigate } from '$app/navigation';
   import NavBar from '$lib/UI/NavBar.svelte';
   import Cursor from '$lib/UI/Cursor.svelte';
-  import Popup from '$lib/Mobile/Popup.svelte';
+  import Popup from '$lib/popups/Mobile.svelte';
   import CyberNeotic from '$lib/UI/ThemeEffects/Cyber-Neotic.svelte';
   import { initializeI18n, loadRouteLocale } from '$lib/stores/i18n.svelte';
 

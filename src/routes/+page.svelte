@@ -5,28 +5,32 @@
   import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
-  import YoutubeCard from '$lib/UI/components/YoutubeCard.svelte';
-  import YoutubeLiveSection from '$lib/UI/components/YoutubeLiveSection.svelte';
+  import YoutubeCard from '$lib/UI/components/youtube/Card.svelte';
+  import YoutubeLiveSection from '$lib/UI/components/youtube/LiveSection.svelte';
+  import YoutubeSkeleton from '$lib/UI/components/youtube/Skeleton.svelte';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 
   let { data } = $props();
-  let youtube = $derived(data.youtube);
-
-  const liveAndUpcoming = $derived(youtube.videos.filter(v => v.status === 'live' || v.status === 'upcoming'));
   
-  const newestPerChannel = $derived.by(() => {
-    const map = new Map();
-    youtube.videos
-      .filter(v => v.status === 'finished')
-      .forEach(v => {
-        if (!map.has(v.channelId)) map.set(v.channelId, v);
-      });
-    return Array.from(map.values()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-  });
+  function processYoutubeData(youtube: any) {
+    const liveAndUpcoming = youtube.videos.filter((v: any) => v.status === 'live' || v.status === 'upcoming');
+    
+    const newestPerChannel = (() => {
+      const map = new Map();
+      youtube.videos
+        .filter((v: any) => v.status === 'finished')
+        .forEach((v: any) => {
+          if (!map.has(v.channelId)) map.set(v.channelId, v);
+        });
+      return Array.from(map.values()).sort((a: any, b: any) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    })();
 
-  const displayVideos = $derived(newestPerChannel.slice(0, 2));
-  const hasMoreVideos = $derived(newestPerChannel.length > 2 || liveAndUpcoming.length > 1); // 1 is already shown in live section
+    const displayVideos = newestPerChannel.slice(0, 2);
+    const hasMoreVideos = newestPerChannel.length > 2 || liveAndUpcoming.length > 1;
+
+    return { liveAndUpcoming, displayVideos, hasMoreVideos };
+  }
 
   let pointer = $state({ x: 50, y: 22 });
   let scrollShift = $state(0);
@@ -314,8 +318,6 @@
     </div>
   </section>
 
-  <YoutubeLiveSection videos={liveAndUpcoming} />
-
   <section class="hero-grid reveal-block" data-section="hero" class:visible={visibleSections.hero}>
     <div class="hero-copy">
       <p class="hero-kicker">{t('home.hero.kicker', 'ELECTRIS // creative freedom')}</p>
@@ -376,23 +378,34 @@
       </p>
     </div>
 
-    {#if displayVideos.length > 0}
-      <div class="youtube-row" class:single={displayVideos.length === 1}>
-        {#each displayVideos as video}
-          <YoutubeCard {video} big={displayVideos.length === 1} />
-        {/each}
-        {#if hasMoreVideos}
-          <div class="show-all-container">
-            <a href="/news/videos/feed" class="show-all-link wrap-no-interact-all">
-              <span>View all new uploads</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        {/if}
-      </div>
-    {/if}
+    {#await data.streamed.youtube}
+      <YoutubeSkeleton type="live" />
+      <YoutubeSkeleton type="row" count={2} />
+    {:then youtubeData}
+      {@const { liveAndUpcoming, displayVideos, hasMoreVideos } = processYoutubeData(youtubeData)}
+      
+      <YoutubeLiveSection videos={liveAndUpcoming} />
+      
+      {#if displayVideos.length > 0}
+        <div class="youtube-row" class:single={displayVideos.length === 1}>
+          {#each displayVideos as video}
+            <YoutubeCard {video} big={displayVideos.length === 1} />
+          {/each}
+          {#if hasMoreVideos}
+            <div class="show-all-container">
+              <a href="/news/videos/feed" class="show-all-link wrap-no-interact-all">
+                <span>View all new uploads</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          {/if}
+        </div>
+      {/if}
+    {:catch error}
+      <!-- Silently fail -->
+    {/await}
 
     <div class="snapshot-grid">
       {#if latestPost}

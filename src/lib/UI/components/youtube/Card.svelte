@@ -475,18 +475,8 @@
     transition: color 0.25s ease, transform 0.25s ease;
   }
 
-  .watch-link svg {
-    width: 1rem;
-    height: 1rem;
-    transition: transform 0.25s ease;
-  }
-
   .watch-link:hover {
     transform: translateX(0.12rem);
-  }
-
-  .watch-link:hover svg {
-    transform: translateX(0.18rem);
   }
 
   @media (min-width: 860px) {
@@ -535,8 +525,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .card-chassis,
-    .watch-link,
-    .watch-link svg {
+    .watch-link {
       transition: none;
     }
   }
