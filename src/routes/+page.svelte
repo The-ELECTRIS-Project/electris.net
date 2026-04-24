@@ -5,9 +5,9 @@
   import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
-  import YoutubeCard from '$lib/UI/components/youtube/Card.svelte';
-  import YoutubeLiveSection from '$lib/UI/components/youtube/LiveSection.svelte';
-  import YoutubeSkeleton from '$lib/UI/components/youtube/Skeleton.svelte';
+  import YouTube from '$lib/UI/components/youtube/Card.svelte';
+  import YTLive from '$lib/UI/components/youtube/LiveSection.svelte';
+  import YTSkeleton from '$lib/UI/components/youtube/Skeleton.svelte';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 
@@ -379,17 +379,17 @@
     </div>
 
     {#await data.streamed.youtube}
-      <YoutubeSkeleton type="live" />
-      <YoutubeSkeleton type="row" count={2} />
+      <YTSkeleton type="live" />
+      <YTSkeleton type="row" count={2} />
     {:then youtubeData}
       {@const { liveAndUpcoming, displayVideos, hasMoreVideos } = processYoutubeData(youtubeData)}
       
-      <YoutubeLiveSection videos={liveAndUpcoming} />
+      <YTLive videos={liveAndUpcoming} />
       
       {#if displayVideos.length > 0}
         <div class="youtube-row" class:single={displayVideos.length === 1}>
           {#each displayVideos as video}
-            <YoutubeCard {video} big={displayVideos.length === 1} />
+            <YouTube {video} big={displayVideos.length === 1} />
           {/each}
           {#if hasMoreVideos}
             <div class="show-all-container">

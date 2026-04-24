@@ -56,7 +56,7 @@
   
     <div class="hero">
       {#each socialCards as card}
-        <a class="card wrap-no-interact-all" href={card.url} target="_self">
+        <a class="card wrap-no-interact-all" href={card.url}>
           <div class="icons">
             <img src={card.profilePicture} alt="Person Logo" class="profile-picture" />
           </div>

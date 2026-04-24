@@ -1,6 +1,7 @@
 {
   "commons.json": "0.0.4.1",
-  "lib/Mobile/Popup/+lang.json": "0.0.4.1",
+  "lib/Notice/Mobile/+lang.json": "0.0.4.1",
+  "lib/Notice/Cookies/+lang.json": "0.0.4.1",
   "lib/UI/NavBar/+lang.json": "0.0.4.2",
   "routes/+lang.json": "0.0.4.3",
   "routes/about/+lang.json": "0.0.4.1",
