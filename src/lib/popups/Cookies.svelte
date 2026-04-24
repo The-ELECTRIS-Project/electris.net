@@ -1,13 +1,14 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { t } from '$lib/stores/i18n.svelte';
-  import { fade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
 
   let showPopup = $state(false);
+  const DISCLOSURE_KEY = "cookieDisclosureDismissed";
   
   function setCookie(name: string, value: string, days: number) {
     const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
   }
   
   function getCookie(name: string): string | null {
@@ -16,7 +17,12 @@
   }
   
   function handleGotIt() {
-    setCookie("cookieDisclosureDismissed", "true", 365);
+    setCookie(DISCLOSURE_KEY, "true", 365);
+    try {
+      localStorage.setItem(DISCLOSURE_KEY, "true");
+    } catch (e) {
+      // Ignore localStorage errors
+    }
     showPopup = false;
   }
   
@@ -25,14 +31,22 @@
   }
   
   onMount(() => {
-    // Only show if the "Got it" button hasn't been clicked (setting the cookie)
-    if (getCookie("cookieDisclosureDismissed") === "true") return;
-    showPopup = true;
+    setTimeout(() => {
+      const isDismissedCookie = getCookie(DISCLOSURE_KEY) === "true";
+      let isDismissedLocal = false;
+      try {
+        isDismissedLocal = localStorage.getItem(DISCLOSURE_KEY) === "true";
+      } catch (e) {}
+
+      if (!isDismissedCookie && !isDismissedLocal) {
+        showPopup = true;
+      }
+    }, 800);
   });
 </script>
 
 {#if showPopup}
-  <div class="cookie-disclosure" transition:fade={{ duration: 200 }}>
+  <div class="disclosure-box" transition:fly={{ y: 50, duration: 400 }}>
     <button class="close-btn" onclick={handleDismiss} aria-label="Dismiss">×</button>
     <div class="content">
       <h3 class="title">🍪 {t('notice.cookie.title', 'Cookie Disclosure')}</h3>
@@ -47,7 +61,7 @@
 {/if}
 
 <style>
-  .cookie-disclosure {
+  .disclosure-box {
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
@@ -57,9 +71,8 @@
     padding: 1.5rem;
     border-radius: 1rem;
     border: 1px solid rgba(246, 89, 1, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-    z-index: 900;
-    animation: slideInUp 0.4s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    z-index: 2000;
   }
 
   .close-btn {
@@ -117,20 +130,9 @@
     color: #0f1010;
   }
 
-  @keyframes slideInUp {
-    from { 
-      transform: translateY(2rem); 
-      opacity: 0; 
-    }
-    to { 
-      transform: translateY(0); 
-      opacity: 1; 
-    }
-  }
-
   /* Ensure it looks good on mobile too */
   @media (max-width: 600px) {
-    .cookie-disclosure {
+    .disclosure-box {
       bottom: 1rem;
       right: 1rem;
       left: 1rem;
