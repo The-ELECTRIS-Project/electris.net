@@ -18,7 +18,8 @@
   import { 
     getCookieCount,
     deleteAllCookies, 
-    getLocalStorageCount, 
+    getLocalStorageCount,
+    clearAllLocalStorage,
     resetAllStates,
     getIgnoreExcludedSuffixes,
     setIgnoreExcludedSuffixes
@@ -43,7 +44,8 @@
   let showThemeDropdown = $state(false);
   let showColorSchemeDropdown = $state(false);
   let showCookieConfirmDialog = $state(false);
-  let showStatesConfirmDialog = $state(false);
+  let showLocalStorageConfirmDialog = $state(false);
+  let showEverythingConfirmDialog = $state(false);
   let showDevToolsSubmenu = $state(false);
   let ignoreExcludedSuffixes = $state(false);
   let isOpen = $state(false);
@@ -290,7 +292,8 @@
         showThemeDropdown = false;
         showColorSchemeDropdown = false;
         showCookieConfirmDialog = false;
-        showStatesConfirmDialog = false;
+        showLocalStorageConfirmDialog = false;
+        showEverythingConfirmDialog = false;
         showDevToolsSubmenu = false;
         startGearAnimation();
       }
@@ -357,7 +360,8 @@
       showThemeDropdown = false;
       showColorSchemeDropdown = false;
       showCookieConfirmDialog = false;
-      showStatesConfirmDialog = false;
+      showLocalStorageConfirmDialog = false;
+      showEverythingConfirmDialog = false;
       showDevToolsSubmenu = false;
     }
     startGearAnimation();
@@ -377,8 +381,12 @@
     showCookieConfirmDialog = true;
   }
 
-  function handleStatesReset() {
-    showStatesConfirmDialog = true;
+  function handleLocalStorageReset() {
+    showLocalStorageConfirmDialog = true;
+  }
+
+  function handleEverythingReset() {
+    showEverythingConfirmDialog = true;
   }
 
   function confirmCookieReset() {
@@ -389,11 +397,19 @@
     window.location.reload();
   }
 
-  function confirmStatesReset() {
-    resetAllStates();
-    showStatesConfirmDialog = false;
+  function confirmLocalStorageReset() {
+    clearAllLocalStorage();
+    showLocalStorageConfirmDialog = false;
     showOptions = false;
-    alert(`States reset complete!`);
+    alert(`LocalStorage reset complete!`);
+    window.location.reload();
+  }
+
+  function confirmEverythingReset() {
+    resetAllStates();
+    showEverythingConfirmDialog = false;
+    showOptions = false;
+    alert(`Everything has been reset!`);
     window.location.reload();
   }
 
@@ -401,8 +417,12 @@
     showCookieConfirmDialog = false;
   }
 
-  function cancelStatesReset() {
-    showStatesConfirmDialog = false;
+  function cancelLocalStorageReset() {
+    showLocalStorageConfirmDialog = false;
+  }
+
+  function cancelEverythingReset() {
+    showEverythingConfirmDialog = false;
   }
 </script>
 
@@ -591,20 +611,31 @@
                   type="button" 
                   class="reset-button"
                   onclick={handleCookieReset}
-                  title="Reset all cookies (Development only)"
+                  title="Reset all cookies"
                 >
                   🍪 {t('devtools.reset', 'Reset')}
                 </button>
               </div>
               <div class="devtools-option">
-                <span>{t('devtools.reset.states', 'Reset States')}</span>
+                <span>{t('devtools.reset.localstorage', 'Reset LocalStorage')}</span>
                 <button 
                   type="button" 
                   class="reset-button"
-                  onclick={handleStatesReset}
-                  title="Reset all states (Development only)"
+                  onclick={handleLocalStorageReset}
+                  title="Reset all LocalStorage data"
                 >
-                  🔄 {t('devtools.reset', 'Reset')}
+                  💾 {t('devtools.reset', 'Reset')}
+                </button>
+              </div>
+              <div class="devtools-option">
+                <span>{t('devtools.reset.everything', 'Reset Everything')}</span>
+                <button 
+                  type="button" 
+                  class="reset-button"
+                  onclick={handleEverythingReset}
+                  title="Reset all cookies and LocalStorage"
+                >
+                  🧨 {t('devtools.reset', 'Reset')}
                 </button>
               </div>
             </div>
@@ -654,32 +685,62 @@
   </div>
 {/if}
 
-{#if showStatesConfirmDialog}
+{#if showLocalStorageConfirmDialog}
   <div class="confirm-overlay" transition:fade={{ duration: 200 }}>
     <div class="confirm-dialog" transition:slide={{ duration: 300 }}>
-      <h3>🔄 Reset All States?</h3>
-      <p>This will delete ALL cookies and localStorage data for this domain, including:</p>
+      <h3>💾 Reset LocalStorage?</h3>
+      <p>This will delete ALL data stored in LocalStorage for this domain, including:</p>
       <ul style="text-align: left; margin: 1vmin 0; padding-left: 2vmin;">
-        <li>All cookies ({getCookieCount()})</li>
-        <li>All localStorage items ({getLocalStorageCount()})</li>
+        <li>All stored items ({getLocalStorageCount()})</li>
         <li>Theme preferences</li>
         <li>Language settings</li>
       </ul>
-      <p><strong>You will need to reconfigure EVERYTHING!</strong></p>
+      <p>Cookies will remain untouched.</p>
       <div class="confirm-buttons">
         <button 
           type="button" 
           class="confirm-btn confirm-cancel" 
-          onclick={cancelStatesReset}
+          onclick={cancelLocalStorageReset}
         >
           Cancel
         </button>
         <button 
           type="button" 
           class="confirm-btn confirm-reset"
-          onclick={confirmStatesReset}
+          onclick={confirmLocalStorageReset}
         >
-          Reset All States
+          Reset LocalStorage
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
+{#if showEverythingConfirmDialog}
+  <div class="confirm-overlay" transition:fade={{ duration: 200 }}>
+    <div class="confirm-dialog" transition:slide={{ duration: 300 }}>
+      <h3>🧨 Reset Everything?</h3>
+      <p>This will delete <strong>ALL</strong> cookies and LocalStorage data for this domain:</p>
+      <ul style="text-align: left; margin: 1vmin 0; padding-left: 2vmin;">
+        <li>All cookies ({getCookieCount()})</li>
+        <li>All localStorage items ({getLocalStorageCount()})</li>
+        <li>Theme and language settings</li>
+      </ul>
+      <p><strong>This action cannot be undone!</strong></p>
+      <div class="confirm-buttons">
+        <button 
+          type="button" 
+          class="confirm-btn confirm-cancel" 
+          onclick={cancelEverythingReset}
+        >
+          Cancel
+        </button>
+        <button 
+          type="button" 
+          class="confirm-btn confirm-reset"
+          onclick={confirmEverythingReset}
+        >
+          Reset Everything
         </button>
       </div>
     </div>

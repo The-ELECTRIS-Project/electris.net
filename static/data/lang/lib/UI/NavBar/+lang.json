@@ -26,8 +26,9 @@
     "nav.options.switch.dev": "التبديل إلى إصدار التطوير",
     "devtools.title": "DevTools",
     "devtools.reset": "إعادة الضبط",
-    "devtools.reset.cookies": "الكوكيز",
-    "devtools.reset.states": "إعادة ضبط الحالات",
+    "devtools.reset.cookies": "إعادة ضبط الكوكيز",
+    "devtools.reset.localstorage": "إعادة ضبط LocalStorage",
+    "devtools.reset.everything": "إعادة ضبط الكل",
     "about.hero": "معلومات عنا",
     "blog.title": "مقالات"
   },
@@ -60,7 +61,8 @@
     "devtools.title": "DevTools",
     "devtools.reset": "Reset",
     "devtools.reset.cookies": "Reset Cookies",
-    "devtools.reset.states": "Reset States",
+    "devtools.reset.localstorage": "Reset LocalStorage",
+    "devtools.reset.everything": "Reset Everything",
     "about.hero": "About Us",
     "blog.title": "Blog"
   },
@@ -93,7 +95,8 @@
     "devtools.title": "DevTools",
     "devtools.reset": "Reset",
     "devtools.reset.cookies": "Reset Cookies",
-    "devtools.reset.states": "Reset States",
+    "devtools.reset.localstorage": "Reset LocalStorage",
+    "devtools.reset.everything": "Reset Everything",
     "about.hero": "About Us",
     "blog.title": "Blog"
   },
@@ -126,7 +129,8 @@
     "devtools.title": "DevTools",
     "devtools.reset": "Resetează",
     "devtools.reset.cookies": "Resetează Cookies",
-    "devtools.reset.states": "Resetează Stările",
+    "devtools.reset.localstorage": "Resetează LocalStorage",
+    "devtools.reset.everything": "Resetează Totul",
     "about.hero": "Despre Noi",
     "blog.title": "Blog"
   }

@@ -226,8 +226,8 @@ class I18nState {
     await Promise.all([
       this.loadCommonData(),
       this.loadLibLocale('UI/NavBar'),
-      this.loadLibLocale('Notice/Mobile'),
-      this.loadLibLocale('Notice/Cookies'),
+      this.loadLibLocale('UI/popups/Mobile'),
+      this.loadLibLocale('UI/popups/Cookies'),
       this.loadRouteLocale(pathname)
     ]);
   }
