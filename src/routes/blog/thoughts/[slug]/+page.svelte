@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount } from 'svelte';
   import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { t } from '$lib/stores/i18n.svelte';
   import { themeState } from '$lib/stores/theme.svelte';
+  import { toast } from '$lib/stores/toast.svelte';
   import { page } from '$app/state';
 
   let { data } = $props();
@@ -35,21 +36,6 @@
     return url.toString();
   };
   let shareUrl = $derived(buildShareUrl(page.url));
-  let showCopyToast = $state(false);
-  let toastCycle = $state(0);
-  let toastTimer: ReturnType<typeof setTimeout> | null = null;
-
-  const triggerCopyToast = () => {
-    toastCycle += 1;
-    showCopyToast = true;
-    if (toastTimer) {
-      clearTimeout(toastTimer);
-    }
-    toastTimer = setTimeout(() => {
-      showCopyToast = false;
-      toastTimer = null;
-    }, 1500);
-  };
 
   async function handleShare() {
     try {
@@ -63,7 +49,9 @@
 
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl);
-        triggerCopyToast();
+        toast.show(t('blog.share.toast', 'Link copied to clipboard'), {
+          icon: '/icons/buttons/share.svg'
+        });
         return;
       }
     } catch (err) {
@@ -147,12 +135,6 @@
       clearInterval(particleInterval);
     };
   });
-
-  onDestroy(() => {
-    if (toastTimer) {
-      clearTimeout(toastTimer);
-    }
-  });
 </script>
 
 <svelte:head>
@@ -164,15 +146,6 @@
     <title>Thought Not Found | ELECTRIS</title>
   {/if}
 </svelte:head>
-
-
-{#if showCopyToast}
-  {#key toastCycle}
-    <div class="copy-toast" role="status" aria-live="polite">
-      {t('blog.share.toast', 'Link copied to clipboard')}
-    </div>
-  {/key}
-{/if}
 
 <div class="post-container">
   <div class="post-nav">
@@ -341,41 +314,6 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-
-  @keyframes copy-toast-fade {
-    0% {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-    66.666% {
-      opacity: 0.65;
-      transform: translate(-50%, -0.2rem);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -0.45rem);
-    }
-  }
-
-  .copy-toast {
-    position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 4.5rem);
-    left: 50%;
-    transform: translate(-50%, 0);
-    z-index: 120;
-    padding: 0.6rem 1.4rem;
-    border-radius: 999px;
-    background: rgba(20, 8, 0, 0.75);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.45);
-    color: rgba(246, 89, 1, 0.95);
-    font-family: 'Redwing';
-    font-size: 0.95rem;
-    letter-spacing: 0.01em;
-    box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.35), 0 0 1.4rem rgba(246, 89, 1, 0.2);
-    backdrop-filter: blur(0.6rem);
-    pointer-events: none;
-    animation: copy-toast-fade 1.5s ease forwards;
   }
 
   .error h2 {
@@ -792,11 +730,6 @@
       max-width: min(48rem, 100%);
     }
 
-    .copy-toast {
-      top: calc(env(safe-area-inset-top, 0px) + 4.15rem);
-      font-size: 0.9rem;
-    }
-
     .post-info {
       padding: 1.25rem;
     }
@@ -900,12 +833,6 @@
     .share-icon {
       width: 1rem;
       height: 1rem;
-    }
-
-    .copy-toast {
-      width: min(90vw, 22rem);
-      text-align: center;
-      padding: 0.55rem 1rem;
     }
   }
 </style>

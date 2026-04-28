@@ -8,6 +8,7 @@
   import Cursor from '$lib/UI/Cursor.svelte';
   import Mobile from '$lib/UI/popups/Mobile.svelte';
   import Cookies from '$lib/UI/popups/Cookies.svelte';
+  import ToastContainer from '$lib/UI/components/ToastContainer.svelte';
   import CyberNeotic from '$lib/UI/ThemeEffects/Cyber-Neotic.svelte';
   import { initializeI18n, loadRouteLocale } from '$lib/stores/i18n.svelte';
 
@@ -76,6 +77,7 @@
 <Cursor />
 <Mobile />
 <Cookies />
+<ToastContainer />
 <CyberNeotic />
 
 <main>
