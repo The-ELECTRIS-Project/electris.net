@@ -30,16 +30,22 @@
       color: 'var(--circle-hover-sip)',
       customPositioning: {
        targetSelector: '.styled-sip'
-      }
+      },
+      dynamicSizeOffset: -3,
+      positionOffset: { x: -1.4, y: -0.3 },
     },
     {
       selectors: [ '.gallery-image' ],
       className: 'hovered-gallery-image',
-      lockPosition: true
+      lockPosition: true,
+      dynamicSizeOffset: 0.3,
+      borderRadius: 0,
+      positionOffset: { y: -0.03 }
     },
     {
       selectors: ['.hero-text'],
-      className: 'hovered-button-grow'
+      className: 'hovered-button-grow',
+      autoSize: false
     }
   ]);
 

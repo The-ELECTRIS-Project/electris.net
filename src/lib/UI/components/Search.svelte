@@ -17,7 +17,8 @@
       className: 'hovered-new-search',
       requireAllSelectors: true,
       lockPosition: true,
-      trackingTarget: '.search-wrapper'
+      trackingTarget: '.search-wrapper',
+      borderRadius: 1.65
     }
   ];
 

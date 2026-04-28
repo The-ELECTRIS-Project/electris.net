@@ -18,6 +18,21 @@ export interface HoverConfig {
     ignoreCharacters?: boolean;
   };
   
+  dynamicSizeOffset?: number | {
+    width?: number;
+    height?: number;
+  };
+  absoluteSizeOffset?: number | {
+    width?: number;
+    height?: number;
+  };
+  positionOffset?: {
+    x?: number;
+    y?: number;
+  };
+  autoSize?: boolean;
+  borderRadius?: number;
+
   customEvent?: {
     hovered: string;
     unhovered: string;
@@ -52,7 +67,8 @@ const defaultHoverConfigs: HoverConfig[] = [
     ],
     className: 'hovered-button-grow',
     lockPosition: false,
-    requireAllSelectors: false
+    requireAllSelectors: false,
+    autoSize: false
   }
 ];
 

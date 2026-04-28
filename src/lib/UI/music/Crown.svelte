@@ -11,9 +11,11 @@
 
   useHoverConfig([
     {
-      selectors: ['.crown'],
+      selectors: ['.crown', '.crown-container'],
       className: 'hovered-crown',
-      lockPosition: true
+      lockPosition: true,
+      trackingTarget: '.crown-container',
+      borderRadius: 50
     }
   ]);
 

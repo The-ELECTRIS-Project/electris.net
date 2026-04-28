@@ -48,14 +48,16 @@
       className: 'hovered-youtube-shell',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 64%, var(--color-electro) 36%)'
+      color: 'color-mix(in srgb, var(--color-primary) 64%, var(--color-electro) 36%)',
+      borderRadius: 2
     },
     {
       selectors: ['.back-link'],
       className: 'hovered-youtube-back',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 56%, var(--color-primary) 44%)'
+      color: 'color-mix(in srgb, var(--color-electro) 56%, var(--color-primary) 44%)',
+      borderRadius: 50
     }
   ]);
 </script>

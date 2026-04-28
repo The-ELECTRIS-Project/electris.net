@@ -28,7 +28,8 @@
     {
       selectors: ['.card'],
       className: 'hovered-project-card',
-      lockPosition: true
+      lockPosition: true,
+      borderRadius: 1
     }
   ]);
 

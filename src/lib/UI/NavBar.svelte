@@ -69,7 +69,9 @@
       type: [ 'a' ],
       selectors: ['.menu-item a'],
       className: 'hovered-menu-item',
-      lockPosition: true
+      lockPosition: true,
+      dynamicSizeOffset: 1,
+      borderRadius: 0.8
     },
     {
       selectors: [ '.option' ],
@@ -84,17 +86,25 @@
       selectors: ['.hamburger-footer', '.footer'],
       className: 'hovered-hamburger-footer',
       requireAllSelectors: false,
-      lockPosition: true
+      lockPosition: true,
+      color: 'var(--circle-hover-footer)',
+      positionOffset: { y: 0.5 },
+      dynamicSizeOffset: {
+        width: -4.5
+      },
+      borderRadius: 1.2
     },
     {
       selectors: ['.hamburger-button'],
       className: 'hovered-hamburger',
       lockPosition: true,
+      absoluteSizeOffset: 4
     },
     {
       selectors: ['.settings-button'],
       className: 'hovered-settings',
       lockPosition: true,
+      absoluteSizeOffset: 3.5,
       customPositioning: {
        targetSelector: '.settings-icon'
       }

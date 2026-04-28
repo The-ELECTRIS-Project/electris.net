@@ -27,7 +27,8 @@
       className: 'hovered-about-link',
       lockPosition: true,
       preventRotation: true,
-      color: 'var(--color-electro)'
+      color: 'var(--color-electro)',
+      borderRadius: 2.8
     },
     {
       type: ['p'],

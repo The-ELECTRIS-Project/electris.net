@@ -357,6 +357,11 @@
       offsetY = config.customPositioning.offsetY ? vminToPx(config.customPositioning.offsetY) : 0;
     }
 
+    if (config.positionOffset) {
+      offsetX += config.positionOffset.x ? vminToPx(config.positionOffset.x) : 0;
+      offsetY += config.positionOffset.y ? vminToPx(config.positionOffset.y) : 0;
+    }
+
     let rect = target.getBoundingClientRect();
     
     if (rect.width === 0 && rect.height === 0 && target !== element) {
@@ -372,7 +377,32 @@
         rotation = getRotation(target);
     }
 
-    return { x: centerX, y: centerY, width: rect.width, height: rect.height, rotation };
+    let width = rect.width;
+    let height = rect.height;
+
+    if (config.absoluteSizeOffset !== undefined) {
+      if (typeof config.absoluteSizeOffset === 'number') {
+        const sizePx = vminToPx(config.absoluteSizeOffset);
+        width = sizePx;
+        height = sizePx;
+      } else {
+        if (config.absoluteSizeOffset.width !== undefined) width = vminToPx(config.absoluteSizeOffset.width);
+        if (config.absoluteSizeOffset.height !== undefined) height = vminToPx(config.absoluteSizeOffset.height);
+      }
+    }
+
+    if (config.dynamicSizeOffset !== undefined) {
+      if (typeof config.dynamicSizeOffset === 'number') {
+        const offsetPx = vminToPx(config.dynamicSizeOffset);
+        width += offsetPx;
+        height += offsetPx;
+      } else {
+        if (config.dynamicSizeOffset.width) width += vminToPx(config.dynamicSizeOffset.width);
+        if (config.dynamicSizeOffset.height) height += vminToPx(config.dynamicSizeOffset.height);
+      }
+    }
+
+    return { x: centerX, y: centerY, width, height, rotation };
   }
 
   function dispatchCustomEvent(eventName: string, element: HTMLElement, config?: HoverConfig, index?: number) {
@@ -903,18 +933,17 @@
       let targetRotation: number | undefined;
 
       if (lockedElement && lockedConfig) {
-         if (lockedConfig.lockPosition || lockedConfig.matchRotation) {
-            const targetCenter = getTargetCenter(lockedElement, lockedConfig);
-            if (lockedConfig.lockPosition) {
-                targetX = targetCenter.x;
-                targetY = targetCenter.y;
-                targetWidth = targetCenter.width;
-                targetHeight = targetCenter.height;
-            }
-            if (lockedConfig.matchRotation) {
-                targetRotation = targetCenter.rotation;
-            }
-         }
+        const targetCenter = getTargetCenter(lockedElement, lockedConfig);
+        targetWidth = targetCenter.width;
+        targetHeight = targetCenter.height;
+
+        if (lockedConfig.lockPosition) {
+          targetX = targetCenter.x;
+          targetY = targetCenter.y;
+        }
+        if (lockedConfig.matchRotation) {
+          targetRotation = targetCenter.rotation;
+        }
       }
 
       const isPositionLocked = Boolean(lockedElement && lockedConfig?.lockPosition);
@@ -949,12 +978,19 @@
       lastLockedTargetPosition = isPositionLocked ? { x: targetX, y: targetY } : null;
 
       if (circleElement) {
-        if (lockedElement && lockedConfig && lockedConfig.wrapText && targetWidth && targetHeight) {
+        if (lockedElement && lockedConfig && lockedConfig.autoSize !== false && targetWidth !== undefined && targetHeight !== undefined) {
           circleElement.style.width = `${targetWidth}px`;
           circleElement.style.height = `${targetHeight}px`;
+          
+          if (lockedConfig.borderRadius !== undefined) {
+            circleElement.style.borderRadius = `${vminToPx(lockedConfig.borderRadius)}px`;
+          } else {
+            circleElement.style.borderRadius = '';
+          }
         } else {
           circleElement.style.width = '';
           circleElement.style.height = '';
+          circleElement.style.borderRadius = '';
         }
       }
 
@@ -967,8 +1003,8 @@
 
       const mouseVelocity = Math.min(Math.sqrt(deltaMouseX**2 + deltaMouseY**2) * 5, 150);
       
-      // Disable velocity stretching when locked to a position
-      const isLockedToPos = lockedElement && lockedConfig && (lockedConfig.lockPosition || lockedConfig.wrapText);
+      // Disable velocity stretching when locked to a position or element
+      const isLockedToPos = lockedElement && lockedConfig;
       const targetScaleValue = isLockedToPos ? 0 : (mouseVelocity / 150) * 0.5;
       
       currentScale += (targetScaleValue - currentScale) * speed;
@@ -1002,8 +1038,14 @@
         : `rotate(${currentAngle}deg)`;
 
       if (circleElement) {
-        if (lockedElement && lockedConfig && lockedConfig.wrapText) {
-          circleElement.style.transform = translateTransform;
+        if (lockedElement && lockedConfig) {
+          // When locked to an element, we typically only want translation and rotation (if matched)
+          // Scale is handled by width/height properties now
+          if (lockedConfig.matchRotation) {
+            circleElement.style.transform = `${translateTransform} ${rotateTransform}`;
+          } else {
+            circleElement.style.transform = translateTransform;
+          }
         } else {
           circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
         }

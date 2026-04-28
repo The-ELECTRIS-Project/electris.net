@@ -129,191 +129,20 @@ main {
 }
 
 .circle.hovered-menu-item {
-  height: 3.5vmin;
-  width: 18.5vmin;
-  border-radius: 0.8vmin;
   transition: rotation 1s, width 0.01s ease-in-out, height 0.01s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
 }
 
-.circle.hovered-new-search {
-  height: 7vmin;
-  width: 43.5vmin;
-  border-radius: 2vmin;
-}
-
-.circle.hovered-blog-search {
-  height: 5vmin;
-  width: 28.2vmin;
-  border-radius: 0.6vmin;
-}
-
-.circle.hovered-blog-filter {
-  height: 4.5vmin;
-  width: 10.8vmin;
-  border-radius: 0.6vmin;
-}
-
-.circle.hovered-blog-share {
-  height: 3.5vmin;
-  width: 6.8vmin;
-  border-radius: 5vmin;
-}
-
-.circle.hovered-blog-media-cover {
-  height: 40.2vmin;
-  width: 70vmin;
-  border-radius: 1.2vmin;
-}
-
-.circle.hovered-blog-media-youtube {
-  height: 40.2vmin;
-  width: 70vmin;
-  border-radius: 2vmin;
-}
-
-.circle.hovered-blog-media-spotify {
-  height: 12.8vmin;
-  width: 69.8vmin;
-  top: -0.4vmin;
-  border-radius: 1.5vmin;
-}
-
-.circle.hovered-blog-card {
-  width: 100vmin;
-  height: 18.5vmin;
-  border-radius: 1.2vmin;
-}
-
-.circle.hovered-home-logo {
-  width: 37vmin;
-  height: 30vmin;
-  border-radius: 3.2vmin;
-}
-
-.circle.hovered-home-make {
-  width: 37vmin;
-  height: 25vmin;
-  border-radius: 2.4vmin;
-}
-
-.circle.hovered-home-share {
-  width: 37vmin;
-  height: 25vmin;
-  border-radius: 2.4vmin;
-}
-
-.circle.hovered-home-evolve {
-  width: 37vmin;
-  height: 25vmin;
-  border-radius: 2.4vmin;
-}
-
-.circle.hovered-home-slogan {
-  width: 45.5vmin;
-  height: 28.4vmin;
-  border-radius: 2.8vmin;
-}
-
-.circle.hovered-home-latest-big {
-  width: 72.5vmin;
-  height: 39vmin;
-  border-radius: 2.8vmin;
-}
-
-.circle.hovered-home-latest-small {
-  width: 39.1vmin;
-  height: 19.7vmin;
-  border-radius: 2.6vmin;
-}
-
-.circle.hovered-home-link-about {
-  width: 19vmin;
-  height: 4.6vmin;
-  border-radius: 2.8vmin;
-}
-
-.circle.hovered-about-link {
-  width: 22vmin;
-  height: 4.6vmin;
-  border-radius: 2.8vmin;
-}
-
-.circle.hovered-home-link-latest {
-  width: 19.4vmin;
-  height: 4.6vmin;
-  border-radius: 2.8vmin;
-}
-
-.circle.hovered-home-footer {
-  left: -14vmin;
-  width: 40vmin;
-  height: 6.8vmin;
-  border-radius: 0.9vmin;
-}
-
-.circle.hovered-settings {
-  --circle-size: 3.5vmin;
-}
-
-.circle.hovered-avatar {
-    --circle-size: 14.6vmin;
-    left: 0.09vmin;
-    bottom: 0.1vmin;
-  }
-
-.circle.hovered-pin {
-  --circle-size: var(--hover-pin-size, 13.4vmin);
-  top: -0.03vmin;
-  border-radius: 1.2vmin;
-}
-
-.circle.hovered-gallery-image {
-  width: 31vmin;
-  height: 43.5vmin;
-  top: -0.03vmin;
-  border-radius: 0.8vmin;
-}
-
 .circle.hovered-hamburger-footer {
-  height: 5vmin;
-  width: 13vmin;
-  top: 0.5vmin;
-  border-radius: 1.2vmin;
   transition: rotation 1s, width 0.1s ease-in-out, height 0.1s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-in-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
-  border-color: var(--circle-hover-footer);
-}
-
-.circle.hovered-hamburger {
-  --circle-size: 4vmin;
-}
-
-.circle.hovered-styled-sip {
-  --circle-size: 37vmin;
-  top: -0.3vmin;
-  left: -1.4vmin;
 }
 
 .circle.hovered-crown {
-  width: 35.5vmin;
-  height: 24vmin;
   border-color: var(--circle-hover-crown);
   box-shadow: 0 0 12px 4px color-mix(in srgb, var(--circle-hover-crown) 40%, transparent);
 }
 
 .circle.hovered-search {
   border-color: var(--circle-hover-search);
-}
-
-.circle.hovered-project-card {
-  width: 46.5vmin;
-  height: 15vmin;
-  border-radius: 1vmin;
-}
-
-.circle.hovered-social-card {
-  width: 46.5vmin;
-  height: 8.5vmin;
-  border-radius: 1vmin;
 }
 
 /* ===== OPTIONS MENU ===== */

@@ -38,7 +38,9 @@
       className: 'hovered-pin',
       requireAllSelectors: false,
       lockPosition: true,
-      trackingTarget: '.pin-link'
+      trackingTarget: '.pin-link',
+      borderRadius: 1.2,
+      positionOffset: { y: -0.03 }
     }
   ];
 

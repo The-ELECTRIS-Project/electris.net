@@ -135,7 +135,8 @@
       selectors: ['.media-frame'],
       className: 'hovered-home-media-youtube',
       lockPosition: true,
-      color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--color-primary) 28%)'
+      color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--color-primary) 28%)',
+      borderRadius: 2
     },
     {
       type: ['h3'],
