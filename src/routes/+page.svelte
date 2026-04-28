@@ -213,15 +213,7 @@
       borderRadius: 2.6
     },
     {
-      selectors: ['.restructure-note.footer-note'],
-      className: 'hovered-home-footer',
-      lockPosition: true,
-      preventRotation: true,
-      positionOffset: { x: -14 },
-      borderRadius: 0.9
-    },
-    {
-      selectors: ['.manifesto-copy', '.news-intro', '.note-copy'],
+      selectors: ['.manifesto-copy', '.news-intro'],
       className: 'hovered-word-wrap',
       lockPosition: true,
       preventRotation: true,
@@ -497,24 +489,6 @@
       </div>
     </div>
   </section>
-
-  <footer class="rebuild-zone">
-    <div class="restructure-note footer-note wrap-no-interact-all">
-      <div class="note-gears" aria-hidden="true">
-        <div class="gear footer-gear gear-large"></div>
-        <div class="gear footer-gear gear-small"></div>
-      </div>
-      <div class="note-text">
-        <p class="note-kicker">{t('update.title')}</p>
-        <p class="note-copy">
-          {t(
-            'home.note.copy',
-            'The restructure is still underway, but we\'re really close to being done.'
-          )}
-        </p>
-      </div>
-    </div>
-  </footer>
 </div>
 
 <style>
@@ -811,8 +785,7 @@
   .signal-eyebrow,
   .frame-label,
   .mini-label,
-  .news-meta,
-  .note-kicker {
+  .news-meta {
     font-family: 'Redwing', Aileron;
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -1058,7 +1031,6 @@
   .signal-card p,
   .snapshot-mini p,
   .news-copy p,
-  .note-copy,
   .news-intro {
     font-family: 'Redwing';
   }
@@ -1328,79 +1300,6 @@
     opacity: 0.88;
   }
 
-  .rebuild-zone {
-    margin-top: 1.4rem;
-    padding: 1.2rem 0 0.35rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
-  }
-
-  .restructure-note {
-    max-width: 64.5vmin;
-    margin: 0 auto;
-    padding: 0.2rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    opacity: 0.78;
-    transition: opacity 0.25s ease, color 0.25s ease;
-  }
-
-  .restructure-note:hover {
-    opacity: 1;
-  }
-
-  .note-gears {
-    position: relative;
-    width: 3.7rem;
-    height: 2.8rem;
-    flex: 0 0 auto;
-    opacity: 0.72;
-    filter: drop-shadow(0 0 0.6rem color-mix(in srgb, var(--color-primary) 12%, transparent));
-  }
-
-  .footer-gear {
-    position: absolute;
-    border-radius: 50%;
-    animation: footer-rotate 6.5s linear infinite;
-  }
-
-  .gear-large {
-    width: 2.2rem;
-    height: 2.2rem;
-    top: 0;
-    left: 0;
-  }
-
-  .gear-small {
-    width: 1.45rem;
-    height: 1.45rem;
-    right: 0.15rem;
-    bottom: 0.1rem;
-    animation-direction: reverse;
-    animation-duration: 4.8s;
-  }
-
-  .note-text {
-    position: relative;
-    min-width: 0;
-    display: grid;
-    gap: 0.18rem;
-  }
-
-  .note-kicker {
-    margin: 0;
-    font-size: 0.66rem;
-    opacity: 0.74;
-  }
-
-  .note-copy {
-    max-width: 42rem;
-    margin: 0;
-    font-size: 0.92rem;
-    line-height: 1.55;
-    opacity: 0.82;
-  }
-
   @keyframes beam-pulse {
     0%,
     100% {
@@ -1432,15 +1331,6 @@
     50% {
       opacity: 0.9;
       transform: translateX(0.12rem);
-    }
-  }
-
-  @keyframes footer-rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
     }
   }
 
@@ -1544,21 +1434,10 @@
     .signal-card h2 {
       max-width: none;
     }
-
-    .restructure-note {
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .note-gears {
-      width: 3.2rem;
-      height: 2.4rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ambient-beam,
-    .footer-gear,
     .cyber-reticle,
     .cyber-data-rail span {
       animation: none;
@@ -1568,7 +1447,6 @@
     .logo-card,
     .signal-card,
     .snapshot-mini,
-    .restructure-note,
     .news-card,
     .info-buttons,
     .hero-frame {
@@ -1649,8 +1527,7 @@
   :global([data-theme="cyber-neotic"]) .hero-kicker,
   :global([data-theme="cyber-neotic"]) .section-kicker,
   :global([data-theme="cyber-neotic"]) .signal-eyebrow,
-  :global([data-theme="cyber-neotic"]) .mini-label,
-  :global([data-theme="cyber-neotic"]) .note-kicker {
+  :global([data-theme="cyber-neotic"]) .mini-label {
     text-shadow: 0 0 0.8rem color-mix(in srgb, var(--color-primary) 18%, transparent);
   }
 
@@ -1686,29 +1563,8 @@
       0 0 1.6rem color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
-  :global([data-theme="cyber-neotic"]) .news-badge,
-  :global([data-theme="cyber-neotic"]) .note-status {
+  :global([data-theme="cyber-neotic"]) .news-badge {
     backdrop-filter: blur(12px) saturate(160%);
     -webkit-backdrop-filter: blur(12px) saturate(160%);
-  }
-
-  :global([data-theme="cyber-neotic"]) .restructure-note {
-    opacity: 0.9;
-  }
-
-  :global([data-theme="cyber-neotic"]) .note-gears {
-    opacity: 0.88;
-  }
-
-  :global([data-theme="cyber-neotic"]) .footer-gear {
-    box-shadow: 0 0 0.9rem color-mix(in srgb, var(--gear-border) 16%, transparent);
-  }
-
-  :global([data-theme="cyber-neotic"]) .footer-gear::after {
-    content: '';
-    position: absolute;
-    inset: 22%;
-    border: 1px solid color-mix(in srgb, var(--gear-border) 30%, transparent);
-    border-radius: 50%;
   }
 </style>

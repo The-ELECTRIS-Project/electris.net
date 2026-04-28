@@ -1,7 +1,6 @@
 {
   "ar": {
-    "site.slogan": "القلب كالقلم، على الورق ينزف دمًا",
-    "update.title": "الموقع الإلكتروني قيد إعادة الهيكلة"
+    "site.slogan": "القلب كالقلم، على الورق ينزف دمًا"
   },
   "en_GB": {
     "home.hero.kicker": "ELECTRIS // creative freedom",
@@ -35,9 +34,7 @@
     "home.snapshot.devlog.body": "The will be news regarding the progress on our games.",
     "home.snapshot.music.label": "Still Underway",
     "home.snapshot.music.title": "Latest music",
-    "home.snapshot.music.body": "The will be news regarding music we produce and/or share.",
-    "home.note.copy": "The restructure is still underway, but we're really close to being done.",
-    "update.title": "WEBSITE UNDER RESTRUCTURE"
+    "home.snapshot.music.body": "The will be news regarding music we produce and/or share."
   },
   "en_US": {
     "home.hero.kicker": "ELECTRIS // creative freedom",
@@ -71,9 +68,7 @@
     "home.snapshot.devlog.body": "The will be news regarding the progress on our games.",
     "home.snapshot.music.label": "Still Underway",
     "home.snapshot.music.title": "Latest music",
-    "home.snapshot.music.body": "The will be news regarding music we produce and/or share.",
-    "home.note.copy": "The restructure is still underway, but we're really close to being done.",
-    "update.title": "WEBSITE UNDER RESTRUCTURE"
+    "home.snapshot.music.body": "The will be news regarding music we produce and/or share."
   },
   "ro_RO": {
     "home.hero.kicker": "ELECTRIS // libertate creativă",
@@ -107,8 +102,6 @@
     "home.snapshot.devlog.body": "Vom avea noutăți cu privire la progresul jocurilor noastre.",
     "home.snapshot.music.label": "Încă nu este gata",
     "home.snapshot.music.title": "Muzică recentă",
-    "home.snapshot.music.body": "Vom avea noutăți cu privire la muzica pe care o producem și/sau o distribuim.",
-    "home.note.copy": "Restructurarea este încă în curs, dar suntem foarte aproape să terminăm.",
-    "update.title": "WEBSITE IN RESTRUCTURARE"
+    "home.snapshot.music.body": "Vom avea noutăți cu privire la muzica pe care o producem și/sau o distribuim."
   }
 }
