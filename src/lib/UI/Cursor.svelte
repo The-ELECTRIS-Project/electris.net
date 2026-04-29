@@ -20,6 +20,15 @@
 
   let isNavigating = $state(false);
 
+  let hasDetectedCursor = $state(false);
+  let isSpawning = $state(false);
+  let spawnProgress = $state(0);
+  let spawnStartTime = 0;
+
+  function easeInOutQuad(t: number): number {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  }
+
   let lockedElement: HTMLElement | null = $state(null);
   let lockedConfig: HoverConfig | null = $state(null);
   let hasSettledPositionLock = $state(false);
@@ -310,6 +319,7 @@
   }
 
   function handleTouchStart(e: TouchEvent) {
+    if (!hasDetectedCursor) hasDetectedCursor = true;
     lastInputWasTouch = true;
     isTouchActive = true;
     const touch = e.touches[0];
@@ -319,6 +329,7 @@
   }
 
   function handleTouchMove(e: TouchEvent) {
+    if (!hasDetectedCursor) hasDetectedCursor = true;
     lastInputWasTouch = true;
     isTouchActive = true;
     const touch = e.touches[0];
@@ -851,15 +862,17 @@
 
     if (circleElement) {
       circleElement.style.display = '';
-      circleElement.style.opacity = '1';
+      circleElement.style.opacity = '0';
     }
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (!hasDetectedCursor) hasDetectedCursor = true;
       lastInputWasTouch = false;
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
     const handleMouseDown = () => {
+      if (!hasDetectedCursor) hasDetectedCursor = true;
       lastInputWasTouch = false;
       isMouseDown = true;
     };
@@ -882,9 +895,6 @@
 
     const handleNavigationStart = () => {
       isNavigating = true;
-      if (circleElement) {
-        circleElement.style.opacity = "0";
-      }
     };
 
     const handleVisibilityChange = () => {
@@ -899,9 +909,23 @@
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     const tick = () => {
-      if (isNavigating) {
-        animationFrameId = requestAnimationFrame(tick);
-        return;
+      if (hasDetectedCursor) {
+        if (isSpawning) {
+          const elapsed = performance.now() - spawnStartTime;
+          const rawProgress = Math.min(elapsed / 100, 1);
+          spawnProgress = easeInOutQuad(rawProgress);
+          if (rawProgress === 1) {
+            isSpawning = false;
+          }
+        } else if (spawnProgress < 1) {
+          const dist = Math.hypot(mouse.x - circle.x, mouse.y - circle.y);
+          if (dist < 1) {
+            isSpawning = true;
+            spawnStartTime = performance.now();
+          }
+        }
+      } else {
+        spawnProgress = 0;
       }
 
       // Performance Optimization: Only check for word hover if the cursor position 
@@ -947,7 +971,9 @@
       }
 
       const isPositionLocked = Boolean(lockedElement && lockedConfig?.lockPosition);
-      const currentSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
+      const regularSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
+      const currentSpeed = hasDetectedCursor ? (spawnProgress * regularSpeed + (1 - spawnProgress) * 1) : 1;
+      
       const didLockedTargetMove = isPositionLocked && lastLockedTargetPosition
         ? Math.hypot(
             targetX - lastLockedTargetPosition.x,
@@ -1005,12 +1031,13 @@
       
       // Disable velocity stretching when locked to a position or element
       const isLockedToPos = lockedElement && lockedConfig;
-      const targetScaleValue = isLockedToPos ? 0 : (mouseVelocity / 150) * 0.5;
+      const baseStretching = isLockedToPos ? 0 : (mouseVelocity / 150) * 0.5;
+      const targetScaleValue = baseStretching * spawnProgress;
       
-      currentScale += (targetScaleValue - currentScale) * speed;
+      currentScale += (targetScaleValue - currentScale) * currentSpeed;
 
-      let finalScaleX = (1 + currentScale);
-      let finalScaleY = (1 - currentScale);
+      let finalScaleX = (1 + currentScale) * spawnProgress;
+      let finalScaleY = (1 - currentScale) * spawnProgress;
 
       finalScaleX *= touchVisibility;
       finalScaleY *= touchVisibility;
@@ -1050,7 +1077,7 @@
           circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
         }
 
-        circleElement.style.opacity = `${isNavigating ? 0 : touchVisibility}`;
+        circleElement.style.opacity = `${touchVisibility * spawnProgress}`;
       }
 
       const targetVisibility = !isTouchCapable || !lastInputWasTouch ? 1 : 0;
@@ -1063,9 +1090,6 @@
 
     afterNavigate(() => {
       isNavigating = false;
-      if (circleElement) {
-        circleElement.style.opacity = "1";
-      }
       setTimeout(() => {
         if (circleElement) {
           softResetCursor();
