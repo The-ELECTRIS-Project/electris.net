@@ -16,7 +16,7 @@
   let isTouchCapable = $state(false);
   let lastInputWasTouch = $state(false);
   let isMouseDown = $state(false);
-  let isCursorEnabled = $state(false);
+  let isOrbitEnabled = $state(false);
 
   let isNavigating = $state(false);
 
@@ -68,7 +68,7 @@
     return 0;
   }
 
-  function updateCursorColor(element: HTMLElement | null, config?: HoverConfig) {
+  function updateOrbitColor(element: HTMLElement | null, config?: HoverConfig) {
     if (!circleElement) return;
 
     if (element && config) {
@@ -325,7 +325,7 @@
     const touch = e.touches[0];
     mouse.x = touch.clientX;
     mouse.y = touch.clientY;
-    softResetCursor(true);
+    softResetOrbit(true);
   }
 
   function handleTouchMove(e: TouchEvent) {
@@ -611,7 +611,7 @@
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
              
-             updateCursorColor(null);
+             updateOrbitColor(null);
              
              if (circleElement) {
                 circleElement.style.width = '';
@@ -656,7 +656,7 @@
         
         circleElement?.classList.add('hovered-lock');
 
-        updateCursorColor(element, config);
+        updateOrbitColor(element, config);
       }
     }
   }
@@ -689,7 +689,7 @@
     hoveredElements.add(element);
     circleElement?.classList.add(config.className);
 
-    updateCursorColor(element, config);
+    updateOrbitColor(element, config);
 
     if (config.lockPosition || config.matchRotation) {
       lockedElement = element;
@@ -743,7 +743,7 @@
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
             
-            updateCursorColor(null);
+            updateOrbitColor(null);
         }
     }
 
@@ -788,11 +788,11 @@
     });
   
     if (!isClickingHoverableElement) {
-      softResetCursor();
+      softResetOrbit();
     }
   }
 
-  function softResetCursor(force = false) {
+  function softResetOrbit(force = false) {
     if (circleElement) {
       const elementsAtPoint = document.elementsFromPoint(mouse.x, mouse.y);
       const isOverNavbar = elementsAtPoint.some(el => el.closest('.navbar'));
@@ -816,7 +816,7 @@
       lastLockedTargetPosition = null;
       isTransitioning = true;
       transitionStartTime = performance.now();
-      updateCursorColor(null);
+      updateOrbitColor(null);
       
       circleElement.style.width = '';
       circleElement.style.height = '';
@@ -835,7 +835,7 @@
 
   $effect(() => {
     if (cleanupHoverDetection) cleanupHoverDetection();
-    if (!isCursorEnabled) {
+    if (!isOrbitEnabled) {
       cleanupHoverDetection = null;
       return;
     }
@@ -848,9 +848,9 @@
       window.matchMedia('(any-pointer: coarse)').matches;
 
     const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
-    isCursorEnabled = hasFinePointer;
+    isOrbitEnabled = hasFinePointer;
 
-    if (!isCursorEnabled) {
+    if (!isOrbitEnabled) {
       if (circleElement) {
         circleElement.style.display = 'none';
         circleElement.style.opacity = '0';
@@ -1092,7 +1092,7 @@
       isNavigating = false;
       setTimeout(() => {
         if (circleElement) {
-          softResetCursor();
+          softResetOrbit();
           circle.x = mouse.x;
           circle.y = mouse.y;
           circleElement.style.transform = `translate(${mouse.x}px, ${mouse.y}px) translate(-50%, -50%)`;

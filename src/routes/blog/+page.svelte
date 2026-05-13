@@ -40,14 +40,14 @@
   ]);
 
   onMount(() => {
-    const cursorReset = () => {
-      const cursor = document.querySelector('.circle');
-      if (cursor) {
-        cursor.className = "circle";
+    const orbitReset = () => {
+      const orbit = document.querySelector('.circle');
+      if (orbit) {
+        orbit.className = "circle";
       }
     };
-    setTimeout(cursorReset, 10);
 
+    setTimeout(orbitReset, 10);
     const createFloatingOrb = () => {
       const orb = document.createElement('div');
       orb.className = 'floating-orb';

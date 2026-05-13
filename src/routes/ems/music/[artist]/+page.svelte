@@ -32,10 +32,10 @@
         gsap.from(name, { y: 20, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power2.out' });
         gsap.from(bio, { y: 10, opacity: 0, duration: 0.8, delay: 0.6, ease: 'power2.out' });
 
-        // Reset cursor class
+        // Reset orbit class
         setTimeout(() => {
-            const c = document.querySelector('.circle');
-            if (c) c.className = 'circle';
+            const orbit = document.querySelector('.circle');
+            if (orbit) orbit.className = 'circle';
         }, 10);
     });
 </script>

@@ -210,10 +210,10 @@
   }
 
   onMount(() => {
-    const cursorReset = () => {
-      const cursor = document.querySelector('.circle');
-      if (cursor) {
-        cursor.className = "circle";
+    const orbitReset = () => {
+      const orbit = document.querySelector('.circle');
+      if (orbit) {
+        orbit.className = "circle";
       }
     };
 
@@ -237,7 +237,7 @@
     window.addEventListener('mouseup', handleOnUp);
     window.addEventListener('touchend', handleOnUp);
 
-    setTimeout(cursorReset, 10);
+    setTimeout(orbitReset, 10);
 
     currentVideo.src = '/media/TWAOS/BG/1.mp4';
     currentVideo.load();

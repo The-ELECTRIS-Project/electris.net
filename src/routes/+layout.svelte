@@ -5,7 +5,7 @@
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
   import NavBar from '$lib/UI/NavBar.svelte';
-  import Cursor from '$lib/UI/Cursor.svelte';
+  import Orbit from '$lib/UI/Orbit.svelte';
   import Mobile from '$lib/UI/popups/Mobile.svelte';
   import Cookies from '$lib/UI/popups/Cookies.svelte';
   import ToastContainer from '$lib/UI/components/ToastContainer.svelte';
@@ -74,7 +74,7 @@
 </svelte:head>
 
 <NavBar />
-<Cursor />
+<Orbit />
 <Mobile />
 <Cookies />
 <ToastContainer />

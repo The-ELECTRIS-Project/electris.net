@@ -54,14 +54,14 @@
     document.querySelectorAll('section').forEach(section => {
       observer.observe(section);
     });
+const orbitReset = () => {
+  const orbit = document.querySelector('.circle');
+  if (orbit) {
+    orbit.className = "circle";
+  }
+};
 
-    const cursorReset = () => {
-      const cursor = document.querySelector('.circle');
-      if (cursor) {
-        cursor.className = "circle";
-      }
-    };
-    setTimeout(cursorReset, 10);
+setTimeout(orbitReset, 10);
 
     return () => observer.disconnect();
   });
