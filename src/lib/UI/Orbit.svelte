@@ -147,11 +147,32 @@
     }
     
     const elements = document.elementsFromPoint(x, y);
+    if (elements.length === 0) return null;
+
+    // The first element in stacking order that blocks pointers (ignoring Orbit)
+    let blockerIndex = -1;
+    for (let i = 0; i < elements.length; i++) {
+       const el = elements[i] as HTMLElement;
+       if (el === circleElement) continue;
+       if (getCachedStyle(el).pointerEvents !== 'none') {
+         blockerIndex = i;
+         break;
+       }
+    }
     
-    for (const element of elements) {
+    if (blockerIndex === -1) return null;
+    const topElement = elements[blockerIndex] as HTMLElement;
+
+    for (let i = blockerIndex; i < elements.length; i++) {
+      const element = elements[i] as HTMLElement;
       const textElement = element as HTMLElement;
       
       if (hasNoWrapClass(textElement)) {
+        continue;
+      }
+
+      // Visibility check: Only consider text elements that are not obscured
+      if (textElement !== topElement && !textElement.contains(topElement)) {
         continue;
       }
       
@@ -471,12 +492,33 @@
 
   function getApplicableConfigsForPosition(x: number, y: number): { config: HoverConfig, element: HTMLElement }[] {
     const elements = document.elementsFromPoint(x, y);
+    if (elements.length === 0) return [];
+
+    // The first element in stacking order that blocks pointers (ignoring Orbit)
+    let blockerIndex = -1;
+    for (let i = 0; i < elements.length; i++) {
+       const el = elements[i] as HTMLElement;
+       if (el === circleElement) continue;
+       if (getCachedStyle(el).pointerEvents !== 'none') {
+         blockerIndex = i;
+         break;
+       }
+    }
+    
+    if (blockerIndex === -1) return [];
+    const topElement = elements[blockerIndex] as HTMLElement;
+
     const configElementPairs: { config: HoverConfig, element: HTMLElement }[] = [];
 
-    for (const el of elements) {
-      const htmlElement = el as HTMLElement;
+    for (let i = blockerIndex; i < elements.length; i++) {
+      const htmlElement = elements[i] as HTMLElement;
       
       if (hasNoInteractClass(htmlElement)) {
+        continue;
+      }
+
+      // Visibility check: Only consider elements that are not obscured
+      if (htmlElement !== topElement && !htmlElement.contains(topElement)) {
         continue;
       }
 
@@ -811,6 +853,10 @@
       isTransitioning = true;
       transitionStartTime = performance.now();
       updateOrbitColor(null);
+      
+      if (circleElement) {
+        circleElement.style.zIndex = '3000';
+      }
     
       hoverConfigs.forEach(config => {
         if (config.customEvent && hoveredElements.size > 0) {
@@ -939,15 +985,18 @@
       // Update measurement cache on scroll or mouse move
       const didMouseMove = mouse.x !== lastCheckX || mouse.y !== lastCheckY;
       const didScrollChange = scrollDeltaX !== 0 || scrollDeltaY !== 0;
-      
       if (didScrollChange) {
         cachedRects.clear();
+        cachedStyles.clear();
         cachedWordBounds.clear();
       }
 
-      // If we're locked to an element, we MUST refresh its bounds every frame in case it's moving independently of scroll (e.g. parallax).
+      // Dynamic tracking: If we're locked to an element, we MUST refresh its bounds 
+      // every frame in case it's moving independently of scroll (e.g. parallax).
       if (lockedElement) {
         cachedRects.set(lockedElement, lockedElement.getBoundingClientRect());
+        // Also refresh style in case z-index changed
+        cachedStyles.delete(lockedElement);
       }
 
       if (didMouseMove || didScrollChange) {
@@ -1033,6 +1082,23 @@
         circleElement.style.width = `${currentWidth}px`;
         circleElement.style.height = `${currentHeight}px`;
         circleElement.style.borderRadius = `${currentBorderRadius}px`;
+
+        // Update Z-Index to match context
+        if (lockedElement) {
+          let current: HTMLElement | null = lockedElement;
+          let highestZ = 1;
+          while (current && current !== document.documentElement) {
+            const z = getCachedStyle(current).zIndex;
+            if (z !== 'auto') {
+              const val = parseInt(z);
+              if (!isNaN(val)) highestZ = Math.max(highestZ, val);
+            }
+            current = current.parentElement;
+          }
+          circleElement.style.zIndex = (highestZ + 1).toString();
+        } else {
+          circleElement.style.zIndex = '3000';
+        }
       }
 
       const translateTransform = `translate(${circle.x}px, ${circle.y}px) translate(-50%, -50%)`;

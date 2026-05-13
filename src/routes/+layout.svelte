@@ -73,16 +73,16 @@
   <meta name="twitter:image" content={ogImage} />
 </svelte:head>
 
+<main>
+  {@render children()}
+</main>
+
 <NavBar />
 <Orbit />
 <Mobile />
 <Cookies />
 <ToastContainer />
 <CyberNeotic />
-
-<main>
-  {@render children()}
-</main>
 
 <style>
   main {
