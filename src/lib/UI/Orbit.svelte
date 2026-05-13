@@ -8,6 +8,12 @@
   const mouse = $state({ x: 0, y: 0 });
   const previousMouse = { x: 0, y: 0 };
   const circle = $state({ x: 0, y: 0 });
+  
+  // New state for JS-driven interpolation
+  let currentWidth = $state(0);
+  let currentHeight = $state(0);
+  let currentBorderRadius = $state(0);
+  
   let currentScale = 0;
   let currentAngle = 0;
 
@@ -43,6 +49,11 @@
   const hoveredElements = new Set<HTMLElement>();
   let lastColorElement: HTMLElement | null = null;
 
+  // Measurement and style caching
+  let cachedRects = new Map<HTMLElement, DOMRect>();
+  let cachedStyles = new Map<HTMLElement, CSSStyleDeclaration>();
+  let cachedWordBounds = new Map<HTMLElement, { element: HTMLElement, bounds: DOMRect, text: string }[]>();
+
   let lastCheckX = -1;
   let lastCheckY = -1;
   let lastScrollX = -1;
@@ -55,7 +66,7 @@
   };
 
   function getRotation(element: HTMLElement): number {
-    const style = window.getComputedStyle(element) as TransformCapableStyle;
+    const style = getCachedStyle(element) as TransformCapableStyle;
     const transform = style.transform || style.webkitTransform || style.mozTransform;
     
     if (transform && transform !== 'none') {
@@ -66,6 +77,20 @@
     }
     
     return 0;
+  }
+
+  function getCachedStyle(element: HTMLElement): CSSStyleDeclaration {
+    if (!cachedStyles.has(element)) {
+      cachedStyles.set(element, window.getComputedStyle(element));
+    }
+    return cachedStyles.get(element)!;
+  }
+
+  function getCachedRect(element: HTMLElement): DOMRect {
+    if (!cachedRects.has(element)) {
+      cachedRects.set(element, element.getBoundingClientRect());
+    }
+    return cachedRects.get(element)!;
   }
 
   function updateOrbitColor(element: HTMLElement | null, config?: HoverConfig) {
@@ -79,13 +104,12 @@
         circleElement.style.borderColor = config.color;
         circleElement.style.color = config.color;
       } else if (config.wrapText) {
-        const color = window.getComputedStyle(element).color;
+        const color = getCachedStyle(element).color;
         circleElement.style.borderColor = color;
         circleElement.style.color = color;
       } else {
         circleElement.style.borderColor = '';
-        // Synchronously get the border color applied by CSS classes
-        circleElement.style.color = window.getComputedStyle(circleElement).borderTopColor;
+        circleElement.style.color = getCachedStyle(circleElement).borderTopColor;
       }
     } else {
       if (lastColorElement === null) return;
@@ -100,35 +124,11 @@
   }
 
   function hasNoInteractClass(element: HTMLElement): boolean {
-    if (element.classList.contains('circle-no-interact') || element.classList.contains('circle-no-interact-all')) {
-      return true;
-    }
-    
-    let parent = element.parentElement;
-    while (parent) {
-      if (parent.classList.contains('circle-no-interact-all')) {
-        return true;
-      }
-      parent = parent.parentElement;
-    }
-    
-    return false;
+    return element.closest('.circle-no-interact, .circle-no-interact-all') !== null;
   }
 
   function hasNoWrapClass(element: HTMLElement): boolean {
-    if (element.classList.contains('wrap-no-interact') || element.classList.contains('wrap-no-interact-all')) {
-      return true;
-    }
-    
-    let parent = element.parentElement;
-    while (parent) {
-      if (parent.classList.contains('wrap-no-interact-all')) {
-        return true;
-      }
-      parent = parent.parentElement;
-    }
-    
-    return false;
+    return element.closest('.wrap-no-interact, .wrap-no-interact-all') !== null;
   }
 
   function getWordAtPosition(x: number, y: number, wrapConfig: HoverConfig['wrapText'], targetElement?: HTMLElement): { element: HTMLElement, bounds: DOMRect, text: string } | null {
@@ -162,7 +162,7 @@
       if (!isTextElement(textElement)) continue;
       
       if (sentences) {
-        const rect = textElement.getBoundingClientRect();
+        const rect = getCachedRect(textElement);
         if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
           const text = textElement.textContent?.trim() || '';
           if (text.length > 0) {
@@ -174,13 +174,23 @@
           }
         }
       } else if (words) {
-        const textNodes = getTextNodes(textElement);
-        for (const textNode of textNodes) {
-          const word = getWordFromTextNode(textNode, x, y, { 
-            ignorePunctuation: wrapConfig.ignorePunctuation ?? false, 
-            ignoreCharacters: wrapConfig.ignoreCharacters ?? false 
-          });
-          if (word) {
+        if (!cachedWordBounds.has(textElement)) {
+            const textNodes = getTextNodes(textElement);
+            const wordList: { element: HTMLElement, bounds: DOMRect, text: string }[] = [];
+            
+            for (const textNode of textNodes) {
+              const wordsInNode = getWordsFromTextNode(textNode, { 
+                ignorePunctuation: wrapConfig.ignorePunctuation ?? false, 
+                ignoreCharacters: wrapConfig.ignoreCharacters ?? false 
+              });
+              wordList.push(...wordsInNode);
+            }
+            cachedWordBounds.set(textElement, wordList);
+        }
+
+        const cachedWords = cachedWordBounds.get(textElement)!;
+        for (const word of cachedWords) {
+          if (x >= word.bounds.left && x <= word.bounds.right && y >= word.bounds.top && y <= word.bounds.bottom) {
             return word;
           }
         }
@@ -218,11 +228,12 @@
     return textNodes;
   }
 
-  function getWordFromTextNode(textNode: Text, x: number, y: number, filterConfig: { ignorePunctuation: boolean, ignoreCharacters: boolean }): { element: HTMLElement, bounds: DOMRect, text: string } | null {
+  function getWordsFromTextNode(textNode: Text, filterConfig: { ignorePunctuation: boolean, ignoreCharacters: boolean }): { element: HTMLElement, bounds: DOMRect, text: string }[] {
     const text = textNode.textContent || '';
     const words = text.split(/\s+/).filter(word => word.length > 0);
+    const results: { element: HTMLElement, bounds: DOMRect, text: string }[] = [];
     
-    if (words.length === 0) return null;
+    if (words.length === 0) return results;
 
     const range = document.createRange();
     let currentIndex = 0;
@@ -232,15 +243,14 @@
       const wordStart = text.indexOf(word, currentIndex);
       let wordEnd = wordStart + word.length;
       
+      let actualStart = wordStart;
+      let actualEnd = wordEnd;
+
       if (filterConfig.ignorePunctuation || filterConfig.ignoreCharacters) {
-        let cleanWord = word;
-        let actualStart = wordStart;
-        let actualEnd = wordEnd;
-        
         if (filterConfig.ignorePunctuation && filterConfig.ignoreCharacters) {
           const match = word.match(/[\p{L}\p{N}]+/u);
           if (match) {
-            cleanWord = match[0];
+            const cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
             actualStart = wordStart + cleanStart;
             actualEnd = actualStart + cleanWord.length;
@@ -251,7 +261,7 @@
         } else if (filterConfig.ignorePunctuation) {
           const match = word.match(/[\p{L}\p{N}\s\p{P}\p{S}]+/u);
           if (match) {
-            cleanWord = match[0];
+            const cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
             actualStart = wordStart + cleanStart;
             actualEnd = actualStart + cleanWord.length;
@@ -259,35 +269,29 @@
         } else if (filterConfig.ignoreCharacters) {
           const match = word.match(/[\p{L}\p{N}.,;:!?"'()-]+/u);
           if (match) {
-            cleanWord = match[0];
+            const cleanWord = match[0];
             const cleanStart = word.indexOf(cleanWord);
             actualStart = wordStart + cleanStart;
             actualEnd = actualStart + cleanWord.length;
           }
         }
-        
-        range.setStart(textNode, actualStart);
-        range.setEnd(textNode, actualEnd);
-      } else {
-        range.setStart(textNode, wordStart);
-        range.setEnd(textNode, wordEnd);
       }
+      
+      range.setStart(textNode, actualStart);
+      range.setEnd(textNode, actualEnd);
       
       const rect = range.getBoundingClientRect();
-      
-      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
-        const parentElement = textNode.parentElement as HTMLElement;
-        return {
-          element: parentElement,
-          bounds: rect,
-          text: range.toString()
-        };
-      }
+      const parentElement = textNode.parentElement as HTMLElement;
+      results.push({
+        element: parentElement,
+        bounds: rect,
+        text: range.toString()
+      });
       
       currentIndex = wordEnd;
     }
 
-    return null;
+    return results;
   }
 
   function getWordHoverBounds(): { x: number, y: number, width: number, height: number } {
@@ -306,13 +310,8 @@
 
   function shouldAllowRotation(): boolean {
     if (!circleElement) return true;
-    
-    // If we're matching rotation, we MUST allow it even if transitioning or preventRotation is set
-    // This ensures rotation starts immediately as part of the snap transition
     if (lockedElement && lockedConfig?.matchRotation) return true;
-
     if (isTransitioning) return false;
-    
     if (lockedConfig?.preventRotation) return false;
     if (lockedElement) return false;
     return true;
@@ -373,11 +372,11 @@
       offsetY += config.positionOffset.y ? vminToPx(config.positionOffset.y) : 0;
     }
 
-    let rect = target.getBoundingClientRect();
+    let rect = getCachedRect(target);
     
     if (rect.width === 0 && rect.height === 0 && target !== element) {
         target = element;
-        rect = target.getBoundingClientRect();
+        rect = getCachedRect(target);
     }
 
     let centerX = rect.left + rect.width / 2 + offsetX;
@@ -612,11 +611,6 @@
              circleElement?.classList.remove('hovered-lock');
              
              updateOrbitColor(null);
-             
-             if (circleElement) {
-                circleElement.style.width = '';
-                circleElement.style.height = '';
-             }
           }
         }
         currentWord = null;
@@ -817,9 +811,6 @@
       isTransitioning = true;
       transitionStartTime = performance.now();
       updateOrbitColor(null);
-      
-      circleElement.style.width = '';
-      circleElement.style.height = '';
     
       hoverConfigs.forEach(config => {
         if (config.customEvent && hoveredElements.size > 0) {
@@ -888,10 +879,10 @@
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("blur", handleMouseUp);
 
-    const speed = 0.3;
-    const hoverSpeed = 0.15;
-    const snapSpeed = 0.35; // Faster for snapping to elements
-    const transitionDuration = 300;
+    const speed = 0.35;
+    const hoverSpeed = 0.25;
+    const snapSpeed = 0.45; // Faster for snapping to elements
+    const transitionDuration = 200;
 
     const handleNavigationStart = () => {
       isNavigating = true;
@@ -907,6 +898,14 @@
     document.addEventListener('sveltekit:navigation-start', handleNavigationStart);
     document.addEventListener('click', handleDocumentClick);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Initial state for JS interpolation
+    currentWidth = vminToPx(2);
+    currentHeight = vminToPx(2);
+    currentBorderRadius = vminToPx(50);
+    
+    lastScrollX = window.scrollX;
+    lastScrollY = window.scrollY;
 
     const tick = () => {
       if (hasDetectedCursor) {
@@ -928,13 +927,29 @@
         spawnProgress = 0;
       }
 
-      // Performance Optimization: Only check for word hover if the cursor position 
-      // relative to the document has changed (mouse movement or scrolling).
       const currentScrollX = window.scrollX;
       const currentScrollY = window.scrollY;
-      const didMouseMove = mouse.x !== lastCheckX || mouse.y !== lastCheckY;
-      const didScrollChange = currentScrollX !== lastScrollX || currentScrollY !== lastScrollY;
+      const scrollDeltaX = currentScrollX - lastScrollX;
+      const scrollDeltaY = currentScrollY - lastScrollY;
       
+      // Scroll Compensation: Move the orbit with the page content
+      circle.x -= scrollDeltaX;
+      circle.y -= scrollDeltaY;
+      
+      // Update measurement cache on scroll or mouse move
+      const didMouseMove = mouse.x !== lastCheckX || mouse.y !== lastCheckY;
+      const didScrollChange = scrollDeltaX !== 0 || scrollDeltaY !== 0;
+      
+      if (didScrollChange) {
+        cachedRects.clear();
+        cachedWordBounds.clear();
+      }
+
+      // If we're locked to an element, we MUST refresh its bounds every frame in case it's moving independently of scroll (e.g. parallax).
+      if (lockedElement) {
+        cachedRects.set(lockedElement, lockedElement.getBoundingClientRect());
+      }
+
       if (didMouseMove || didScrollChange) {
         handleWordHover();
         lastCheckX = mouse.x;
@@ -952,14 +967,26 @@
 
       let targetX = mouse.x;
       let targetY = mouse.y;
-      let targetWidth: number | undefined;
-      let targetHeight: number | undefined;
+      let targetWidth = vminToPx(2);
+      let targetHeight = vminToPx(2);
+      let targetBR = vminToPx(50);
       let targetRotation: number | undefined;
 
       if (lockedElement && lockedConfig) {
         const targetCenter = getTargetCenter(lockedElement, lockedConfig);
-        targetWidth = targetCenter.width;
-        targetHeight = targetCenter.height;
+        
+        if (lockedConfig.autoSize !== false && targetCenter.width !== undefined && targetCenter.height !== undefined) {
+          targetWidth = targetCenter.width;
+          targetHeight = targetCenter.height;
+          
+          if (lockedConfig.borderRadius !== undefined) {
+            targetBR = vminToPx(lockedConfig.borderRadius);
+          } else if (circleElement?.classList.contains('hovered-word-wrap')) {
+            targetBR = vminToPx(0.8);
+          } else {
+            targetBR = vminToPx(50);
+          }
+        }
 
         if (lockedConfig.lockPosition) {
           targetX = targetCenter.x;
@@ -974,18 +1001,17 @@
       const regularSpeed = (lockedElement && lockedConfig) ? hoverSpeed : speed;
       const currentSpeed = hasDetectedCursor ? (spawnProgress * regularSpeed + (1 - spawnProgress) * 1) : 1;
       
-      const didLockedTargetMove = isPositionLocked && lastLockedTargetPosition
-        ? Math.hypot(
-            targetX - lastLockedTargetPosition.x,
-            targetY - lastLockedTargetPosition.y
-          ) > 0.5
-        : false;
-      const shouldForceImmediateLock = didLockedTargetMove &&
-        (didScrollChange || (isMouseDown && didMouseMove) || isTouchActive);
+      // Interpolate layout properties in JS
+      currentWidth += (targetWidth - currentWidth) * currentSpeed;
+      currentHeight += (targetHeight - currentHeight) * currentSpeed;
+      
+      // Significantly faster border radius animation
+      const brSpeed = currentSpeed * 3.5;
+      currentBorderRadius += (targetBR - currentBorderRadius) * Math.min(brSpeed, 1);
 
       if (isPositionLocked && !hasSettledPositionLock) {
         const remainingDistance = Math.hypot(targetX - circle.x, targetY - circle.y);
-        if (shouldForceImmediateLock || remainingDistance <= 1) {
+        if (remainingDistance <= 1) {
           hasSettledPositionLock = true;
           circle.x = targetX;
           circle.y = targetY;
@@ -1004,20 +1030,9 @@
       lastLockedTargetPosition = isPositionLocked ? { x: targetX, y: targetY } : null;
 
       if (circleElement) {
-        if (lockedElement && lockedConfig && lockedConfig.autoSize !== false && targetWidth !== undefined && targetHeight !== undefined) {
-          circleElement.style.width = `${targetWidth}px`;
-          circleElement.style.height = `${targetHeight}px`;
-          
-          if (lockedConfig.borderRadius !== undefined) {
-            circleElement.style.borderRadius = `${vminToPx(lockedConfig.borderRadius)}px`;
-          } else {
-            circleElement.style.borderRadius = '';
-          }
-        } else {
-          circleElement.style.width = '';
-          circleElement.style.height = '';
-          circleElement.style.borderRadius = '';
-        }
+        circleElement.style.width = `${currentWidth}px`;
+        circleElement.style.height = `${currentHeight}px`;
+        circleElement.style.borderRadius = `${currentBorderRadius}px`;
       }
 
       const translateTransform = `translate(${circle.x}px, ${circle.y}px) translate(-50%, -50%)`;
@@ -1029,7 +1044,6 @@
 
       const mouseVelocity = Math.min(Math.sqrt(deltaMouseX**2 + deltaMouseY**2) * 5, 150);
       
-      // Disable velocity stretching when locked to a position or element
       const isLockedToPos = lockedElement && lockedConfig;
       const baseStretching = isLockedToPos ? 0 : (mouseVelocity / 150) * 0.5;
       const targetScaleValue = baseStretching * spawnProgress;
@@ -1050,12 +1064,13 @@
       const angle = Math.atan2(deltaMouseY, deltaMouseX) * 180 / Math.PI;
 
       if (lockedElement && lockedConfig?.matchRotation && targetRotation !== undefined) {
-        // Use shortest path interpolation for rotation
         let diff = (targetRotation - currentAngle) % 360;
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
         
-        currentAngle += diff * snapSpeed;
+        // Synchronized Rotation Fix: Snap rotation faster when expanding to prevent spinning
+        const rotationSyncSpeed = isTransitioning ? 0.9 : snapSpeed;
+        currentAngle += diff * rotationSyncSpeed;
       } else if (mouseVelocity > 10 && allowRotation) {
         currentAngle = angle;
       }
@@ -1066,8 +1081,6 @@
 
       if (circleElement) {
         if (lockedElement && lockedConfig) {
-          // When locked to an element, we typically only want translation and rotation (if matched)
-          // Scale is handled by width/height properties now
           if (lockedConfig.matchRotation) {
             circleElement.style.transform = `${translateTransform} ${rotateTransform}`;
           } else {

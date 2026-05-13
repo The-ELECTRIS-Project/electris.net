@@ -113,15 +113,14 @@ main {
   width: var(--circle-size);
   border-radius: 50%;
   pointer-events: none;
-  will-change: transform;
-  transition: opacity 0.3s ease, rotation 0.8s, width 0.1s ease-out, height 0.1s ease-out, top 0.1s ease-out, left 0.1s ease-out, border-color 0.2s ease, border-width 0.1s ease-in-out;
+  will-change: transform, width, height, border-radius;
+  transition: opacity 0.3s ease, border-color 0.2s ease, border-width 0.1s ease-in-out;
   z-index: 500;
   border: 0.2vmin solid var(--circle-border);
 }
 
 .circle.hovered-word-wrap {
-  border-radius: 0.8vmin;
-  transition: opacity 0.2s ease, width 0.08s ease-out, height 0.08s ease-out, border-radius 0.10s ease-out, border-color 0.2s ease;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
 }
 
 .circle.hovered-button-grow {
@@ -129,11 +128,11 @@ main {
 }
 
 .circle.hovered-menu-item {
-  transition: rotation 1s, width 0.01s ease-in-out, height 0.01s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
+  transition: border 0.1s ease-in-out;
 }
 
 .circle.hovered-hamburger-footer {
-  transition: rotation 1s, width 0.1s ease-in-out, height 0.1s ease-in-out, top 0.1s ease-in-out, left 0.1s ease-in-out, border 0.1s ease-in-out, border-radius 0.2s ease-in-out;
+  transition: border 0.1s ease-in-out;
 }
 
 .circle.hovered-crown {
