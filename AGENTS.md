@@ -50,7 +50,7 @@ There is no dedicated automated test suite in the repository.
 Treat `npm run check` and `npm run lint` as the minimum gate before completing a task.
 
 When changing logic or static content flows, manually verify the affected route in `npm run dev` and confirm any corresponding files under `static/data/` resolve correctly.
-When fixing `check` or `lint` errors, never remove/comment out logic or add comments for the checker to ignore the problems. Always address the issue and fix it if possible.
+When fixing `check` or `lint` errors, never modify configs, remove/comment out logic or add comments for the checker to ignore the problems. Always address the issues and fix them if possible.
 If a fix/change requires major alterations/rewrites, always prompt the user for confirmation. Don't do anything you weren't asked to.
 
 ## Commit & Pull Request Guidelines
