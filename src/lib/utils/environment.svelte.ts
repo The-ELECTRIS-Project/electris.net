@@ -97,17 +97,6 @@ class EnvironmentState {
 
 export const environmentState = new EnvironmentState();
 
-// Backward compatibility (optional)
-export const environmentStore = {
-  get info() { return environmentState.info; },
-  refresh: () => environmentState.refresh(),
-  subscribe: (fn: (v: EnvironmentInfo) => void) => {
-    void fn;
-    // For legacy store compatibility if needed
-    return () => {};
-  }
-};
-
 export function getCurrentEnvironment(): Environment {
   if (!browser) return 'unknown';
 

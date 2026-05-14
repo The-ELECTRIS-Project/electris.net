@@ -6,6 +6,8 @@
   }
 
   let { type = 'card', big = false, count = 2 }: Props = $props();
+
+  let skeletonIndices = $derived(Array.from({ length: count }, (_, i) => i));
 </script>
 
 {#if type === 'live'}
@@ -35,7 +37,7 @@
   </div>
 {:else if type === 'row'}
   <div class="skeleton-row">
-    {#each Array(count) as _}
+    {#each skeletonIndices as i (i)}
       <div class="skeleton-card">
         <div class="skeleton-media"></div>
         <div class="skeleton-content">

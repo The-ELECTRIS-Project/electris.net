@@ -15,7 +15,7 @@ declare global {
 		interface Platform {
 			env?: {
 				ASSETS?: {
-					fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+					fetch: typeof fetch;
 				};
 				[key: string]: unknown;
 			};

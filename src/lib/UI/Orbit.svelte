@@ -17,14 +17,10 @@
   let currentScale = 0;
   let currentAngle = 0;
 
-  let isTouchActive = $state(false);
   let touchVisibility = $state(1);
   let isTouchCapable = $state(false);
   let lastInputWasTouch = $state(false);
-  let isMouseDown = $state(false);
   let isOrbitEnabled = $state(false);
-
-  let isNavigating = $state(false);
 
   let hasDetectedCursor = $state(false);
   let isSpawning = $state(false);
@@ -38,7 +34,6 @@
   let lockedElement: HTMLElement | null = $state(null);
   let lockedConfig: HoverConfig | null = $state(null);
   let hasSettledPositionLock = $state(false);
-  let lastLockedTargetPosition: { x: number, y: number } | null = $state(null);
   let isTransitioning = $state(false);
   let transitionStartTime = 0;
 
@@ -341,7 +336,6 @@
   function handleTouchStart(e: TouchEvent) {
     if (!hasDetectedCursor) hasDetectedCursor = true;
     lastInputWasTouch = true;
-    isTouchActive = true;
     const touch = e.touches[0];
     mouse.x = touch.clientX;
     mouse.y = touch.clientY;
@@ -351,14 +345,12 @@
   function handleTouchMove(e: TouchEvent) {
     if (!hasDetectedCursor) hasDetectedCursor = true;
     lastInputWasTouch = true;
-    isTouchActive = true;
     const touch = e.touches[0];
     mouse.x = touch.clientX;
     mouse.y = touch.clientY;
   }
 
   function handleTouchEnd() {
-    isTouchActive = false;
   }
 
   function getTrackingElement(element: HTMLElement, config: HoverConfig): HTMLElement {
@@ -647,7 +639,6 @@
              lockedElement = null;
              lockedConfig = null;
              hasSettledPositionLock = false;
-             lastLockedTargetPosition = null;
              isTransitioning = true;
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
@@ -685,7 +676,6 @@
         lockedElement = element;
         lockedConfig = config;
         hasSettledPositionLock = false;
-        lastLockedTargetPosition = null;
         
         isTransitioning = true;
         transitionStartTime = performance.now();
@@ -731,7 +721,6 @@
       lockedElement = element;
       lockedConfig = config;
       hasSettledPositionLock = false;
-      lastLockedTargetPosition = null;
       
       if (!circleElement?.classList.contains('hovered-lock')) {
         isTransitioning = true;
@@ -774,8 +763,7 @@
             lockedElement = null;
             lockedConfig = null;
             hasSettledPositionLock = false;
-            lastLockedTargetPosition = null;
-            isTransitioning = true;
+                  isTransitioning = true;
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
             
@@ -790,17 +778,14 @@
     }
   }
 
-  let mouseOverHandler: (e: MouseEvent) => void;
-  let mouseOutHandler: (e: MouseEvent) => void;
-
   function setupHoverDetection() {
-    mouseOverHandler = (event: MouseEvent) => {
+    const mouseOverHandler = (event: MouseEvent) => {
       hoverConfigs.forEach((config) => {
         handleHover(event, config);
       });
     };
 
-    mouseOutHandler = (event: MouseEvent) => {
+    const mouseOutHandler = (event: MouseEvent) => {
       hoverConfigs.forEach(config => {
         handleUnhover(event, config);
       });
@@ -849,7 +834,6 @@
       lockedElement = null;
       lockedConfig = null;
       hasSettledPositionLock = false;
-      lastLockedTargetPosition = null;
       isTransitioning = true;
       transitionStartTime = performance.now();
       updateOrbitColor(null);
@@ -911,10 +895,8 @@
     const handleMouseDown = () => {
       if (!hasDetectedCursor) hasDetectedCursor = true;
       lastInputWasTouch = false;
-      isMouseDown = true;
     };
     const handleMouseUp = () => {
-      isMouseDown = false;
     };
 
     window.addEventListener("touchstart", handleTouchStart);
@@ -931,7 +913,6 @@
     const transitionDuration = 200;
 
     const handleNavigationStart = () => {
-      isNavigating = true;
     };
 
     const handleVisibilityChange = () => {
@@ -1076,7 +1057,6 @@
         circle.y += (targetY - circle.y) * currentSpeed;
       }
 
-      lastLockedTargetPosition = isPositionLocked ? { x: targetX, y: targetY } : null;
 
       if (circleElement) {
         circleElement.style.width = `${currentWidth}px`;
@@ -1168,7 +1148,6 @@
     animationFrameId = requestAnimationFrame(tick);
 
     afterNavigate(() => {
-      isNavigating = false;
       setTimeout(() => {
         if (circleElement) {
           softResetOrbit();

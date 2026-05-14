@@ -20,7 +20,7 @@
     setCookie(DISCLOSURE_KEY, "true", 365);
     try {
       localStorage.setItem(DISCLOSURE_KEY, "true");
-    } catch (e) {
+    } catch {
       // Ignore localStorage errors
     }
     showPopup = false;
@@ -36,7 +36,9 @@
       let isDismissedLocal = false;
       try {
         isDismissedLocal = localStorage.getItem(DISCLOSURE_KEY) === "true";
-      } catch (e) {}
+      } catch {
+        // Ignore
+      }
 
       if (!isDismissedCookie && !isDismissedLocal) {
         showPopup = true;

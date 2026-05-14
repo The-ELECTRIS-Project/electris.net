@@ -9,7 +9,7 @@ export interface BlogLoadContext {
 }
 
 interface AssetsBinding {
-  fetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+  fetch: typeof fetch;
 }
 
 function hasAssetsBinding(

@@ -5,6 +5,7 @@
   import { themeState } from '$lib/stores/theme.svelte';
   import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
+  import type { YoutubeData, YoutubeVideo } from '$lib/types/youtube';
   import YouTube from '$lib/UI/components/youtube/Card.svelte';
   import YTLive from '$lib/UI/components/youtube/LiveSection.svelte';
   import YTSkeleton from '$lib/UI/components/youtube/Skeleton.svelte';
@@ -13,17 +14,17 @@
 
   let { data } = $props();
   
-  function processYoutubeData(youtube: any) {
-    const liveAndUpcoming = youtube.videos.filter((v: any) => v.status === 'live' || v.status === 'upcoming');
+  function processYoutubeData(youtube: YoutubeData) {
+    const liveAndUpcoming = youtube.videos.filter((v: YoutubeVideo) => v.status === 'live' || v.status === 'upcoming');
     
     const newestPerChannel = (() => {
-      const map = new Map();
+      const map = new Map<string, YoutubeVideo>();
       youtube.videos
-        .filter((v: any) => v.status === 'finished')
-        .forEach((v: any) => {
+        .filter((v: YoutubeVideo) => v.status === 'finished')
+        .forEach((v: YoutubeVideo) => {
           if (!map.has(v.channelId)) map.set(v.channelId, v);
         });
-      return Array.from(map.values()).sort((a: any, b: any) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+      return Array.from(map.values()).sort((a: YoutubeVideo, b: YoutubeVideo) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     })();
 
     const displayVideos = newestPerChannel.slice(0, 2);
@@ -413,7 +414,7 @@
           {/if}
         </div>
       {/if}
-    {:catch error}
+    {:catch}
       <!-- Silently fail -->
     {/await}
 
