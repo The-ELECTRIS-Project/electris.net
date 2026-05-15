@@ -118,24 +118,21 @@
       lockPosition: true,
       matchRotation: true,
       color: 'color-mix(in srgb, var(--color-primary) 78%, var(--color-electro) 22%)',
-      dynamicSizeOffset: 1,
-      borderRadius: 3.2
+      dynamicSizeOffset: 1
     },
     {
       selectors: ['.info-buttons.about-link'],
       className: 'hovered-home-link-about',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 74%, var(--color-electris) 26%)',
-      borderRadius: 2.8
+      color: 'color-mix(in srgb, var(--color-primary) 74%, var(--color-electris) 26%)'
     },
     {
       selectors: ['.info-buttons.latest-link'],
       className: 'hovered-home-link-latest',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 62%, var(--color-primary) 38%)',
-      borderRadius: 2.8
+      color: 'color-mix(in srgb, var(--color-electro) 62%, var(--color-primary) 38%)'
     },
     {
       selectors: ['.hero-frame.slogan-frame'],
@@ -146,48 +143,42 @@
       dynamicSizeOffset: {
         width: -0.8,
         height: -1.6
-      },
-      borderRadius: 3
+      }
     },
     {
       selectors: ['.signal-card.make'],
       className: 'hovered-home-make',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 76%, var(--color-electris) 24%)',
-      borderRadius: 2.4
+      color: 'color-mix(in srgb, var(--color-primary) 76%, var(--color-electris) 24%)'
     },
     {
       selectors: ['.signal-card.share'],
       className: 'hovered-home-share',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 82%, var(--color-primary) 18%)',
-      borderRadius: 2.4
+      color: 'color-mix(in srgb, var(--color-electro) 82%, var(--color-primary) 18%)'
     },
     {
       selectors: ['.signal-card.evolve'],
       className: 'hovered-home-evolve',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-varrow) 74%, var(--color-electro) 26%)',
-      borderRadius: 2.4
+      color: 'color-mix(in srgb, var(--color-varrow) 74%, var(--color-electro) 26%)'
     },
     {
       selectors: ['.news-card.latest-blog'],
       className: 'hovered-home-latest-big',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)',
-      borderRadius: 2.8
+      color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)'
     },
     {
       selectors: ['.news-card.latest-blog-empty'],
       className: 'hovered-home-latest-big',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)',
-      borderRadius: 2.8
+      color: 'color-mix(in srgb, var(--color-primary) 68%, var(--color-electris) 32%)'
     },
     {
       selectors: ['.show-all-link'],
@@ -202,16 +193,14 @@
       className: 'hovered-home-latest-small',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electris) 50%, var(--color-electro) 50%)',
-      borderRadius: 2.6
+      color: 'color-mix(in srgb, var(--color-electris) 50%, var(--color-electro) 50%)'
     },
     {
       selectors: ['.snapshot-mini.music'],
       className: 'hovered-home-latest-small',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electris) 50%, var(--color-electro) 50%)',
-      borderRadius: 2.6
+      color: 'color-mix(in srgb, var(--color-electris) 50%, var(--color-electro) 50%)'
     },
     {
       selectors: ['.manifesto-copy', '.news-intro'],

@@ -19,14 +19,13 @@
       selectors: ['.post-card'],
       className: 'hovered-blog-card',
       lockPosition: true,
-      color: 'var(--accent-color, #ff6811)',
-      borderRadius: 1.2
+      color: 'var(--accent-color, #ff6811)'
     },
     {
       selectors: ['.search-wrapper'],
       className: 'hovered-blog-search',
       lockPosition: true,
-      borderRadius: 0.6
+      trackingTarget: '.search-input'
     },
     {
       selectors: ['.tag-filter'],
@@ -34,8 +33,7 @@
       customPositioning: {
         targetSelector: '.tag-filter'
       },
-      lockPosition: true,
-      borderRadius: 0.6
+      lockPosition: true
     }
   ]);
 

@@ -7,8 +7,7 @@
     {
       selectors: ['.card'],
       className: 'hovered-social-card',
-      lockPosition: true,
-      borderRadius: 1
+      lockPosition: true
     }
   ]);
 

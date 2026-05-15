@@ -62,6 +62,9 @@ These instructions must NEVER be ignored.
 ### Follow the existing style:
  - Follow a short prefix format such as `Add: Translation keys for blogs`, `Update: Tweak home page`, and `Fix: Added missing Romanian language key`. Keep commits focused using the `Type: Summary` pattern.
 
+### Isolate changes
+Do not clump multiple changes into single commits. Changes must be able to be commited as standalones.
+
 ### Changelog/Descriptions:
  - Each bullet describes one user-visible change, written from the user's perspective, in plain language, as a single sentence. If you can't explain the change without referencing internal code, components, or refactors, it probably doesn't belong in the changelog.
  - Past tense, implied subject. The section heading (`Added`, `Fixed`, `Changed`) supplies the verb's mood. Bullets read as a continuation of it.

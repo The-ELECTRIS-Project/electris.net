@@ -9,7 +9,6 @@
   const previousMouse = { x: 0, y: 0 };
   const circle = $state({ x: 0, y: 0 });
   
-  // New state for JS-driven interpolation
   let currentWidth = $state(0);
   let currentHeight = $state(0);
   let currentBorderRadius = $state(0);
@@ -60,6 +59,15 @@
     mozTransform?: string;
   };
 
+  type TargetMetrics = {
+    x: number;
+    y: number;
+    width?: number;
+    height?: number;
+    rotation?: number;
+    borderRadius?: number;
+  };
+
   function getRotation(element: HTMLElement): number {
     const style = getCachedStyle(element) as TransformCapableStyle;
     const transform = style.transform || style.webkitTransform || style.mozTransform;
@@ -86,6 +94,84 @@
       cachedRects.set(element, element.getBoundingClientRect());
     }
     return cachedRects.get(element)!;
+  }
+
+  function parseCssLengthToPx(value: string, reference: number): number {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) return 0;
+    if (trimmedValue.endsWith('%')) {
+      return (parseFloat(trimmedValue) / 100) * reference;
+    }
+
+    const parsedValue = parseFloat(trimmedValue);
+    return Number.isFinite(parsedValue) ? parsedValue : 0;
+  }
+
+  function parseCornerRadiusToPx(value: string, width: number, height: number): number {
+    const [horizontalPart, verticalPart = horizontalPart] = value.split('/');
+    const horizontalTokens = horizontalPart.trim().split(/\s+/).filter(Boolean);
+    const verticalTokens = verticalPart.trim().split(/\s+/).filter(Boolean);
+
+    const horizontalRadii = horizontalTokens.map(token => parseCssLengthToPx(token, width));
+    const verticalRadii = verticalTokens.map(token => parseCssLengthToPx(token, height));
+
+    return Math.max(0, ...horizontalRadii, ...verticalRadii);
+  }
+
+  function getElementBorderRadiusPx(element: HTMLElement, rect: DOMRect): number {
+    const style = getCachedStyle(element);
+
+    return Math.max(
+      parseCornerRadiusToPx(style.borderTopLeftRadius, rect.width, rect.height),
+      parseCornerRadiusToPx(style.borderTopRightRadius, rect.width, rect.height),
+      parseCornerRadiusToPx(style.borderBottomRightRadius, rect.width, rect.height),
+      parseCornerRadiusToPx(style.borderBottomLeftRadius, rect.width, rect.height)
+    );
+  }
+
+  function resolveTargetSize(rect: DOMRect, config: HoverConfig): { width: number, height: number } {
+    let width = rect.width;
+    let height = rect.height;
+
+    if (config.absoluteSizeOffset !== undefined) {
+      if (typeof config.absoluteSizeOffset === 'number') {
+        const sizePx = vminToPx(config.absoluteSizeOffset);
+        width = sizePx;
+        height = sizePx;
+      } else {
+        if (config.absoluteSizeOffset.width !== undefined) width = vminToPx(config.absoluteSizeOffset.width);
+        if (config.absoluteSizeOffset.height !== undefined) height = vminToPx(config.absoluteSizeOffset.height);
+      }
+    }
+
+    if (config.dynamicSizeOffset !== undefined) {
+      if (typeof config.dynamicSizeOffset === 'number') {
+        const offsetPx = vminToPx(config.dynamicSizeOffset);
+        width += offsetPx;
+        height += offsetPx;
+      } else {
+        if (config.dynamicSizeOffset.width !== undefined) width += vminToPx(config.dynamicSizeOffset.width);
+        if (config.dynamicSizeOffset.height !== undefined) height += vminToPx(config.dynamicSizeOffset.height);
+      }
+    }
+
+    return { width, height };
+  }
+
+  function resolveTargetBorderRadius(baseBorderRadius: number, config: HoverConfig): number {
+    let borderRadius = baseBorderRadius;
+    const absoluteBorderRadius = config.absoluteBorderRadiusOffset ?? config.borderRadius;
+
+    if (absoluteBorderRadius !== undefined) {
+      borderRadius = vminToPx(absoluteBorderRadius);
+    }
+
+    if (config.dynamicBorderRadiusOffset !== undefined) {
+      borderRadius += vminToPx(config.dynamicBorderRadiusOffset);
+    }
+
+    return Math.max(borderRadius, 0);
   }
 
   function updateOrbitColor(element: HTMLElement | null, config?: HoverConfig) {
@@ -361,10 +447,16 @@
     return element;
   }
 
-  function getTargetCenter(element: HTMLElement, config: HoverConfig): { x: number, y: number, width?: number, height?: number, rotation?: number } {
+  function getTargetCenter(element: HTMLElement, config: HoverConfig): TargetMetrics {
     if (config.wrapText && currentWord) {
       const bounds = getWordHoverBounds();
-      return { x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height };
+      return {
+        x: bounds.x,
+        y: bounds.y,
+        width: bounds.width,
+        height: bounds.height,
+        borderRadius: resolveTargetBorderRadius(vminToPx(wordHoverPadding), config)
+      };
     }
 
     let target = getTrackingElement(element, config);
@@ -385,11 +477,13 @@
       offsetY += config.positionOffset.y ? vminToPx(config.positionOffset.y) : 0;
     }
 
-    let rect = getCachedRect(target);
+    let rect = target.getBoundingClientRect();
+    cachedRects.set(target, rect);
     
     if (rect.width === 0 && rect.height === 0 && target !== element) {
         target = element;
-        rect = getCachedRect(target);
+        rect = target.getBoundingClientRect();
+        cachedRects.set(target, rect);
     }
 
     let centerX = rect.left + rect.width / 2 + offsetX;
@@ -400,32 +494,10 @@
         rotation = getRotation(target);
     }
 
-    let width = rect.width;
-    let height = rect.height;
+    const { width, height } = resolveTargetSize(rect, config);
+    const borderRadius = resolveTargetBorderRadius(getElementBorderRadiusPx(target, rect), config);
 
-    if (config.absoluteSizeOffset !== undefined) {
-      if (typeof config.absoluteSizeOffset === 'number') {
-        const sizePx = vminToPx(config.absoluteSizeOffset);
-        width = sizePx;
-        height = sizePx;
-      } else {
-        if (config.absoluteSizeOffset.width !== undefined) width = vminToPx(config.absoluteSizeOffset.width);
-        if (config.absoluteSizeOffset.height !== undefined) height = vminToPx(config.absoluteSizeOffset.height);
-      }
-    }
-
-    if (config.dynamicSizeOffset !== undefined) {
-      if (typeof config.dynamicSizeOffset === 'number') {
-        const offsetPx = vminToPx(config.dynamicSizeOffset);
-        width += offsetPx;
-        height += offsetPx;
-      } else {
-        if (config.dynamicSizeOffset.width) width += vminToPx(config.dynamicSizeOffset.width);
-        if (config.dynamicSizeOffset.height) height += vminToPx(config.dynamicSizeOffset.height);
-      }
-    }
-
-    return { x: centerX, y: centerY, width, height, rotation };
+    return { x: centerX, y: centerY, width, height, rotation, borderRadius };
   }
 
   function dispatchCustomEvent(eventName: string, element: HTMLElement, config?: HoverConfig, index?: number) {
@@ -898,6 +970,13 @@
     };
     const handleMouseUp = () => {
     };
+    const handleResize = () => {
+      cachedRects.clear();
+      cachedStyles.clear();
+      cachedWordBounds.clear();
+      lastCheckX = -1;
+      lastCheckY = -1;
+    };
 
     window.addEventListener("touchstart", handleTouchStart);
     window.addEventListener("touchmove", handleTouchMove);
@@ -906,6 +985,7 @@
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("blur", handleMouseUp);
+    window.addEventListener("resize", handleResize);
 
     const speed = 0.35;
     const hoverSpeed = 0.25;
@@ -1008,13 +1088,9 @@
         if (lockedConfig.autoSize !== false && targetCenter.width !== undefined && targetCenter.height !== undefined) {
           targetWidth = targetCenter.width;
           targetHeight = targetCenter.height;
-          
-          if (lockedConfig.borderRadius !== undefined) {
-            targetBR = vminToPx(lockedConfig.borderRadius);
-          } else if (circleElement?.classList.contains('hovered-word-wrap')) {
-            targetBR = vminToPx(0.8);
-          } else {
-            targetBR = vminToPx(50);
+
+          if (targetCenter.borderRadius !== undefined) {
+            targetBR = targetCenter.borderRadius;
           }
         }
 
@@ -1035,7 +1111,6 @@
       currentWidth += (targetWidth - currentWidth) * currentSpeed;
       currentHeight += (targetHeight - currentHeight) * currentSpeed;
       
-      // Significantly faster border radius animation
       const brSpeed = currentSpeed * 3.5;
       currentBorderRadius += (targetBR - currentBorderRadius) * Math.min(brSpeed, 1);
 
@@ -1171,6 +1246,7 @@
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("blur", handleMouseUp);
+      window.removeEventListener("resize", handleResize);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       if (cleanupHoverDetection) {
         cleanupHoverDetection();

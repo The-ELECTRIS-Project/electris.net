@@ -71,7 +71,7 @@
       className: 'hovered-menu-item',
       lockPosition: true,
       dynamicSizeOffset: 1,
-      borderRadius: 0.8
+      absoluteBorderRadiusOffset: 0.8
     },
     {
       selectors: [ '.option' ],
@@ -92,19 +92,21 @@
       dynamicSizeOffset: {
         width: -4.5
       },
-      borderRadius: 1.2
+      absoluteBorderRadiusOffset: 1.2
     },
     {
       selectors: ['.hamburger-button'],
       className: 'hovered-hamburger',
       lockPosition: true,
-      absoluteSizeOffset: 4
+      absoluteSizeOffset: 4,
+      absoluteBorderRadiusOffset: 5
     },
     {
       selectors: ['.settings-button'],
       className: 'hovered-settings',
       lockPosition: true,
       absoluteSizeOffset: 3.5,
+      absoluteBorderRadiusOffset: 5,
       customPositioning: {
        targetSelector: '.settings-icon'
       }
@@ -113,7 +115,7 @@
       type: [ 'a' ],
       selectors: ['.switch-button'],
       className: 'hovered-word-wrap',
-      lockPosition: false,
+      lockPosition: true,
       wrapText: {
         sentences: true
       }

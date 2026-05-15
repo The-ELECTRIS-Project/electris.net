@@ -10,7 +10,6 @@
       selectors: ['.artist-avatar'],
       className: 'hovered-avatar',
       lockPosition: true,
-      borderRadius: 50,
       positionOffset: { x: 0.09, y: -0.1 }
     }
   ]);

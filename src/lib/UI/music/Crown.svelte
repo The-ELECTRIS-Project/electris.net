@@ -15,7 +15,7 @@
       className: 'hovered-crown',
       lockPosition: true,
       trackingTarget: '.crown-container',
-      borderRadius: 50
+      absoluteBorderRadiusOffset: 50
     }
   ]);
 

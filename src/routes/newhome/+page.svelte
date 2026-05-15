@@ -20,7 +20,7 @@
       className: 'hovered-new-search',
       requireAllSelectors: true,
       lockPosition: true,
-      borderRadius: 1.65,
+      trackingTarget: '.search-wrapper',
       wrapText: {
         words: false,
         sentences: false,

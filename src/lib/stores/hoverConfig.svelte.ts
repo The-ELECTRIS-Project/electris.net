@@ -26,6 +26,8 @@ export interface HoverConfig {
     width?: number;
     height?: number;
   };
+  dynamicBorderRadiusOffset?: number;
+  absoluteBorderRadiusOffset?: number;
   positionOffset?: {
     x?: number;
     y?: number;

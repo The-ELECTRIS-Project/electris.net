@@ -39,7 +39,6 @@
       className: 'hovered-gallery-image',
       lockPosition: true,
       dynamicSizeOffset: 0.3,
-      borderRadius: 0,
       positionOffset: { y: -0.03 }
     },
     {

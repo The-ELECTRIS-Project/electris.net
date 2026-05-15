@@ -79,8 +79,7 @@
     {
       selectors: ['.share-button'],
       className: 'hovered-blog-share',
-      lockPosition: true,
-      borderRadius: 5
+      lockPosition: true
     },
     {
       type: ['a'],
@@ -99,15 +98,14 @@
       className: 'hovered-blog-media-youtube',
       color: 'hsl(0, 100%, 50%)',
       lockPosition: true,
-      dynamicSizeOffset: 0.5,
-      borderRadius: 1.4
+      dynamicSizeOffset: 0.5
     },
     {
       selectors: ['.spotify-embed-wrap'],
       className: 'hovered-blog-media-spotify',
       color: 'hsl(141, 76%, 48%)',
       lockPosition: true,
-      borderRadius: 1.5,
+      trackingTarget: '.spotify-embed',
       positionOffset: { y: -0.4 }
     }
   ]);
