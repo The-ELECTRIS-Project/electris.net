@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, i18nState } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import { modsState } from '$lib/stores/customization.svelte';
-  import PinsGrid from '$lib/UI/components/PinsGrid.svelte';
-  import Customize from '$lib/UI/components/Customize.svelte';
-  import Search from '$lib/UI/components/Search.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
+  import { modsState } from '$lib/state/customization.svelte';
+  import PinsGrid from '$lib/components/ui/PinsGrid.svelte';
+  import Customize from '$lib/components/ui/Customize.svelte';
+  import Search from '$lib/components/ui/Search.svelte';
   
   let currentTime = $state(new Date());
   let i18nInitialized = $state(false);

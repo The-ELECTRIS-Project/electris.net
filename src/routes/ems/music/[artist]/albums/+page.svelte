@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
-    import { t } from '$lib/stores/i18n.svelte';
+    import { t } from '$lib/state/i18n.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, i18nState } from '$lib/stores/i18n.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
   let isPageJapanese = $derived(i18nState.currentLocale === 'ja-JP');

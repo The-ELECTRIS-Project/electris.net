@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, i18nState } from '$lib/stores/i18n.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
   import { browser } from '$app/environment';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import { modsState } from '$lib/stores/customization.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
+  import { modsState } from '$lib/state/customization.svelte';
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
   let gridCols = $derived(modsState.config.gridCols);

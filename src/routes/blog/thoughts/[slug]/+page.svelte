@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import { t } from '$lib/stores/i18n.svelte';
-  import { themeState } from '$lib/stores/theme.svelte';
-  import { toast } from '$lib/stores/toast.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import { t } from '$lib/state/i18n.svelte';
+  import { themeState } from '$lib/state/theme.svelte';
+  import { toast } from '$lib/state/toast.svelte';
   import { page } from '$app/state';
 
   let { data } = $props();

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { t } from '$lib/state/i18n.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { artists } from '$lib/data/music/artists';
 
   useHoverConfig([

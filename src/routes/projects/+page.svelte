@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n.svelte';
+  import { t } from '$lib/state/i18n.svelte';
   import { onMount } from 'svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let iconSize = 150;
 

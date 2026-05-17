@@ -1,8 +1,8 @@
 {
   "commons.json": "0.0.4.1",
-  "lib/UI/NavBar/+lang.json": "0.0.4.3",
-  "lib/UI/popups/Mobile/+lang.json": "0.0.4.1",
-  "lib/UI/popups/Cookies/+lang.json": "0.0.4.1",
+  "lib/components/layout/NavBar/+lang.json": "0.0.4.3",
+  "lib/components/popups/Mobile/+lang.json": "0.0.4.1",
+  "lib/components/popups/Cookies/+lang.json": "0.0.4.1",
   "routes/+lang.json": "0.0.5.1",
   "routes/about/+lang.json": "0.0.4.1",
   "routes/about/creator-standard/+lang.json": "0.0.4.1",

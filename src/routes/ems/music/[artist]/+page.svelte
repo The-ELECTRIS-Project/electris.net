@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
-    import { t } from '$lib/stores/i18n.svelte';
-    import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
-    import Crown from '$lib/UI/music/Crown.svelte';
+    import { t } from '$lib/state/i18n.svelte';
+    import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+    import Crown from '$lib/components/music/Crown.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toastState } from '$lib/stores/toast.svelte';
+  import { toastState } from '$lib/state/toast.svelte';
 </script>
 
 {#if toastState.toasts.length > 0}

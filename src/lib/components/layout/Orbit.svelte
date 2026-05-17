@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { afterNavigate } from '$app/navigation';
-  import { hoverConfigState, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { hoverConfigState, type HoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let circleElement: HTMLElement | undefined = $state();
 

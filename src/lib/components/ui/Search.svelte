@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig, type HoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import { modsState } from '$lib/stores/customization.svelte';
+  import { t } from '$lib/state/i18n.svelte';
+  import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
+  import { modsState } from '$lib/state/customization.svelte';
 
   let searchQuery = $state('');
   let searchInput: HTMLInputElement | undefined = $state();

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { i18nState } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { i18nState } from '$lib/state/i18n.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import type { YoutubeVideo } from '$lib/types/youtube';
   import {
     formatYoutubeDate,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t } from '$lib/stores/i18n.svelte';
+  import { t } from '$lib/state/i18n.svelte';
   
   const socialCards = $derived([
     {

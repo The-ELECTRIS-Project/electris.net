@@ -4,13 +4,13 @@
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
-  import NavBar from '$lib/UI/NavBar.svelte';
-  import Orbit from '$lib/UI/Orbit.svelte';
-  import Mobile from '$lib/UI/popups/Mobile.svelte';
-  import Cookies from '$lib/UI/popups/Cookies.svelte';
-  import ToastContainer from '$lib/UI/components/ToastContainer.svelte';
-  import CyberNeotic from '$lib/UI/ThemeEffects/Cyber-Neotic.svelte';
-  import { initializeI18n, loadRouteLocale } from '$lib/stores/i18n.svelte';
+  import NavBar from '$lib/components/layout/NavBar.svelte';
+  import Orbit from '$lib/components/layout/Orbit.svelte';
+  import Mobile from '$lib/components/popups/Mobile.svelte';
+  import Cookies from '$lib/components/popups/Cookies.svelte';
+  import ToastContainer from '$lib/components/ui/ToastContainer.svelte';
+  import CyberNeotic from '$lib/components/effects/Cyber-Neotic.svelte';
+  import { initializeI18n, loadRouteLocale } from '$lib/state/i18n.svelte';
 
   let { children } = $props();
 

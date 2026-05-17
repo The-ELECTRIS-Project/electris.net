@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { i18nState, availableLocales, setLocale } from '$lib/stores/i18n.svelte';
+  import { i18nState, availableLocales, setLocale } from '$lib/state/i18n.svelte';
   import { slide } from 'svelte/transition';
   import { onMount, onDestroy } from 'svelte';
   

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { modsState } from '$lib/stores/customization.svelte';
+  import { modsState } from '$lib/state/customization.svelte';
 
   let isMenuOpen = $state(false);
   let isClosing = $state(false);

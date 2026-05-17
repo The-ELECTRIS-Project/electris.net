@@ -2,19 +2,19 @@
   import { onMount, onDestroy } from 'svelte';
   import { slide, fade } from 'svelte/transition';
   import { afterNavigate } from '$app/navigation';
-  import { t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import LanguageSelector from '$lib/UI/utils/LanguageSelector.svelte';
+  import { t } from '$lib/state/i18n.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import LanguageSelector from '$lib/components/ui/LanguageSelector.svelte';
   import { 
     themeState,
     type Theme,
     type ColorScheme,
-  } from '$lib/stores/theme.svelte';
+  } from '$lib/state/theme.svelte';
   import { 
     environmentState, 
     generateEnvironmentUrl, 
     getEnvironmentDisplayName 
-  } from '$lib/utils/environment.svelte';
+  } from '$lib/state/environment.svelte';
   import { 
     getCookieCount,
     deleteAllCookies, 
@@ -24,7 +24,7 @@
     getIgnoreExcludedSuffixes,
     setIgnoreExcludedSuffixes
   } from '$lib/utils/devTools';
-  import Hamburger from './utils/Hamburger.svelte';
+  import Hamburger from '$lib/components/ui/Hamburger.svelte';
 
   interface ThemeOption {
     value: Theme;

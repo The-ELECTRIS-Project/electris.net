@@ -1,14 +1,14 @@
 <script lang="ts">
   import { invalidateAll } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { t, i18nState } from '$lib/stores/i18n.svelte';
-  import { themeState } from '$lib/stores/theme.svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
+  import { themeState } from '$lib/state/theme.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import type { YoutubeData, YoutubeVideo } from '$lib/types/youtube';
-  import YouTube from '$lib/UI/components/youtube/Card.svelte';
-  import YTLive from '$lib/UI/components/youtube/LiveSection.svelte';
-  import YTSkeleton from '$lib/UI/components/youtube/Skeleton.svelte';
+  import YouTube from '$lib/components/youtube/Card.svelte';
+  import YTLive from '$lib/components/youtube/LiveSection.svelte';
+  import YTSkeleton from '$lib/components/youtube/Skeleton.svelte';
 
   type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
 

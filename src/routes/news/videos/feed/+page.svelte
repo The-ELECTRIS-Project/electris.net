@@ -1,9 +1,9 @@
 <script lang="ts">
   import { invalidateAll } from '$app/navigation';
   import { onMount } from 'svelte';
-  import { i18nState, t } from '$lib/stores/i18n.svelte';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
-  import YoutubeCard from '$lib/UI/components/youtube/Card.svelte';
+  import { i18nState, t } from '$lib/state/i18n.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import YoutubeCard from '$lib/components/youtube/Card.svelte';
   import { formatYoutubeDateTime } from '$lib/utils/youtube';
 
   let { data } = $props();

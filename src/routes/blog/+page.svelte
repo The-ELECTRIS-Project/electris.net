@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n.svelte';
-  import { themeState } from '$lib/stores/theme.svelte';
+  import { t } from '$lib/state/i18n.svelte';
+  import { themeState } from '$lib/state/theme.svelte';
   import { filterPosts, getAllTags, formatDate, resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let { data } = $props();
 

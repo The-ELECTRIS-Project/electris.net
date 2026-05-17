@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { useHoverConfig } from '$lib/stores/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let crownCanvas: HTMLCanvasElement | undefined = $state();
   let crownImage: HTMLImageElement | undefined = $state();

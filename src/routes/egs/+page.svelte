@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t } from '$lib/stores/i18n.svelte';
+  import { t } from '$lib/state/i18n.svelte';
 
   onMount(() => {
     const orbitReset = () => {
