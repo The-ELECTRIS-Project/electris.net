@@ -1,0 +1,11 @@
+{
+  "blog.slogan": "أفكار ومقترحات من مشروع إليكتريس",
+  "blog.feature": "مميز",
+  "blog.loading": "...تحميل الأفكار",
+  "blog.readtime": "وقت القراءة (دقائق)",
+  "blog.search.placeholder": "...ابحث في الأفكار",
+  "blog.tags.all": "جميع المرشحات",
+  "blog.tags.clear": "إزالة المرشحات",
+  "blog.results.none": "لم يتم العثور على أي أفكار",
+  "blog.results.tryagain": ".حاول تعديل استعلام البحث أو عوامل التصفية"
+}

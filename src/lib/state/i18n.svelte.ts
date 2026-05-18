@@ -22,7 +22,6 @@ export const availableLocales: AvailableLocale[] = [
 ];
 
 const defaultLocale = 'en-US';
-const CACHE_PREFIX = 'electris-i18n-';
 
 class I18nState {
   currentLocale = $state<string>(defaultLocale);
@@ -30,9 +29,8 @@ class I18nState {
   libLocaleData = $state<MultiLocaleData>({});
   routeLocaleData = $state<MultiLocaleData>({});
   
-  routeCache = new Map<string, MultiLocaleData>();
+  routeCache = new Set<string>();
   libCache = new Set<string>();
-  i18nManifest: Record<string, string> = {};
 
   constructor() {
     if (browser) {
@@ -74,71 +72,20 @@ class I18nState {
     }
   }
 
-  async fetchWithCache(path: string): Promise<unknown | null> {
-    if (!browser) return await this.fetchJson(path);
-
-    const manifestKey = path.startsWith('/data/lang/') ? path.replace('/data/lang/', '') : path.replace(/^\//, '');
-    const expectedVersion = this.i18nManifest[manifestKey];
-
-    const cacheKey = `${CACHE_PREFIX}${path}`;
-    const cached = localStorage.getItem(cacheKey);
-
-    if (cached && expectedVersion) {
-      try {
-        const parsed = JSON.parse(cached) as { data?: unknown, v?: string };
-        if (parsed.v === expectedVersion) {
-          return parsed.data ?? null;
-        }
-      } catch {
-        // Ignore parse errors
-      }
-    }
-
-    const data = await this.fetchJson(path);
-    if (data) {
-      localStorage.setItem(cacheKey, JSON.stringify({ data, v: expectedVersion || '0' }));
-    }
-    return data;
-  }
-
-  async loadManifest() {
-    if (!browser) return;
-    try {
-      const data = await this.fetchJson('/data/lang/versions.json');
-      if (data && typeof data === 'object' && !Array.isArray(data)) {
-        this.i18nManifest = {};
-        for (const [key, value] of Object.entries(data)) {
-          if (typeof value === 'string') {
-            this.i18nManifest[key] = value;
-          }
-        }
-      }
-    } catch (e) {
-      console.error('Failed to load i18n manifest:', e);
-    }
-  }
-
-  normalizeLocaleData(data: unknown): MultiLocaleData {
+  normalizeLocaleData(data: unknown, locale: string): MultiLocaleData {
     const normalized: MultiLocaleData = {};
     if (!data || typeof data !== 'object' || Array.isArray(data)) return normalized;
 
-    for (const locale in data) {
-      if (locale === '__version') continue;
-      const localeValue = (data as Record<string, unknown>)[locale];
-      if (!localeValue || typeof localeValue !== 'object' || Array.isArray(localeValue)) {
-        continue;
+    const safeLocale = locale.replace('-', '_');
+    const localeData: LocaleData = {};
+    
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value === 'string') {
+        localeData[key] = value;
       }
-
-      const localeData: LocaleData = {};
-      for (const [key, value] of Object.entries(localeValue)) {
-        if (typeof value === 'string') {
-          localeData[key] = value;
-        }
-      }
-
-      const safeLocale = locale.replace('-', '_');
-      normalized[safeLocale] = { ...normalized[safeLocale], ...localeData };
     }
+
+    normalized[safeLocale] = localeData;
     return normalized;
   }
 
@@ -150,20 +97,23 @@ class I18nState {
     return result;
   }
 
-  async loadCommonData() {
-    const data = await this.fetchWithCache('/data/lang/commons.json');
+  async loadCommonData(locale: string = this.currentLocale) {
+    const safeLocale = locale.replace('-', '_');
+    const data = await this.fetchJson(`/data/lang/commons.${safeLocale}.json`);
     if (data) {
-      this.commonLocaleData = this.normalizeLocaleData(data);
+      this.commonLocaleData = this.mergeMultiLocaleData(this.commonLocaleData, this.normalizeLocaleData(data, locale));
     }
   }
 
-  async loadLibLocale(libPath: string) {
-    if (this.libCache.has(libPath)) return;
+  async loadLibLocale(libPath: string, locale: string = this.currentLocale) {
+    const safeLocale = locale.replace('-', '_');
+    const cacheKey = `${libPath}|${safeLocale}`;
+    if (this.libCache.has(cacheKey)) return;
 
-    const data = await this.fetchWithCache(`/data/lang/lib/${libPath}/+lang.json`);
+    const data = await this.fetchJson(`/data/lang/lib/${libPath}/+lang.${safeLocale}.json`);
     if (data) {
-      this.libLocaleData = this.mergeMultiLocaleData(this.libLocaleData, this.normalizeLocaleData(data));
-      this.libCache.add(libPath);
+      this.libLocaleData = this.mergeMultiLocaleData(this.libLocaleData, this.normalizeLocaleData(data, locale));
+      this.libCache.add(cacheKey);
     }
   }
 
@@ -176,17 +126,16 @@ class I18nState {
     return cleanPath;
   }
 
-  async loadRouteLocale(pathname: string) {
+  async loadRouteLocale(pathname: string, locale: string = this.currentLocale) {
     const normalized = this.normalizePath(pathname);
+    const safeLocale = locale.replace('-', '_');
+    const cacheKey = `${normalized}|${safeLocale}`;
     
-    if (this.routeCache.has(normalized)) {
-      this.routeLocaleData = this.routeCache.get(normalized)!;
-      return;
-    }
+    if (this.routeCache.has(cacheKey)) return;
 
     let mergedRouteData: MultiLocaleData = {};
 
-    // 1. Load hierarchy of commons.json only
+    // 1. Load hierarchy of +commons.json only
     const segments = normalized.split('/').filter(Boolean);
     const pathsToLoad = ['']; 
     let tempPath = '';
@@ -197,38 +146,38 @@ class I18nState {
 
     for (const path of pathsToLoad) {
       const fetchPath = path === '' 
-        ? '/data/lang/routes/commons.json'
-        : `/data/lang/routes/${path}/commons.json`;
+        ? `/data/lang/routes/+commons.${safeLocale}.json`
+        : `/data/lang/routes/${path}/+commons.${safeLocale}.json`;
         
-      const segmentCommon = await this.fetchWithCache(fetchPath);
+      const segmentCommon = await this.fetchJson(fetchPath);
       if (segmentCommon) {
-        mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(segmentCommon));
+        mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(segmentCommon, locale));
       }
     }
 
     // 2. Load the specific +lang.json for the route
     const langPath = normalized === ''
-      ? '/data/lang/routes/+lang.json'
-      : `/data/lang/routes/${normalized}/+lang.json`;
+      ? `/data/lang/routes/+lang.${safeLocale}.json`
+      : `/data/lang/routes/${normalized}/+lang.${safeLocale}.json`;
       
-    const specificLang = await this.fetchWithCache(langPath);
+    const specificLang = await this.fetchJson(langPath);
     if (specificLang) {
-      mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(specificLang));
+      mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(specificLang, locale));
     }
 
-    this.routeCache.set(normalized, mergedRouteData);
-    this.routeLocaleData = mergedRouteData;
+    this.routeLocaleData = this.mergeMultiLocaleData(this.routeLocaleData, mergedRouteData);
+    this.routeCache.add(cacheKey);
   }
 
-  async initializeI18n(pathname: string = '') {
-    if (browser) await this.loadManifest();
-    
+  async initializeI18n(pathname: string = '', localeOverride?: string) {
+    const locale = localeOverride || this.currentLocale;
+
     await Promise.all([
-      this.loadCommonData(),
-      this.loadLibLocale('components/layout/NavBar'),
-      this.loadLibLocale('components/popups/Mobile'),
-      this.loadLibLocale('components/popups/Cookies'),
-      this.loadRouteLocale(pathname)
+      this.loadCommonData(locale),
+      this.loadLibLocale('components/layout/NavBar', locale),
+      this.loadLibLocale('components/popups/Mobile', locale),
+      this.loadLibLocale('components/popups/Cookies', locale),
+      this.loadRouteLocale(pathname, locale)
     ]);
   }
 
@@ -242,6 +191,8 @@ class I18nState {
     
     if (browser) {
       localStorage.setItem('preferred-locale', locale);
+      // Reload everything for the new locale
+      await this.initializeI18n(window.location.pathname);
     }
   }
 
