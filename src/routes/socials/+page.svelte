@@ -73,7 +73,7 @@
     {
       title: t('site.platform.yt'),
       handle: 'ELEC7RO',
-      description: t('social.eltr.yt.desc'),
+      description: t('site.author.eltr.slogan'),
       platformLogo: '/icons/logo/ThirdParty/yt.svg',
       url: 'https://youtube.com/@ELEC7RO'
     },
