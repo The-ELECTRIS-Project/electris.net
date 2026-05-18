@@ -12,6 +12,8 @@
   "site.platform.yt": "YouTube",
   "site.platform.gh": "GitHub",
   "site.platform.ds": "Discord",
+  "site.platform.ma": "Mastodon",
+  "site.platform.mx": "Matrix",
   "site.platform.st": "Steam",
   "site.platform.x": "Twitter"
 }
