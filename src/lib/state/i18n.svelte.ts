@@ -99,7 +99,7 @@ class I18nState {
 
   async loadCommonData(locale: string = this.currentLocale) {
     const safeLocale = locale.replace('-', '_');
-    const data = await this.fetchJson(`/data/lang/commons.${safeLocale}.json`);
+    const data = await this.fetchJson(`/data/lang/+commons.${safeLocale}.json`);
     if (data) {
       this.commonLocaleData = this.mergeMultiLocaleData(this.commonLocaleData, this.normalizeLocaleData(data, locale));
     }
