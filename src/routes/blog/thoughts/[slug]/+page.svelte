@@ -106,7 +106,7 @@
       color: 'hsl(141, 76%, 48%)',
       lockPosition: true,
       trackingTarget: '.spotify-embed',
-      positionOffset: { y: -0.4 }
+      positionOffset: { y: -0.2 }
     }
   ]);
 
