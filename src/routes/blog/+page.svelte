@@ -462,14 +462,18 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: 80%;
+    width: 81%;
     background-size: cover;
     background-position: center right;
     background-repeat: no-repeat;
     z-index: 1;
     
-    -webkit-mask: linear-gradient(to right, transparent 1%, rgba(0,0,0,0.1) 3%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,1) 80%);
-    mask: linear-gradient(to right, transparent 1%, rgba(0,0,0,0.1) 3%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,1) 80%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+                        radial-gradient(ellipse at 100% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+                radial-gradient(ellipse at 100% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
     
     &::after {
       content: '';
@@ -480,10 +484,9 @@
       bottom: 0;
       background: linear-gradient(
         to right,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.1) 30%,
-        rgba(0, 0, 0, 0.3) 70%,
-        rgba(0, 0, 0, 0.5) 100%
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 40%,
+        rgba(0, 0, 0, 0.4) 100%
       );
     }
   }
@@ -491,10 +494,9 @@
   :global([data-color-scheme='light']) .post-background::after {
     background: linear-gradient(
       to right,
-      rgba(255, 245, 236, 0) 0%,
-      rgba(255, 245, 236, 0.12) 30%,
-      rgba(255, 245, 236, 0.28) 70%,
-      rgba(255, 245, 236, 0.48) 100%
+      transparent 0%,
+      rgba(255, 245, 236, 0.1) 40%,
+      rgba(255, 245, 236, 0.4) 100%
     );
   }
 
@@ -598,8 +600,12 @@
   @media (max-width: 768px) {
     .post-background {
       width: 100%;
-      -webkit-mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.2) 80%, transparent 100%);
-      mask: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.2) 80%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+                          radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+                  radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
     }
     
     .post-card.has-cover .post-content {

@@ -295,6 +295,9 @@ main {
   
   --spark-bg: #4cc200;
   --spark-shadow: 0 0 8px #4cc200, 0 0 16px #4cc200;
+
+  --color-text-dim: #333333;
+  --color-text-muted: #666666;
 }
 
 /* ===== COLOR SCHEME: DARK ===== */
@@ -353,6 +356,9 @@ main {
   
   --spark-bg: #5eff00;
   --spark-shadow: 0 0 10px #5eff00, 0 0 20px #5eff00;
+
+  --color-text-dim: #e0e0e0;
+  --color-text-muted: #a0a0a0;
 }
 
 /* ===== COLOR SCHEME: MIDNIGHT ===== */
@@ -411,6 +417,9 @@ main {
   
   --spark-bg: #70ff20;
   --spark-shadow: 0 0 15px #70ff20, 0 0 30px #70ff20, 0 0 45px #70ff20;
+
+  --color-text-dim: #d0d0d0;
+  --color-text-muted: #909090;
 }
 
 

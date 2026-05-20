@@ -6,6 +6,7 @@
   import { themeState } from '$lib/state/theme.svelte';
   import { toast } from '$lib/state/toast.svelte';
   import { page } from '$app/state';
+  import GithubPreview from '$lib/components/ui/GithubPreview.svelte';
 
   let { data } = $props();
 
@@ -283,6 +284,7 @@
           </div>
         </aside>
       {/if}
+      <GithubPreview content={data.content} />
     </article>
   {/if}
 </div>
