@@ -178,11 +178,10 @@
   let currentColorSchemeInfo = $derived(colorSchemeOptions.find(c => c.value === themeState.colorScheme) || colorSchemeOptions[0]);
 
   let menuItems = $derived([
-    { label: t('nav.burger.home', 'Home'), href: '/', newTab: false },
-    { label: t('blog.title', 'Blog'), href: '/blog', newTab: false },
-    { label: t('nav.burger.social', 'Socials'), href: '/socials', newTab: false },
-    { label: t('nav.burger.egs', 'Game Studios'), href: '/egs', newTab: false },
-    { label: t('nav.burger.ems', 'Media Studios'), href: '/ems', newTab: false }
+    { label: t('nav.burger.home'), href: '/', newTab: false },
+    { label: t('blog.title'), href: '/blog', newTab: false },
+    { label: t('nav.burger.music'), href: '/music', newTab: false },
+    { label: t('nav.burger.social'), href: '/socials', newTab: false }
   ]);
 
   $effect(() => {

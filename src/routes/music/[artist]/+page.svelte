@@ -17,11 +17,12 @@
 
     useHoverConfig([
       {
-        type: [ 'img' ],
         selectors: ['.artist-avatar'],
         className: 'hovered-avatar',
         lockPosition: true,
-        positionOffset: { x: 0.09, y: -0.1 }
+        dynamicSizeOffset: 0.6,
+        dynamicBorderRadiusOffset: 10,
+        color: ''
       }
     ]);
 

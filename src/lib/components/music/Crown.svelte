@@ -15,7 +15,11 @@
       className: 'hovered-crown',
       lockPosition: true,
       trackingTarget: '.crown-container',
-      absoluteBorderRadiusOffset: 50
+      dynamicSizeOffset: {
+        height: -5,
+        width: 3
+      },
+      dynamicBorderRadiusOffset: 20
     }
   ]);
 
@@ -29,7 +33,7 @@
   }
 
   const handleCrownClick = async () => {
-    await goto('/ems/music/ELECTRO/album/GEE');
+    await goto('/music/ELECTRO/album/GEE');
     console.log('Heavy is the head that chose to wear the crown.');
   };
 

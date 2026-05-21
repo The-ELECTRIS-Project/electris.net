@@ -10,7 +10,7 @@
       selectors: ['.artist-avatar'],
       className: 'hovered-avatar',
       lockPosition: true,
-      positionOffset: { x: 0.09, y: -0.1 }
+      dynamicSizeOffset: 0.3
     }
   ]);
 
@@ -34,7 +34,7 @@
 <div class="artists-section">
   <div class="artists-grid">
     {#each artists as artist}
-      <a href="/ems/music/{artist.slug}" class="artist-card">
+      <a href="/music/{artist.slug}" class="artist-card">
         <img class="artist-avatar" src={artist.avatar} alt={artist.name} />
         <span class="artist-name" style="font-family: {artist.artistFont || 'inherit'}">{artist.name}</span>
       </a>
