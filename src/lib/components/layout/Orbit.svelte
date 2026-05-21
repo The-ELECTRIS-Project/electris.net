@@ -175,6 +175,11 @@
       brY = targetHeight / 2;
     }
 
+    if (typeof config.shape === 'object' && config.shape.svg) {
+      brX = 0;
+      brY = 0;
+    }
+
     const absoluteBorderRadius = config.absoluteBorderRadiusOffset ?? config.borderRadius;
 
     if (absoluteBorderRadius !== undefined) {
@@ -202,22 +207,51 @@
       if (lastColorElement === element) return;
       lastColorElement = element;
       
+      let color = '';
       if (config.color) {
-        circleElement.style.borderColor = config.color;
-        circleElement.style.color = config.color;
+        color = config.color;
       } else if (config.wrapText) {
-        const color = getCachedStyle(element).color;
-        circleElement.style.borderColor = color;
-        circleElement.style.color = color;
+        color = getCachedStyle(element).color;
       } else {
-        circleElement.style.borderColor = '';
-        circleElement.style.color = getCachedStyle(circleElement).borderTopColor;
+        color = getCachedStyle(circleElement).borderTopColor;
+      }
+
+      circleElement.style.color = color;
+
+      if (typeof config.shape === 'object' && config.shape.svg) {
+        const maskUrl = `url(${config.shape.svg})`;
+        circleElement.style.webkitMaskImage = maskUrl;
+        circleElement.style.maskImage = maskUrl;
+        circleElement.style.webkitMaskSize = 'contain';
+        circleElement.style.maskSize = 'contain';
+        circleElement.style.webkitMaskRepeat = 'no-repeat';
+        circleElement.style.maskRepeat = 'no-repeat';
+        circleElement.style.webkitMaskPosition = 'center';
+        circleElement.style.maskPosition = 'center';
+        
+        circleElement.style.backgroundColor = color;
+        circleElement.style.borderColor = 'transparent';
+      } else {
+        circleElement.style.webkitMaskImage = '';
+        circleElement.style.maskImage = '';
+        circleElement.style.backgroundColor = '';
+        
+        if (config.color) {
+          circleElement.style.borderColor = config.color;
+        } else if (config.wrapText) {
+          circleElement.style.borderColor = color;
+        } else {
+          circleElement.style.borderColor = '';
+        }
       }
     } else {
       if (lastColorElement === null) return;
       lastColorElement = null;
       circleElement.style.borderColor = '';
       circleElement.style.color = '';
+      circleElement.style.webkitMaskImage = '';
+      circleElement.style.maskImage = '';
+      circleElement.style.backgroundColor = '';
     }
   }
   

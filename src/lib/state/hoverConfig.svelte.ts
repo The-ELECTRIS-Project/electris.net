@@ -8,7 +8,7 @@ export interface HoverConfig {
   requireAllSelectors?: boolean;
   preventRotation?: boolean;
   trackingTarget?: string;
-  shape?: 'circle' | 'rect' | 'text';
+  shape?: 'circle' | 'rect' | 'text' | { svg?: string };
   color?: string;
   matchRotation?: boolean;
   wrapText?: {

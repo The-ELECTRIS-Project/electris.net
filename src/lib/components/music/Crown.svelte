@@ -15,11 +15,9 @@
       className: 'hovered-crown',
       lockPosition: true,
       trackingTarget: '.crown-container',
-      shape: 'circle',
-      dynamicSizeOffset: {
-        height: -5,
-        width: 3
-      }
+      shape: { svg: '/icons/GEE/crown-outline.svg' },
+      color: '#fff',
+      dynamicSizeOffset: 3
     }
   ]);
 
