@@ -212,6 +212,10 @@
     return element.closest('.wrap-no-interact, .wrap-no-interact-all') !== null;
   }
 
+  function hasWrapSentenceClass(element: HTMLElement): boolean {
+    return element.classList.contains('wrap-sentence');
+  }
+
   function getWordAtPosition(x: number, y: number, wrapConfig: HoverConfig['wrapText'], targetElement?: HTMLElement): { element: HTMLElement, bounds: DOMRect, text: string } | null {
     if (!wrapConfig) return null;
     
@@ -230,7 +234,6 @@
     const elements = document.elementsFromPoint(x, y);
     if (elements.length === 0) return null;
 
-    // The first element in stacking order that blocks pointers (ignoring Orbit)
     let blockerIndex = -1;
     for (let i = 0; i < elements.length; i++) {
        const el = elements[i] as HTMLElement;
@@ -252,7 +255,6 @@
         continue;
       }
 
-      // Visibility check: Only consider text elements that are not obscured
       if (textElement !== topElement && !textElement.contains(topElement)) {
         continue;
       }
@@ -262,8 +264,10 @@
       }
       
       if (!isTextElement(textElement)) continue;
+
+      const useSentences = hasWrapSentenceClass(textElement) || sentences;
       
-      if (sentences) {
+      if (useSentences) {
         const rect = getCachedRect(textElement);
         if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
           const text = textElement.textContent?.trim() || '';
