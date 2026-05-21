@@ -2,7 +2,7 @@
   "title": "License Change",
   "description": "Relicensing the website codebase to Apache-2.0",
   "author": "ELECTRO",
-  "date": "2026-05-20",
+  "date": "2026-05-21",
   "tags": [
     "legal",
     "open-source",
@@ -17,6 +17,6 @@
     }
   ],
   "readTime": 2,
-  "featured": false,
+  "featured": true,
   "hidden": false
 }
