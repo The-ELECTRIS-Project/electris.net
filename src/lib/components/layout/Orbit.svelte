@@ -11,7 +11,8 @@
   
   let currentWidth = $state(0);
   let currentHeight = $state(0);
-  let currentBorderRadius = $state(0);
+  let currentBorderRadiusX = $state(0);
+  let currentBorderRadiusY = $state(0);
   
   let currentScale = 0;
   let currentAngle = 0;
@@ -65,7 +66,7 @@
     width?: number;
     height?: number;
     rotation?: number;
-    borderRadius?: number;
+    borderRadius?: { x: number, y: number };
   };
 
   function getRotation(element: HTMLElement): number {
@@ -108,7 +109,7 @@
     return Number.isFinite(parsedValue) ? parsedValue : 0;
   }
 
-  function parseCornerRadiusToPx(value: string, width: number, height: number): number {
+  function parseCornerRadiusToPx(value: string, width: number, height: number): { x: number, y: number } {
     const [horizontalPart, verticalPart = horizontalPart] = value.split('/');
     const horizontalTokens = horizontalPart.trim().split(/\s+/).filter(Boolean);
     const verticalTokens = verticalPart.trim().split(/\s+/).filter(Boolean);
@@ -116,18 +117,24 @@
     const horizontalRadii = horizontalTokens.map(token => parseCssLengthToPx(token, width));
     const verticalRadii = verticalTokens.map(token => parseCssLengthToPx(token, height));
 
-    return Math.max(0, ...horizontalRadii, ...verticalRadii);
+    return {
+      x: Math.max(0, ...horizontalRadii),
+      y: Math.max(0, ...verticalRadii)
+    };
   }
 
-  function getElementBorderRadiusPx(element: HTMLElement, rect: DOMRect): number {
+  function getElementBorderRadiusPx(element: HTMLElement, rect: DOMRect): { x: number, y: number } {
     const style = getCachedStyle(element);
 
-    return Math.max(
-      parseCornerRadiusToPx(style.borderTopLeftRadius, rect.width, rect.height),
-      parseCornerRadiusToPx(style.borderTopRightRadius, rect.width, rect.height),
-      parseCornerRadiusToPx(style.borderBottomRightRadius, rect.width, rect.height),
-      parseCornerRadiusToPx(style.borderBottomLeftRadius, rect.width, rect.height)
-    );
+    const tl = parseCornerRadiusToPx(style.borderTopLeftRadius, rect.width, rect.height);
+    const tr = parseCornerRadiusToPx(style.borderTopRightRadius, rect.width, rect.height);
+    const br = parseCornerRadiusToPx(style.borderBottomRightRadius, rect.width, rect.height);
+    const bl = parseCornerRadiusToPx(style.borderBottomLeftRadius, rect.width, rect.height);
+
+    return {
+      x: Math.max(tl.x, tr.x, br.x, bl.x),
+      y: Math.max(tl.y, tr.y, br.y, bl.y)
+    };
   }
 
   function resolveTargetSize(rect: DOMRect, config: HoverConfig): { width: number, height: number } {
@@ -159,19 +166,33 @@
     return { width, height };
   }
 
-  function resolveTargetBorderRadius(baseBorderRadius: number, config: HoverConfig): number {
-    let borderRadius = baseBorderRadius;
+  function resolveTargetBorderRadius(baseBR: { x: number, y: number }, config: HoverConfig, targetWidth: number, targetHeight: number): { x: number, y: number } {
+    let brX = baseBR.x;
+    let brY = baseBR.y;
+
+    if (config.shape === 'circle') {
+      brX = targetWidth / 2;
+      brY = targetHeight / 2;
+    }
+
     const absoluteBorderRadius = config.absoluteBorderRadiusOffset ?? config.borderRadius;
 
     if (absoluteBorderRadius !== undefined) {
-      borderRadius = vminToPx(absoluteBorderRadius);
+      const absPx = vminToPx(absoluteBorderRadius);
+      brX = absPx;
+      brY = absPx;
     }
 
     if (config.dynamicBorderRadiusOffset !== undefined) {
-      borderRadius += vminToPx(config.dynamicBorderRadiusOffset);
+      const dynPx = vminToPx(config.dynamicBorderRadiusOffset);
+      brX += dynPx;
+      brY += dynPx;
     }
 
-    return Math.max(borderRadius, 0);
+    return {
+      x: Math.max(brX, 0),
+      y: Math.max(brY, 0)
+    };
   }
 
   function updateOrbitColor(element: HTMLElement | null, config?: HoverConfig) {
@@ -454,12 +475,13 @@
   function getTargetCenter(element: HTMLElement, config: HoverConfig): TargetMetrics {
     if (config.wrapText && currentWord) {
       const bounds = getWordHoverBounds();
+      const padding = vminToPx(wordHoverPadding);
       return {
         x: bounds.x,
         y: bounds.y,
         width: bounds.width,
         height: bounds.height,
-        borderRadius: resolveTargetBorderRadius(vminToPx(wordHoverPadding), config)
+        borderRadius: resolveTargetBorderRadius({ x: padding, y: padding }, config, bounds.width, bounds.height)
       };
     }
 
@@ -499,7 +521,7 @@
     }
 
     const { width, height } = resolveTargetSize(rect, config);
-    const borderRadius = resolveTargetBorderRadius(getElementBorderRadiusPx(target, rect), config);
+    const borderRadius = resolveTargetBorderRadius(getElementBorderRadiusPx(target, rect), config, width, height);
 
     return { x: centerX, y: centerY, width, height, rotation, borderRadius };
   }
@@ -1013,7 +1035,8 @@
     // Initial state for JS interpolation
     currentWidth = vminToPx(2);
     currentHeight = vminToPx(2);
-    currentBorderRadius = vminToPx(50);
+    currentBorderRadiusX = vminToPx(50);
+    currentBorderRadiusY = vminToPx(50);
     
     lastScrollX = window.scrollX;
     lastScrollY = window.scrollY;
@@ -1083,7 +1106,8 @@
       let targetY = mouse.y;
       let targetWidth = vminToPx(2);
       let targetHeight = vminToPx(2);
-      let targetBR = vminToPx(50);
+      let targetBRX = vminToPx(50);
+      let targetBRY = vminToPx(50);
       let targetRotation: number | undefined;
 
       if (lockedElement && lockedConfig) {
@@ -1094,7 +1118,8 @@
           targetHeight = targetCenter.height;
 
           if (targetCenter.borderRadius !== undefined) {
-            targetBR = targetCenter.borderRadius;
+            targetBRX = targetCenter.borderRadius.x;
+            targetBRY = targetCenter.borderRadius.y;
           }
         }
 
@@ -1116,7 +1141,8 @@
       currentHeight += (targetHeight - currentHeight) * currentSpeed;
       
       const brSpeed = currentSpeed * 3.5;
-      currentBorderRadius += (targetBR - currentBorderRadius) * Math.min(brSpeed, 1);
+      currentBorderRadiusX += (targetBRX - currentBorderRadiusX) * Math.min(brSpeed, 1);
+      currentBorderRadiusY += (targetBRY - currentBorderRadiusY) * Math.min(brSpeed, 1);
 
       if (isPositionLocked && !hasSettledPositionLock) {
         const remainingDistance = Math.hypot(targetX - circle.x, targetY - circle.y);
@@ -1140,7 +1166,7 @@
       if (circleElement) {
         circleElement.style.width = `${currentWidth}px`;
         circleElement.style.height = `${currentHeight}px`;
-        circleElement.style.borderRadius = `${currentBorderRadius}px`;
+        circleElement.style.borderRadius = `${currentBorderRadiusX}px / ${currentBorderRadiusY}px`;
 
         // Update Z-Index to match context
         if (lockedElement) {

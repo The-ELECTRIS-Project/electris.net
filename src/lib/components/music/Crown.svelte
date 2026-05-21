@@ -15,11 +15,11 @@
       className: 'hovered-crown',
       lockPosition: true,
       trackingTarget: '.crown-container',
+      shape: 'circle',
       dynamicSizeOffset: {
         height: -5,
         width: 3
-      },
-      dynamicBorderRadiusOffset: 20
+      }
     }
   ]);
 
