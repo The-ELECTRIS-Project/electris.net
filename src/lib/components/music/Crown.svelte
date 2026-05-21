@@ -16,7 +16,7 @@
       lockPosition: true,
       trackingTarget: '.crown-container',
       shape: { svg: '/icons/GEE/crown-outline.svg' },
-      color: '#fff',
+      color: 'var(--circle-hover-crown)',
       dynamicSizeOffset: 3
     }
   ]);

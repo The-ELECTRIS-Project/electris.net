@@ -136,7 +136,6 @@ main {
 }
 
 .circle.hovered-crown {
-  border-color: var(--circle-hover-crown);
   box-shadow: 0 0 12px 4px color-mix(in srgb, var(--circle-hover-crown) 40%, transparent);
 }
 
