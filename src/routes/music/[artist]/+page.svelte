@@ -20,9 +20,19 @@
         selectors: ['.artist-avatar'],
         className: 'hovered-avatar',
         lockPosition: true,
-        dynamicSizeOffset: 0.6,
+        dynamicSizeOffset: 0.9,
         dynamicBorderRadiusOffset: 10,
-        color: ''
+        color: '#fff'
+      },
+      {
+        selectors: ['.hub-card'],
+        className: 'hovered-artist-card',
+        lockPosition: true,
+        dynamicBorderRadiusOffset: 0.2,
+        dynamicSizeOffset: {
+            width: 0.75,
+            height: 0.85
+        }
       }
     ]);
 
@@ -58,9 +68,9 @@
         <p bind:this={bio} class="bio">{artist.bio}</p>
     </header>
 
-    <div class="links-container">
+    <div class="links-container wrap-no-interact-all">
         <a 
-            href="/ems/music/{artist.slug}/albums" 
+            href="/music/{artist.slug}/albums" 
             class="hub-card card"
         >
             <div class="icon-bg">
@@ -71,7 +81,7 @@
         </a>
 
         <a 
-            href="/ems/music/{artist.slug}/singles" 
+            href="/music/{artist.slug}/singles" 
             class="hub-card card"
         >
             <div class="icon-bg">

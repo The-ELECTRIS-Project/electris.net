@@ -32,7 +32,7 @@
 
 <div class="albums-page" bind:this={container}>
     <header class="page-header">
-        <a href="/ems/music/{artist.slug}" class="back-link">
+        <a href="/music/{artist.slug}" class="back-link">
             ← {artist.name}
         </a>
         <h1>{t('ems.music.card.vinyl', 'Albums')}</h1>
@@ -42,7 +42,7 @@
         <div class="albums-grid">
             {#each albums as album}
                 <a 
-                    href="/ems/music/{artist.slug}/album/{album.slug}" 
+                    href="/music/{artist.slug}/album/{album.slug}" 
                     class="album-card card"
                 >
                     <div class="cover-wrapper">
@@ -65,7 +65,7 @@
             </div>
             <h2>NO ALBUMS YET</h2>
             <p>{artist.name} hasn't released any albums on ELECTRIS yet. When they do, they'll appear here!</p>
-            <a href="/ems/music/{artist.slug}" class="btn-return">Return to Artist</a>
+            <a href="/music/{artist.slug}" class="btn-return">Return to Artist</a>
         </div>
     {/if}
 </div>

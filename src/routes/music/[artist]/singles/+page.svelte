@@ -32,7 +32,7 @@
 
 <div class="singles-page" bind:this={container}>
     <header class="page-header">
-        <a href="/ems/music/{artist.slug}" class="back-link">
+        <a href="/music/{artist.slug}" class="back-link">
             ← {artist.name}
         </a>
         <h1>{t('ems.music.card.disc', 'Singles')}</h1>
@@ -42,7 +42,7 @@
         <div class="singles-grid">
             {#each singles as single}
                 <a 
-                    href="/ems/music/{artist.slug}/single/{single.slug}" 
+                    href="/music/{artist.slug}/single/{single.slug}" 
                     class="single-card card"
                 >
                     <div class="cover-wrapper">
@@ -65,7 +65,7 @@
             </div>
             <h2>NO SINGLES YET</h2>
             <p>{artist.name} hasn't released any singles with ELECTRIS yet. When they do, they'll appear here!</p>
-            <a href="/ems/music/{artist.slug}" class="btn-return">Return to Artist</a>
+            <a href="/music/{artist.slug}" class="btn-return">Return to Artist</a>
         </div>
     {/if}
 </div>

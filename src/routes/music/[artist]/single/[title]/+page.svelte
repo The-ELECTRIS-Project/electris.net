@@ -34,9 +34,9 @@
         
         <div class="track-info">
             <nav class="breadcrumb">
-                <a href="/ems/music/{artist.slug}">{artist.name}</a>
+                <a href="/music/{artist.slug}">{artist.name}</a>
                 <span>/</span>
-                <a href="/ems/music/{artist.slug}/singles">Singles</a>
+                <a href="/music/{artist.slug}/singles">Singles</a>
             </nav>
 
             <h1 style="font-family: {single.titleFont || 'inherit'}">{single.title}</h1>

@@ -12,7 +12,7 @@
       description: t('proj.twaos.desc.long'),
       icon: '/media/TWAOS/Logo/twaos.svg',
       width: 8,
-      link: '/egs/twaos'
+      link: '/projects/games/TWAOS'
     },
     {
       title: t('site.newhome.title'),

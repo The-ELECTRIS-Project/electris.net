@@ -19,7 +19,27 @@
       color: 'var(--circle-hover-crown)',
       dynamicSizeOffset: 3,
       effects: {
+        glitch: {
+          enabled: true,
+          intensity: 1,
+          frequency: 0.4,
+          drift: 5,
+          colorShift: true
+        },
+        outerGlow: {
+          enabled: true,
+          blur: 3,
+          spread: 5,
+          intensity: 0.8,
+          pulse: {
+            speed: 3,
+            min: 0.3,
+            max: 0.9
+          }
+        },
+        innerGlow: true,
         shadow: {
+          enabled: true,
           color: 'var(--circle-hover-crown)',
           blur: 1.5,
           spread: 0.5,

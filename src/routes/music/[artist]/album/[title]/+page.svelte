@@ -32,9 +32,9 @@
             
             <div class="album-meta">
                 <nav class="breadcrumb">
-                    <a href="/ems/music/{artist.slug}">{artist.name}</a>
+                    <a href="/music/{artist.slug}">{artist.name}</a>
                     <span>/</span>
-                    <a href="/ems/music/{artist.slug}/albums">Albums</a>
+                    <a href="/music/{artist.slug}/albums">Albums</a>
                 </nav>
 
                 <h1 style="font-family: {album.titleFont || 'inherit'}">{album.title}</h1>
