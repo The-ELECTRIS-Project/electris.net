@@ -17,7 +17,15 @@
       trackingTarget: '.crown-container',
       shape: { svg: '/icons/GEE/crown-outline.svg' },
       color: 'var(--circle-hover-crown)',
-      dynamicSizeOffset: 3
+      dynamicSizeOffset: 3,
+      effects: {
+        shadow: {
+          color: 'var(--circle-hover-crown)',
+          blur: 1.5,
+          spread: 0.5,
+          opacity: 0.4
+        }
+      }
     }
   ]);
 

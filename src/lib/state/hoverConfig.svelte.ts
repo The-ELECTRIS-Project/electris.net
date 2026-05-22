@@ -1,5 +1,39 @@
 import { onMount } from 'svelte';
 
+export interface GlowEffect {
+  enabled?: boolean;
+  color?: string;
+  blur?: number;
+  spread?: number;
+  intensity?: number;
+  pulse?: boolean | {
+    speed?: number;
+    min?: number;
+    max?: number;
+  };
+}
+
+export interface GlitchEffect {
+  enabled?: boolean;
+  intensity?: number;
+  frequency?: number;
+  sliceCount?: number;
+  colorShift?: boolean;
+  drift?: number;
+  layer1Color?: string;
+  layer2Color?: string;
+}
+
+export interface ShadowEffect {
+  enabled?: boolean;
+  color?: string;
+  blur?: number;
+  x?: number;
+  y?: number;
+  spread?: number;
+  opacity?: number;
+}
+
 export interface HoverConfig {
   type?: string[];
   selectors: string[];
@@ -44,6 +78,13 @@ export interface HoverConfig {
     targetSelector: string;
     offsetX?: number;
     offsetY?: number;
+  };
+
+  effects?: {
+    glitch?: boolean | GlitchEffect;
+    outerGlow?: boolean | GlowEffect;
+    shadow?: boolean | ShadowEffect;
+    innerGlow?: boolean | GlowEffect;
   };
 }
 

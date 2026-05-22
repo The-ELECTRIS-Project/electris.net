@@ -117,6 +117,112 @@ main {
   transition: opacity 0.3s ease, border-color 0.2s ease, border-width 0.1s ease-in-out;
   z-index: 3000;
   border: 0.2vmin solid var(--circle-border);
+
+  /* Effects defaults */
+  --outer-glow-color: currentColor;
+  --outer-glow-blur: 0vmin;
+  --outer-glow-spread: 0vmin;
+  --outer-glow-opacity: 1;
+  --outer-glow-pulse-speed: 0s;
+  --outer-glow-pulse-min: 0.8;
+  --outer-glow-pulse-max: 1.2;
+
+  --glitch-intensity: 0;
+  --glitch-frequency: 2s;
+  --glitch-drift: 5px;
+  --glitch-slice-count: 5;
+  --glitch-color-shift: 0;
+
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --shadow-blur: 0vmin;
+  --shadow-x: 0vmin;
+  --shadow-y: 0vmin;
+  --shadow-spread: 0vmin;
+  --shadow-opacity: 1;
+
+  --inner-glow-color: currentColor;
+  --inner-glow-blur: 0vmin;
+  --inner-glow-spread: 0vmin;
+  --inner-glow-opacity: 1;
+}
+
+.circle[data-inner-glow="true"] {
+  box-shadow: inset 0 0 var(--inner-glow-blur) var(--inner-glow-spread) color-mix(in srgb, var(--inner-glow-color) calc(var(--inner-glow-opacity) * 100%), transparent);
+}
+
+.circle[data-outer-glow="true"][data-inner-glow="true"] {
+  box-shadow: 
+    0 0 var(--outer-glow-blur) var(--outer-glow-spread) color-mix(in srgb, var(--outer-glow-color) calc(var(--outer-glow-opacity) * 100%), transparent),
+    inset 0 0 var(--inner-glow-blur) var(--inner-glow-spread) color-mix(in srgb, var(--inner-glow-color) calc(var(--inner-glow-opacity) * 100%), transparent);
+}
+
+.circle[data-shadow="true"] {
+  filter: drop-shadow(var(--shadow-x) var(--shadow-y) var(--shadow-blur) color-mix(in srgb, var(--shadow-color) calc(var(--shadow-opacity) * 100%), transparent));
+}
+
+.circle[data-outer-glow="true"] {
+  box-shadow: 0 0 var(--outer-glow-blur) var(--outer-glow-spread) color-mix(in srgb, var(--outer-glow-color) calc(var(--outer-glow-opacity) * 100%), transparent);
+}
+
+.circle[data-outer-glow-pulse="true"] {
+  animation: orbit-outer-glow-pulse var(--outer-glow-pulse-speed) ease-in-out infinite alternate;
+}
+
+@keyframes orbit-outer-glow-pulse {
+  from { filter: brightness(var(--outer-glow-pulse-min)) drop-shadow(0 0 var(--outer-glow-blur) var(--outer-glow-color)); }
+  to { filter: brightness(var(--outer-glow-pulse-max)) drop-shadow(0 0 calc(var(--outer-glow-blur) * 1.5) var(--outer-glow-color)); }
+}
+
+.circle[data-glitch="true"]::before,
+.circle[data-glitch="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: inherit;
+  border-radius: inherit;
+  mask: inherit;
+  -webkit-mask: inherit;
+  background-color: currentColor;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: -1;
+  display: none;
+}
+
+.circle[data-glitch="true"][data-glitch-color-shift="true"]::before,
+.circle[data-glitch="true"][data-glitch-color-shift="true"]::after {
+  display: block;
+}
+
+.circle[data-glitch="true"]::before {
+  color: var(--glitch-color-1, #ff00ff);
+  animation: orbit-glitch-1 var(--glitch-frequency) infinite steps(2);
+  left: calc(var(--glitch-drift) * -1 * var(--glitch-intensity));
+}
+
+.circle[data-glitch="true"]::after {
+  color: var(--glitch-color-2, #00ffff);
+  animation: orbit-glitch-2 var(--glitch-frequency) infinite steps(2);
+  left: calc(var(--glitch-drift) * var(--glitch-intensity));
+}
+
+@keyframes orbit-glitch-1 {
+  0%, 100% { clip-path: inset(0 0 0 0); opacity: 0; }
+  10% { clip-path: inset(20% 0 50% 0); opacity: 0.7; transform: translate(-2px, 2px); }
+  20% { clip-path: inset(80% 0 5% 0); opacity: 0.7; transform: translate(2px, -2px); }
+  30% { clip-path: inset(10% 0 70% 0); opacity: 0.7; transform: translate(-2px, -2px); }
+  40% { clip-path: inset(40% 0 10% 0); opacity: 0; }
+}
+
+@keyframes orbit-glitch-2 {
+  0%, 100% { clip-path: inset(0 0 0 0); opacity: 0; }
+  15% { clip-path: inset(10% 0 60% 0); opacity: 0.7; transform: translate(2px, -2px); }
+  25% { clip-path: inset(70% 0 20% 0); opacity: 0.7; transform: translate(-2px, 2px); }
+  35% { clip-path: inset(30% 0 40% 0); opacity: 0.7; transform: translate(2px, 2px); }
+  45% { clip-path: inset(50% 0 30% 0); opacity: 0; }
 }
 
 .circle.hovered-word-wrap {
@@ -133,10 +239,6 @@ main {
 
 .circle.hovered-hamburger-footer {
   transition: border 0.1s ease-in-out;
-}
-
-.circle.hovered-crown {
-  box-shadow: 0 0 12px 4px color-mix(in srgb, var(--circle-hover-crown) 40%, transparent);
 }
 
 .circle.hovered-search {

@@ -36,11 +36,6 @@
 :where([data-theme="cyber-neotic"]) .circle {
   border-width: 0.3vmin;
   color: var(--color-primary);
-  box-shadow: 0 0 1vmin currentColor, inset 0 0 0.5vmin currentColor;
-}
-
-:where([data-theme="cyber-neotic"]) .circle:where(.hovered-lock) {
-  box-shadow: 0 0 1.5vmin currentColor, inset 0 0 0.8vmin currentColor;
 }
 
 /* Light Scheme */

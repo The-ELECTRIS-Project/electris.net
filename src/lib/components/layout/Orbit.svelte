@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { afterNavigate } from '$app/navigation';
+  import { themeState } from '$lib/state/theme.svelte';
   import { hoverConfigState, type HoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let circleElement: HTMLElement | undefined = $state();
@@ -200,11 +201,15 @@
     };
   }
 
-  function updateOrbitColor(element: HTMLElement | null, config?: HoverConfig) {
+  function updateOrbitLook(element: HTMLElement | null, config?: HoverConfig) {
     if (!circleElement) return;
 
     if (element && config) {
-      if (lastColorElement === element) return;
+      if (lastColorElement === element) {
+        // Even if the element is the same, we might need to update effects if the config changed
+        applyEffects(config);
+        return;
+      }
       lastColorElement = element;
       
       let color = '';
@@ -244,6 +249,8 @@
           circleElement.style.borderColor = '';
         }
       }
+
+      applyEffects(config);
     } else {
       if (lastColorElement === null) return;
       lastColorElement = null;
@@ -252,6 +259,105 @@
       circleElement.style.webkitMaskImage = '';
       circleElement.style.maskImage = '';
       circleElement.style.backgroundColor = '';
+      
+      applyEffects(undefined);
+    }
+  }
+
+  function applyEffects(config?: HoverConfig) {
+    if (!circleElement) return;
+
+    let effects = config?.effects;
+    
+    if (!effects && themeState.theme === 'cyber-neotic') {
+      const isLocked = circleElement.classList.contains('hovered-lock');
+      effects = {
+        outerGlow: {
+          blur: isLocked ? 1.5 : 1,
+          intensity: 1,
+          color: 'currentColor'
+        },
+        innerGlow: {
+          blur: isLocked ? 0.8 : 0.5,
+          intensity: 1,
+          color: 'currentColor'
+        }
+      };
+    }
+
+    if (effects) {
+      const { outerGlow, glitch, shadow, innerGlow } = effects;
+
+      if (outerGlow) {
+        circleElement.dataset.outerGlow = 'true';
+        const g = typeof outerGlow === 'boolean' ? {} : outerGlow;
+        
+        circleElement.style.setProperty('--outer-glow-color', g.color || 'currentColor');
+        circleElement.style.setProperty('--outer-glow-blur', `${g.blur ?? 1}vmin`);
+        circleElement.style.setProperty('--outer-glow-spread', `${g.spread ?? 0}vmin`);
+        circleElement.style.setProperty('--outer-glow-opacity', `${g.intensity ?? 1}`);
+        
+        if (g.pulse) {
+          const p = typeof g.pulse === 'boolean' ? {} : g.pulse;
+          circleElement.style.setProperty('--outer-glow-pulse-speed', `${p.speed ?? 2}s`);
+          circleElement.style.setProperty('--outer-glow-pulse-min', `${p.min ?? 0.8}`);
+          circleElement.style.setProperty('--outer-glow-pulse-max', `${p.max ?? 1.2}`);
+          circleElement.dataset.outerGlowPulse = p.speed !== 0 ? 'true' : 'false';
+        } else {
+          circleElement.style.setProperty('--outer-glow-pulse-speed', '0s');
+          circleElement.dataset.outerGlowPulse = 'false';
+        }
+      } else {
+        circleElement.dataset.outerGlow = 'false';
+        circleElement.dataset.outerGlowPulse = 'false';
+      }
+
+      if (innerGlow) {
+        circleElement.dataset.innerGlow = 'true';
+        const ig = typeof innerGlow === 'boolean' ? {} : innerGlow;
+        circleElement.style.setProperty('--inner-glow-color', ig.color || 'currentColor');
+        circleElement.style.setProperty('--inner-glow-blur', `${ig.blur ?? 0.5}vmin`);
+        circleElement.style.setProperty('--inner-glow-spread', `${ig.spread ?? 0}vmin`);
+        circleElement.style.setProperty('--inner-glow-opacity', `${ig.intensity ?? 1}`);
+      } else {
+        circleElement.dataset.innerGlow = 'false';
+      }
+
+      if (glitch) {
+        circleElement.dataset.glitch = 'true';
+        const gl = typeof glitch === 'boolean' ? {} : glitch;
+
+        circleElement.style.setProperty('--glitch-intensity', `${gl.intensity ?? 1}`);
+        circleElement.style.setProperty('--glitch-frequency', `${gl.frequency ?? 2}s`);
+        circleElement.style.setProperty('--glitch-drift', `${gl.drift ?? 5}px`);
+        circleElement.style.setProperty('--glitch-slice-count', `${gl.sliceCount ?? 5}`);
+        circleElement.dataset.glitchColorShift = gl.colorShift !== false ? 'true' : 'false';
+        circleElement.style.setProperty('--glitch-color-1', gl.layer1Color || '#ff00ff');
+        circleElement.style.setProperty('--glitch-color-2', gl.layer2Color || '#00ffff');
+      } else {
+        circleElement.dataset.glitch = 'false';
+        circleElement.dataset.glitchColorShift = 'false';
+      }
+
+      if (shadow) {
+        circleElement.dataset.shadow = 'true';
+        const s = typeof shadow === 'boolean' ? {} : shadow;
+        circleElement.style.setProperty('--shadow-color', s.color || 'rgba(0,0,0,0.5)');
+        circleElement.style.setProperty('--shadow-blur', `${s.blur ?? 0.5}vmin`);
+        circleElement.style.setProperty('--shadow-x', `${s.x ?? 0}vmin`);
+        circleElement.style.setProperty('--shadow-y', `${s.y ?? 0.2}vmin`);
+        circleElement.style.setProperty('--shadow-spread', `${s.spread ?? 0}vmin`);
+        circleElement.style.setProperty('--shadow-opacity', `${s.opacity ?? 1}`);
+      } else {
+        circleElement.dataset.shadow = 'false';
+      }
+    } else {
+      circleElement.dataset.outerGlow = 'false';
+      circleElement.dataset.outerGlowPulse = 'false';
+      circleElement.dataset.innerGlow = 'false';
+      circleElement.dataset.glitch = 'false';
+      circleElement.dataset.glitchColorShift = 'false';
+      circleElement.dataset.shadow = 'false';
     }
   }
   
@@ -775,7 +881,7 @@
              transitionStartTime = performance.now();
              circleElement?.classList.remove('hovered-lock');
              
-             updateOrbitColor(null);
+             updateOrbitLook(null);
           }
         }
         currentWord = null;
@@ -814,7 +920,7 @@
         
         circleElement?.classList.add('hovered-lock');
 
-        updateOrbitColor(element, config);
+        updateOrbitLook(element, config);
       }
     }
   }
@@ -847,7 +953,7 @@
     hoveredElements.add(element);
     circleElement?.classList.add(config.className);
 
-    updateOrbitColor(element, config);
+    updateOrbitLook(element, config);
 
     if (config.lockPosition || config.matchRotation) {
       lockedElement = element;
@@ -899,7 +1005,7 @@
             transitionStartTime = performance.now();
             circleElement?.classList.remove('hovered-lock');
             
-            updateOrbitColor(null);
+            updateOrbitLook(null);
         }
     }
 
@@ -968,7 +1074,7 @@
       hasSettledPositionLock = false;
       isTransitioning = true;
       transitionStartTime = performance.now();
-      updateOrbitColor(null);
+      updateOrbitLook(null);
       
       if (circleElement) {
         circleElement.style.zIndex = '3000';
