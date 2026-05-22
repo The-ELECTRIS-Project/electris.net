@@ -24,27 +24,39 @@
 
   useHoverConfig([
     {
-      selectors: ['.sip-icon'],
-      className: 'hovered-styled-sip',
-      lockPosition: true,
-      color: 'var(--circle-hover-sip)',
-      customPositioning: {
-       targetSelector: '.styled-sip'
-      },
-      dynamicSizeOffset: -3,
-      positionOffset: { x: -1.4, y: -0.3 },
+        selectors: ['.sip-icon'],
+        className: 'hovered-styled-sip',
+        lockPosition: true,
+        color: 'var(--circle-hover-sip)',
+        customPositioning: {
+            targetSelector: '.styled-sip'
+        },
+        dynamicSizeOffset: -3,
+        dynamicBorderRadiusOffset: 66,
+        positionOffset: { x: -1.4, y: -0.3 },
     },
     {
-      selectors: [ '.gallery-image' ],
-      className: 'hovered-gallery-image',
-      lockPosition: true,
-      dynamicSizeOffset: 0.3,
-      positionOffset: { y: -0.03 }
+        selectors: [ '.gallery-image' ],
+        className: 'hovered-gallery-image',
+        lockPosition: true,
+        dynamicSizeOffset: 0.3,
+        positionOffset: { y: -0.03 }
     },
     {
-      selectors: ['.hero-text'],
-      className: 'hovered-button-grow',
-      autoSize: false
+        selectors: ['.hero-text'],
+        className: 'hovered-button-grow',
+        autoSize: false
+    },
+    {
+        selectors: ['.card'],
+        className: 'hovered-game-steam-card',
+        lockPosition: true,
+        dynamicSizeOffset: {
+            width: 1.6,
+            height: 2
+        },
+        dynamicBorderRadiusOffset: 0.5,
+        color: 'hsl(126, 99%, 48%)'
     }
   ]);
 
@@ -481,7 +493,7 @@
     padding-top: 0;
     padding-bottom: 10px;
     margin: -1.7vmin;
-    color: #ff9933;
+    color: hsl(30, 100%, 60%);
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 0 1vmin rgba(255, 123, 0, 0.7));
@@ -497,7 +509,7 @@
     font-family: 'Nightcore';
     font-size: 4rem;
     margin: -0.8vmin;
-    color: #f65901;
+    color: hsl(22, 99%, 48%);
     text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
   }
 
@@ -511,7 +523,7 @@
     font-family: 'Nightcore';
     font-size: 3.5rem;
     margin: -0.5vmin;
-    color: #f65901;
+    color: hsl(22, 99%, 48%);
     text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
   }
 
@@ -585,7 +597,7 @@
     padding: 1vmin;
     border-radius: 1.8vmin;
     text-decoration: none;
-    color: #f65901;
+    color: hsl(22, 99%, 48%);
     width: 35vmin;
     transition: transform 0.2s, background-color 0.2s ease;
     justify-content: left;
@@ -614,7 +626,7 @@
     margin: 0;
     font-family: 'Nightcore';
     font-size: 2rem;
-    color: #01f619;
+    color: hsl(126, 99%, 48%);
   }
 
   .card-content p {
@@ -622,7 +634,7 @@
     font-weight: 300;
     font-size: 1.2rem;
     margin: 5px 0 0;
-    color: #01f619;
+    color: hsl(126, 99%, 48%);
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
