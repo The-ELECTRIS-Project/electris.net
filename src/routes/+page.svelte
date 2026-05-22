@@ -270,7 +270,7 @@
 </script>
 
 <svelte:head>
-  <title>Home | ELECTRIS</title>
+  <title>The ELECTRIS Project</title>
 </svelte:head>
 
 <svelte:window onmousemove={handlePointerMove} onscroll={handleScroll} />
