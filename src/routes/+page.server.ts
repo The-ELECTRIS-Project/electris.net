@@ -2,11 +2,10 @@ import { loadBlogPosts } from '$lib/utils/blog.server';
 import { getYoutubeData } from '$lib/utils/youtube.server';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch, platform, url, cookies }) => {
+export const load: PageServerLoad = async ({ fetch, platform, url }) => {
   try {
-    const ignoreExcluded = cookies.get('devtools-ignore-excluded-suffixes') === 'true';
     const posts = await loadBlogPosts({ fetch, platform, url });
-    const youtubeDataPromise = getYoutubeData({ fetch, platform, url, ignoreExcluded });
+    const youtubeDataPromise = getYoutubeData({ fetch, platform, url });
 
     return {
       latestPost: posts[0] ?? null,

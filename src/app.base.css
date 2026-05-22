@@ -45,6 +45,47 @@ main {
   overflow-x: clip;
 }
 
+/* ===== CUSTOM SCROLLBAR ===== */
+:root {
+  --scrollbar-width: 10px;
+}
+
+/* Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-body);
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 5px;
+  border: 2px solid var(--bg-body);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-primary) 60%, transparent);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 30%, transparent) var(--bg-body);
+}
+
+/* Hiding logic */
+[data-hide-scrollbar="true"]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-hide-scrollbar="true"] {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 /* ===== LAYOUT COMPONENTS ===== */
 .overlay {
   position: fixed;

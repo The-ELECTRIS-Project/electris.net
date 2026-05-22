@@ -1,28 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount } from 'svelte';
   import { t } from '$lib/state/i18n.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import { fly } from 'svelte/transition';
 
   let showPopup = $state(false);
-  const DISCLOSURE_KEY = "cookieDisclosureDismissed";
-  
-  function setCookie(name: string, value: string, days: number) {
-    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
-  }
-  
-  function getCookie(name: string): string | null {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return match ? match[2] : null;
-  }
   
   function handleGotIt() {
-    setCookie(DISCLOSURE_KEY, "true", 365);
-    try {
-      localStorage.setItem(DISCLOSURE_KEY, "true");
-    } catch {
-      // Ignore localStorage errors
-    }
+    modsState.updateSetting('site', 'cookieDisclosureDismissed', true);
     showPopup = false;
   }
   
@@ -32,15 +17,7 @@
   
   onMount(() => {
     setTimeout(() => {
-      const isDismissedCookie = getCookie(DISCLOSURE_KEY) === "true";
-      let isDismissedLocal = false;
-      try {
-        isDismissedLocal = localStorage.getItem(DISCLOSURE_KEY) === "true";
-      } catch {
-        // Ignore
-      }
-
-      if (!isDismissedCookie && !isDismissedLocal) {
+      if (!modsState.config.site.cookieDisclosureDismissed) {
         showPopup = true;
       }
     }, 800);
@@ -132,7 +109,6 @@
     color: #0f1010;
   }
 
-  /* Ensure it looks good on mobile too */
   @media (max-width: 600px) {
     .disclosure-box {
       bottom: 1rem;

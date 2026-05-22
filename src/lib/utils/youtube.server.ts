@@ -21,7 +21,6 @@ export interface YoutubeLoadContext {
   fetch: typeof fetch;
   platform?: App.Platform;
   url: URL;
-  ignoreExcluded?: boolean;
 }
  
 interface AssetsBinding {
@@ -410,7 +409,6 @@ export async function getYoutubeData(context: YoutubeLoadContext): Promise<Youtu
   const filteredVideos = Array.from(allVideosMap.values()).filter((v) => {
     if (v.status !== 'finished') return true;
     if (v.isShort) return false;
-    if (v.isExcluded && !context.ignoreExcluded) return false;
     return true;
   });
 

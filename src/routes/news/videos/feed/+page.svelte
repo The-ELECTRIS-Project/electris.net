@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
-  import { onMount } from 'svelte';
   import { i18nState, t } from '$lib/state/i18n.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import YoutubeCard from '$lib/components/youtube/Card.svelte';
   import { formatYoutubeDateTime } from '$lib/utils/youtube';
@@ -9,13 +8,15 @@
   let { data } = $props();
   let youtube = $derived(data.youtube);
   let locale = $derived(i18nState.currentLocale || undefined);
+  let includeExcludedVideos = $derived(modsState.config.devTools.ignoreExcludedSuffixes);
+  let visibleVideos = $derived(youtube.videos.filter((video) => includeExcludedVideos || !video.isExcluded));
 
-  const liveAndUpcoming = $derived(youtube.videos.filter((video) => video.status === 'live' || video.status === 'upcoming'));
+  const liveAndUpcoming = $derived(visibleVideos.filter((video) => video.status === 'live' || video.status === 'upcoming'));
 
   const finishedVideos = $derived.by(() => {
     const map = new Map();
 
-    youtube.videos
+    visibleVideos
       .filter((video) => video.status === 'finished')
       .forEach((video) => {
         if (!map.has(video.channelId)) {
@@ -24,18 +25,6 @@
       });
 
     return Array.from(map.values()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-  });
-
-  onMount(() => {
-    const handleSuffixToggle = () => {
-      invalidateAll();
-    };
-
-    window.addEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
-
-    return () => {
-      window.removeEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
-    };
   });
 
   let lastUpdatedLabel = $derived(

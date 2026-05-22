@@ -1,19 +1,18 @@
 import { browser } from '$app/environment';
+import {
+  availableColorSchemes,
+  availableThemes,
+  modsState,
+  type ColorScheme,
+  type Theme
+} from '$lib/state/mods.svelte';
 
-export type Theme = 'default' | 'cyber-neotic';
-export type ColorScheme = 'light' | 'dark' | 'midnight' | 'auto';
-
-export const availableThemes: readonly Theme[] = [
-  'default',
-  'cyber-neotic'
-] as const;
-
-export const availableColorSchemes: readonly ColorScheme[] = [
-  'light',
-  'dark',
-  'midnight',
-  'auto'
-] as const;
+export {
+  availableColorSchemes,
+  availableThemes,
+  type ColorScheme,
+  type Theme
+} from '$lib/state/mods.svelte';
 
 function getSystemPreference(): 'light' | 'dark' {
   if (!browser) return 'dark';
@@ -27,43 +26,44 @@ function resolveColorScheme(selectedColorScheme: ColorScheme): 'light' | 'dark' 
   return selectedColorScheme;
 }
 
-const storedTheme = browser ? (localStorage.getItem('theme') as Theme) : null;
-const storedColorScheme = browser ? (localStorage.getItem('colorScheme') as ColorScheme) : null;
-
-const initialTheme: Theme = storedTheme && availableThemes.includes(storedTheme) ? storedTheme : 'default';
-const initialColorScheme: ColorScheme = storedColorScheme && availableColorSchemes.includes(storedColorScheme) ? storedColorScheme : 'auto';
-
-// Use a class or a simple object with $state for runes
 class ThemeState {
-  theme = $state<Theme>(initialTheme);
-  colorScheme = $state<ColorScheme>(initialColorScheme);
+  theme = $state<Theme>(modsState.config.site.theme);
+  colorScheme = $state<ColorScheme>(modsState.config.site.colorScheme);
   resolvedColorScheme = $derived(resolveColorScheme(this.colorScheme));
 
   constructor() {
     if (browser) {
       this.applyCurrentStyles();
-      
+
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       mediaQuery.addEventListener('change', () => {
         if (this.colorScheme === 'auto') {
           this.applyCurrentStyles();
         }
       });
+
+      window.addEventListener('modsChanged', () => {
+        this.syncFromMods();
+      });
     }
   }
 
   setTheme(newTheme: Theme) {
+    if (!availableThemes.includes(newTheme)) return;
+
     this.theme = newTheme;
     if (browser) {
-      localStorage.setItem('theme', newTheme);
+      modsState.updateSetting('site', 'theme', newTheme);
       this.applyCurrentStyles();
     }
   }
 
   setColorScheme(newColorScheme: ColorScheme) {
+    if (!availableColorSchemes.includes(newColorScheme)) return;
+
     this.colorScheme = newColorScheme;
     if (browser) {
-      localStorage.setItem('colorScheme', newColorScheme);
+      modsState.updateSetting('site', 'colorScheme', newColorScheme);
       this.applyCurrentStyles();
     }
   }
@@ -76,6 +76,25 @@ class ThemeState {
   applyCurrentStyles() {
     if (!browser) return;
     applyStyles(this.theme, this.colorScheme);
+  }
+
+  private syncFromMods() {
+    const { theme, colorScheme } = modsState.config.site;
+    let changed = false;
+
+    if (theme !== this.theme) {
+      this.theme = theme;
+      changed = true;
+    }
+
+    if (colorScheme !== this.colorScheme) {
+      this.colorScheme = colorScheme;
+      changed = true;
+    }
+
+    if (changed) {
+      this.applyCurrentStyles();
+    }
   }
 }
 
@@ -95,10 +114,11 @@ export function toggleColorScheme(): void {
 
 export function applyStyles(selectedTheme: Theme, selectedColorScheme: ColorScheme): void {
   if (!browser) return;
-  
+
   const resolvedColorScheme = resolveColorScheme(selectedColorScheme);
 
   document.documentElement.setAttribute('data-theme', selectedTheme);
   document.documentElement.setAttribute('data-color-scheme', resolvedColorScheme);
   document.documentElement.setAttribute('data-color-scheme-selected', selectedColorScheme);
+  document.documentElement.setAttribute('data-hide-scrollbar', modsState.config.site.hideScrollbar.toString());
 }

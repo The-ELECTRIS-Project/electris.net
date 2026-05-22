@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { modsState } from '$lib/state/mods.svelte';
 
 export interface LocaleData {
   [key: string]: string;
@@ -35,11 +36,18 @@ class I18nState {
   constructor() {
     if (browser) {
       this.currentLocale = this.getInitialLocale();
+      window.addEventListener('modsChanged', () => {
+        const locale = modsState.config.site.locale;
+        if (locale && locale !== this.currentLocale && availableLocales.find(l => l.code === locale)) {
+          this.currentLocale = locale;
+          void this.initializeI18n(window.location.pathname, locale);
+        }
+      });
     }
   }
 
   getInitialLocale(): string {
-    const storedLocale = localStorage.getItem('preferred-locale');
+    const storedLocale = modsState.config.site.locale;
     if (storedLocale && availableLocales.find(l => l.code === storedLocale)) {
       return storedLocale;
     }
@@ -190,8 +198,7 @@ class I18nState {
     this.currentLocale = locale;
     
     if (browser) {
-      localStorage.setItem('preferred-locale', locale);
-      // Reload everything for the new locale
+      modsState.updateSetting('site', 'locale', locale);
       await this.initializeI18n(window.location.pathname);
     }
   }

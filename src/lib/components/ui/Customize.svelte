@@ -1,16 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { modsState } from '$lib/state/customization.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
 
   let isMenuOpen = $state(false);
   let isClosing = $state(false);
   let buttonElement: HTMLButtonElement | undefined = $state();
   
-  let gridCols = $derived(modsState.config.gridCols);
-  let gridRows = $derived(modsState.config.gridRows);
-  let openLinksInNewTabs = $derived(modsState.config.openLinksInNewTabs);
-  let showQuickPins = $derived(modsState.config.showQuickPins);
-  let showSearchBar = $derived(modsState.config.showSearchBar);
+  let gridCols = $derived(modsState.config.newHome.gridCols);
+  let gridRows = $derived(modsState.config.newHome.gridRows);
+  let openLinksInNewTabs = $derived(modsState.config.newHome.openLinksInNewTabs);
+  let showQuickPins = $derived(modsState.config.newHome.showQuickPins);
+  let showSearchBar = $derived(modsState.config.newHome.showSearchBar);
   
   const MIN_COLS = 2;
   const MAX_COLS = 8;
@@ -24,27 +24,27 @@
   function updateCols(delta: number) {
     const newCols = gridCols + delta;
     if (newCols >= MIN_COLS && newCols <= MAX_COLS) {
-      modsState.updateSetting('gridCols', newCols);
+      modsState.updateSetting('newHome', 'gridCols', newCols);
     }
   }
 
   function updateRows(delta: number) {
     const newRows = gridRows + delta;
     if (newRows >= MIN_ROWS && newRows <= MAX_ROWS) {
-      modsState.updateSetting('gridRows', newRows);
+      modsState.updateSetting('newHome', 'gridRows', newRows);
     }
   }
 
   function toggleLinksInNewTabs() {
-    modsState.updateSetting('openLinksInNewTabs', !openLinksInNewTabs);
+    modsState.updateSetting('newHome', 'openLinksInNewTabs', !openLinksInNewTabs);
   }
 
   function toggleQuickPins() {
-    modsState.updateSetting('showQuickPins', !showQuickPins);
+    modsState.updateSetting('newHome', 'showQuickPins', !showQuickPins);
   }
 
   function toggleSearchBar() {
-    modsState.updateSetting('showSearchBar', !showSearchBar);
+    modsState.updateSetting('newHome', 'showSearchBar', !showSearchBar);
   }
 
   function toggleMenu() {
@@ -160,7 +160,7 @@
             </div>
           </div>
 
-          {#if modsState.config.showQuickPins}
+          {#if modsState.config.newHome.showQuickPins}
             <div class="settings-section">
               <h3 class="settings-title">Grid Layout</h3>
               

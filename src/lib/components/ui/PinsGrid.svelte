@@ -3,12 +3,12 @@
   import { t, i18nState } from '$lib/state/i18n.svelte';
   import { browser } from '$app/environment';
   import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
-  import { modsState } from '$lib/state/customization.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
-  let gridCols = $derived(modsState.config.gridCols);
-  let gridRows = $derived(modsState.config.gridRows);
-  let openLinksInNewTabs = $derived(modsState.config.openLinksInNewTabs);
+  let gridCols = $derived(modsState.config.newHome.gridCols);
+  let gridRows = $derived(modsState.config.newHome.gridRows);
+  let openLinksInNewTabs = $derived(modsState.config.newHome.openLinksInNewTabs);
 
   let pins: Array<{ url: string; title: string; domain: string }> = $state([]);
 
@@ -63,8 +63,6 @@
       }, 0);
       
       const handleModsChanged = () => {
-        // We don't strictly need to check gridCols/gridRows here if we react to totalPins
-        // but we'll keep the save logic for when layout changes.
         setTimeout(() => {
           savePins();
         }, 0);

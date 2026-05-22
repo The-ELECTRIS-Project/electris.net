@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/state/i18n.svelte';
   import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
-  import { modsState } from '$lib/state/customization.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import PinsGrid from '$lib/components/ui/PinsGrid.svelte';
   import Customize from '$lib/components/ui/Customize.svelte';
   import Search from '$lib/components/ui/Search.svelte';
@@ -10,9 +10,8 @@
   let currentTime = $state(new Date());
   let i18nInitialized = $state(false);
 
-  // Reactive variables for display toggles
-  let showQuickPins = $derived(modsState.config.showQuickPins);
-  let showSearchBar = $derived(modsState.config.showSearchBar);
+  let showQuickPins = $derived(modsState.config.newHome.showQuickPins);
+  let showSearchBar = $derived(modsState.config.newHome.showSearchBar);
 
   const hoverConfigs: HoverConfig[] = [
     {

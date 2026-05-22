@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { invalidateAll } from '$app/navigation';
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/state/i18n.svelte';
   import { themeState } from '$lib/state/theme.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import type { YoutubeData, YoutubeVideo } from '$lib/types/youtube';
@@ -14,12 +14,15 @@
 
   let { data } = $props();
   
-  function processYoutubeData(youtube: YoutubeData) {
-    const liveAndUpcoming = youtube.videos.filter((v: YoutubeVideo) => v.status === 'live' || v.status === 'upcoming');
+  let includeExcludedVideos = $derived(modsState.config.devTools.ignoreExcludedSuffixes);
+
+  function processYoutubeData(youtube: YoutubeData, includeExcluded: boolean) {
+    const videos = youtube.videos.filter((v: YoutubeVideo) => includeExcluded || !v.isExcluded);
+    const liveAndUpcoming = videos.filter((v: YoutubeVideo) => v.status === 'live' || v.status === 'upcoming');
     
     const newestPerChannel = (() => {
       const map = new Map<string, YoutubeVideo>();
-      youtube.videos
+      videos
         .filter((v: YoutubeVideo) => v.status === 'finished')
         .forEach((v: YoutubeVideo) => {
           if (!map.has(v.channelId)) map.set(v.channelId, v);
@@ -225,12 +228,6 @@
   }
 
   onMount(() => {
-    const handleSuffixToggle = () => {
-      invalidateAll();
-    };
-
-    window.addEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -264,7 +261,6 @@
 
     return () => {
       observer.disconnect();
-      window.removeEventListener('devtoolsIgnoreExcludedSuffixesChanged', handleSuffixToggle);
     };
   });
 </script>
@@ -382,7 +378,7 @@
       <YTSkeleton type="live" />
       <YTSkeleton type="row" count={2} />
     {:then youtubeData}
-      {@const { liveAndUpcoming, displayVideos, hasMoreVideos } = processYoutubeData(youtubeData)}
+      {@const { liveAndUpcoming, displayVideos, hasMoreVideos } = processYoutubeData(youtubeData, includeExcludedVideos)}
       
       <YTLive videos={liveAndUpcoming} />
       

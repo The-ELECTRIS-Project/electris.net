@@ -5,6 +5,7 @@
   import { t } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import LanguageSelector from '$lib/components/ui/LanguageSelector.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import { 
     themeState,
     type Theme,
@@ -21,22 +22,24 @@
     getLocalStorageCount,
     clearAllLocalStorage,
     resetAllStates,
-    getIgnoreExcludedSuffixes,
     setIgnoreExcludedSuffixes
   } from '$lib/utils/devTools';
   import Hamburger from '$lib/components/ui/Hamburger.svelte';
+  import SettingsIcon, { type IconName } from '$lib/components/ui/icons/SettingsIcon.svelte';
+
+  type OptionsSpace = 'appearance' | 'interface' | 'devtools' | 'site-data' | 'youtube-api';
 
   interface ThemeOption {
     value: Theme;
     label: string;
-    icon: string;
+    icon: IconName;
     description?: string;
   }
 
   interface ColorSchemeOption {
     value: ColorScheme;
     label: string;
-    icon: string;
+    icon: IconName;
     description?: string;
   }
 
@@ -46,9 +49,11 @@
   let showCookieConfirmDialog = $state(false);
   let showLocalStorageConfirmDialog = $state(false);
   let showEverythingConfirmDialog = $state(false);
-  let showDevToolsSubmenu = $state(false);
-  let devToolsSpace: 'site-data' | 'youtube-api' | null = $state(null);
-  let ignoreExcludedSuffixes = $state(false);
+  let optionsSpace: OptionsSpace | null = $state(null);
+  let workspaceLevel = $derived(
+    optionsSpace === 'site-data' || optionsSpace === 'youtube-api' ? 2 : (optionsSpace ? 1 : 0)
+  );
+  let trackTransform = $derived(`translateX(-${(workspaceLevel * 100) / 3}%)`);
   let isOpen = $state(false);
   let siteHref = $state("");
   let gearElement: HTMLImageElement | undefined = $state();
@@ -57,12 +62,12 @@
   let currentRotation = 0;
   let targetSpeed = $state(0);
   let currentSpeed = 0;
-  let languageSelectorRef: LanguageSelector | undefined = $state();
 
-  // Environment info
   let envInfo = $derived(environmentState.info);
   let footerEnv = $derived(getEnvironmentDisplayName(envInfo.environment));
   let showDevTools = $derived(envInfo.isProduction ? false : (envInfo.isDevelopment || envInfo.isCanary));
+  let ignoreExcludedSuffixes = $derived(modsState.config.devTools.ignoreExcludedSuffixes);
+  let hideScrollbar = $derived(modsState.config.site.hideScrollbar);
 
   useHoverConfig([
     {
@@ -74,7 +79,7 @@
       absoluteBorderRadiusOffset: 0.8
     },
     {
-      selectors: [ '.option' ],
+      selectors: [ '.option', '.options-space-item', '.options-back' ],
       className: 'hovered-word-wrap',
       lockPosition: true,
       wrapText: {
@@ -136,13 +141,13 @@
     { 
       value: 'default' as Theme, 
       label: t('nav.options.theme.electrified', 'Electrified'), 
-      icon: '🎨',
+      icon: 'theme-default',
       description: t('nav.options.theme.electrified.desc', 'The ELECTRIS Style')
     },
     { 
       value: 'cyber-neotic' as Theme, 
       label: t('nav.options.theme.cyber', 'Cyber-Neotic'), 
-      icon: '🧬',
+      icon: 'theme-cyber',
       description: t('nav.options.theme.cyber.desc', 'A neon-lit future')
     }
   ] as ThemeOption[]);
@@ -151,25 +156,25 @@
     { 
       value: 'auto' as ColorScheme, 
       label: t('nav.options.color.auto', 'Automatic'), 
-      icon: '🔄',
+      icon: 'color-auto',
       description: t('nav.options.color.auto.desc', 'Follows system')
     },
     { 
       value: 'light' as ColorScheme, 
       label: t('nav.options.color.light', 'Light'), 
-      icon: '☀️',
+      icon: 'color-light',
       description: t('nav.options.color.light.desc', 'Clean and bright')
     },
     { 
       value: 'dark' as ColorScheme, 
       label: t('nav.options.color.dark', 'Dark'), 
-      icon: '🌙',
+      icon: 'color-dark',
       description: t('nav.options.color.dark.desc', 'Easy on the eyes')
     },
     { 
       value: 'midnight' as ColorScheme, 
       label: t('nav.options.color.oled', 'Midnight'), 
-      icon: '🌚',
+      icon: 'color-midnight',
       description: t('nav.options.color.oled.desc', 'Looks like there\'s a blackout...')
     }
   ] as ColorSchemeOption[]);
@@ -265,7 +270,7 @@
 
   onMount(async () => {
     await environmentState.refresh();
-    ignoreExcludedSuffixes = getIgnoreExcludedSuffixes();
+    updateSiteHref();
     
     if (typeof document !== 'undefined') {
       document.addEventListener('click', handleClickOutside);
@@ -306,8 +311,7 @@
         showCookieConfirmDialog = false;
         showLocalStorageConfirmDialog = false;
         showEverythingConfirmDialog = false;
-        showDevToolsSubmenu = false;
-        devToolsSpace = null;
+        optionsSpace = null;
         startGearAnimation();
       }
     }
@@ -323,13 +327,6 @@
       const colorSchemeSelector = document.querySelector('.color-scheme-selector');
       if (colorSchemeSelector && !colorSchemeSelector.contains(event.target as Node)) {
         showColorSchemeDropdown = false;
-      }
-    }
-
-    if (showDevToolsSubmenu) {
-      const devToolsSection = document.querySelector('.devtools-section');
-      if (devToolsSection && !devToolsSection.contains(event.target as Node)) {
-        showDevToolsSubmenu = false;
       }
     }
   }
@@ -375,20 +372,49 @@
       showCookieConfirmDialog = false;
       showLocalStorageConfirmDialog = false;
       showEverythingConfirmDialog = false;
-      showDevToolsSubmenu = false;
-      devToolsSpace = null;
+      optionsSpace = null;
     }
     startGearAnimation();
   }
 
-  function toggleDevToolsSubmenu(event: MouseEvent | KeyboardEvent) {
+  function openOptionsSpace(space: OptionsSpace, event?: MouseEvent) {
+    if (event) event.stopPropagation();
+    closeLanguageDropdown();
+    showThemeDropdown = false;
+    showColorSchemeDropdown = false;
+    optionsSpace = space;
+  }
+
+  function handleOptionsBack(event: MouseEvent) {
     event.stopPropagation();
-    showDevToolsSubmenu = !showDevToolsSubmenu;
+    closeLanguageDropdown();
+    showThemeDropdown = false;
+    showColorSchemeDropdown = false;
+    optionsSpace = optionsSpace === 'site-data' || optionsSpace === 'youtube-api' ? 'devtools' : null;
+  }
+
+  function getOptionsSpaceTitle(space: OptionsSpace) {
+    switch (space) {
+      case 'appearance':
+        return t('nav.options.space.appearance', 'Appearance');
+      case 'interface':
+        return t('nav.options.space.interface', 'Interface');
+      case 'devtools':
+        return t('devtools.title', 'DevTools');
+      case 'site-data':
+        return t('devtools.space.sitedata', 'Manage Site Data');
+      case 'youtube-api':
+        return t('devtools.space.ytapi', 'YouTube API');
+    }
   }
 
   function toggleIgnoreExcludedSuffixes() {
-    ignoreExcludedSuffixes = !ignoreExcludedSuffixes;
-    setIgnoreExcludedSuffixes(ignoreExcludedSuffixes);
+    setIgnoreExcludedSuffixes(!ignoreExcludedSuffixes);
+  }
+
+  function toggleHideScrollbar() {
+    modsState.updateSetting('site', 'hideScrollbar', !hideScrollbar);
+    themeState.applyCurrentStyles();
   }
 
   function handleCookieReset() {
@@ -499,218 +525,288 @@
   <div class="options-menu" transition:fade={{ duration: 200 }}>
     <div transition:slide={{ duration: 300 }}>
       <h2>{t('nav.options', 'Options')}</h2>
-      
-      <div class="option">
-        <span>{t('nav.options.theme', 'Theme')}</span>
-          <div class="selector">
-            <button 
-              type="button" 
-              class="theme-button"
-              onclick={toggleThemeDropdown}
-              aria-expanded={showThemeDropdown}
-              aria-haspopup="listbox"
+
+      <div class="options-workspace-viewport">
+        <div
+          class="options-panel-track"
+          style:transform={trackTransform}
+          style:width="300%"
+        >
+          <!-- Level 0: Main Options -->
+          <div class="options-panel" class:active={workspaceLevel === 0}>
+            <button
+              type="button"
+              class="options-space-item"
+              onclick={(e) => openOptionsSpace('appearance', e)}
             >
-              <span class="wrap-no-interact theme-icon">{currentThemeInfo.icon}</span>
-              <span class="theme-name">{currentThemeInfo.label}</span>
-              <span class="dropdown-arrow" class:open={showThemeDropdown}>▼</span>
-            </button>
-            
-            {#if showThemeDropdown}
-              <div class="theme-dropdown" transition:slide={{ duration: 200 }} role="listbox">
-                {#each themeOptions as themeOption}
-                  <button
-                    type="button"
-                    class="theme-option"
-                    class:active={themeState.theme === themeOption.value}
-                    onclick={() => handleThemeChange(themeOption.value)}
-                    role="option"
-                    aria-selected={themeState.theme === themeOption.value}
-                    title={themeOption.description}
-                  >
-                    <span class="wrap-no-interact">{themeOption.icon}</span>
-                    <div class="theme-info">
-                      <span class="theme-name">{themeOption.label}</span>
-                      {#if themeOption.description}
-                        <span class="theme-description">{themeOption.description}</span>
-                      {/if}
-                    </div>
-                    {#if themeState.theme === themeOption.value}
-                      <span class="checkmark">✓</span>
-                    {/if}
-                  </button>
-                {/each}
+              <div class="options-space-label">
+                <SettingsIcon name="appearance" />
+                <span>{t('nav.options.space.appearance', 'Appearance')}</span>
               </div>
+              <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+            </button>
+            <button
+              type="button"
+              class="options-space-item"
+              onclick={(e) => openOptionsSpace('interface', e)}
+            >
+              <div class="options-space-label">
+                <SettingsIcon name="interface" />
+                <span>{t('nav.options.interface', 'Interface')}</span>
+              </div>
+              <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+            </button>
+            {#if showDevTools}
+              <button
+                type="button"
+                class="options-space-item"
+                onclick={(e) => openOptionsSpace('devtools', e)}
+              >
+                <div class="options-space-label">
+                  <SettingsIcon name="devtools" />
+                  <span>{t('devtools.title', 'DevTools')}</span>
+                </div>
+                <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+              </button>
             {/if}
-          </div>
-      </div>
-
-      <!-- Color Scheme Selector -->
-      <div class="option">
-        <span>{t('nav.options.color', 'Color')}</span>
-        <div class="selector">
-          <button 
-            type="button" 
-            class="color-scheme-button"
-            onclick={toggleColorSchemeDropdown}
-            aria-expanded={showColorSchemeDropdown}
-            aria-haspopup="listbox"
-          >
-            <span class="color-scheme-icon">{currentColorSchemeInfo.icon}</span>
-            <span class="color-scheme-name">{currentColorSchemeInfo.label}</span>
-            <span class="dropdown-arrow" class:open={showColorSchemeDropdown}>▼</span>
-          </button>
-          
-          {#if showColorSchemeDropdown}
-            <div class="color-scheme-dropdown" transition:slide={{ duration: 200 }} role="listbox">
-              {#each colorSchemeOptions as colorOption}
-                <button
-                  type="button"
-                  class="color-scheme-option"
-                  class:active={themeState.colorScheme === colorOption.value}
-                  onclick={() => handleColorSchemeChange(colorOption.value)}
-                  role="option"
-                  aria-selected={themeState.colorScheme === colorOption.value}
-                  title={colorOption.description}
-                >
-                  <span class="wrap-no-interact">{colorOption.icon}</span>
-                  <div class="color-scheme-info">
-                    <span class="color-scheme-name">{colorOption.label}</span>
-                    {#if colorOption.description}
-                      <span class="color-scheme-description">{colorOption.description}</span>
-                    {/if}
-                  </div>
-                  {#if themeState.colorScheme === colorOption.value}
-                    <span class="checkmark">✓</span>
-                  {/if}
-                </button>
-              {/each}
+            <div class="option environment-option">
+              <a href={siteHref} class="switch-button">
+                {#if envInfo.isProduction}
+                  {t('nav.options.switch.test', 'Switch to Canary')}
+                {:else if envInfo.isCanary || envInfo.isDevelopment}
+                  {t('nav.options.switch.prod', 'Switch to Main')}
+                {:else}
+                  {t('nav.options.switch.dev', 'Switch to Development')}
+                {/if}
+              </a>
             </div>
-          {/if}
-        </div>
-      </div>
-
-      <div class="option">
-        <span>{t('nav.options.lang', 'Language')}</span>
-        <LanguageSelector bind:this={languageSelectorRef} />
-      </div>
-      {#if showDevTools}
-        <div class="devtools-section">
-          <div 
-            class="devtools-header option"
-            onclick={toggleDevToolsSubmenu}
-            aria-expanded={showDevToolsSubmenu}
-            role="button"
-            tabindex="0"
-            onkeydown={(e) => e.key === 'Enter' && toggleDevToolsSubmenu(e)}
-          >
-            <span>{t('devtools.title', 'DevTools')}</span>
-            <span class="triangle" class:expanded={showDevToolsSubmenu}>▸</span>
           </div>
-          {#if showDevToolsSubmenu}
-            <div class="devtools-submenu" transition:slide={{ duration: 300 }}>
-              <div class="devtools-workspace-viewport">
-                <div
-                  class="devtools-panel-track"
-                  style="transform: translateX({devToolsSpace ? '-50%' : '0%'})"
-                >
-                  <!-- Home panel: space list -->
-                  <div class="devtools-panel">
-                    <button
-                      class="devtools-space-item"
-                      onclick={() => devToolsSpace = 'site-data'}
-                    >
-                      <span>🗄️ {t('devtools.space.sitedata', 'Manage Site Data')}</span>
-                      <span class="space-chevron">›</span>
-                    </button>
-                    <button
-                      class="devtools-space-item"
-                      onclick={() => devToolsSpace = 'youtube-api'}
-                    >
-                      <span>▶️ {t('devtools.space.ytapi', 'YouTube API')}</span>
-                      <span class="space-chevron">›</span>
-                    </button>
-                  </div>
 
-                  <!-- Sub-panel -->
-                  <div class="devtools-panel">
-                    {#if devToolsSpace === 'site-data'}
-                      <button
-                        class="devtools-back"
-                        onclick={(e) => { e.stopPropagation(); devToolsSpace = null; }}
-                      >
-                        {t('devtools.back', 'Back')}
-                      </button>
-                      <p class="devtools-space-title">🗄️ {t('devtools.space.sitedata', 'Manage Site Data')}</p>
-                      <div class="devtools-option">
-                        <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
-                        <button
-                          type="button"
-                          class="reset-button"
-                          onclick={handleCookieReset}
-                          title="Reset all cookies"
-                        >
-                          🍪 {t('devtools.reset', 'Reset')}
-                        </button>
-                      </div>
-                      <div class="devtools-option">
-                        <span>{t('devtools.reset.localstorage', 'Reset LocalStorage')}</span>
-                        <button
-                          type="button"
-                          class="reset-button"
-                          onclick={handleLocalStorageReset}
-                          title="Reset all LocalStorage data"
-                        >
-                          💾 {t('devtools.reset', 'Reset')}
-                        </button>
-                      </div>
-                      <div class="devtools-option">
-                        <span>{t('devtools.reset.everything', 'Reset Everything')}</span>
-                        <button
-                          type="button"
-                          class="reset-button"
-                          onclick={handleEverythingReset}
-                          title="Reset all cookies and LocalStorage"
-                        >
-                          🧨 {t('devtools.reset', 'Reset')}
-                        </button>
-                      </div>
-                    {:else if devToolsSpace === 'youtube-api'}
-                      <button
-                        class="devtools-back"
-                        onclick={(e) => { e.stopPropagation(); devToolsSpace = null; }}
-                      >
-                        ‹ {t('devtools.back', 'Back')}
-                      </button>
-                      <p class="devtools-space-title">▶️ {t('devtools.space.ytapi', 'YouTube API')}</p>
-                      <div class="devtools-option">
-                        <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
-                        <button
-                          class="toggle-switch-mini"
-                          class:active={ignoreExcludedSuffixes}
-                          onclick={toggleIgnoreExcludedSuffixes}
-                          aria-label="Toggle ignore excluded suffixes"
-                        >
-                          <span class="toggle-slider-mini"></span>
-                        </button>
+          <!-- Level 1: Sub-spaces -->
+          <div class="options-panel" class:active={workspaceLevel === 1}>
+            {#if optionsSpace && (optionsSpace === 'appearance' || optionsSpace === 'interface' || optionsSpace === 'devtools')}
+              <button
+                type="button"
+                class="options-back"
+                onclick={handleOptionsBack}
+              >
+                <SettingsIcon name="chevron-left" size="0.8rem" />
+                {t('devtools.back', 'Back')}
+              </button>
+              <p class="options-space-title">{getOptionsSpaceTitle(optionsSpace)}</p>
+
+              {#if optionsSpace === 'appearance'}
+                <!-- ... Appearance Content ... -->
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="theme" size="1.1rem" />
+                    <span>{t('nav.options.theme', 'Theme')}</span>
+                  </div>
+                  <div class="selector theme-selector">
+                    <button 
+                      type="button" 
+                      class="theme-button"
+                      onclick={toggleThemeDropdown}
+                      aria-expanded={showThemeDropdown}
+                      aria-haspopup="listbox"
+                    >
+                      <SettingsIcon name={currentThemeInfo.icon} size="1.1rem" class="theme-icon" />
+                      <span class="theme-name">{currentThemeInfo.label}</span>
+                      <span class="dropdown-arrow" class:open={showThemeDropdown}>▼</span>
+                    </button>
+                    
+                    {#if showThemeDropdown}
+                      <div class="theme-dropdown" transition:slide={{ duration: 200 }} role="listbox">
+                        {#each themeOptions as themeOption}
+                          <button
+                            type="button"
+                            class="theme-option"
+                            class:active={themeState.theme === themeOption.value}
+                            onclick={() => handleThemeChange(themeOption.value)}
+                            role="option"
+                            aria-selected={themeState.theme === themeOption.value}
+                            title={themeOption.description}
+                          >
+                            <SettingsIcon name={themeOption.icon} size="1rem" />
+                            <div class="theme-info">
+                              <span class="theme-name">{themeOption.label}</span>
+                              {#if themeOption.description}
+                                <span class="theme-description">{themeOption.description}</span>
+                              {/if}
+                            </div>
+                            {#if themeState.theme === themeOption.value}
+                              <span class="checkmark">✓</span>
+                            {/if}
+                          </button>
+                        {/each}
                       </div>
                     {/if}
                   </div>
                 </div>
-              </div>
-            </div>
-          {/if}
+
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="color" size="1.1rem" />
+                    <span>{t('nav.options.color', 'Color')}</span>
+                  </div>
+                  <div class="selector color-scheme-selector">
+                    <button 
+                      type="button" 
+                      class="color-scheme-button"
+                      onclick={toggleColorSchemeDropdown}
+                      aria-expanded={showColorSchemeDropdown}
+                      aria-haspopup="listbox"
+                    >
+                      <SettingsIcon name={currentColorSchemeInfo.icon} size="1.1rem" class="color-scheme-icon" />
+                      <span class="color-scheme-name">{currentColorSchemeInfo.label}</span>
+                      <span class="dropdown-arrow" class:open={showColorSchemeDropdown}>▼</span>
+                    </button>
+                    
+                    {#if showColorSchemeDropdown}
+                      <div class="color-scheme-dropdown" transition:slide={{ duration: 200 }} role="listbox">
+                        {#each colorSchemeOptions as colorOption}
+                          <button
+                            type="button"
+                            class="color-scheme-option"
+                            class:active={themeState.colorScheme === colorOption.value}
+                            onclick={() => handleColorSchemeChange(colorOption.value)}
+                            role="option"
+                            aria-selected={themeState.colorScheme === colorOption.value}
+                            title={colorOption.description}
+                          >
+                            <SettingsIcon name={colorOption.icon} size="1rem" />
+                            <div class="color-scheme-info">
+                              <span class="color-scheme-name">{colorOption.label}</span>
+                              {#if colorOption.description}
+                                <span class="color-scheme-description">{colorOption.description}</span>
+                              {/if}
+                            </div>
+                            {#if themeState.colorScheme === colorOption.value}
+                              <span class="checkmark">✓</span>
+                            {/if}
+                          </button>
+                        {/each}
+                      </div>
+                    {/if}
+                  </div>
+                </div>
+              {:else if optionsSpace === 'interface'}
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="language" size="1.1rem" />
+                    <span>{t('nav.options.lang', 'Language')}</span>
+                  </div>
+                  <LanguageSelector />
+                </div>
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="scrollbar" size="1.1rem" />
+                    <span>{t('nav.options.scrollbar.hide', 'Hide Scrollbar')}</span>
+                  </div>
+                  <button
+                    type="button"
+                    class="toggle-switch-mini"
+                    class:active={hideScrollbar}
+                    onclick={toggleHideScrollbar}
+                    aria-label="Toggle hide scrollbar"
+                  >
+                    <span class="toggle-slider-mini"></span>
+                  </button>
+                </div>
+              {:else if optionsSpace === 'devtools'}
+                <button
+                  type="button"
+                  class="options-space-item"
+                  onclick={(e) => openOptionsSpace('site-data', e)}
+                >
+                  <div class="options-space-label">
+                    <SettingsIcon name="sitedata" />
+                    <span>{t('devtools.space.sitedata', 'Manage Site Data')}</span>
+                  </div>
+                  <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+                </button>
+                <button
+                  type="button"
+                  class="options-space-item"
+                  onclick={(e) => openOptionsSpace('youtube-api', e)}
+                >
+                  <div class="options-space-label">
+                    <SettingsIcon name="ytapi" />
+                    <span>{t('devtools.space.ytapi', 'YouTube API')}</span>
+                  </div>
+                  <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+                </button>
+              {/if}
+            {/if}
+          </div>
+
+          <!-- Level 2: Nested Sub-spaces (DevTools child spaces) -->
+          <div class="options-panel" class:active={workspaceLevel === 2}>
+            {#if optionsSpace && (optionsSpace === 'site-data' || optionsSpace === 'youtube-api')}
+              <button
+                type="button"
+                class="options-back"
+                onclick={handleOptionsBack}
+              >
+                <SettingsIcon name="chevron-left" size="0.8rem" />
+                {t('devtools.back', 'Back')}
+              </button>
+              <p class="options-space-title">{getOptionsSpaceTitle(optionsSpace)}</p>
+
+              {#if optionsSpace === 'site-data'}
+                <div class="devtools-option">
+                  <span>{t('devtools.reset.cookies', 'Reset Cookies')}</span>
+                  <button
+                    type="button"
+                    class="reset-button"
+                    onclick={handleCookieReset}
+                    title="Reset all cookies"
+                  >
+                    <SettingsIcon name="reset-cookie" size="1rem" />
+                    {t('devtools.reset', 'Reset')}
+                  </button>
+                </div>
+                <div class="devtools-option">
+                  <span>{t('devtools.reset.localstorage', 'Reset LocalStorage')}</span>
+                  <button
+                    type="button"
+                    class="reset-button"
+                    onclick={handleLocalStorageReset}
+                    title="Reset all LocalStorage data"
+                  >
+                    <SettingsIcon name="reset-storage" size="1rem" />
+                    {t('devtools.reset', 'Reset')}
+                  </button>
+                </div>
+                <div class="devtools-option">
+                  <span>{t('devtools.reset.everything', 'Reset Everything')}</span>
+                  <button
+                    type="button"
+                    class="reset-button"
+                    onclick={handleEverythingReset}
+                    title="Reset all cookies and LocalStorage"
+                  >
+                    <SettingsIcon name="reset-everything" size="1rem" />
+                    {t('devtools.reset', 'Reset')}
+                  </button>
+                </div>
+              {:else if optionsSpace === 'youtube-api'}
+                <div class="devtools-option">
+                  <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
+                  <button
+                    type="button"
+                    class="toggle-switch-mini"
+                    class:active={ignoreExcludedSuffixes}
+                    onclick={toggleIgnoreExcludedSuffixes}
+                    aria-label="Toggle ignore excluded suffixes"
+                  >
+                    <span class="toggle-slider-mini"></span>
+                  </button>
+                </div>
+              {/if}
+            {/if}
+          </div>
         </div>
-      {/if}
-      <div class="option">
-        <a href={siteHref} class="switch-button">
-          {#if envInfo.isProduction}
-            {t('nav.options.switch.test', 'Switch to Canary')}
-          {:else if envInfo.isCanary || envInfo.isDevelopment}
-            {t('nav.options.switch.prod', 'Switch to Main')}
-          {:else}
-            {t('nav.options.switch.dev', 'Switch to Development')}
-          {/if}
-        </a>
       </div>
     </div>
   </div>
@@ -894,27 +990,72 @@
     position: fixed;
     top: 5.15vmin;
     right: 1vmin;
-    padding: 1.5vmin;
-    border-radius: 1vmin;
+    padding: 2vmin;
+    border-radius: 1.2vmin;
     z-index: 200;
     color: var(--color-primary);
-    min-width: 40vmin;
-    max-width: 46vmin;
+    background: var(--options-menu-bg);
+    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    width: 40vmin;
+    min-height: 35vmin;
     transition: all 0.3s ease;
+    box-shadow: 0 1vmin 3vmin rgba(0, 0, 0, 0.3);
+    overflow: visible;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  :global([data-theme="cyber-neotic"]) .options-menu {
+    background-image: 
+      linear-gradient(var(--cyber-grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--cyber-grid-color) 1px, transparent 1px);
+    background-size: 2vmin 2vmin;
+    border-color: var(--color-primary);
+    box-shadow: 
+      0 0 2vmin color-mix(in srgb, var(--color-primary) 15%, transparent),
+      inset 0 0 1.5vmin color-mix(in srgb, var(--color-primary) 5%, transparent);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
   }
   
   .options-menu h2 {
     font-family: 'Aileron';
     margin-top: 0;
-    font-size: 1.5rem;
+    margin-bottom: 2vmin;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-bottom: 0.1vmin solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    padding-bottom: 1vmin;
+  }
+
+  :global([data-theme="cyber-neotic"]) .options-menu h2 {
+    text-shadow: 0 0 1.2vmin color-mix(in srgb, var(--color-primary) 60%, transparent);
+    border-bottom-color: var(--color-primary);
+  }
+
+  :global([data-theme="cyber-neotic"]) .options-space-item:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    box-shadow: 0 0 1.5vmin color-mix(in srgb, var(--color-primary) 10%, transparent);
+    text-shadow: 0 0 0.8vmin var(--color-primary);
+  }
+
+  :global([data-theme="cyber-neotic"]) .options-back:hover {
+    text-shadow: 0 0 0.8vmin var(--color-primary);
   }
 
   .option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 1.5vmin;
-    margin-bottom: 1vmin;
+    margin-top: 2vmin;
+    margin-bottom: 1.5vmin;
+  }
+
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 1vmin;
+    font-weight: 600;
   }
 
   .switch-button {
@@ -964,10 +1105,8 @@
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
-  .theme-icon {
-    font-size: 1rem;
-    display: inline-block;
-    flex-shrink: 0;
+  :global(.options-menu .theme-icon) {
+    color: var(--color-primary);
   }
 
   .theme-name {
@@ -1078,10 +1217,8 @@
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
-  .color-scheme-icon {
-    font-size: 1rem;
-    display: inline-block;
-    flex-shrink: 0;
+  :global(.options-menu .color-scheme-icon) {
+    color: var(--color-primary);
   }
 
   .color-scheme-name {
@@ -1205,85 +1342,52 @@
     width: auto;
     border: 0.1vmin solid var(--color-primary);
     color: var(--color-primary);
-    padding: 0.3vmin 0.6vmin;
-    border-radius: 0.3vmin;
+    padding: 0.6vmin 1.2vmin;
+    border-radius: 0.5vmin;
     cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.2s;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
     display: flex;
     align-items: center;
-    gap: 0.3vmin;
+    gap: 0.8vmin;
   }
 
   .reset-button:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  }
-
-  .devtools-section {
-    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 30%, transparent);
-    border-radius: 0.5vmin;
-    padding: 0.5vmin;
-    margin: 2.5vmin 0;
-    margin-bottom: -1.5vmin;
-    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
-  }
-
-  .devtools-header {
-    margin: 0;
-    padding: 0.5vmin;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s;
-    border-radius: 0.3vmin;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .devtools-header:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  }
-
-  .triangle {
-    transition: transform 0.3s ease;
-    transform-origin: center;
-    display: inline-block;
-    font-size: 0.8rem;
-    color: var(--color-primary);
-    pointer-events: none;
-  }
-
-  .triangle.expanded {
-    transform: rotate(90deg);
-  }
-
-  .devtools-submenu {
-    border-top: 0.2vmin solid color-mix(in srgb, var(--color-primary) 20%, transparent);
-    margin-top: 0.5vmin;
-    padding-top: 0.5vmin;
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    transform: translateY(-0.1vmin);
+    box-shadow: 0 0.2vmin 0.5vmin rgba(0, 0, 0, 0.2);
   }
 
   /* Workspace panel system */
-  .devtools-workspace-viewport {
-    overflow: hidden;
+  .options-workspace-viewport {
     width: 100%;
+    position: relative;
+    /* Clips horizontally but allows infinite vertical overflow for dropdowns */
+    clip-path: inset(-100vh 0);
   }
 
-  .devtools-panel-track {
+  .options-panel-track {
     display: flex;
-    width: 200%;
-    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .devtools-panel {
-    width: 50%;
+  .options-panel {
+    width: calc(100% / 3);
     flex-shrink: 0;
     box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    overflow: visible;
   }
 
-  .devtools-space-item {
+  .options-panel.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .options-space-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1291,63 +1395,85 @@
     background: none;
     border: none;
     color: var(--color-primary);
-    padding: 0.65vmin 0.5vmin;
+    padding: 1.5vmin 1.2vmin;
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.9rem;
-    border-radius: 0.3vmin;
-    transition: background-color 0.2s;
-    text-align: left;
-  }
-
-  .devtools-space-item:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  }
-
-  .space-chevron {
     font-size: 1.1rem;
-    opacity: 0.6;
-    pointer-events: none;
+    font-weight: 700;
+    border-radius: 0.8vmin;
+    transition: all 0.2s;
+    text-align: left;
+    margin-bottom: 0.8vmin;
+    line-height: 1;
   }
 
-  .devtools-back {
+  .options-space-item:hover {
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    padding-left: 1.5vmin;
+  }
+
+  .options-space-label {
+    display: flex;
+    align-items: center;
+    gap: 1.5vmin;
+  }
+
+  :global(.options-menu .space-chevron) {
+    opacity: 0.5;
+    transition: transform 0.2s;
+  }
+
+  .options-space-item:hover :global(.space-chevron) {
+    opacity: 1;
+    transform: translateX(0.3vmin);
+  }
+
+  .options-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.3vmin;
+    gap: 0.8vmin;
     background: none;
     border: none;
     color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.82rem;
-    padding: 0.3vmin 0.4vmin;
-    border-radius: 0.3vmin;
-    margin-bottom: 0.3vmin;
-    transition: color 0.2s, background-color 0.2s;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5vmin 0.8vmin;
+    border-radius: 0.5vmin;
+    margin-bottom: 1.5vmin;
+    transition: all 0.2s;
   }
 
-  .devtools-back:hover {
+  .options-back:hover {
     color: var(--color-primary);
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
   }
 
-  .devtools-space-title {
-    margin: 0 0 0.6vmin 0;
+  .options-space-title {
+    margin: 0 0 1.5vmin 0;
     padding: 0 0.5vmin;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: color-mix(in srgb, var(--color-primary) 75%, transparent);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-primary);
     border-bottom: 0.1vmin solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    padding-bottom: 0.4vmin;
+    padding-bottom: 0.8vmin;
+  }
+
+  .environment-option {
+    margin-top: 3vmin;
+    margin-bottom: 0;
+    justify-content: center;
   }
 
   .devtools-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0.8vmin 0;
+    margin: 1.5vmin 0;
     padding: 0 0.5vmin;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 500;
   }
 
   .devtools-option span {
@@ -1650,7 +1776,7 @@
       flex-wrap: wrap;
     }
 
-    .option > span:first-child {
+    .option-label span {
       font-size: 1rem;
     }
 
@@ -1659,6 +1785,8 @@
     }
 
     .switch-button,
+    .options-space-item,
+    .options-back,
     .theme-button,
     .color-scheme-button,
     .theme-option,
@@ -1669,6 +1797,7 @@
     }
 
     .switch-button,
+    .options-space-item,
     .theme-button,
     .color-scheme-button {
       padding: 0.75rem 1rem;
@@ -1693,7 +1822,6 @@
     }
 
     .dropdown-arrow,
-    .triangle,
     .checkmark {
       font-size: 0.95rem;
     }
