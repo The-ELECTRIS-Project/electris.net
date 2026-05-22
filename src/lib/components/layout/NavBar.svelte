@@ -25,7 +25,7 @@
     setIgnoreExcludedSuffixes
   } from '$lib/utils/devTools';
   import Hamburger from '$lib/components/ui/Hamburger.svelte';
-  import SettingsIcon, { type IconName } from '$lib/components/ui/icons/SettingsIcon.svelte';
+  import SettingsIcon, { type IconName } from '$lib/components/ui/icons/Settings.svelte';
 
   type OptionsSpace = 'appearance' | 'interface' | 'devtools' | 'site-data' | 'youtube-api';
 
