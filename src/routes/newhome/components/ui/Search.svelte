@@ -17,6 +17,8 @@
       className: 'hovered-new-search',
       requireAllSelectors: true,
       lockPosition: true,
+      dynamicSizeOffset: 0.2,
+      dynamicBorderRadiusOffset: 0.2,
       trackingTarget: '.search-wrapper'
     }
   ];

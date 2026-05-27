@@ -3,9 +3,9 @@
   import { t, i18nState } from '$lib/state/i18n.svelte';
   import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
   import { modsState } from '$lib/state/mods.svelte';
-  import PinsGrid from '$lib/components/ui/PinsGrid.svelte';
-  import Customize from '$lib/components/ui/Customize.svelte';
-  import Search from '$lib/components/ui/Search.svelte';
+  import PinsGrid from './components/ui/PinsGrid.svelte';
+  import Customize from './components/ui/Customize.svelte';
+  import Search from './components/ui/Search.svelte';
   
   let currentTime = $state(new Date());
   let i18nInitialized = $state(false);
@@ -19,13 +19,7 @@
       className: 'hovered-new-search',
       requireAllSelectors: true,
       lockPosition: true,
-      trackingTarget: '.search-wrapper',
-      wrapText: {
-        words: false,
-        sentences: false,
-        ignorePunctuation: false,
-        ignoreCharacters: false
-      }
+      trackingTarget: '.search-wrapper'
     }
   ];
 
@@ -137,7 +131,7 @@
   {/if}
   
   {#if showQuickPins}
-    <h2 class="section-title">
+    <h2 class="section-title wrap-sentence">
       {t('newhome.pins.title')}
     </h2>
 

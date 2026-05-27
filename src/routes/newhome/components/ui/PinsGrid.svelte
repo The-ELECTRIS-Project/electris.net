@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/state/i18n.svelte';
   import { browser } from '$app/environment';
-  import { useHoverConfig, type HoverConfig } from '$lib/state/hoverConfig.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { modsState } from '$lib/state/mods.svelte';
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
@@ -32,18 +32,42 @@
     }
   });
 
-  const hoverConfigs: HoverConfig[] = [
+  useHoverConfig([
     {
-      selectors: ['.pin-card'],
+      selectors: {
+        include: ['.pin-card'],
+        exclude: ['.pin-card.empty']
+      },
       className: 'hovered-pin',
       requireAllSelectors: false,
       lockPosition: true,
       trackingTarget: '.pin-link',
-      positionOffset: { y: -0.03 }
+      dynamicSizeOffset: 0.5,
+      dynamicBorderRadiusOffset: 0.2,
+      positionOffset: {
+        x: 0.01,
+        y: -0.03
+      }
+    },
+    {
+      selectors: {
+        include: ['.pin-card.empty']
+      },
+      className: 'hovered-pin',
+      requireAllSelectors: false,
+      lockPosition: true,
+      trackingTarget: '.pin-link',
+      dynamicSizeOffset: {
+        width: 0.5,
+        height: 0.8
+      },
+      dynamicBorderRadiusOffset: 0.25,
+      positionOffset: {
+        x: -0.01,
+        y: -0.03
+      }
     }
-  ];
-
-  useHoverConfig(hoverConfigs);
+  ]);
 
   let totalPins = $derived(gridCols * gridRows);
   let gridWidth = $derived((gridCols * basePinSize) + ((gridCols - 1) * 1.6));
