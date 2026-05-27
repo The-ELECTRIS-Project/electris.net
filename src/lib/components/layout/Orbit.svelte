@@ -680,6 +680,19 @@
     }));
   }
 
+  function getIncludeSelectors(config: HoverConfig): string[] {
+    return Array.isArray(config.selectors) ? config.selectors : config.selectors.include;
+  }
+
+  function getExcludeSelectors(config: HoverConfig): string[] {
+    return Array.isArray(config.selectors) ? [] : (config.selectors.exclude || []);
+  }
+
+  function isDefaultConfig(config: HoverConfig): boolean {
+    const includes = getIncludeSelectors(config);
+    return includes.length >= 7 && includes.includes('a') && includes.includes('p');
+  }
+
   function elementMatchesConfig(target: HTMLElement, config: HoverConfig): { matches: boolean, element: HTMLElement | null } {
     if (hasNoInteractClass(target)) {
       return { matches: false, element: null };
@@ -693,20 +706,30 @@
       }
     }
 
+    const excludes = getExcludeSelectors(config);
+    if (excludes.length > 0) {
+      const matchesExclude = excludes.some(selector => target.closest(selector));
+      if (matchesExclude) {
+        return { matches: false, element: null };
+      }
+    }
+
+    const includes = getIncludeSelectors(config);
+
     if (config.requireAllSelectors) {
-      const matchesAll = config.selectors.every(selector => {
+      const matchesAll = includes.every(selector => {
         const matchedElement = target.closest(selector);
         return matchedElement && !hasNoInteractClass(matchedElement as HTMLElement);
       });
       if (matchesAll) {
-        const element = target.closest(config.selectors[0]) as HTMLElement;
+        const element = target.closest(includes[0]) as HTMLElement;
         if (element && !hasNoInteractClass(element)) {
           return { matches: true, element };
         }
       }
       return { matches: false, element: null };
     } else {
-      const matchedSelector = config.selectors.find(selector => {
+      const matchedSelector = includes.find(selector => {
         const matchedElement = target.closest(selector);
         return matchedElement && !hasNoInteractClass(matchedElement as HTMLElement);
       });
@@ -766,14 +789,14 @@
     const elementsWithCustomOverrides = new Set<HTMLElement>();
     
     configElementPairs.forEach(({ config, element }) => {
-      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      const isDefault = isDefaultConfig(config);
       if ((config.type && config.type.length > 0) || !isDefault) {
         elementsWithCustomOverrides.add(element);
       }
     });
 
     return configElementPairs.filter(({ config, element }) => {
-      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      const isDefault = isDefaultConfig(config);
       if ((config.type && config.type.length > 0) || !isDefault) {
         return true;
       }
@@ -801,14 +824,14 @@
     const elementsWithCustomOverrides = new Set<HTMLElement>();
     
     configElementPairs.forEach(({ config, element }) => {
-      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      const isDefault = isDefaultConfig(config);
       if ((config.type && config.type.length > 0) || !isDefault) {
         elementsWithCustomOverrides.add(element);
       }
     });
 
     return configElementPairs.filter(({ config, element }) => {
-      const isDefault = config.selectors.length >= 7 && config.selectors.includes('a') && config.selectors.includes('p');
+      const isDefault = isDefaultConfig(config);
       if ((config.type && config.type.length > 0) || !isDefault) {
         return true;
       }

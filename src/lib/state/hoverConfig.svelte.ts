@@ -36,7 +36,7 @@ export interface ShadowEffect {
 
 export interface HoverConfig {
   type?: string[];
-  selectors: string[];
+  selectors: string[] | { include: string[], exclude?: string[] };
   className: string;
   lockPosition?: boolean;
   requireAllSelectors?: boolean;
