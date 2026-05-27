@@ -38,8 +38,7 @@
   let isTransitioning = $state(false);
   let transitionStartTime = 0;
 
-  let currentWord: { element: HTMLElement, bounds: DOMRect, text: string } | null = $state(null);
-  let wordHoverPadding = 0.8;
+  let currentWord: { element: HTMLElement, bounds: DOMRect, text: string, range?: Range } | null = $state(null);
 
   let hoverConfigs = $derived(hoverConfigState.configs);
   const hoveredElements = new Set<HTMLElement>();
@@ -48,7 +47,7 @@
   // Measurement and style caching
   let cachedRects = new Map<HTMLElement, DOMRect>();
   let cachedStyles = new Map<HTMLElement, CSSStyleDeclaration>();
-  let cachedWordBounds = new Map<HTMLElement, { element: HTMLElement, bounds: DOMRect, text: string }[]>();
+  let cachedWordBounds = new Map<HTMLElement, { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[]>();
 
   let lastCheckX = -1;
   let lastCheckY = -1;
@@ -377,7 +376,7 @@
     return element.classList.contains('wrap-sentence');
   }
 
-  function getWordAtPosition(x: number, y: number, wrapConfig: HoverConfig['wrapText'], targetElement?: HTMLElement): { element: HTMLElement, bounds: DOMRect, text: string } | null {
+  function getWordAtPosition(x: number, y: number, wrapConfig: HoverConfig['wrapText'], targetElement?: HTMLElement): { element: HTMLElement, bounds: DOMRect, text: string, range?: Range } | null {
     if (!wrapConfig) return null;
     
     const words = wrapConfig.words ?? false;
@@ -443,7 +442,7 @@
       } else if (words) {
         if (!cachedWordBounds.has(textElement)) {
             const textNodes = getTextNodes(textElement);
-            const wordList: { element: HTMLElement, bounds: DOMRect, text: string }[] = [];
+            const wordList: { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[] = [];
             
             for (const textNode of textNodes) {
               const wordsInNode = getWordsFromTextNode(textNode, { 
@@ -495,14 +494,13 @@
     return textNodes;
   }
 
-  function getWordsFromTextNode(textNode: Text, filterConfig: { ignorePunctuation: boolean, ignoreCharacters: boolean }): { element: HTMLElement, bounds: DOMRect, text: string }[] {
+  function getWordsFromTextNode(textNode: Text, filterConfig: { ignorePunctuation: boolean, ignoreCharacters: boolean }): { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[] {
     const text = textNode.textContent || '';
     const words = text.split(/\s+/).filter(word => word.length > 0);
-    const results: { element: HTMLElement, bounds: DOMRect, text: string }[] = [];
+    const results: { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[] = [];
     
     if (words.length === 0) return results;
 
-    const range = document.createRange();
     let currentIndex = 0;
 
     for (let i = 0; i < words.length; i++) {
@@ -544,15 +542,17 @@
         }
       }
       
-      range.setStart(textNode, actualStart);
-      range.setEnd(textNode, actualEnd);
+      const wordRange = document.createRange();
+      wordRange.setStart(textNode, actualStart);
+      wordRange.setEnd(textNode, actualEnd);
       
-      const rect = range.getBoundingClientRect();
+      const rect = wordRange.getBoundingClientRect();
       const parentElement = textNode.parentElement as HTMLElement;
       results.push({
         element: parentElement,
         bounds: rect,
-        text: range.toString()
+        text: wordRange.toString(),
+        range: wordRange
       });
       
       currentIndex = wordEnd;
@@ -566,12 +566,16 @@
       return { x: circle.x, y: circle.y, width: vminToPx(2), height: vminToPx(2) };
     }
 
-    const padding = vminToPx(wordHoverPadding);
+    const liveBounds = currentWord.range 
+      ? currentWord.range.getBoundingClientRect() 
+      : currentWord.element.getBoundingClientRect();
+
+    const padding = vminToPx(0.8);
     return {
-      x: currentWord.bounds.left + currentWord.bounds.width / 2,
-      y: currentWord.bounds.top + currentWord.bounds.height / 2,
-      width: currentWord.bounds.width + padding * 2,
-      height: currentWord.bounds.height + padding * 2
+      x: liveBounds.left + liveBounds.width / 2,
+      y: liveBounds.top + liveBounds.height / 2,
+      width: liveBounds.width + padding * 2,
+      height: liveBounds.height + padding * 2
     };
   }
 
@@ -615,13 +619,13 @@
   function getTargetCenter(element: HTMLElement, config: HoverConfig): TargetMetrics {
     if (config.wrapText && currentWord) {
       const bounds = getWordHoverBounds();
-      const padding = vminToPx(wordHoverPadding);
+      const borderRadiusPx = vminToPx(0.6);
       return {
         x: bounds.x,
         y: bounds.y,
         width: bounds.width,
         height: bounds.height,
-        borderRadius: resolveTargetBorderRadius({ x: padding, y: padding }, config, bounds.width, bounds.height)
+        borderRadius: resolveTargetBorderRadius({ x: borderRadiusPx, y: borderRadiusPx }, config, bounds.width, bounds.height)
       };
     }
 
@@ -850,7 +854,7 @@
     return words || sentences;
   }
 
-  function getWordAtPositionWithHierarchy(x: number, y: number): { element: HTMLElement, bounds: DOMRect, text: string, config: HoverConfig } | null {
+  function getWordAtPositionWithHierarchy(x: number, y: number): { element: HTMLElement, bounds: DOMRect, text: string, config: HoverConfig, range?: Range } | null {
     const applicableConfigs = getApplicableConfigsForPosition(x, y);
     
     const sortedConfigs = applicableConfigs.sort((a, b) => {
@@ -912,10 +916,19 @@
       return;
     }
     
-    const { element, bounds, text, config } = wordResult;
-    const isNewWord = !currentWord || 
-      currentWord.text !== text || 
-      Math.abs(currentWord.bounds.left - bounds.left) > 1;
+    const { element, bounds, text, config, range } = wordResult;
+    
+    let isNewWord = false;
+    if (!currentWord) {
+      isNewWord = true;
+    } else if (range && currentWord.range) {
+      isNewWord = currentWord.range.startContainer !== range.startContainer ||
+                   currentWord.range.startOffset !== range.startOffset;
+    } else if (!range && !currentWord.range) {
+      isNewWord = currentWord.element !== element;
+    } else {
+      isNewWord = true;
+    }
     
     if (isNewWord) {
       if (currentWord && hoveredElements.has(currentWord.element)) {
@@ -928,7 +941,7 @@
         }
       }
       
-      currentWord = { element, bounds, text };
+      currentWord = { element, bounds, text, range };
       
       if (!hoveredElements.has(element)) {
         hoveredElements.add(element);
@@ -1245,7 +1258,12 @@
       // Dynamic tracking: If we're locked to an element, we MUST refresh its bounds 
       // every frame in case it's moving independently of scroll (e.g. parallax).
       if (lockedElement) {
-        cachedRects.set(lockedElement, lockedElement.getBoundingClientRect());
+        const oldRect = cachedRects.get(lockedElement);
+        const newRect = lockedElement.getBoundingClientRect();
+        if (oldRect && (oldRect.left !== newRect.left || oldRect.top !== newRect.top || oldRect.width !== newRect.width || oldRect.height !== newRect.height)) {
+          cachedWordBounds.delete(lockedElement);
+        }
+        cachedRects.set(lockedElement, newRect);
         // Also refresh style in case z-index changed
         cachedStyles.delete(lockedElement);
       }
