@@ -467,7 +467,7 @@
 
   function isTextElement(element: HTMLElement): boolean {
     const tagName = element.tagName.toLowerCase();
-    const textTags = ['a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'time'];
+    const textTags = ['a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div', 'time', 'label'];
     const hasTextClass = element.classList.contains('time') || element.classList.contains('date');
     
     return textTags.includes(tagName) || hasTextClass;

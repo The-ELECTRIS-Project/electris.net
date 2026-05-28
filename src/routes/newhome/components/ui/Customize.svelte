@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { modsState } from '$lib/state/mods.svelte';
+  import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let isMenuOpen = $state(false);
   let isClosing = $state(false);
@@ -11,6 +12,32 @@
   let openLinksInNewTabs = $derived(modsState.config.newHome.openLinksInNewTabs);
   let showQuickPins = $derived(modsState.config.newHome.showQuickPins);
   let showSearchBar = $derived(modsState.config.newHome.showSearchBar);
+
+  useHoverConfig([
+    {
+      selectors: ['.customize-button', '.edit-close-button', '.control-btn'],
+      className: 'hovered-customize-button',
+      lockPosition: true,
+      dynamicSizeOffset: 0.2,
+      dynamicBorderRadiusOffset: 0.2
+    },
+    {
+      selectors: ['.toggle-switch'],
+      className: 'hovered-customize-toggle',
+      lockPosition: true,
+      dynamicSizeOffset: 1.2,
+      dynamicBorderRadiusOffset: 0.5
+    },
+    {
+      type: ['h3'],
+      selectors: ['.settings-title'],
+      className: 'hovered-word-wrap',
+      lockPosition: true,
+      wrapText: {
+        sentences: true
+      }
+    }
+  ]);
   
   const MIN_COLS = 2;
   const MAX_COLS = 8;

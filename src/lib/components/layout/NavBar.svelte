@@ -79,13 +79,20 @@
       absoluteBorderRadiusOffset: 0.8
     },
     {
-      selectors: [ '.option', '.options-space-item', '.options-back' ],
+      selectors: [
+        '.option',
+        '.options-space-item',
+        '.options-back',
+        '.theme-button',
+        '.color-scheme-button',
+        '.theme-option',
+        '.color-scheme-option',
+        '.toggle-switch-mini',
+        '.reset-button',
+        '.confirm-btn'
+      ],
       className: 'hovered-word-wrap',
-      lockPosition: true,
-      wrapText: {
-        words: false,
-        sentences: false
-      }
+      lockPosition: true
     },
     {
       selectors: ['.hamburger-footer', '.footer'],
