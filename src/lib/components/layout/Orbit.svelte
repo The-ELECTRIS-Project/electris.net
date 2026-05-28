@@ -48,6 +48,7 @@
   let cachedRects = new Map<HTMLElement, DOMRect>();
   let cachedStyles = new Map<HTMLElement, CSSStyleDeclaration>();
   let cachedWordBounds = new Map<HTMLElement, { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[]>();
+  let cachedSentenceBounds = new Map<HTMLElement, { element: HTMLElement, bounds: DOMRect, text: string, range: Range, rects: DOMRectList }>();
 
   let lastCheckX = -1;
   let lastCheckY = -1;
@@ -88,13 +89,6 @@
       cachedStyles.set(element, window.getComputedStyle(element));
     }
     return cachedStyles.get(element)!;
-  }
-
-  function getCachedRect(element: HTMLElement): DOMRect {
-    if (!cachedRects.has(element)) {
-      cachedRects.set(element, element.getBoundingClientRect());
-    }
-    return cachedRects.get(element)!;
   }
 
   function parseCssLengthToPx(value: string, reference: number): number {
@@ -428,15 +422,35 @@
       const useSentences = hasWrapSentenceClass(textElement) || sentences;
       
       if (useSentences) {
-        const rect = getCachedRect(textElement);
-        if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        if (!cachedSentenceBounds.has(textElement)) {
+          const range = document.createRange();
+          range.selectNodeContents(textElement);
+          const rects = range.getClientRects();
+          const bounds = range.getBoundingClientRect();
           const text = textElement.textContent?.trim() || '';
-          if (text.length > 0) {
-            return {
-              element: textElement,
-              bounds: rect,
-              text: text
-            };
+          
+          cachedSentenceBounds.set(textElement, {
+            element: textElement,
+            bounds: bounds,
+            text: text,
+            range: range,
+            rects: rects
+          });
+        }
+        
+        const cached = cachedSentenceBounds.get(textElement)!;
+        let isOverText = false;
+        for (let j = 0; j < cached.rects.length; j++) {
+          const r = cached.rects[j];
+          if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+            isOverText = true;
+            break;
+          }
+        }
+
+        if (isOverText) {
+          if (cached.text.length > 0) {
+            return cached;
           }
         }
       } else if (words) {
@@ -1176,6 +1190,7 @@
       cachedRects.clear();
       cachedStyles.clear();
       cachedWordBounds.clear();
+      cachedSentenceBounds.clear();
       lastCheckX = -1;
       lastCheckY = -1;
     };
@@ -1253,6 +1268,7 @@
         cachedRects.clear();
         cachedStyles.clear();
         cachedWordBounds.clear();
+        cachedSentenceBounds.clear();
       }
 
       // Dynamic tracking: If we're locked to an element, we MUST refresh its bounds 
@@ -1262,6 +1278,7 @@
         const newRect = lockedElement.getBoundingClientRect();
         if (oldRect && (oldRect.left !== newRect.left || oldRect.top !== newRect.top || oldRect.width !== newRect.width || oldRect.height !== newRect.height)) {
           cachedWordBounds.delete(lockedElement);
+          cachedSentenceBounds.delete(lockedElement);
         }
         cachedRects.set(lockedElement, newRect);
         // Also refresh style in case z-index changed
