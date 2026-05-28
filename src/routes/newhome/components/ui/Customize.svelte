@@ -18,6 +18,7 @@
       selectors: ['.customize-button', '.edit-close-button', '.control-btn'],
       className: 'hovered-customize-button',
       lockPosition: true,
+      color: '#FFF',
       dynamicSizeOffset: 0.2,
       dynamicBorderRadiusOffset: 0.2
     },
@@ -25,6 +26,7 @@
       selectors: ['.toggle-switch'],
       className: 'hovered-customize-toggle',
       lockPosition: true,
+      color: '#FFF',
       dynamicSizeOffset: 1.2,
       dynamicBorderRadiusOffset: 0.5
     },
