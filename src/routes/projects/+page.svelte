@@ -11,15 +11,15 @@
       font: 'Nightcore',
       description: t('proj.twaos.desc.long'),
       icon: '/media/TWAOS/Logo/twaos.svg',
-      width: 8,
+      width: 6,
       link: '/projects/games/TWAOS'
     },
     {
       title: t('site.newhome.title'),
-      font: 'Letric',
+      font: 'Tourner',
       description: t('site.newhome.slogan'),
       icon: '/icons/logo/FirstParty/newhome-v1.svg',
-      width: 8,
+      width: 6,
       link: '/newhome'
     }
   ]);
