@@ -22,6 +22,7 @@ export interface SiteModsConfig {
   cookieDisclosureDismissed: boolean;
   mobilePopupDismissed: boolean;
   hideScrollbar: boolean;
+  disableOrbit: boolean;
 }
 
 export interface NewHomeModsConfig {
@@ -56,7 +57,8 @@ const DEFAULT_SITE_MODS: SiteModsConfig = {
   locale: null,
   cookieDisclosureDismissed: false,
   mobilePopupDismissed: false,
-  hideScrollbar: false
+  hideScrollbar: false,
+  disableOrbit: false
 };
 
 const DEFAULT_NEW_HOME_MODS: NewHomeModsConfig = {
@@ -130,6 +132,7 @@ function applySiteMods(config: SiteModsConfig, source: unknown) {
   config.cookieDisclosureDismissed = readBoolean(source.cookieDisclosureDismissed, config.cookieDisclosureDismissed);
   config.mobilePopupDismissed = readBoolean(source.mobilePopupDismissed, config.mobilePopupDismissed);
   config.hideScrollbar = readBoolean(source.hideScrollbar, config.hideScrollbar);
+  config.disableOrbit = readBoolean(source.disableOrbit, config.disableOrbit);
 }
 
 function applyNewHomeMods(config: NewHomeModsConfig, source: unknown) {

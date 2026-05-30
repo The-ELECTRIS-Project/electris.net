@@ -68,6 +68,7 @@
   let showDevTools = $derived(envInfo.isProduction ? false : (envInfo.isDevelopment || envInfo.isCanary));
   let ignoreExcludedSuffixes = $derived(modsState.config.devTools.ignoreExcludedSuffixes);
   let hideScrollbar = $derived(modsState.config.site.hideScrollbar);
+  let disableOrbit = $derived(modsState.config.site.disableOrbit);
 
   useHoverConfig([
     {
@@ -424,6 +425,10 @@
     themeState.applyCurrentStyles();
   }
 
+  function toggleDisableOrbit() {
+    modsState.updateSetting('site', 'disableOrbit', !disableOrbit);
+  }
+
   function handleCookieReset() {
     showCookieConfirmDialog = true;
   }
@@ -717,6 +722,21 @@
                     class:active={hideScrollbar}
                     onclick={toggleHideScrollbar}
                     aria-label="Toggle hide scrollbar"
+                  >
+                    <span class="toggle-slider-mini"></span>
+                  </button>
+                </div>
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="orbit" size="1.1rem" />
+                    <span>{t('nav.options.orbit.disable', 'Disable Orbit')}</span>
+                  </div>
+                  <button
+                    type="button"
+                    class="toggle-switch-mini"
+                    class:active={disableOrbit}
+                    onclick={toggleDisableOrbit}
+                    aria-label="Toggle disable orbit"
                   >
                     <span class="toggle-slider-mini"></span>
                   </button>

@@ -22,6 +22,7 @@
   "nav.options.interface": "الواجهة",
   "nav.options.space.interface": "الواجهة",
   "nav.options.scrollbar.hide": "إخفاء شريط التمرير",
+  "nav.options.orbit.disable": "تعطيل أوربيت",
   "nav.options.switch.prod": "التبديل إلى الإصدار الرئيسي",
   "nav.options.switch.test": "التبديل إلى الإصدار الكناري",
   "nav.options.switch.dev": "التبديل إلى إصدار التطوير",

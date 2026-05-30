@@ -6,6 +6,7 @@
     | 'color'
     | 'language' 
     | 'scrollbar'
+    | 'orbit'
     | 'devtools' 
     | 'sitedata' 
     | 'ytapi' 
@@ -50,6 +51,10 @@
     },
     scrollbar: {
       path: '<rect x="17" y="3" width="4" height="18" rx="2" /><rect x="18" y="7" width="2" height="6" rx="1" fill="currentColor" />',
+      viewBox: '0 0 24 24'
+    },
+    orbit: {
+      path: '<circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="3" fill="currentColor" />',
       viewBox: '0 0 24 24'
     },
     devtools: {

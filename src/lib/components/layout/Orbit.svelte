@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { afterNavigate } from '$app/navigation';
   import { themeState } from '$lib/state/theme.svelte';
+  import { modsState } from '$lib/state/mods.svelte';
   import { hoverConfigState, type HoverConfig } from '$lib/state/hoverConfig.svelte';
 
   let circleElement: HTMLElement | undefined = $state();
@@ -21,7 +22,8 @@
   let touchVisibility = $state(1);
   let isTouchCapable = $state(false);
   let lastInputWasTouch = $state(false);
-  let isOrbitEnabled = $state(false);
+  let hasFinePointer = $state(false);
+  let isOrbitEnabled = $derived(hasFinePointer && !modsState.config.site.disableOrbit);
 
   let hasDetectedCursor = $state(false);
   let isSpawning = $state(false);
@@ -1170,7 +1172,14 @@
     if (cleanupHoverDetection) cleanupHoverDetection();
     if (!isOrbitEnabled) {
       cleanupHoverDetection = null;
+      if (circleElement) {
+        circleElement.style.display = 'none';
+        circleElement.style.opacity = '0';
+      }
       return;
+    }
+    if (circleElement) {
+      circleElement.style.display = '';
     }
     cleanupHoverDetection = setupHoverDetection();
   });
@@ -1180,16 +1189,7 @@
       'ontouchstart' in window ||
       window.matchMedia('(any-pointer: coarse)').matches;
 
-    const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
-    isOrbitEnabled = hasFinePointer;
-
-    if (!isOrbitEnabled) {
-      if (circleElement) {
-        circleElement.style.display = 'none';
-        circleElement.style.opacity = '0';
-      }
-      return;
-    }
+    hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
 
     touchVisibility = isTouchCapable ? 0 : 1;
 
@@ -1258,6 +1258,11 @@
     lastScrollY = window.scrollY;
 
     const tick = () => {
+      if (!isOrbitEnabled) {
+        animationFrameId = requestAnimationFrame(tick);
+        return;
+      }
+
       if (hasDetectedCursor) {
         if (!isSpawning && spawnProgress < 1) {
           isSpawning = true;
