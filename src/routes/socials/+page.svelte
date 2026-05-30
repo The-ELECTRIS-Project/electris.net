@@ -117,7 +117,7 @@
 
 <div class="socials-page">
   <div class="hero">
-    <h1>{t('social.title')}</h1>
+    <h1 class="wrap-sentence">{t('social.title')}</h1>
     <p>{t('social.undertitle')}</p>
   </div>
 
