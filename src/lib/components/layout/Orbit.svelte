@@ -512,16 +512,38 @@
 
   function getWordsFromTextNode(textNode: Text, filterConfig: { ignorePunctuation: boolean, ignoreCharacters: boolean }): { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[] {
     const text = textNode.textContent || '';
-    const words = text.split(/\s+/).filter(word => word.length > 0);
+    const initialWords = text.split(/\s+/).filter(word => word.length > 0);
     const results: { element: HTMLElement, bounds: DOMRect, text: string, range?: Range }[] = [];
     
-    if (words.length === 0) return results;
+    if (initialWords.length === 0) return results;
 
     let currentIndex = 0;
+    const wordsToProcess: { text: string, originalStart: number }[] = [];
 
-    for (let i = 0; i < words.length; i++) {
-      let word = words[i];
-      const wordStart = text.indexOf(word, currentIndex);
+    for (const w of initialWords) {
+      const start = text.indexOf(w, currentIndex);
+      currentIndex = start + w.length;
+
+      const hasSeparators = /[\\/|]/.test(w);
+      const hasContent = /[\p{L}\p{N}]/u.test(w);
+      
+      if (hasSeparators && hasContent && !/^[\\/|]+$/.test(w)) {
+        const subParts = w.split(/([\\/|]+)/);
+        let subOffset = 0;
+        for (const part of subParts) {
+          if (part && !/^[\\/|]+$/.test(part)) {
+            wordsToProcess.push({ text: part, originalStart: start + subOffset });
+          }
+          subOffset += part.length;
+        }
+      } else {
+        wordsToProcess.push({ text: w, originalStart: start });
+      }
+    }
+
+    for (const item of wordsToProcess) {
+      let word = item.text;
+      const wordStart = item.originalStart;
       let wordEnd = wordStart + word.length;
       
       let actualStart = wordStart;
