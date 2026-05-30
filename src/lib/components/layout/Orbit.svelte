@@ -28,8 +28,10 @@
   let spawnProgress = $state(0);
   let spawnStartTime = 0;
 
-  function easeInOutQuad(t: number): number {
-    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  function easeOutBack(t: number): number {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
   }
 
   let lockedElement: HTMLElement | null = $state(null);
@@ -1198,6 +1200,7 @@
     window.addEventListener("touchstart", handleTouchStart);
     window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener("mouseenter", handleMouseMove);
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
@@ -1234,18 +1237,20 @@
 
     const tick = () => {
       if (hasDetectedCursor) {
+        if (!isSpawning && spawnProgress < 1) {
+          isSpawning = true;
+          spawnStartTime = performance.now();
+          circle.x = mouse.x;
+          circle.y = mouse.y;
+        }
+
         if (isSpawning) {
           const elapsed = performance.now() - spawnStartTime;
-          const rawProgress = Math.min(elapsed / 100, 1);
-          spawnProgress = easeInOutQuad(rawProgress);
+          const duration = 350;
+          const rawProgress = Math.min(elapsed / duration, 1);
+          spawnProgress = easeOutBack(rawProgress);
           if (rawProgress === 1) {
             isSpawning = false;
-          }
-        } else if (spawnProgress < 1) {
-          const dist = Math.hypot(mouse.x - circle.x, mouse.y - circle.y);
-          if (dist < 1) {
-            isSpawning = true;
-            spawnStartTime = performance.now();
           }
         }
       } else {
@@ -1406,9 +1411,7 @@
       finalScaleY *= touchVisibility;
 
       const allowRotation = shouldAllowRotation();
-      const scaleTransform = (!allowRotation)
-        ? ``
-        : `scale(${finalScaleX}, ${finalScaleY})`;
+      const scaleTransform = `scale(${finalScaleX}, ${finalScaleY})`;
 
       const angle = Math.atan2(deltaMouseY, deltaMouseX) * 180 / Math.PI;
 
@@ -1429,15 +1432,13 @@
         : `rotate(${currentAngle}deg)`;
 
       if (circleElement) {
-        if (lockedElement && lockedConfig) {
-          if (lockedConfig.matchRotation) {
-            circleElement.style.transform = `${translateTransform} ${rotateTransform}`;
-          } else {
-            circleElement.style.transform = translateTransform;
-          }
-        } else {
-          circleElement.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
+        let finalTransform = translateTransform;
+        if (allowRotation) {
+          finalTransform += ` ${rotateTransform}`;
         }
+        finalTransform += ` ${scaleTransform}`;
+        
+        circleElement.style.transform = finalTransform;
 
         circleElement.style.opacity = `${touchVisibility * spawnProgress}`;
       }
