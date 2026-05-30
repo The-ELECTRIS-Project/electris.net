@@ -370,8 +370,8 @@
     showColorSchemeDropdown = !showColorSchemeDropdown;
   }
 
-  function handleOptionsToggle(event: MouseEvent) {
-    event.stopPropagation();
+  function handleOptionsToggle(event?: MouseEvent | KeyboardEvent) {
+    if (event) event.stopPropagation();
     showOptions = !showOptions;
     if (!showOptions) {
       showThemeDropdown = false;
@@ -529,6 +529,7 @@
 </nav>
 
 {#if showOptions}
+  <div class="options-overlay" role="button" tabindex="0" onclick={() => handleOptionsToggle()} onkeydown={(e) => e.key === 'Escape' && handleOptionsToggle()} transition:fade={{ duration: 200 }} aria-label="Close Options"></div>
   <div class="options-menu" transition:fade={{ duration: 200 }}>
     <div transition:slide={{ duration: 300 }}>
       <h2>{t('nav.options', 'Options')}</h2>
@@ -993,6 +994,25 @@
     transform-origin: center;
   }
   
+  .options-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 150;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  @media (any-pointer: coarse) {
+    .options-overlay {
+      display: block;
+    }
+  }
+
   .options-menu {
     position: fixed;
     top: 5.15vmin;
@@ -1657,12 +1677,18 @@
     }
 
     .options-menu {
-      top: calc(env(safe-area-inset-top) + 4.25rem);
-      right: 0.75rem;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
       width: min(26rem, calc(100vw - 1.5rem));
       min-width: auto;
       max-width: none;
       padding: 1rem;
+    }
+
+    .options-overlay {
+      display: block;
     }
   }
 
@@ -1683,9 +1709,15 @@
     }
 
     .options-menu {
-      left: 0.75rem;
-      right: 0.75rem;
-      width: auto;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
+      width: min(24rem, calc(100vw - 1.5rem));
+    }
+
+    .options-overlay {
+      display: block;
     }
 
     .option {
@@ -1766,8 +1798,10 @@
     }
 
     .options-menu {
-      top: calc(env(safe-area-inset-top) + 4.5rem);
-      right: 0.75rem;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -50%);
       min-width: min(28rem, calc(100vw - 1.5rem));
       max-width: min(30rem, calc(100vw - 1.5rem));
       padding: 1rem;
