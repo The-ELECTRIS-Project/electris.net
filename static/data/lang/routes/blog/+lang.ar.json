@@ -6,6 +6,8 @@
   "blog.search.placeholder": "...ابحث في الأفكار",
   "blog.tags.all": "جميع المرشحات",
   "blog.tags.clear": "إزالة المرشحات",
+  "blog.tags.selected": "المرشحات المختارة",
+  "blog.tags.filter": "تصفية حسب المرشحات",
   "blog.results.none": "لم يتم العثور على أي أفكار",
   "blog.results.tryagain": ".حاول تعديل استعلام البحث أو عوامل التصفية"
 }

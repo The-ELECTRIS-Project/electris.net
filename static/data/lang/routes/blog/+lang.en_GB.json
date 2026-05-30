@@ -6,6 +6,8 @@
   "blog.search.placeholder": "Search through thoughts...",
   "blog.tags.all": "All Tags",
   "blog.tags.clear": "Clear Tags",
+  "blog.tags.selected": "Tags Selected",
+  "blog.tags.filter": "Filter by Tags",
   "blog.results.none": "No thoughts found",
   "blog.results.tryagain": "Try adjusting your search query or tags."
 }

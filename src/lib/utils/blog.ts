@@ -264,15 +264,15 @@ export function resolveCover(post: BlogPost, resolvedColorScheme: 'light' | 'dar
   return post.coverImage;
 }
 
-export function filterPosts(posts: BlogPost[], searchQuery: string, selectedTag: string): BlogPost[] {
+export function filterPosts(posts: BlogPost[], searchQuery: string, selectedTags: string[]): BlogPost[] {
   return posts.filter(post => {
     const matchesSearch = !searchQuery || 
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const matchesTag = !selectedTag || post.tags.includes(selectedTag);
+    const matchesTags = selectedTags.length === 0 || selectedTags.every(tag => post.tags.includes(tag));
     
-    return matchesSearch && matchesTag;
+    return matchesSearch && matchesTags;
   });
 }
 

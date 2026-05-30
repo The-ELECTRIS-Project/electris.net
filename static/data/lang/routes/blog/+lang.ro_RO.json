@@ -6,6 +6,8 @@
   "blog.search.placeholder": "Caută prin gânduri...",
   "blog.tags.all": "Toate Filtrele",
   "blog.tags.clear": "Elimină Filtrele",
+  "blog.tags.selected": "Tag-uri Selectate",
+  "blog.tags.filter": "Filtrează după Tag-uri",
   "blog.results.none": "Niciun gând găsit",
   "blog.results.tryagain": "Încearcă să schimbi căutarea sau filtrele"
 }

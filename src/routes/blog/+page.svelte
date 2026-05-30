@@ -4,15 +4,16 @@
   import { themeState } from '$lib/state/theme.svelte';
   import { filterPosts, getAllTags, formatDate, resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import TagFilter from './components/TagFilter.svelte';
 
   let { data } = $props();
 
   let posts = $derived(data.posts || []);
   let searchQuery = $state('');
-  let selectedTag = $state('');
+  let selectedTags = $state<string[]>([]);
   let allTags = $derived(getAllTags(posts));
   let loading = $state(false);
-  let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTag));
+  let filteredPosts = $derived(filterPosts(posts, searchQuery, selectedTags));
 
   useHoverConfig([
     {
@@ -28,10 +29,10 @@
       trackingTarget: '.search-input'
     },
     {
-      selectors: ['.tag-filter'],
+      selectors: ['.tag-filter-container'],
       className: 'hovered-blog-filter',
       customPositioning: {
-        targetSelector: '.tag-filter'
+        targetSelector: '.filter-trigger'
       },
       lockPosition: true
     }
@@ -68,7 +69,7 @@
 
   function clearFilters() {
     searchQuery = '';
-    selectedTag = '';
+    selectedTags = [];
   }
 </script>
 
@@ -105,17 +106,9 @@
     </div>
 
     <div class="filter-controls">
-      <select 
-        bind:value={selectedTag}
-        class="tag-filter"
-      >
-      <option value="">{t('blog.tags.all')}</option>
-        {#each allTags as tag}
-          <option value={tag}>{tag}</option>
-        {/each}
-      </select>
+      <TagFilter tags={allTags} bind:selectedTags={selectedTags} />
 
-      {#if searchQuery || selectedTag}
+      {#if searchQuery}
         <button 
           onclick={clearFilters}
           class="clear-filters"
@@ -347,24 +340,6 @@
     display: flex;
     gap: 1rem;
     align-items: center;
-  }
-
-  .tag-filter {
-    padding: 0.8rem 1rem;
-    background: rgba(246, 89, 1, 0.1);
-    border: 0.2vmin solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vmin;
-    font-family: 'Redwing';
-    font-size: 0.9rem;
-    color: inherit;
-    outline: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .tag-filter:focus {
-    border-color: rgba(246, 89, 1, 0.6);
-    box-shadow: 0 0 10px rgba(246, 89, 1, 0.2);
   }
 
   .clear-filters {
@@ -658,16 +633,9 @@
     }
 
     .search-input,
-    .tag-filter,
     .clear-filters {
       min-height: 3rem;
       font-size: 1rem;
-    }
-
-    .tag-filter {
-      width: min(10rem, 32vw);
-      min-width: 8rem;
-      flex: 0 0 auto;
     }
 
     .clear-filters {
@@ -714,11 +682,6 @@
     .filter-controls {
       max-width: 50%;
       gap: 0.55rem;
-    }
-
-    .tag-filter {
-      width: min(8.75rem, 38vw);
-      min-width: 7.4rem;
     }
 
     .post-link {
