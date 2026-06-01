@@ -194,7 +194,8 @@
     { label: t('nav.burger.home'), href: '/', newTab: false },
     { label: t('blog.title'), href: '/blog', newTab: false },
     { label: t('nav.burger.music'), href: '/music', newTab: false },
-    { label: t('nav.burger.social'), href: '/socials', newTab: false }
+    { label: t('nav.burger.social'), href: '/socials', newTab: false },
+    { label: t('nav.burger.donate'), href: '/donate', newTab: false }
   ]);
 
   $effect(() => {

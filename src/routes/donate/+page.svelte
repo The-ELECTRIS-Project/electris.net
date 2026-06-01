@@ -5,7 +5,7 @@
 
   useHoverConfig([
     {
-      selectors: ['.card'],
+      selectors: ['.card:not(.card-disabled)'],
       className: 'hovered-social-card',
       lockPosition: true
     },
@@ -38,110 +38,66 @@
 
   const projectLinks = $derived([
     {
-      title: t('site.platform.yt'),
+      title: 'Patreon',
       handle: 'ELECTRIS',
-      description: t('social.elts.yt.desc'),
-      platformLogo: '/icons/logo/ThirdParty/yt.svg',
-      url: 'https://youtube.com/@ELECTRIS'
-    },
-    {
-      title: t('site.platform.ma'),
-      handle: 'ELECTRIS',
-      description: t('social.mastodon.desc'),
-      platformLogo: '/icons/logo/ThirdParty/mastodon.svg',
-      url: 'https://mastodon.social/@ELECTRIS'
-    },
-    {
-      title: t('site.platform.mx'),
-      handle: t('social.server.name'),
-      description: t('social.matrix.desc'),
-      platformLogo: '/icons/logo/ThirdParty/matrix.svg',
-      url: '#',
-      status: 'coming-soon'
-    },
-    {
-      title: t('site.platform.ds'),
-      handle: t('social.server.name'),
-      description: t('social.discord.desc'),
-      platformLogo: '/icons/logo/ThirdParty/discord.svg',
-      url: 'https://discord.gg/TgtCGKxbZr',
-      status: 'deprecated'
+      platformLogo: '/icons/logo/ThirdParty/patreon.svg',
+      url: 'https://patreon.com/electris'
     }
   ]);
 
   const founderLinks = $derived([
     {
-      title: t('site.platform.yt'),
-      handle: 'ELEC7RO',
-      description: t('site.author.eltr.slogan'),
-      platformLogo: '/icons/logo/ThirdParty/yt.svg',
-      url: 'https://youtube.com/@ELEC7RO'
+      title: 'Liberapay',
+      handle: 'ELECTRO',
+      platformLogo: '/icons/logo/ThirdParty/liberapay.svg',
+      url: 'https://liberapay.com/ELECTRO/'
     },
     {
-      title: t('site.platform.gh'),
+      title: 'GitHub Sponsors',
       handle: 'ItzELECTR0',
-      description: t('social.eltr.gh.desc'),
       platformLogo: '/icons/logo/ThirdParty/github.svg',
-      url: 'https://github.com/ItzELECTR0'
-    }
-  ]);
-
-  const cofounderLinks = $derived([
+      url: 'https://github.com/sponsors/ItzELECTR0'
+    },
     {
-      title: t('site.platform.yt'),
-      handle: 'V4rrow',
-      description: t('social.vrrw.yt.desc'),
+      title: 'YouTube Members',
+      handle: 'ELEC7RO',
       platformLogo: '/icons/logo/ThirdParty/yt.svg',
-      url: 'https://youtube.com/@V4rrow'
-    },
-    {
-      title: t('site.platform.gh'),
-      handle: 'Varrow1',
-      description: t('social.vrrw.gh.desc'),
-      platformLogo: '/icons/logo/ThirdParty/github.svg',
-      url: 'https://github.com/Varrow1'
-    },
-    {
-      title: t('site.platform.x'),
-      handle: '0xVarrow',
-      description: t('social.vrrw.x.desc'),
-      platformLogo: '/icons/logo/ThirdParty/twitter.svg',
-      url: 'https://x.com/0xVarrow'
+      url: 'https://www.youtube.com/channel/UCmAjA2WP29GQ7eAKlQzKiYQ/join'
     }
   ]);
 </script>
 
 <svelte:head>
-  <title>Socials | ELECTRIS</title>
+  <title>{t('nav.burger.support')} | ELECTRIS</title>
+  <meta name="description" content={t('donate.undertitle')} />
 </svelte:head>
 
 <div class="socials-page">
   <div class="hero">
-    <h1 class="wrap-sentence">{t('social.title')}</h1>
-    <p>{t('social.undertitle')}</p>
+    <h1 class="wrap-sentence">{t('donate.title')}</h1>
+    <p>{t('donate.undertitle')}</p>
   </div>
 
   <div class="hub-container">
     <section class="hub-section">
       <div class="section-header">
         <img src="/icons/logo/FirstParty/elts-v1.png" alt="ELECTRIS" class="section-logo" />
-        <h2 class="section-title">{t('social.section.project')}</h2>
+        <div class="header-text">
+          <h2 class="section-title">{t('donate.section.project')}</h2>
+          <p class="section-desc">{t('donate.section.project.desc')}</p>
+        </div>
       </div>
       <div class="grid">
         {#each projectLinks as link}
-          <a class="card wrap-no-interact-all {link.status || ''}" href={link.url} target={link.url === '#' ? '_self' : '_blank'} rel="noopener noreferrer">
+          <a class="card wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
             <div class="icons">
               <img src={link.platformLogo} alt={link.title} class="platform-icon" />
             </div>
             <div class="card-text">
               <div class="card-header">
                 <h2 class="font-redwing">{link.title}</h2>
-                <span class="platform-tag {link.handle === 'ELECTRIS' ? 'tag-letric' : ''}">{link.handle}</span>
+                <span class="platform-tag tag-letric">{link.handle}</span>
               </div>
-              <p>{link.description}</p>
-              {#if link.status}
-                <span class="status-badge {link.status}">{link.status.replace('-', ' ')}</span>
-              {/if}
             </div>
           </a>
         {/each}
@@ -150,7 +106,10 @@
 
     <section class="hub-section team-section">
       <div class="section-header main-team-header">
-        <h2 class="section-title">{t('social.section.team')}</h2>
+        <div class="header-text">
+          <h2 class="section-title">{t('donate.section.team')}</h2>
+          <p class="section-desc">{t('donate.section.team.desc')}</p>
+        </div>
       </div>
       
       <div class="team-split">
@@ -170,7 +129,6 @@
                     <h2 class="font-redwing">{link.title}</h2>
                     <span class="platform-tag">{link.handle}</span>
                   </div>
-                  <p>{link.description}</p>
                 </div>
               </a>
             {/each}
@@ -183,20 +141,11 @@
             <h3>{t('site.author.vrrw')}</h3>
           </div>
           <div class="grid grid-small">
-            {#each cofounderLinks as link}
-              <a class="card card-compact wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
-                <div class="icons">
-                  <img src={link.platformLogo} alt={link.title} class="platform-icon" />
-                </div>
-                <div class="card-text">
-                  <div class="card-header">
-                    <h2 class="font-redwing">{link.title}</h2>
-                    <span class="platform-tag">{link.handle}</span>
-                  </div>
-                  <p>{link.description}</p>
-                </div>
-              </a>
-            {/each}
+            <div class="card card-compact card-disabled wrap-no-interact-all">
+              <div class="card-text">
+                <p>{t('donate.vrrw.no_donations.desc')}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -254,11 +203,25 @@
     gap: 20px;
     border-bottom: 2px solid #f65901;
     padding-bottom: 10px;
-    width: fit-content;
+    width: 100%;
   }
 
   .main-team-header {
     margin-bottom: 20px;
+  }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .section-desc {
+    margin: 0;
+    font-family: 'Aileron';
+    font-size: 1.1rem;
+    opacity: 0.8;
+    line-height: 1.4;
   }
 
   .section-logo {
@@ -274,6 +237,7 @@
     font-size: 1.8rem;
     margin: 0;
     letter-spacing: 0.1rem;
+    line-height: 1.1;
   }
 
   .team-split {
@@ -335,7 +299,7 @@
     overflow: hidden;
   }
 
-  .card:hover {
+  .card:not(.card-disabled):hover {
     background: rgba(246, 89, 1, 0.1);
     border-color: rgba(246, 89, 1, 0.5);
     transform: translateY(-4px);
@@ -346,13 +310,11 @@
     padding: 15px;
   }
 
-  .card.deprecated {
-    opacity: 0.6;
-    filter: grayscale(0.5);
-  }
-
-  .card.coming-soon {
+  .card.card-disabled {
+    opacity: 0.5;
     cursor: default;
+    background: rgba(246, 89, 1, 0.02);
+    border-color: rgba(246, 89, 1, 0.1);
   }
 
   .icons {
@@ -430,26 +392,6 @@
 
   .card-compact .card-text p {
     font-size: 0.9rem;
-  }
-
-  .status-badge {
-    font-family: 'Redwing';
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    padding: 2px 6px;
-    border-radius: 4px;
-    width: fit-content;
-    margin-top: 4px;
-  }
-
-  .status-badge.deprecated {
-    background: #ff4444;
-    color: #fff;
-  }
-
-  .status-badge.coming-soon {
-    background: #4444ff;
-    color: #fff;
   }
 
   .team-section {
