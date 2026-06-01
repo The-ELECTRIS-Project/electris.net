@@ -4,7 +4,7 @@
   import { themeState } from '$lib/state/theme.svelte';
   import { filterPosts, getAllTags, formatDate, resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
-  import TagFilter from './components/TagFilter.svelte';
+  import TagFilter from './components/ui/TagFilter.svelte';
 
   let { data } = $props();
 

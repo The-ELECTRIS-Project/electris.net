@@ -3,7 +3,7 @@
     import { gsap } from 'gsap';
     import { t } from '$lib/state/i18n.svelte';
     import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
-    import Crown from '$lib/components/music/Crown.svelte';
+    import Crown from '../components/ui/Crown.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
