@@ -68,7 +68,7 @@
 </script>
 
 <svelte:head>
-  <title>{t('nav.burger.support')} | ELECTRIS</title>
+  <title>{t('nav.burger.donate')} | ELECTRIS</title>
   <meta name="description" content={t('donate.undertitle')} />
 </svelte:head>
 
