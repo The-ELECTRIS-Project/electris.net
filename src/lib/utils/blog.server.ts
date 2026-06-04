@@ -6,6 +6,7 @@ export interface BlogLoadContext {
   fetch: typeof fetch;
   platform?: App.Platform;
   url: URL;
+  locale?: string;
 }
 
 interface AssetsBinding {
@@ -32,6 +33,25 @@ function sortPosts(posts: BlogPost[]): BlogPost[] {
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
+const FALLBACK_LOCALES = ['en_GB', 'en_US'];
+
+function getBestLocale(availableLocales: string[], requestedLocale?: string): string {
+  if (requestedLocale) {
+    const safeRequested = requestedLocale.replace('-', '_');
+    if (availableLocales.includes(safeRequested)) {
+      return safeRequested;
+    }
+  }
+
+  for (const fallback of FALLBACK_LOCALES) {
+    if (availableLocales.includes(fallback)) {
+      return fallback;
+    }
+  }
+
+  return availableLocales[0];
+}
+
 export async function loadBlogPosts(context: BlogLoadContext): Promise<BlogPost[]> {
   const response = await fetchBlogAsset(BLOG_INDEX_PATH, context);
 
@@ -49,35 +69,48 @@ export async function loadBlogPosts(context: BlogLoadContext): Promise<BlogPost[
   return sortPosts(
     entries
       .filter((entry) => !entry.slug.startsWith('_'))
-      .map(({ slug, metadata }) => ({
-        slug,
-        ...metadata
-      }))
+      .map((entry) => {
+        const bestLocale = getBestLocale(entry.locales, context.locale);
+        const metadata = entry.localizedMetadata[bestLocale];
+        
+        return {
+          slug: entry.slug,
+          ...metadata
+        };
+      })
   );
 }
 
 export async function loadBlogPost(
   slug: string,
   context: BlogLoadContext
-): Promise<{ post: BlogPost; content: string } | null> {
+): Promise<{ post: BlogPost; content: string; locale: string; locales: string[] } | null> {
   if (slug.startsWith('_')) {
     return null;
   }
 
-  const [metadataResponse, contentResponse] = await Promise.all([
-    fetchBlogAsset(`/data/blog/${slug}/metadata.json`, context),
-    fetchBlogAsset(`/data/blog/${slug}/post.html`, context)
-  ]);
-
-  if (metadataResponse.status === 404 || contentResponse.status === 404) {
+  const indexResponse = await fetchBlogAsset(BLOG_INDEX_PATH, context);
+  if (!indexResponse.ok) {
     return null;
   }
 
-  if (!metadataResponse.ok || !contentResponse.ok) {
-    throw new Error(`Failed to load blog post "${slug}"`);
+  const entries = (await indexResponse.json()) as BlogIndexEntry[];
+  const entry = entries.find((e) => e.slug === slug);
+
+  if (!entry) {
+    return null;
   }
 
-  const metadata = (await metadataResponse.json()) as BlogMetadata;
+  const bestLocale = getBestLocale(entry.locales, context.locale);
+  const metadata = entry.localizedMetadata[bestLocale];
+
+  const contentResponse = await fetchBlogAsset(`/data/blog/${slug}/+post.${bestLocale}.html`, context);
+
+  if (!contentResponse.ok) {
+    // If for some reason the file in index.json is missing on disk
+    return null;
+  }
+
   const content = await contentResponse.text();
 
   return {
@@ -85,7 +118,9 @@ export async function loadBlogPost(
       slug,
       ...metadata
     },
-    content
+    content,
+    locale: bestLocale,
+    locales: entry.locales
   };
 }
 

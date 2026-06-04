@@ -2,13 +2,30 @@
   import { onMount } from 'svelte';
   import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
-  import { t } from '$lib/state/i18n.svelte';
+  import { i18nState, t, availableLocales } from '$lib/state/i18n.svelte';
   import { themeState } from '$lib/state/theme.svelte';
   import { toast } from '$lib/state/toast.svelte';
   import { page } from '$app/state';
   import GithubPreview from '$lib/components/ui/GithubPreview.svelte';
+  import InfoIcon from '$lib/components/ui/icons/Info.svelte';
 
   let { data } = $props();
+
+  let isFallback = $derived(
+    data.locale && 
+    i18nState.currentLocale.replace('-', '_') !== data.locale
+  );
+  let currentLocaleName = $derived(i18nState.currentLocaleInfo?.name || 'requested language');
+  let availablePostLocales = $derived(
+    (data.locales as string[] || []).map(code => {
+      const normalizedCode = code.replace('_', '-');
+      const info = availableLocales.find(l => l.code === normalizedCode);
+      return {
+        code,
+        flag: info?.flag || '🌐'
+      };
+    })
+  );
 
   let relatedPosts = $derived(data.relatedPosts || []);
   let resolvedLinks = $derived(data.post ? resolveBlogLinks(data.post) : []);
@@ -180,6 +197,18 @@
           {#if data.post.featured}
             <span class="featured-badge">Featured</span>
           {/if}
+          {#if availablePostLocales.length > 1}
+            <div class="post-available-locales" title="Available in multiple languages">
+              {#each availablePostLocales as loc}
+                <span 
+                  class="locale-flag" 
+                  class:active={data.locale === loc.code}
+                >
+                  {loc.flag}
+                </span>
+              {/each}
+            </div>
+          {/if}
         </div>
 
         {#if youtubeEmbedUrl}
@@ -255,6 +284,16 @@
             <img src="/icons/buttons/share.svg" class="share-icon" alt="" aria-hidden="true" />
           </button>
         </div>
+
+        {#if isFallback}
+          <div class="fallback-notice">
+            <InfoIcon size="0.9rem" />
+            <span>
+              {t('blog.fallback.notice', 'This post is not yet available in')} {currentLocaleName}.
+              {t('blog.fallback.showing', 'Showing the original version instead.')}
+            </span>
+          </div>
+        {/if}
       </div>
 
       <div class="post-content">
@@ -378,6 +417,25 @@
     transform: translateX(-3px);
   }
 
+  .fallback-notice {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(246, 89, 1, 0.04);
+    border: 1px solid rgba(246, 89, 1, 0.08);
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    font-family: 'Redwing';
+    font-size: 0.75rem;
+    opacity: 0.7;
+    width: fit-content;
+  }
+
+  .fallback-notice :global(svg) {
+    opacity: 0.8;
+  }
+
   .post-meta {
     display: flex;
     flex-wrap: wrap;
@@ -399,6 +457,27 @@
     font-size: 0.8rem;
     font-weight: 600;
     font-family: var(--post-info-meta-font, 'Redwing');
+  }
+
+  .post-available-locales {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin-left: 0.5rem;
+    padding-left: 0.8rem;
+    border-left: 1px solid rgba(246, 89, 1, 0.2);
+  }
+
+  .locale-flag {
+    font-size: 0.85rem;
+    opacity: 0.4;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+
+  .locale-flag.active {
+    opacity: 1;
+    transform: scale(1.1);
   }
 
   .post-title {

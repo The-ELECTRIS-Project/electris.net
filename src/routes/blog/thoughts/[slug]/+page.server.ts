@@ -16,9 +16,10 @@ const getEmbedCoverPath = (coverImage?: string): string | undefined => {
   return `${coverImage.slice(0, lastSlash + 1)}cover-embed.jpg`;
 };
 
-export const load: PageServerLoad = async ({ fetch, params, platform, url }) => {
+export const load: PageServerLoad = async ({ fetch, params, platform, url, cookies, request }) => {
   const { slug } = params;
-  const context = { fetch, platform, url };
+  const locale = cookies.get('preferred-locale') || request.headers.get('accept-language')?.split(',')[0] || 'en-GB';
+  const context = { fetch, platform, url, locale };
 
   try {
     const [postData, allPosts] = await Promise.all([loadBlogPost(slug, context), loadBlogPosts(context)]);
@@ -55,6 +56,8 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url }) => 
     return {
       post: postData.post,
       content: postData.content,
+      locale: postData.locale,
+      locales: postData.locales,
       relatedPosts,
       meta: {
         title: pageTitle,

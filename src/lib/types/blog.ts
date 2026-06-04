@@ -63,5 +63,6 @@ export interface BlogMetadata {
 
 export interface BlogIndexEntry {
   slug: string;
-  metadata: BlogMetadata;
+  locales: string[];
+  localizedMetadata: Record<string, BlogMetadata>;
 }

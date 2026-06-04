@@ -6,7 +6,8 @@ import { defineConfig, type Plugin } from 'vite';
 
 interface BlogIndexEntry {
 	slug: string;
-	metadata: Record<string, unknown>;
+	locales: string[];
+	localizedMetadata: Record<string, Record<string, unknown>>;
 }
 
 function createBlogIndexPlugin(): Plugin {
@@ -31,25 +32,41 @@ function createBlogIndexPlugin(): Plugin {
 			.filter((entry) => entry.isDirectory() && !entry.name.startsWith('_'))
 			.sort((a, b) => a.name.localeCompare(b.name))
 			.flatMap((entry) => {
-				const metadataPath = path.join(blogDir, entry.name, 'metadata.json');
+				const postDir = path.join(blogDir, entry.name);
+				const files = fs.readdirSync(postDir);
+				
+				const localizedMetadata: Record<string, Record<string, unknown>> = {};
+				const locales: string[] = [];
 
-				if (!fs.existsSync(metadataPath)) {
+				for (const file of files) {
+					const match = file.match(/^\+metadata\.(.+)\.json$/);
+					if (match) {
+						const locale = match[1];
+						const metadataPath = path.join(postDir, file);
+						
+						try {
+							const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8')) as Record<string, unknown>;
+							localizedMetadata[locale] = metadata;
+							locales.push(locale);
+						} catch (error) {
+							console.warn(
+								`[blog-index] Skipping locale "${locale}" for "${entry.name}" because metadata is invalid: ${
+									error instanceof Error ? error.message : String(error)
+								}`
+							);
+						}
+					}
+				}
+
+				if (locales.length === 0) {
 					return [];
 				}
 
-				try {
-					const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8')) as Record<string, unknown>;
-
-					return [{ slug: entry.name, metadata }];
-				} catch (error) {
-					console.warn(
-						`[blog-index] Skipping "${entry.name}" because metadata.json is invalid: ${
-							error instanceof Error ? error.message : String(error)
-						}`
-					);
-
-					return [];
-				}
+				return [{
+					slug: entry.name,
+					locales: locales.sort(),
+					localizedMetadata
+				}];
 			});
 
 		const nextContents = `${JSON.stringify(indexEntries, null, 2)}\n`;

@@ -22,7 +22,7 @@ export const availableLocales: AvailableLocale[] = [
   { code: 'ro-RO', name: 'Română', flag: '🇷🇴' }
 ];
 
-const defaultLocale = 'en-US';
+const defaultLocale = 'en-GB';
 
 class I18nState {
   currentLocale = $state<string>(defaultLocale);
@@ -199,7 +199,11 @@ class I18nState {
     
     if (browser) {
       modsState.updateSetting('site', 'locale', locale);
+      document.cookie = `preferred-locale=${locale}; path=/; max-age=31536000; SameSite=Lax`;
       await this.initializeI18n(window.location.pathname);
+      
+      const { invalidateAll } = await import('$app/navigation');
+      await invalidateAll();
     }
   }
 

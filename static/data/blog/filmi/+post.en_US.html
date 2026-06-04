@@ -1,0 +1,160 @@
+<div class="blog">
+  <h2 class="title">I'd like to dedicate the first thought on this site, to my best friend.</h2>
+
+  <p>Varrow is the co-founder of the ELECTRIS Project as well as the person I trust the most. <br> What I'm about to tell you is about an idea he once had that unfortunately never came to be.</p>
+
+  <p>You see, Varrow wanted to create a streaming platform for indie content. A place fair to indie creators and film makers alike, dedicated to their work and compensating them for it far better than YouTube, with a user experience as great as on Netflix.</p>
+
+  <p>As if Netflix and YouTube had a baby, so to speak. <br> But it was far greater than just that.</p>
+
+  <p>He even wanted user-focused social features where people could have watch parties even with others without subscriptions.</p>
+
+  <p>He had this idea a while back, and presented it to fans of such content, creators and even potential investors.</p>
+
+  <p>He was shot down. Nobody liked the idea of his platform, well, nobody but me. <br> <span class="cinematic-text">I loved his idea.</span> </p>
+
+  <p> As I've recently starting making short films myself, I love the idea even more. <br> Unfortunately, he was in no shape to try to bring it to life after what he's been told.</p>
+
+  <p>I was certainly upset when he told me he was shutting down it's production, and maybe I didn't react in the best way at the time, but at heart, all I wanted was this project to exist. I'll say it again, I loved the idea. I love the idea. I want to see it one day. I don't know if anyone shares the same opinion as me, but I wanted to write this to show my buddy that at least someone believes in his idea, and that maybe he should give it another shot.</p>
+
+  <div class="signature">
+    <blockquote>Thanks for reading,</blockquote>
+    <p class="author-name">- ELECTRO.</p>
+  </div>
+</div>
+
+<style>
+  .title {
+    font-family: 'Letric';
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #111;
+    border-bottom: 0.2vh solid #ffac5e;
+    padding-bottom: 0.3rem;
+    line-height: 4.2vmin;
+  }
+  
+  p {
+    margin-bottom: 1.5vmin;
+    font-size: 1.1rem;
+  }
+
+  .cinematic-text {
+    position: relative;
+    display: inline-block;
+    font-weight: 600;
+    text-shadow: 0 0 8px rgba(255, 172, 94, 0.4);
+    animation: filmGrain 4s infinite linear;
+  }
+
+  .cinematic-text::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: 
+      radial-gradient(circle at 20% 50%, transparent 20%, rgba(255, 172, 94, 0.1) 21%, rgba(255, 172, 94, 0.1) 34%, transparent 35%),
+      linear-gradient(0deg, rgba(255, 172, 94, 0.05), transparent 50%, rgba(255, 172, 94, 0.05)),
+      radial-gradient(circle at 80% 20%, transparent 20%, rgba(255, 172, 94, 0.08) 21%, rgba(255, 172, 94, 0.08) 34%, transparent 35%);
+    background-size: 3px 3px, 100% 2px, 4px 4px;
+    opacity: 0.6;
+    animation: grainShift 6s infinite linear;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .cinematic-text::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 172, 94, 0.1) 50%,
+      transparent 100%
+    );
+    animation: filmFlicker 8s infinite ease-in-out;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  .signature {
+    margin-top: 3vmin;
+    padding-top: 1rem;
+    border-top: 0.1vmin solid rgba(246, 89, 1, 0.1);
+  }
+
+  .author-name {
+    font-family: 'Letric';
+    font-size: 1.5rem;
+    color: var(--accent-color, #ff6811);
+    margin-top: -0.5rem;
+  }
+
+  @keyframes filmGrain {
+    0% { 
+      text-shadow: 
+        0 0 8px rgba(255, 172, 94, 0.4),
+        1px 0 2px rgba(255, 172, 94, 0.2);
+    }
+    25% { 
+      text-shadow: 
+        0 0 10px rgba(255, 172, 94, 0.5),
+        -1px 1px 3px rgba(255, 172, 94, 0.3);
+    }
+    50% { 
+      text-shadow: 
+        0 0 6px rgba(255, 172, 94, 0.3),
+        0 -1px 2px rgba(255, 172, 94, 0.2);
+    }
+    75% { 
+      text-shadow: 
+        0 0 12px rgba(255, 172, 94, 0.6),
+        1px 1px 4px rgba(255, 172, 94, 0.4);
+    }
+    100% { 
+      text-shadow: 
+        0 0 8px rgba(255, 172, 94, 0.4),
+        1px 0 2px rgba(255, 172, 94, 0.2);
+    }
+  }
+
+  @keyframes grainShift {
+    0% { 
+      background-position: 0px 0px, 0px 0px, 0px 0px;
+      opacity: 0.6;
+    }
+    33% { 
+      background-position: 1px 1px, 1px 0px, 2px 1px;
+      opacity: 0.4;
+    }
+    66% { 
+      background-position: -1px 1px, 0px 1px, 1px -1px;
+      opacity: 0.7;
+    }
+    100% { 
+      background-position: 0px 0px, 0px 0px, 0px 0px;
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes filmFlicker {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.4; }
+  }
+
+  @media (max-width: 60vmin) {
+    body {
+      margin: 3vmin 1.5vmin;
+    }
+
+    .title {
+      font-size: 1.5rem;
+    }
+  }
+</style>
