@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { getRelatedPosts, loadBlogPost, loadBlogPosts } from '$lib/utils/blog.server';
+import { loadBlogPost, loadBlogPosts } from '$lib/utils/blog.server';
 import type { PageServerLoad } from './$types';
 
 const isErrorWithStatus = (value: unknown): value is { status: number } => {
@@ -28,7 +28,6 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url, cooki
       throw error(404, 'Post not found');
     }
 
-    const relatedPosts = getRelatedPosts(allPosts, postData.post);
     const pageTitle = `${postData.post.title} | ELECTRIS`;
     const origin = url.origin;
     const canonicalUrl = new URL(url.pathname, origin).href;
@@ -58,7 +57,6 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url, cooki
       content: postData.content,
       locale: postData.locale,
       locales: postData.locales,
-      relatedPosts,
       meta: {
         title: pageTitle,
         description: postData.post.description,

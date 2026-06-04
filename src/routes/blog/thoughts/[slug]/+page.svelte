@@ -27,7 +27,6 @@
     })
   );
 
-  let relatedPosts = $derived(data.relatedPosts || []);
   let resolvedLinks = $derived(data.post ? resolveBlogLinks(data.post) : []);
   let youtubeLinks = $derived(resolvedLinks.filter((link) => Boolean(link.youtubeEmbedUrl)));
   let spotifyLinks = $derived(resolvedLinks.filter((link) => Boolean(link.spotifyEmbedUrl)));
@@ -301,28 +300,6 @@
         {@html data.content}
       </div>
 
-      {#if relatedPosts.length > 0}
-        <aside class="related-posts">
-          <h3>Related Thoughts</h3>
-          <div class="related-grid">
-            {#each relatedPosts as related}
-              {@const relatedTypographyStyle = resolvePostTypographyStyle(related)}
-              <a href="/blog/thoughts/{related.slug}?from=blogs" class="related-card" style={relatedTypographyStyle}>
-                {#if related.icon}
-                  <div class="related-icon">
-                    <img src={related.icon} alt="{related.title} icon" />
-                  </div>
-                {/if}
-                <div class="related-content">
-                  <h4>{related.title}</h4>
-                  <p>{related.description}</p>
-                  <time>{formatDate(related.date)}</time>
-                </div>
-              </a>
-            {/each}
-          </div>
-        </aside>
-      {/if}
       <GithubPreview content={data.content} />
     </article>
   {/if}
@@ -720,73 +697,6 @@
     color: rgba(246, 89, 1, 1);
   }
 
-  .related-posts {
-    margin-top: 4rem;
-    padding-top: 3rem;
-    border-top: 0.1rem solid rgba(246, 89, 1, 0.2);
-  }
-
-  .related-posts h3 {
-    font-family: 'Letric';
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .related-card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    background: rgba(246, 89, 1, 0.05);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.2);
-    border-radius: 0.8vmin;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-  }
-
-  .related-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(246, 89, 1, 0.1);
-    border-color: rgba(246, 89, 1, 0.4);
-  }
-
-  .related-icon {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-
-  .related-icon img {
-    width: 2rem;
-    height: 2rem;
-    object-fit: contain;
-  }
-
-  .related-content h4 {
-    font-family: var(--post-title-font, 'Letric');
-    font-size: 1.2rem;
-    margin: 0 0 0.5rem;
-  }
-
-  .related-content p {
-    font-family: var(--post-description-font, 'Redwing');
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin: 0 0 0.8rem;
-    line-height: 1.4;
-  }
-
-  .related-content time {
-    font-size: 0.8rem;
-    opacity: 0.6;
-    font-family: 'Redwing';
-  }
-
   @media (max-width: 53.33vmin) {
     .post-container {
       padding: 5rem 1rem 4rem;
@@ -801,10 +711,6 @@
       flex-direction: row;
       align-items: center;
       gap: 0.5rem 0.85rem;
-    }
-
-    .related-grid {
-      grid-template-columns: 1fr;
     }
   }
 
@@ -879,20 +785,6 @@
 
     .post-content :global(blockquote) {
       padding: 1rem;
-    }
-
-    .related-posts {
-      margin-top: 3rem;
-      padding-top: 2rem;
-    }
-
-    .related-posts h3 {
-      font-size: 1.6rem;
-    }
-
-    .related-card {
-      padding: 1.1rem;
-      border-radius: 1rem;
     }
   }
 

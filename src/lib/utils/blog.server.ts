@@ -1,4 +1,4 @@
-import type { BlogIndexEntry, BlogMetadata, BlogPost } from '$lib/types/blog';
+import type { BlogIndexEntry, BlogPost } from '$lib/types/blog';
 
 const BLOG_INDEX_PATH = '/data/blog/index.json';
 
@@ -122,13 +122,4 @@ export async function loadBlogPost(
     locale: bestLocale,
     locales: entry.locales
   };
-}
-
-export function getRelatedPosts(allPosts: BlogPost[], currentPost: BlogPost, limit = 3): BlogPost[] {
-  return allPosts
-    .filter(post => 
-      post.slug !== currentPost.slug && 
-      post.tags.some(tag => currentPost.tags.includes(tag))
-    )
-    .slice(0, limit);
 }
