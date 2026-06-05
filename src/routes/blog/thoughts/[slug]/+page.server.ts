@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url, cooki
   const context = { fetch, platform, url, locale };
 
   try {
-    const [postData, allPosts] = await Promise.all([loadBlogPost(slug, context), loadBlogPosts(context)]);
+    const [postData] = await Promise.all([loadBlogPost(slug, context), loadBlogPosts(context)]);
 
     if (!postData) {
       throw error(404, 'Post not found');

@@ -22,7 +22,8 @@ export interface SiteModsConfig {
   cookieDisclosureDismissed: boolean;
   mobilePopupDismissed: boolean;
   hideScrollbar: boolean;
-  disableOrbit: boolean;
+  enableOrbit: boolean;
+  textWrapSpacing: number;
 }
 
 export interface NewHomeModsConfig {
@@ -58,7 +59,8 @@ const DEFAULT_SITE_MODS: SiteModsConfig = {
   cookieDisclosureDismissed: false,
   mobilePopupDismissed: false,
   hideScrollbar: false,
-  disableOrbit: false
+  enableOrbit: true,
+  textWrapSpacing: 0.69
 };
 
 const DEFAULT_NEW_HOME_MODS: NewHomeModsConfig = {
@@ -103,6 +105,12 @@ function readBoolean(value: unknown, fallback: boolean) {
   return typeof value === 'boolean' ? value : fallback;
 }
 
+function readFloat(value: unknown, fallback: number, min: number, max: number) {
+  const parsed = typeof value === 'number' ? value : Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
+}
+
 function readJson(value: string | null): unknown {
   if (!value) return null;
 
@@ -132,7 +140,14 @@ function applySiteMods(config: SiteModsConfig, source: unknown) {
   config.cookieDisclosureDismissed = readBoolean(source.cookieDisclosureDismissed, config.cookieDisclosureDismissed);
   config.mobilePopupDismissed = readBoolean(source.mobilePopupDismissed, config.mobilePopupDismissed);
   config.hideScrollbar = readBoolean(source.hideScrollbar, config.hideScrollbar);
-  config.disableOrbit = readBoolean(source.disableOrbit, config.disableOrbit);
+  if (source.enableOrbit !== undefined) {
+    config.enableOrbit = readBoolean(source.enableOrbit, config.enableOrbit);
+  } else if (source.disableOrbit !== undefined) {
+    config.enableOrbit = !readBoolean(source.disableOrbit, false);
+  } else {
+    config.enableOrbit = readBoolean(source.enableOrbit, config.enableOrbit);
+  }
+  config.textWrapSpacing = readFloat(source.textWrapSpacing, config.textWrapSpacing, 0.1, 1);
 }
 
 function applyNewHomeMods(config: NewHomeModsConfig, source: unknown) {

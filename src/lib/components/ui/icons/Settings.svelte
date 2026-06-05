@@ -20,7 +20,8 @@
     | 'reset-storage'
     | 'reset-everything'
     | 'chevron-right'
-    | 'chevron-left';
+    | 'chevron-left'
+    | 'text-spacing';
 
   let { name, size = '1.2rem', class: className = '' } = $props<{
     name: IconName;
@@ -50,7 +51,7 @@
       viewBox: '0 0 24 24'
     },
     scrollbar: {
-      path: '<rect x="17" y="3" width="4" height="18" rx="2" /><rect x="18" y="7" width="2" height="6" rx="1" fill="currentColor" />',
+      path: '<rect x="10" y="3" width="4" height="18" rx="2" /><rect x="11" y="7" width="2" height="6" rx="1" fill="currentColor" />',
       viewBox: '0 0 24 24'
     },
     orbit: {
@@ -111,6 +112,10 @@
     },
     'chevron-left': {
       path: '<polyline points="15 18 9 12 15 6" />',
+      viewBox: '0 0 24 24'
+    },
+    'text-spacing': {
+      path: '<rect x="3" y="3" width="18" height="18" rx="3" ry="3" /><line x1="8" y1="7" x2="16" y2="7" /><line x1="12" y1="7" x2="12" y2="17" />',
       viewBox: '0 0 24 24'
     }
   };

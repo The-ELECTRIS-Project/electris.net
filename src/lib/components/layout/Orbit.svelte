@@ -23,7 +23,7 @@
   let isTouchCapable = $state(false);
   let lastInputWasTouch = $state(false);
   let hasFinePointer = $state(false);
-  let isOrbitEnabled = $derived(hasFinePointer && !modsState.config.site.disableOrbit);
+  let isOrbitEnabled = $derived(hasFinePointer && modsState.config.site.enableOrbit);
 
   let hasDetectedCursor = $state(false);
   let isSpawning = $state(false);
@@ -610,7 +610,7 @@
       ? currentWord.range.getBoundingClientRect() 
       : currentWord.element.getBoundingClientRect();
 
-    const padding = vminToPx(0.8);
+    const padding = vminToPx(modsState.config.site.textWrapSpacing);
     return {
       x: liveBounds.left + liveBounds.width / 2,
       y: liveBounds.top + liveBounds.height / 2,

@@ -27,7 +27,7 @@
   import Hamburger from '$lib/components/ui/Hamburger.svelte';
   import SettingsIcon, { type IconName } from '$lib/components/ui/icons/Settings.svelte';
 
-  type OptionsSpace = 'appearance' | 'interface' | 'devtools' | 'site-data' | 'youtube-api';
+  type OptionsSpace = 'appearance' | 'interface' | 'devtools' | 'site-data' | 'youtube-api' | 'orbit';
 
   interface ThemeOption {
     value: Theme;
@@ -68,7 +68,8 @@
   let showDevTools = $derived(envInfo.isProduction ? false : (envInfo.isDevelopment || envInfo.isCanary));
   let ignoreExcludedSuffixes = $derived(modsState.config.devTools.ignoreExcludedSuffixes);
   let hideScrollbar = $derived(modsState.config.site.hideScrollbar);
-  let disableOrbit = $derived(modsState.config.site.disableOrbit);
+  let enableOrbit = $derived(modsState.config.site.enableOrbit);
+  let textWrapSpacing = $derived(modsState.config.site.textWrapSpacing);
 
   useHoverConfig([
     {
@@ -414,6 +415,8 @@
         return t('devtools.space.sitedata', 'Manage Site Data');
       case 'youtube-api':
         return t('devtools.space.ytapi', 'YouTube API');
+      case 'orbit':
+        return t('nav.options.space.orbit', 'Orbit');
     }
   }
 
@@ -426,8 +429,68 @@
     themeState.applyCurrentStyles();
   }
 
-  function toggleDisableOrbit() {
-    modsState.updateSetting('site', 'disableOrbit', !disableOrbit);
+  function toggleEnableOrbit() {
+    modsState.updateSetting('site', 'enableOrbit', !enableOrbit);
+  }
+
+  let activeKey = $state<string | null>(null);
+  let keyPressTimeout: ReturnType<typeof setTimeout> | null = null;
+  let holdCount = 0;
+
+  function handleSliderInput(e: Event) {
+    const val = parseFloat((e.target as HTMLInputElement).value);
+    modsState.updateSetting('site', 'textWrapSpacing', val);
+  }
+
+  function handleKeyDown(e: KeyboardEvent) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (activeKey === e.key) return;
+      
+      activeKey = e.key;
+      const isIncrement = e.key === 'ArrowRight' || e.key === 'ArrowUp';
+      holdCount = 0;
+      
+      stepValue(isIncrement, 0.01);
+      clearTimers();
+      
+      const tick = (delay: number) => {
+        keyPressTimeout = setTimeout(() => {
+          holdCount++;
+          const baseStep = 0.01;
+          const acceleration = Math.min(0.04, Math.floor(holdCount / 5) * 0.01);
+          stepValue(isIncrement, baseStep + acceleration);
+          
+          const nextDelay = Math.max(30, 100 - Math.floor(holdCount / 3) * 15);
+          tick(nextDelay);
+        }, delay);
+      };
+      
+      tick(300);
+    }
+  }
+
+  function handleKeyUp(e: KeyboardEvent) {
+    if (e.key === activeKey) {
+      clearTimers();
+      activeKey = null;
+    }
+  }
+
+  function clearTimers() {
+    if (keyPressTimeout) {
+      clearTimeout(keyPressTimeout);
+      keyPressTimeout = null;
+    }
+  }
+
+  function stepValue(increment: boolean, amount: number) {
+    const currentVal = modsState.config.site.textWrapSpacing;
+    const newVal = increment
+      ? Math.min(1.0, currentVal + amount)
+      : Math.max(0.1, currentVal - amount);
+    const roundedVal = Math.round(newVal * 100) / 100;
+    modsState.updateSetting('site', 'textWrapSpacing', roundedVal);
   }
 
   function handleCookieReset() {
@@ -570,6 +633,17 @@
               </div>
               <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
             </button>
+            <button
+              type="button"
+              class="options-space-item"
+              onclick={(e) => openOptionsSpace('orbit', e)}
+            >
+              <div class="options-space-label">
+                <SettingsIcon name="orbit" />
+                <span>{t('nav.options.space.orbit', 'Orbit')}</span>
+              </div>
+              <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
+            </button>
             {#if showDevTools}
               <button
                 type="button"
@@ -598,7 +672,7 @@
 
           <!-- Level 1: Sub-spaces -->
           <div class="options-panel" class:active={workspaceLevel === 1}>
-            {#if optionsSpace && (optionsSpace === 'appearance' || optionsSpace === 'interface' || optionsSpace === 'devtools')}
+            {#if optionsSpace && (optionsSpace === 'appearance' || optionsSpace === 'interface' || optionsSpace === 'devtools' || optionsSpace === 'orbit')}
               <button
                 type="button"
                 class="options-back"
@@ -727,21 +801,6 @@
                     <span class="toggle-slider-mini"></span>
                   </button>
                 </div>
-                <div class="option">
-                  <div class="option-label">
-                    <SettingsIcon name="orbit" size="1.1rem" />
-                    <span>{t('nav.options.orbit.disable', 'Disable Orbit')}</span>
-                  </div>
-                  <button
-                    type="button"
-                    class="toggle-switch-mini"
-                    class:active={disableOrbit}
-                    onclick={toggleDisableOrbit}
-                    aria-label="Toggle disable orbit"
-                  >
-                    <span class="toggle-slider-mini"></span>
-                  </button>
-                </div>
               {:else if optionsSpace === 'devtools'}
                 <button
                   type="button"
@@ -765,6 +824,43 @@
                   </div>
                   <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
                 </button>
+              {:else if optionsSpace === 'orbit'}
+                <div class="option">
+                  <div class="option-label">
+                    <SettingsIcon name="orbit" size="1.1rem" />
+                    <span>{t('nav.options.orbit.enable', 'Enable Orbit')}</span>
+                  </div>
+                  <button
+                    type="button"
+                    class="toggle-switch-mini"
+                    class:active={enableOrbit}
+                    onclick={toggleEnableOrbit}
+                    aria-label="Toggle enable orbit"
+                  >
+                    <span class="toggle-slider-mini"></span>
+                  </button>
+                </div>
+                <div class="option" title={t('nav.options.orbit.spacing.tooltip', 'Space between text and border when hovering words')}>
+                  <div class="option-label">
+                    <SettingsIcon name="text-spacing" size="1.1rem" />
+                    <span>{t('nav.options.orbit.spacing', 'Text Wrap Spacing')}</span>
+                  </div>
+                  <div class="slider-container">
+                    <input
+                      type="range"
+                      min="0.1"
+                      max="1"
+                      step="0.01"
+                      value={textWrapSpacing}
+                      oninput={handleSliderInput}
+                      onkeydown={handleKeyDown}
+                      onkeyup={handleKeyUp}
+                      class="spacing-slider"
+                      aria-label="Text Wrap Spacing"
+                    />
+                    <span class="slider-value">{textWrapSpacing.toFixed(2)}</span>
+                  </div>
+                </div>
               {/if}
             {/if}
           </div>
@@ -1667,6 +1763,79 @@
   .confirm-reset:hover {
     background-color: #dc2626;
     color: white;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 1vmin;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .slider-value {
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 3.2ch;
+    text-align: right;
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .spacing-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10vmin;
+    height: 0.5vmin;
+    border-radius: 0.25vmin;
+    background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    outline: none;
+    transition: background 0.2s;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .spacing-slider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 0.5vmin;
+    cursor: pointer;
+  }
+
+  .spacing-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.6vmin;
+    height: 1vmin;
+    border-radius: 0.5vmin;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 0 0.6vmin color-mix(in srgb, var(--color-primary) 30%, transparent);
+    transition: transform 0.1s, box-shadow 0.1s;
+    margin-top: -0.25vmin;
+  }
+
+  .spacing-slider::-moz-range-thumb {
+    width: 1.6vmin;
+    height: 1vmin;
+    border-radius: 0.5vmin;
+    background: var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 0 0.6vmin color-mix(in srgb, var(--color-primary) 30%, transparent);
+    transition: transform 0.1s, box-shadow 0.1s;
+    border: none;
+  }
+
+  .spacing-slider:hover::-webkit-slider-thumb,
+  .spacing-slider:focus::-webkit-slider-thumb {
+    transform: scale(1.15);
+    box-shadow: 0 0 1vmin var(--color-primary);
+  }
+
+  .spacing-slider:hover::-moz-range-thumb,
+  .spacing-slider:focus::-moz-range-thumb {
+    transform: scale(1.15);
+    box-shadow: 0 0 1vmin var(--color-primary);
   }
 
   @media (max-width: 900px) {
