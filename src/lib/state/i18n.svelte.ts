@@ -16,7 +16,6 @@ export interface AvailableLocale {
 }
 
 export const availableLocales: AvailableLocale[] = [
-  { code: 'ar', name: 'اللغة العربية', flag: '🇪🇬'},
   { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
   { code: 'en-GB', name: 'English (UK)', flag: '🇬🇧' },
   { code: 'ro-RO', name: 'Română', flag: '🇷🇴' }
