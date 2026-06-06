@@ -1,0 +1,22 @@
+{
+  "title": "Schimbare de Licență",
+  "description": "Înlocuirea licenței pentru codul sursă al site-ului cu Apache-2.0",
+  "author": "ELECTRO",
+  "date": "2026-05-21",
+  "tags": [
+    "legal",
+    "open-source",
+    "update"
+  ],
+  "titleFont": "Letric",
+  "coverImage": "/data/blog/license-change/cover.jpg",
+  "links": [
+    {
+      "url": "https://open.spotify.com/track/2hY9mOKGblxfNFl2GOQKj4",
+      "type": "spotify"
+    }
+  ],
+  "readTime": 2,
+  "featured": true,
+  "hidden": false
+}

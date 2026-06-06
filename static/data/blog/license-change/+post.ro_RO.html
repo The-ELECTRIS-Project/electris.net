@@ -1,0 +1,143 @@
+<div class="blog">
+  <h2 class="title">License Change</h2>
+
+  <p>Au avut loc niște schimbari pe care doresc să le anunț pentru toată lumea.</p>
+
+  <p>Pe pagina GitHub a acestui site, <a class="wrap-sentence" href="https://github.com/The-ELECTRIS-Project/electris.net/pull/1" target="_black">în pull request #1</a> fișierul <code>LICENSE</code> s-a schimbat. <br>
+  Anterior, acesta a conținut licența Creative Commons Zero v1.0 Universal (CC0-1.0), dar acum aceasta s-a înlocuit cu licența Apache 2.0 (Apache-2.0)</p>
+
+  <p>Ca să explic ce înseamnă asta, licența CC0-1.0 efectiv plasează o operă în domeniul public fără drepturi de autor sau condiții, în timp ce Apache-2.0 permite utilizarea și modificarea pe scară largă, dar impune totuși menționarea sursei, furnizarea licenței și acordă drepturi clare de brevet.</p>
+
+  <p>Eu am propus această schimbare, iar în urma unei discuții, Varrow și cu mine am fost de acord să transferăm codul site-ului sub licența Apache-2.0</p>
+
+  <p>Am procedat astfel deoarece dorim să folosim o licență profesională pentru software care să respecte proiectul și să ofere codului nostru garanții juridice mai clare. Noi vedem infrastructura și expresia cu scopuri diferite, așa că le vom licenția separat.</p>
+
+  <p>Adică, tot conținutul de pe site, orice postări de blog precum aceasta, articole viitoare, proiectele creative, mesajele publice sau informații vor rămâne ca CC0. Așadar, dacă nu se specifică altfel, tot conținutul, care nu este cod, publicat de <span class="letric">ELECTRIS</span> va rămâne sub CC0.</p>
+
+  <p>În capul meu, tot ceea ce creez ar trebui să aparțină tuturor. Vreau să răspândesc creația peste tot, pentru oricine, oriunde s-ar afla. Și prin urmare, renunț la cât mai multe drepturi asupra creațiilor mele, în măsura în care legea îmi permite. Nu-mi pasă dacă oamenii își amintesc numele meu. Îmi pasă dacă își amintesc ce a fost creat, de ce este important și ce <span class="letric">ELECTRIS</span> reprezintă. Numele se uită. Creativitatea nu.</p>
+
+  <p>Asta mă duce la ultimul meu punct. Denumirea proiectului, numele <span class="letric">ELECTRIS</span>, marca și identitatea vizuală, toate rămân rezervate și protejate pentru a preveni falsificarea identității sau prezentarea eronată a proiectului nostru. Dorim să conducem această mișcare, și suntem dispuși să ne asumăm toate riscurile pe care le implică aceasta.</p>
+
+  <p>Cea mai deosebită trăsătură a umanității este creativitatea.</p>
+
+  <div class="slogan-container">
+    <p class="slogan">Inima ca un creion, <br> Pe hârtie sângerează.</p>
+  </div>
+
+  <div class="signature">
+    <blockquote>Mulțumesc că ați citit,</blockquote>
+    <p class="author-name">- ELECTRO.</p>
+  </div>
+</div>
+
+<style>
+  .title {
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+    color: var(--color-primary);
+    border-bottom: 0.2vmin solid var(--color-link);
+    padding-bottom: 0.8rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    font-family: 'Redwing';
+  }
+
+  p {
+    margin-bottom: 1.8rem;
+    line-height: 1.85;
+    font-size: 1.15rem;
+    font-weight: 400;
+  }
+
+  code {
+    background: rgba(246, 89, 1, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: monospace;
+    font-size: 0.9em;
+    color: var(--color-link);
+  }
+
+  .letric {
+    font-family: 'Letric';
+    font-size: 0.9em;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .slogan-container {
+    margin: 6rem 0;
+    text-align: center;
+    position: relative;
+    padding: 3rem 0;
+  }
+
+  .slogan-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15rem;
+    height: 15rem;
+    background: radial-gradient(circle, rgba(246, 89, 1, 0.08) 0%, transparent 70%);
+    z-index: -1;
+  }
+
+  .slogan {
+    font-family: 'Redwing';
+    font-weight: 200;
+    font-size: 2.2rem;
+    line-height: 1.4;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin: 0;
+    display: inline-block;
+    border-left: 1px solid var(--color-link);
+    border-right: 1px solid var(--color-link);
+    padding: 0 2rem;
+  }
+
+  .signature {
+    margin-top: 3vmin;
+    padding-top: 1rem;
+    border-top: 0.1vmin solid rgba(246, 89, 1, 0.1);
+  }
+
+  .signature blockquote {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+    color: var(--color-primary);
+    opacity: 0.75;
+    font-style: italic;
+    font-family: 'Redwing';
+    letter-spacing: 0.05em;
+  }
+
+  .author-name {
+    font-family: 'Letric';
+    font-size: 1.5rem;
+    color: var(--accent-color, #ff6811);
+    margin-top: -1vmin;
+  }
+
+  @media (max-width: 768px) {
+    .title {
+      font-size: 2.2rem;
+    }
+    
+    .slogan {
+      font-size: 2.2rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+
+    .slogan-container {
+      margin: 4rem 0;
+    }
+  }
+</style>
