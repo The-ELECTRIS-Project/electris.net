@@ -24,6 +24,7 @@ export interface SiteModsConfig {
   hideScrollbar: boolean;
   enableOrbit: boolean;
   textWrapSpacing: number;
+  adaptiveOrbitColor: boolean;
 }
 
 export interface NewHomeModsConfig {
@@ -60,7 +61,8 @@ const DEFAULT_SITE_MODS: SiteModsConfig = {
   mobilePopupDismissed: false,
   hideScrollbar: false,
   enableOrbit: true,
-  textWrapSpacing: 0.69
+  textWrapSpacing: 0.69,
+  adaptiveOrbitColor: true
 };
 
 const DEFAULT_NEW_HOME_MODS: NewHomeModsConfig = {
@@ -148,6 +150,7 @@ function applySiteMods(config: SiteModsConfig, source: unknown) {
     config.enableOrbit = readBoolean(source.enableOrbit, config.enableOrbit);
   }
   config.textWrapSpacing = readFloat(source.textWrapSpacing, config.textWrapSpacing, 0.1, 1);
+  config.adaptiveOrbitColor = readBoolean(source.adaptiveOrbitColor, config.adaptiveOrbitColor);
 }
 
 function applyNewHomeMods(config: NewHomeModsConfig, source: unknown) {

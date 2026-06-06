@@ -212,7 +212,7 @@
       let color = '';
       if (config.color) {
         color = config.color;
-      } else if (config.wrapText) {
+      } else if (config.wrapText && modsState.config.site.adaptiveOrbitColor) {
         color = getCachedStyle(element).color;
       } else {
         color = getCachedStyle(circleElement).borderTopColor;

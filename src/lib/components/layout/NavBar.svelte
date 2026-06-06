@@ -70,6 +70,7 @@
   let hideScrollbar = $derived(modsState.config.site.hideScrollbar);
   let enableOrbit = $derived(modsState.config.site.enableOrbit);
   let textWrapSpacing = $derived(modsState.config.site.textWrapSpacing);
+  let adaptiveOrbitColor = $derived(modsState.config.site.adaptiveOrbitColor);
 
   useHoverConfig([
     {
@@ -433,6 +434,10 @@
     modsState.updateSetting('site', 'enableOrbit', !enableOrbit);
   }
 
+  function toggleAdaptiveOrbitColor() {
+    modsState.updateSetting('site', 'adaptiveOrbitColor', !adaptiveOrbitColor);
+  }
+
   let activeKey = $state<string | null>(null);
   let keyPressTimeout: ReturnType<typeof setTimeout> | null = null;
   let holdCount = 0;
@@ -685,7 +690,7 @@
 
               {#if optionsSpace === 'appearance'}
                 <!-- ... Appearance Content ... -->
-                <div class="option">
+                <div class="option" title={t('nav.options.theme.tooltip', 'Choose a visual theme')}>
                   <div class="option-label">
                     <SettingsIcon name="theme" size="1.1rem" />
                     <span>{t('nav.options.theme', 'Theme')}</span>
@@ -732,7 +737,7 @@
                   </div>
                 </div>
 
-                <div class="option">
+                <div class="option" title={t('nav.options.color.tooltip', 'Choose a color mode')}>
                   <div class="option-label">
                     <SettingsIcon name="color" size="1.1rem" />
                     <span>{t('nav.options.color', 'Color')}</span>
@@ -779,14 +784,14 @@
                   </div>
                 </div>
               {:else if optionsSpace === 'interface'}
-                <div class="option">
+                <div class="option" title={t('nav.options.lang.tooltip', 'Change the site\'s language')}>
                   <div class="option-label">
                     <SettingsIcon name="language" size="1.1rem" />
                     <span>{t('nav.options.lang', 'Language')}</span>
                   </div>
                   <LanguageSelector />
                 </div>
-                <div class="option">
+                <div class="option" title={t('nav.options.scrollbar.hide.tooltip', 'Show or hide the browser scrollbar')}>
                   <div class="option-label">
                     <SettingsIcon name="scrollbar" size="1.1rem" />
                     <span>{t('nav.options.scrollbar.hide', 'Hide Scrollbar')}</span>
@@ -825,7 +830,7 @@
                   <SettingsIcon name="chevron-right" size="1rem" class="space-chevron" />
                 </button>
               {:else if optionsSpace === 'orbit'}
-                <div class="option">
+                <div class="option" title={t('nav.options.orbit.enable.tooltip', 'Turn the Orbit cursor effect on or off')}>
                   <div class="option-label">
                     <SettingsIcon name="orbit" size="1.1rem" />
                     <span>{t('nav.options.orbit.enable', 'Enable Orbit')}</span>
@@ -836,6 +841,21 @@
                     class:active={enableOrbit}
                     onclick={toggleEnableOrbit}
                     aria-label="Toggle enable orbit"
+                  >
+                    <span class="toggle-slider-mini"></span>
+                  </button>
+                </div>
+                <div class="option" title={t('nav.options.orbit.adaptive.tooltip', 'Toggle Orbit color adaptation to text')}>
+                  <div class="option-label">
+                    <SettingsIcon name="color" size="1.1rem" />
+                    <span>{t('nav.options.orbit.adaptive', 'Adaptive Colour')}</span>
+                  </div>
+                  <button
+                    type="button"
+                    class="toggle-switch-mini"
+                    class:active={adaptiveOrbitColor}
+                    onclick={toggleAdaptiveOrbitColor}
+                    aria-label="Toggle adaptive orbit color"
                   >
                     <span class="toggle-slider-mini"></span>
                   </button>
@@ -916,7 +936,7 @@
                   </button>
                 </div>
               {:else if optionsSpace === 'youtube-api'}
-                <div class="devtools-option">
+                <div class="devtools-option" title={t('devtools.ignore.suffixes.tooltip', 'Show excluded videos like streams and VODs in video cards')}>
                   <span>{t('devtools.ignore.suffixes', 'Ignore Excluded Suffixes')}</span>
                   <button
                     type="button"
