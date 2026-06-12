@@ -44,6 +44,16 @@ Build output such as `.svelte-kit/` and logs are generated artifacts and should 
 - Use doc comments sparingly, and avoid inline comments unless ABSOLUTELY necessary for clarity. Code should aim to be self documenting!
 - Remove old explanatory comments if no longer necessary (e.g. `// Significantly faster border radius animation`)
 
+## Appearance Guidelines
+
+### Consistency
+- Always make sure the site look stays consistent
+- When adding UI elements, ensure variants exist for all themes. Electrified is the theme they should be designed for, the rest are what they need to be adapted to.
+
+### Themes
+- Electrified: Default theme. The site's signature look. Simple and elegant.
+- Cyber-Neotic: A futuristic, sci-fi inspired theme, with custom elements, grid patterns and heavy focus on a neon-like look.
+
 ## Testing Guidelines
 
 There is no dedicated automated test suite in the repository.
