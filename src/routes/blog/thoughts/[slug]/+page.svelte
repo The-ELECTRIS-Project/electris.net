@@ -8,6 +8,7 @@
   import { page } from '$app/state';
   import GithubPreview from '$lib/components/ui/GithubPreview.svelte';
   import InfoIcon from '$lib/components/ui/icons/Info.svelte';
+  import type { BlogVersion } from '$lib/types/blog';
 
   let { data } = $props();
 
@@ -36,6 +37,23 @@
   let postInfoStyle = $derived(data.post ? resolveInfoCardStyle(data.post.infoCardStyle) : undefined);
   let postTypographyStyle = $derived(data.post ? resolvePostTypographyStyle(data.post) : undefined);
   let postInfoInlineStyle = $derived([postInfoStyle, postTypographyStyle].filter(Boolean).join('; ') || undefined);
+
+  // Newest first. A version's motif says why it replaced the one below it, so it belongs to the
+  // gap between the two, not to either one on its own.
+  let versions = $derived((data.versions ?? []) as BlogVersion[]);
+  let hasHistory = $derived(versions.length > 1);
+  let viewingIndex = $derived(versions.findIndex((version) => version.id === data.currentRevision));
+  let replacedBy = $derived(viewingIndex > 0 ? versions[viewingIndex - 1] : undefined);
+
+  function versionHref(version: BlogVersion) {
+    const url = new URL(page.url);
+    if (version.isCurrent) {
+      url.searchParams.delete('v');
+    } else if (version.id) {
+      url.searchParams.set('v', version.id);
+    }
+    return `${url.pathname}${url.search}`;
+  }
 
   let fromParam = $derived(page.url.searchParams.get('from'));
   let from = $derived(fromParam && fromParam.length ? fromParam : 'blogs');
@@ -192,6 +210,44 @@
           {/if}
         </div>
 
+        {#if hasHistory}
+          <details class="version-history">
+            <summary>
+              {t('blog.version.updated', 'Updated')} {formatDate(versions[0].date)}
+              <span class="version-count">
+                {versions.length - 1}
+                {versions.length === 2
+                  ? t('blog.version.earlier.one', 'earlier version')
+                  : t('blog.version.earlier.many', 'earlier versions')}
+              </span>
+            </summary>
+
+            <ol class="version-list">
+              {#each versions as version, index (version.id ?? 'current')}
+                <li class:active={version.id === data.currentRevision}>
+                  <div class="version-row">
+                    {#if version.id === data.currentRevision}
+                      <span class="version-date">{formatDate(version.date)}</span>
+                    {:else}
+                      <a class="version-date" href={versionHref(version)}>{formatDate(version.date)}</a>
+                    {/if}
+
+                    {#if version.isCurrent}
+                      <span class="version-tag">{t('blog.version.current', 'Current')}</span>
+                    {:else if index === versions.length - 1}
+                      <span class="version-tag">{t('blog.version.original', 'Original')}</span>
+                    {/if}
+                  </div>
+
+                  {#if version.motif && index < versions.length - 1}
+                    <p class="version-motif">{version.motif}</p>
+                  {/if}
+                </li>
+              {/each}
+            </ol>
+          </details>
+        {/if}
+
         {#if youtubeEmbedUrl}
           <div class="cover-image cover-embed" style="--embed-aspect-ratio: {youtubeEmbedAspectRatio};">
             <iframe
@@ -207,6 +263,24 @@
         {:else if currentCover}
           <div class="cover-image">
             <img class="banner-image" src={currentCover} alt="{data.post.title} cover" loading="eager" decoding="async" />
+          </div>
+        {/if}
+
+        {#if data.isHistorical}
+          <div class="version-notice">
+            <InfoIcon size="0.9rem" />
+            <div>
+              <p>
+                {t('blog.version.viewing', 'This is an older version of this post, from')}
+                {formatDate(versions[viewingIndex]?.date ?? data.post.date)}.
+                <a href={versionHref(versions[0])}>{t('blog.version.readCurrent', 'Read the current version')}</a>
+              </p>
+              {#if replacedBy?.motif}
+                <p class="version-motif">
+                  {t('blog.version.replaced', 'It was replaced because:')} {replacedBy.motif}
+                </p>
+              {/if}
+            </div>
           </div>
         {/if}
 
@@ -357,6 +431,119 @@
   .back-link:hover {
     color: rgba(246, 89, 1, 1);
     transform: translateX(-3px);
+  }
+
+  .version-history {
+    margin-bottom: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+  }
+
+  .version-history summary {
+    cursor: pointer;
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    opacity: 0.8;
+  }
+
+  .version-history summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .version-history summary::before {
+    content: '▸';
+    display: inline-block;
+    transition: transform var(--duration-fast) var(--ease-out);
+  }
+
+  .version-history[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .version-count {
+    padding: 0 var(--space-2);
+    border-radius: var(--radius-xs);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+  }
+
+  .version-list {
+    margin: var(--space-3) 0 0;
+    padding: 0 0 0 var(--space-4);
+    list-style: none;
+    border-left: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  }
+
+  .version-list li {
+    padding-bottom: var(--space-3);
+  }
+
+  .version-list li:last-child {
+    padding-bottom: 0;
+  }
+
+  .version-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .version-date {
+    color: inherit;
+  }
+
+  a.version-date:hover {
+    text-decoration: underline;
+  }
+
+  .version-list li.active .version-date {
+    font-weight: 700;
+  }
+
+  .version-tag {
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.65;
+  }
+
+  /* Sits in the gap between the two versions the edit connects. */
+  .version-motif {
+    margin: var(--space-1) 0 0;
+    padding-left: var(--space-3);
+    border-left: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    font-size: var(--text-2xs);
+    opacity: 0.85;
+  }
+
+  .version-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--status-negative-border);
+    background: var(--status-negative-bg);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+  }
+
+  .version-notice p {
+    margin: 0;
+  }
+
+  .version-notice a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  .version-notice .version-motif {
+    margin-top: var(--space-2);
+    border-left-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
   .fallback-notice {

@@ -5,5 +5,13 @@
   "blog.return.hub": "Back to Thoughts",
   "blog.return.home": "Back to Home",
   "blog.fallback.notice": "This post is not yet available in",
-  "blog.fallback.showing": "Showing the original version instead."
+  "blog.fallback.showing": "Showing the original version instead.",
+  "blog.version.updated": "Updated",
+  "blog.version.earlier.one": "earlier version",
+  "blog.version.earlier.many": "earlier versions",
+  "blog.version.current": "Current",
+  "blog.version.original": "Original",
+  "blog.version.viewing": "This is an older version of this post, from",
+  "blog.version.readCurrent": "Read the current version",
+  "blog.version.replaced": "It was replaced because:"
 }

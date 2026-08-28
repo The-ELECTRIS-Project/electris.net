@@ -4,10 +4,64 @@ import tailwindcss from "@tailwindcss/vite";
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig, type Plugin } from 'vite';
 
+interface BlogRevisionRef {
+	id: string;
+	date: string;
+	locales: string[];
+	metadataLocales: string[];
+}
+
 interface BlogIndexEntry {
 	slug: string;
 	locales: string[];
 	localizedMetadata: Record<string, Record<string, unknown>>;
+	revisions: BlogRevisionRef[];
+}
+
+const LOCALE = /^([a-z]{2}_[A-Z]{2})$/;
+const REVISION_ID = /^\d{4}-\d{2}-\d{2}(T\d{2}-\d{2})?$/;
+
+/*
+ * Publishing an edit, by hand:
+ *   1. mkdir revisions/<the date currently in the live metadata's `updated`, or `date` if this is
+ *      the first edit> and copy the CURRENT +post/+metadata files into it
+ *   2. edit the live files
+ *   3. set `updated` to today and add an `editMotif` saying why
+ * The snapshot holds the OLD text; the folder is named for when that old text went live.
+ */
+function readRevisions(postDir: string): BlogRevisionRef[] {
+	const revisionsDir = path.join(postDir, 'revisions');
+	if (!fs.existsSync(revisionsDir)) {
+		return [];
+	}
+
+	return fs
+		.readdirSync(revisionsDir, { withFileTypes: true })
+		.filter((entry) => {
+			if (!entry.isDirectory() || entry.name.startsWith('_')) return false;
+			if (!REVISION_ID.test(entry.name)) {
+				console.warn(`[blog-index] Ignoring revision "${entry.name}": name is not a date`);
+				return false;
+			}
+			return true;
+		})
+		.map((entry) => {
+			const files = fs.readdirSync(path.join(revisionsDir, entry.name));
+			const collect = (pattern: RegExp) =>
+				files
+					.map((file) => file.match(pattern)?.[1])
+					.filter((locale): locale is string => Boolean(locale && LOCALE.test(locale)))
+					.sort();
+
+			return {
+				id: entry.name,
+				date: entry.name.slice(0, 10),
+				locales: collect(/^\+post\.(.+)\.html$/),
+				metadataLocales: collect(/^\+metadata\.(.+)\.json$/)
+			};
+		})
+		.filter((revision) => revision.locales.length > 0)
+		.sort((a, b) => b.id.localeCompare(a.id));
 }
 
 function createBlogIndexPlugin(): Plugin {
@@ -33,7 +87,10 @@ function createBlogIndexPlugin(): Plugin {
 			.sort((a, b) => a.name.localeCompare(b.name))
 			.flatMap((entry) => {
 				const postDir = path.join(blogDir, entry.name);
-				const files = fs.readdirSync(postDir);
+				const files = fs
+					.readdirSync(postDir, { withFileTypes: true })
+					.filter((file) => file.isFile())
+					.map((file) => file.name);
 				
 				const localizedMetadata: Record<string, Record<string, unknown>> = {};
 				const locales: string[] = [];
@@ -65,7 +122,8 @@ function createBlogIndexPlugin(): Plugin {
 				return [{
 					slug: entry.name,
 					locales: locales.sort(),
-					localizedMetadata
+					localizedMetadata,
+					revisions: readRevisions(postDir)
 				}];
 			});
 

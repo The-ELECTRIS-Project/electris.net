@@ -20,9 +20,13 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url, cooki
   const { slug } = params;
   const locale = cookies.get('preferred-locale') || request.headers.get('accept-language')?.split(',')[0] || 'en-GB';
   const context = { fetch, platform, url, locale };
+  const revisionId = url.searchParams.get('v') ?? undefined;
 
   try {
-    const [postData] = await Promise.all([loadBlogPost(slug, context), loadBlogPosts(context)]);
+    const [postData] = await Promise.all([
+      loadBlogPost(slug, context, revisionId),
+      loadBlogPosts(context)
+    ]);
 
     if (!postData) {
       throw error(404, 'Post not found');
@@ -57,12 +61,18 @@ export const load: PageServerLoad = async ({ fetch, params, platform, url, cooki
       content: postData.content,
       locale: postData.locale,
       locales: postData.locales,
+      versions: postData.versions,
+      currentRevision: postData.currentRevision,
+      isHistorical: postData.isHistorical,
       meta: {
         title: pageTitle,
         description: postData.post.description,
         image: coverImage,
         url: canonicalUrl,
-        type: 'article'
+        type: 'article',
+        // Old versions stay out of the index but keep their links crawlable, so the
+        // "read the current version" link is followed back to the canonical post.
+        robots: postData.isHistorical ? 'noindex, follow' : undefined
       }
     };
   } catch (err: unknown) {

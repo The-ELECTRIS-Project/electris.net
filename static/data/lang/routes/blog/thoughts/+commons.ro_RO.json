@@ -5,5 +5,13 @@
   "blog.return.hub": "Înapoi la Gânduri",
   "blog.return.home": "Înapoi Acasă",
   "blog.fallback.notice": "Această postare nu este încă disponibilă în",
-  "blog.fallback.showing": "Se afișează în schimb versiunea originală."
+  "blog.fallback.showing": "Se afișează în schimb versiunea originală.",
+  "blog.version.updated": "Actualizat",
+  "blog.version.earlier.one": "versiune anterioară",
+  "blog.version.earlier.many": "versiuni anterioare",
+  "blog.version.current": "Curentă",
+  "blog.version.original": "Originală",
+  "blog.version.viewing": "Aceasta este o versiune mai veche a articolului, din",
+  "blog.version.readCurrent": "Citește versiunea curentă",
+  "blog.version.replaced": "A fost înlocuită pentru că:"
 }

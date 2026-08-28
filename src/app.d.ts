@@ -10,6 +10,7 @@ declare global {
 				url?: string;
 				type?: string;
 				twitterCard?: string;
+				robots?: string;
 			};
 		}
 		interface Platform {

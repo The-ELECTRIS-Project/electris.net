@@ -44,6 +44,7 @@
     )
   );
   let ogType = $derived(page.data?.meta?.type || defaultMeta.type);
+  let robots = $derived(page.data?.meta?.robots);
   let twitterCard = $derived(page.data?.meta?.twitterCard || defaultMeta.twitterCard);
 
   onMount(() => {
@@ -60,6 +61,7 @@
 
 <svelte:head>
   <link rel="canonical" href={canonicalUrl} />
+  {#if robots}<meta name="robots" content={robots} />{/if}
   <meta property="og:title" content={ogTitle} />
   <meta property="og:description" content={ogDescription} />
   <meta property="og:url" content={canonicalUrl} />
