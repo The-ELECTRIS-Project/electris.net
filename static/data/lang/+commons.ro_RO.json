@@ -14,5 +14,12 @@
   "site.platform.ma": "Mastodon",
   "site.platform.mx": "Matrix",
   "site.platform.st": "Steam",
-  "site.platform.x": "Twitter"
+  "site.platform.x": "Twitter",
+  "error.title": "Eroare",
+  "error.404.message": "Pagina asta nu e aici.",
+  "error.404.detail": "Ori s-a mutat, ori nu a existat niciodată.",
+  "error.generic.message": "S-a stricat ceva.",
+  "error.generic.detail": "Habar n-am ce, asta e partea enervantă.",
+  "error.action.home": "Înapoi la pagina principală",
+  "error.action.back": "Înapoi"
 }

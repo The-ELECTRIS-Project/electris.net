@@ -14,5 +14,12 @@
   "site.platform.ma": "Mastodon",
   "site.platform.mx": "Matrix",
   "site.platform.st": "Steam",
-  "site.platform.x": "Twitter"
+  "site.platform.x": "Twitter",
+  "error.title": "Error",
+  "error.404.message": "That page isn't here.",
+  "error.404.detail": "Either it moved, or it never existed in the first place.",
+  "error.generic.message": "Something broke.",
+  "error.generic.detail": "No idea what, which is the annoying part.",
+  "error.action.home": "Back to the home page",
+  "error.action.back": "Go back"
 }

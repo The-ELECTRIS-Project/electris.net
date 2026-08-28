@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/state';
   import { onMount } from 'svelte';
+  import { t } from '$lib/state/i18n.svelte';
 
   let error = $derived(page.error);
   let status = $derived(page.status);
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-  <title>Error {status} | ELECTRIS</title>
+  <title>{t('error.title', 'Error')} {status} | ELECTRIS</title>
 </svelte:head>
 
 <div class="error-page">
@@ -46,20 +47,24 @@
       </h1>
 
       {#if status === 404}
-        <p class="error-message">Page not found in the ELECTRIS project</p>
-        <p class="error-submessage">The page you're looking for has disappeared or never existed</p>
+        <p class="error-message">{t('error.404.message', "That page isn't here.")}</p>
+        <p class="error-submessage">
+          {t('error.404.detail', 'Either it moved, or it never existed in the first place.')}
+        </p>
       {:else}
-        <p class="error-message">Something went wrong in the ELECTRIS system</p>
-        <p class="error-submessage">{error?.message || 'An unexpected error occurred'}</p>
+        <p class="error-message">{t('error.generic.message', 'Something broke.')}</p>
+        <p class="error-submessage">
+          {error?.message || t('error.generic.detail', 'No idea what, which is the annoying part.')}
+        </p>
       {/if}
 
       <div class="error-actions">
         <a href="/" class="return-button">
-          <span class="button-text">Return to Base</span>
+          <span class="button-text">{t('error.action.home', 'Back to the home page')}</span>
           <div class="button-spark"></div>
         </a>
         <button onclick={goBack} class="back-button">
-          <span class="button-text">Go Back</span>
+          <span class="button-text">{t('error.action.back', 'Go back')}</span>
         </button>
       </div>
     </div>
@@ -68,6 +73,10 @@
 
 <style>
   .error-page {
+    /* The glitch reads as three offset hues; these keep that while following the scheme. */
+    --error-damage: color-mix(in srgb, var(--accent) 50%, #ff2200);
+    --error-glitch-a: color-mix(in srgb, var(--accent) 78%, #ffcc00);
+    --error-glitch-b: color-mix(in srgb, var(--accent) 35%, #ff0044);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -86,7 +95,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(246, 89, 1, 0.03) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, color-mix(in srgb, var(--accent) 3%, transparent) 50%, transparent 70%);
     animation: error-sweep 5s ease-in-out infinite;
     pointer-events: none;
   }
@@ -109,7 +118,7 @@
   .broken-gear {
     position: absolute;
     border-radius: 50%;
-    border: 0.3vmin solid #f65901;
+    border: 0.3vmin solid var(--accent);
     animation: broken-rotate 4s ease-in-out infinite;
   }
 
@@ -122,7 +131,7 @@
     width: 60%;
     height: 60%;
     border-radius: 50%;
-    background: radial-gradient(circle, transparent 40%, #f65901 42%, #f65901 58%, transparent 60%);
+    background: radial-gradient(circle, transparent 40%, var(--accent) 42%, var(--accent) 58%, transparent 60%);
   }
 
   .gear-1 {
@@ -149,7 +158,7 @@
     left: 3vmin;
     width: 4vmin;
     height: 0.2vmin;
-    background: linear-gradient(45deg, transparent, #ff3300, transparent);
+    background: linear-gradient(45deg, transparent, var(--error-damage), transparent);
     transform: rotate(45deg);
     animation: crack-glow 2s ease-in-out infinite;
   }
@@ -161,7 +170,7 @@
     left: 1vmin;
     width: 2vmin;
     height: 0.1vmin;
-    background: linear-gradient(45deg, transparent, #ff3300, transparent);
+    background: linear-gradient(45deg, transparent, var(--error-damage), transparent);
     transform: rotate(-30deg);
   }
 
@@ -177,10 +186,10 @@
     position: absolute;
     width: 0.3vmin;
     height: 0.3vmin;
-    background: #ff3300;
+    background: var(--error-damage);
     border-radius: 50%;
     animation: error-sparkle 1.5s ease-in-out infinite;
-    box-shadow: 0 0 0.5vmin #ff3300;
+    box-shadow: 0 0 0.5vmin var(--error-damage);
   }
 
   .spark-1 {
@@ -219,7 +228,7 @@
     animation: error-glitch 2s ease-in-out infinite;
     text-shadow: 0.1vmin 0.1vmin 0.2vmin rgba(255, 51, 0, 0.3);
     display: inline-block;
-    color: #ff3300;
+    color: var(--error-damage);
   }
 
   .error-text-glitch {
@@ -247,14 +256,14 @@
   .error-text-glitch::before,
   .status-glitch::before {
     animation: error-glitch-1 2s ease-in-out infinite;
-    color: #ff6600;
+    color: var(--error-glitch-a);
     z-index: -1;
   }
 
   .error-text-glitch::after,
   .status-glitch::after {
     animation: error-glitch-2 2s ease-in-out infinite;
-    color: #ff0033;
+    color: var(--error-glitch-b);
     z-index: -2;
   }
 
@@ -263,7 +272,7 @@
     font-size: 1.3rem;
     margin-bottom: 1vmin;
     font-weight: 500;
-    color: #f65901;
+    color: var(--accent);
   }
 
   .error-submessage {
@@ -284,9 +293,9 @@
   .return-button, .back-button {
     position: relative;
     padding: 1.2vmin 3vmin;
-    border: 0.2vmin solid #f65901;
-    background: rgba(246, 89, 1, 0.1);
-    color: #f65901;
+    border: 0.2vmin solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    color: var(--accent);
     font-family: 'Redwing';
     font-size: 1.1rem;
     font-weight: 500;
@@ -299,8 +308,8 @@
   }
 
   .return-button:hover, .back-button:hover {
-    background: rgba(246, 89, 1, 0.2);
-    box-shadow: 0 0 1vmin rgba(246, 89, 1, 0.5);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: 0 0 1vmin color-mix(in srgb, var(--accent) 50%, transparent);
     transform: translateY(-0.2vmin);
   }
 
@@ -315,11 +324,11 @@
     right: 1vmin;
     width: 0.3vmin;
     height: 0.3vmin;
-    background: #f65901;
+    background: var(--accent);
     border-radius: 50%;
     transform: translateY(-50%);
     animation: button-spark-pulse 2s ease-in-out infinite;
-    box-shadow: 0 0 0.5vmin #f65901;
+    box-shadow: 0 0 0.5vmin var(--accent);
   }
 
   @media (max-width: 768px) {
@@ -372,7 +381,7 @@
 
   @keyframes crack-glow {
     0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; box-shadow: 0 0 1vmin #ff3300; }
+    50% { opacity: 1; box-shadow: 0 0 1vmin var(--error-damage); }
   }
 
   @keyframes error-sparkle {
