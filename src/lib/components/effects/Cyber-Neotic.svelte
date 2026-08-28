@@ -67,6 +67,8 @@
     border-radius: 50%;
     animation: move 25s infinite alternate ease-in-out;
     pointer-events: none;
+    /* the scale() in `move` would otherwise re-rasterise the 100px blur every frame */
+    will-change: transform;
   }
 
   .blob-1 {
