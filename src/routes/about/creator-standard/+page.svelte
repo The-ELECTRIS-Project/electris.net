@@ -316,24 +316,6 @@
     100% { transform: translateY(4px); }
   }
 
-  @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 3rem;
-    }
-
-    .highlight {
-      font-size: 3.2rem;
-    }
-
-    .definition {
-      font-size: 1.6rem;
-    }
-
-    .explanation {
-      font-size: 1.1rem;
-    }
-  }
-
   @media (max-width: 900px) {
     .hero {
       padding: 6.5rem 1rem 2rem;
@@ -355,6 +337,24 @@
     .vision-evolution {
       padding: 1.25rem;
       border-radius: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 3rem;
+    }
+
+    .highlight {
+      font-size: 3.2rem;
+    }
+
+    .definition {
+      font-size: 1.6rem;
+    }
+
+    .explanation {
+      font-size: 1.1rem;
     }
   }
 
