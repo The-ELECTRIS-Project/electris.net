@@ -98,26 +98,6 @@ main {
   background: var(--overlay-bg);
 }
 
-.hover-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
-  transition: background 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-  background: var(--hover-overlay-bg);
-}
-
-.box:hover .hover-overlay {
-  background: var(--hover-overlay-active);
-  opacity: 1;
-}
-
 /* ===== NAVIGATION ===== */
 .navbar {
   background-color: var(--navbar-bg);
@@ -193,7 +173,7 @@ main {
 }
 
 .circle[data-outer-glow="true"][data-inner-glow="true"] {
-  box-shadow: 
+  box-shadow:
     0 0 var(--outer-glow-blur) var(--outer-glow-spread) color-mix(in srgb, var(--outer-glow-color) calc(var(--outer-glow-opacity) * 100%), transparent),
     inset 0 0 var(--inner-glow-blur) var(--inner-glow-spread) color-mix(in srgb, var(--inner-glow-color) calc(var(--inner-glow-opacity) * 100%), transparent);
 }
@@ -298,28 +278,8 @@ main {
   background: var(--video-overlay);
 }
 
-.box-1 {
-  background-color: var(--box-1-bg);
-}
-
-.box-2 {
-  background-color: var(--box-2-bg);
-}
-
-.main-card-1 {
-  background-color: var(--main-card-1-bg);
-}
-
-.main-card-2 {
-  background-color: var(--main-card-2-bg);
-}
-
 .card {
   background-color: var(--card-bg);
-}
-
-.game-card {
-  background-color: var(--game-card-bg);
 }
 
 /* ===== BACKGROUNDS ===== */
@@ -327,25 +287,8 @@ main {
   background: var(--electrical-bg);
 }
 
-.important-notice {
-  background: var(--notice-bg);
-}
-
 .notice-glow {
   background: var(--notice-glow);
-}
-
-.TCS::before {
-  background: var(--tcs-before);
-}
-
-/* ===== GEAR ANIMATION ===== */
-.gear {
-  border: 0.3vmin solid var(--gear-border);
-}
-
-.gear::before {
-  background: var(--gear-before);
 }
 
 /* ======= PARTICLES ======== */
@@ -364,7 +307,6 @@ main {
     box-shadow: 0 0 4px rgba(246, 89, 1, 0.4);
   }
 
-
 /* ===== ##### ===== */
 .crown-image {
   filter: var(--crown-filter);
@@ -376,12 +318,6 @@ main {
   filter: var(--crown-filter-hover);
 }
 
-/* ===== SPARK EFFECT ===== */
-.spark {
-  background: var(--spark-bg);
-  box-shadow: var(--spark-shadow);
-}
-
 /* ===== COLOR SCHEME: LIGHT ===== */
 [data-color-scheme="light"] {
   --bg-body: #f5f1f8;
@@ -391,53 +327,38 @@ main {
   --color-electris: #ff983e;
   --color-electro: #00bf80;
   --color-varrow: #88cc00;
-  
+
   --navbar-bg: #f8f9fa;
   --hamburger-bg: #f0f0f0;
   --options-menu-bg: #e7e7e7;
-  
+
   --overlay-bg: rgba(0, 0, 0, 0.2);
-  --hover-overlay-bg: rgb(255, 255, 255);
-  --hover-overlay-active: rgba(255, 255, 255, 0.6);
-  
+
   --circle-border: #ff5608;
   --circle-hover-search: hsl(28, 97%, 55%);
   --circle-hover-footer: #ffa366;
   --circle-hover-sip: #4cc200;
   --circle-hover-crown: #ffffff;
-  
+
   --video-overlay: linear-gradient(rgba(10, 10, 10, 0), rgba(10, 10, 10, 0));
-  
-  --box-1-bg: #afdff4;
-  --box-2-bg: #ddf2af;
-  --main-card-1-bg: #f4d8ca;
-  --main-card-2-bg: #afdff4;
+
   --card-bg: #dedede;
-  --game-card-bg: #5ad2391a;
-  
+
   --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 151, 55, 0.5) 0%, transparent 50%),
                    radial-gradient(circle at 80% 70%, rgba(255, 151, 55, 0.5) 0%, transparent 50%);
-  
-  --notice-bg: linear-gradient(135deg, rgba(255, 140, 33, 0.068), rgba(255, 140, 33, 0.068));
+
   --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 140, 33, 0.185) 50%, transparent 70%);
-  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(255, 94, 0, 0.116) 50%, transparent 70%);
-  
-  --gear-border: #ff5608;
-  --gear-before: radial-gradient(circle, transparent 40%, #ff5608 42%, #ff5608 58%, transparent 60%);
-  
+
   --encouraged-bg: rgba(90, 210, 57, 0.05);
   --encouraged-border: rgba(82, 218, 45, 0.349);
   --unacceptable-bg: rgba(255, 51, 51, 0.05);
   --unacceptable-border: rgba(255, 25, 25, 0.349);
-  
+
   --scope-content-bg: rgba(255, 121, 43, 0.103);
   --examples-box-bg: rgba(255, 255, 255, 0.432);
-  
+
   --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.1));
   --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vmin rgba(0, 0, 0, 0.6));
-  
-  --spark-bg: #4cc200;
-  --spark-shadow: 0 0 8px #4cc200, 0 0 16px #4cc200;
 
   --color-text-dim: #333333;
   --color-text-muted: #666666;
@@ -452,53 +373,38 @@ main {
   --color-electris: #ffa251;
   --color-electro: #00ffaa;
   --color-varrow: #ccff00;
-  
+
   --navbar-bg: #0f1010;
   --hamburger-bg: hsl(160, 7%, 8%);
   --options-menu-bg: hsl(0, 0%, 13%);
-  
+
   --overlay-bg: rgba(0, 0, 0, 0.2);
-  --hover-overlay-bg: rgba(0, 0, 0, 0);
-  --hover-overlay-active: rgba(0, 0, 0, 0.6);
-  
+
   --circle-border: hsl(22, 99%, 48%);
   --circle-hover-search: hsl(28, 97%, 55%);
   --circle-hover-footer: hsl(28, 100%, 70%);
   --circle-hover-sip: hsl(98, 100%, 50%);
   --circle-hover-crown: #ffffff;
-  
+
   --video-overlay: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.8));
-  
-  --box-1-bg: #151e22;
-  --box-2-bg: #1e2215;
-  --main-card-1-bg: #25211f;
-  --main-card-2-bg: #151e22;
+
   --card-bg: #222;
-  --game-card-bg: #214f141a;
-  
+
   --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 123, 0, 0.3) 0%, transparent 50%),
                    radial-gradient(circle at 80% 70%, rgba(255, 123, 0, 0.3) 0%, transparent 50%);
-  
-  --notice-bg: linear-gradient(135deg, rgba(255, 134, 17, 0.03), rgba(255, 134, 17, 0.01));
+
   --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 134, 17, 0.05) 50%, transparent 70%);
-  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(246, 89, 1, 0.05) 50%, transparent 70%);
-  
-  --gear-border: #f65901;
-  --gear-before: radial-gradient(circle, transparent 40%, #f65901 42%, #f65901 58%, transparent 60%);
-  
+
   --encouraged-bg: rgba(90, 210, 57, 0.05);
   --encouraged-border: rgba(90, 210, 57, 0.3);
   --unacceptable-bg: rgba(255, 51, 51, 0.05);
   --unacceptable-border: rgba(255, 51, 51, 0.3);
-  
+
   --scope-content-bg: rgba(246, 89, 1, 0.05);
   --examples-box-bg: rgba(0, 0, 0, 0.2);
-  
+
   --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(255, 255, 255, 0.15));
   --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.3)) drop-shadow(0 0 2vmin rgba(255, 255, 255, 0.8));
-  
-  --spark-bg: #5eff00;
-  --spark-shadow: 0 0 10px #5eff00, 0 0 20px #5eff00;
 
   --color-text-dim: #e0e0e0;
   --color-text-muted: #a0a0a0;
@@ -513,58 +419,42 @@ main {
   --color-electris: #ffa251;
   --color-electro: #20ffb0;
   --color-varrow: #d4ff33;
-  
+
   --navbar-bg: #000000;
   --hamburger-bg: hsl(0, 0%, 0%);
   --options-menu-bg: hsl(0, 0%, 2%);
-  
+
   --overlay-bg: rgba(0, 0, 0, 0.4);
-  --hover-overlay-bg: rgba(0, 0, 0, 0);
-  --hover-overlay-active: rgba(0, 0, 0, 0.8);
-  
+
   --circle-border: hsl(22, 100%, 56%);
   --circle-hover-search: hsl(28, 85%, 42%);
   --circle-hover-footer: hsl(28, 100%, 75%);
   --circle-hover-sip: hsl(98, 100%, 60%);
   --circle-hover-crown: hsl(0, 0%, 100%);
-  
+
   --video-overlay: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.95));
-  
-  --box-1-bg: #050505;
-  --box-2-bg: #040404;
-  --main-card-1-bg: #080808;
-  --main-card-2-bg: #050505;
+
   --card-bg: #0a0a0a;
-  --game-card-bg: #3c962826;
-  
+
   --electrical-bg: radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.4) 0%, transparent 50%),
                    radial-gradient(circle at 80% 70%, rgba(255, 140, 0, 0.4) 0%, transparent 50%);
-  
-  --notice-bg: linear-gradient(135deg, rgba(255, 150, 30, 0.08), rgba(255, 150, 30, 0.02));
+
   --notice-glow: linear-gradient(45deg, transparent 30%, rgba(255, 150, 30, 0.12) 50%, transparent 70%);
-  --tcs-before: linear-gradient(45deg, transparent 30%, rgba(246, 110, 20, 0.12) 50%, transparent 70%);
-  
-  --gear-border: #ff6b20;
-  --gear-before: radial-gradient(circle, transparent 40%, #ff6b20 42%, #ff6b20 58%, transparent 60%);
-  
+
   --encouraged-bg: rgba(110, 230, 80, 0.12);
   --encouraged-border: rgba(110, 230, 80, 0.5);
   --unacceptable-bg: rgba(255, 80, 80, 0.12);
   --unacceptable-border: rgba(255, 80, 80, 0.5);
-  
+
   --scope-content-bg: rgba(246, 110, 20, 0.1);
   --examples-box-bg: rgba(0, 0, 0, 0.6);
-  
+
   --crown-filter: drop-shadow(0 0.5vmin 1vmin rgba(255, 255, 255, 0.25));
   --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.5)) drop-shadow(0 0 3vmin rgba(255, 255, 255, 1.2));
-  
-  --spark-bg: #70ff20;
-  --spark-shadow: 0 0 15px #70ff20, 0 0 30px #70ff20, 0 0 45px #70ff20;
 
   --color-text-dim: #d0d0d0;
   --color-text-muted: #909090;
 }
-
 
 @media (max-width: 1024px) {
   html {
@@ -588,10 +478,5 @@ main {
   :where(button, input, select, textarea, [role='button']) {
     min-height: var(--touch-target-size);
     touch-action: manipulation;
-  }
-
-  .box:hover .hover-overlay {
-    opacity: 0;
-    background: var(--hover-overlay-bg);
   }
 }
