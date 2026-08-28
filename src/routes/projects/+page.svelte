@@ -104,8 +104,6 @@
   .card {
     font-family: 'Aileron';
     display: flex;
-    flex-direction: line;
-    align-items: left;
     padding: 10px;
     border-radius: 8px;
     text-decoration: none;

@@ -592,8 +592,6 @@
   .card {
     font-family: 'Aileron';
     display: flex;
-    flex-direction: line;
-    align-items: left;
     padding: 1vmin;
     border-radius: 1.8vmin;
     text-decoration: none;
