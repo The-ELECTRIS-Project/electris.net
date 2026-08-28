@@ -47,24 +47,6 @@
     };
 
     setTimeout(orbitReset, 10);
-    const createFloatingOrb = () => {
-      const orb = document.createElement('div');
-      orb.className = 'floating-orb';
-      orb.style.left = Math.random() * 100 + '%';
-      orb.style.animationDuration = (6 + Math.random() * 4) + 's';
-      orb.style.animationDelay = Math.random() * 2 + 's';
-      document.body.appendChild(orb);
-
-      setTimeout(() => {
-        orb.remove();
-      }, 10000);
-    };
-
-    const orbInterval = setInterval(createFloatingOrb, 5000 + Math.random() * 3000);
-
-    return () => {
-      clearInterval(orbInterval);
-    };
   });
 
   function clearFilters() {
@@ -79,15 +61,9 @@
 </svelte:head>
 
 <div class="blog-container">
-  <div class="ambient-dots">
-    <div class="ambient-dot dot-1"></div>
-    <div class="ambient-dot dot-2"></div>
-    <div class="ambient-dot dot-3"></div>
-    <div class="ambient-dot dot-4"></div>
-  </div>
 
   <div class="hero-section">
-    <h1 
+    <h1
       class="blog-title"
     >
       <span class="title-main">{t('blog.title')}</span>
@@ -109,7 +85,7 @@
       <TagFilter tags={allTags} bind:selectedTags={selectedTags} />
 
       {#if searchQuery}
-        <button 
+        <button
           onclick={clearFilters}
           class="clear-filters"
         >
@@ -140,7 +116,7 @@
               {#if currentCover}
                 <div class="post-background" style="background-image: url({currentCover});"></div>
               {/if}
-        
+
               <div class="post-content">
                 <div class="post-meta">
                   <time class="post-date">{formatDate(post.date)}</time>
@@ -160,7 +136,7 @@
 
                 <h2 class="post-title">{post.title}</h2>
                 <p class="post-description">{post.description}</p>
-          
+
                 <div class="post-tags">
                   {#each post.tags as tag}
                     <span class="tag">{tag}</span>
@@ -176,38 +152,6 @@
 </div>
 
 <style>
-  :global(.floating-orb) {
-    position: fixed;
-    width: 3px;
-    height: 3px;
-    background: rgba(246, 89, 1, 0.7);
-    border-radius: 50%;
-    opacity: 0;
-    top: 100vh;
-    z-index: 1;
-    animation: float-up-blog 8s linear forwards;
-    pointer-events: none;
-    box-shadow: 0 0 6px rgba(246, 89, 1, 0.5);
-  }
-
-  @keyframes float-up-blog {
-    0% {
-      opacity: 0;
-      transform: translateY(0) translateX(0) rotate(0deg);
-    }
-    10% {
-      opacity: 0.9;
-    }
-    90% {
-      opacity: 0.9;
-      transform: translateY(-100vh) translateX(30px) rotate(180deg);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-100vh) translateX(60px) rotate(360deg);
-    }
-  }
-
   .blog-container {
     min-height: 100vh;
     padding: 6rem 2rem 4rem;
@@ -216,55 +160,7 @@
     position: relative;
   }
 
-  .ambient-dots {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .ambient-dot {
-    position: absolute;
-    width: 0.15vmin;
-    height: 0.15vmin;
-    background: rgba(246, 89, 1, 0.4);
-    border-radius: 50%;
-    animation: ambient-pulse-blog 5s ease-in-out infinite;
-  }
-
-  .dot-1 {
-    top: 15%;
-    left: 8%;
-    animation-delay: 0s;
-  }
-
-  .dot-2 {
-    top: 65%;
-    right: 12%;
-    animation-delay: 2s;
-  }
-
-  .dot-3 {
-    bottom: 25%;
-    left: 75%;
-    animation-delay: 4s;
-  }
-
-  .dot-4 {
-    top: 40%;
-    left: 85%;
-    animation-delay: 1s;
-  }
-
-  @keyframes ambient-pulse-blog {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 1; transform: scale(2.5); }
-  }
-
-  .hero-section {
+    .hero-section {
     text-align: center;
     margin-bottom: 4rem;
     position: relative;
@@ -442,14 +338,14 @@
     background-position: center right;
     background-repeat: no-repeat;
     z-index: 1;
-    
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%),
                         radial-gradient(ellipse at 100% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%),
                 radial-gradient(ellipse at 100% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -575,14 +471,14 @@
   @media (max-width: 768px) {
     .post-background {
       width: 100%;
-      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%),
                           radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
-      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%), 
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 100%),
                   radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 55%, transparent 100%);
       -webkit-mask-composite: source-in;
       mask-composite: intersect;
     }
-    
+
     .post-card.has-cover .post-content {
       background: linear-gradient(
         to bottom,

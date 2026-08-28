@@ -17,14 +17,14 @@
       for (let i = 0; i < html.length; i++) {
         const char = html[i];
         if (char === '<') inTag = true;
-        
+
         if (!inTag && Math.random() < intensity && char !== ' ') {
           const glitchChars = '█▓▒░▄▀▐▌│┤┘┴┬├─┼╋╬╫╪╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌┐└┴┬├─┼';
           result += glitchChars[Math.floor(Math.random() * glitchChars.length)];
         } else {
           result += char;
         }
-        
+
         if (char === '>') inTag = false;
       }
       return result;
@@ -68,7 +68,7 @@
       }
     };
   }
-  
+
   onMount(() => {
     const orbitReset = () => {
       const orbit = document.querySelector('.circle');
@@ -78,48 +78,6 @@
     };
 
     setTimeout(orbitReset, 10);
-
-    const glitchTitle = () => {
-      const title = document.querySelector('.hero h1');
-      const highlight = document.querySelector('.highlight');
-      
-      if (title && highlight) {
-        if (Math.random() < 0.3) {
-          title.classList.add('glitch-active');
-          setTimeout(() => {
-            title.classList.remove('glitch-active');
-          }, 150 + Math.random() * 100);
-        }
-
-        if (Math.random() < 0.2) {
-          highlight.classList.add('electric-pulse');
-          setTimeout(() => {
-            highlight.classList.remove('electric-pulse');
-          }, 800);
-        }
-      }
-    };
-
-    const glitchInterval = setInterval(glitchTitle, 3000 + Math.random() * 4000);
-
-    const createElectricalParticle = () => {
-      const particle = document.createElement('div');
-      particle.className = 'electrical-particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 2 + 's';
-      document.body.appendChild(particle);
-
-      setTimeout(() => {
-        particle.remove();
-      }, 4000);
-    };
-
-    const particleInterval = setInterval(createElectricalParticle, 2000 + Math.random() * 3000);
-
-    return () => {
-      clearInterval(glitchInterval);
-      clearInterval(particleInterval);
-    };
   });
 </script>
 
@@ -146,16 +104,16 @@
     <p class="definition" use:glitchAction={t('creator.standard.definition')}>
       {t('creator.standard.definition')}
     </p>
-    
+
     <div class="explanation">
       <p use:glitchAction={t('creator.standard.explanation.p1')}>
         {withLineBreaks(t('creator.standard.explanation.p1'))}
       </p>
-      
+
       <p use:glitchAction={t('creator.standard.explanation.p2')}>
         {withLineBreaks(t('creator.standard.explanation.p2'))}
       </p>
-      
+
       <div class="vision-evolution">
         <h3>{t('creator.standard.vision.title')}</h3>
         <p use:glitchAction={t('creator.standard.vision.desc')}>
@@ -168,37 +126,6 @@
 </div>
 
 <style>
-  :global(.electrical-particle) {
-    position: fixed;
-    width: 2px;
-    height: 2px;
-    background: currentColor;
-    box-shadow: 0 0 6px currentColor, 0 0 12px currentColor;
-    border-radius: 50%;
-    opacity: 0;
-    top: -5px;
-    z-index: 1;
-    animation: electrical-fall 4s linear forwards;
-    pointer-events: none;
-  }
-
-  @keyframes electrical-fall {
-    0% {
-      opacity: 0;
-      transform: translateY(0) scale(1);
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-      transform: translateY(100vh) scale(0.8);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(100vh) scale(0);
-    }
-  }
 
   .hero {
     font-family: 'Letric';
@@ -238,39 +165,11 @@
     transition: all 0.1s ease;
   }
 
-  @keyframes glitch-text {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 1px); }
-    40% { transform: translate(-1px, -1px); }
-    60% { transform: translate(1px, 1px); }
-    80% { transform: translate(1px, -1px); }
-    100% { transform: translate(0); }
-  }
-
   .highlight {
     font-family: 'Nightcore';
     font-size: 4.2rem;
     position: relative;
     display: inline-block;
-  }
-
-  @keyframes electric-highlight {
-    0%, 100% { 
-      text-shadow: none;
-      filter: brightness(1);
-    }
-    25% { 
-      text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
-      filter: brightness(1.2);
-    }
-    50% { 
-      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
-      filter: brightness(1.4);
-    }
-    75% { 
-      text-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
-      filter: brightness(1.2);
-    }
   }
 
   .content {
@@ -421,15 +320,15 @@
     .hero h1 {
       font-size: 3rem;
     }
-    
+
     .highlight {
       font-size: 3.2rem;
     }
-    
+
     .definition {
       font-size: 1.6rem;
     }
-    
+
     .explanation {
       font-size: 1.1rem;
     }

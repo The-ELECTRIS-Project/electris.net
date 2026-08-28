@@ -136,24 +136,6 @@
     };
 
     setTimeout(orbitReset, 10);
-    const createThoughtParticle = () => {
-      const particle = document.createElement('div');
-      particle.className = 'thought-particle';
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDuration = (10 + Math.random() * 5) + 's';
-      particle.style.animationDelay = Math.random() * 3 + 's';
-      document.body.appendChild(particle);
-
-      setTimeout(() => {
-        particle.remove();
-      }, 15000);
-    };
-
-    const particleInterval = setInterval(createThoughtParticle, 8000 + Math.random() * 4000);
-
-    return () => {
-      clearInterval(particleInterval);
-    };
   });
 </script>
 
@@ -306,23 +288,6 @@
 </div>
 
 <style>
-  @keyframes thought-drift {
-    0% {
-      opacity: 0;
-      transform: translateY(0) translateX(0) scale(1);
-    }
-    20% {
-      opacity: 0.8;
-    }
-    80% {
-      opacity: 0.8;
-      transform: translateY(-100vh) translateX(50px) scale(1.2);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-100vh) translateX(100px) scale(0.8);
-    }
-  }
 
   .post-container {
     min-height: 100vh;

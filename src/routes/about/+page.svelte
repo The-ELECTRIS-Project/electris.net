@@ -74,7 +74,7 @@ setTimeout(orbitReset, 10);
   <header class="page-header">
     <h1 class="main-title"><u>{t('about.hero')}</u></h1>
   </header>
-  
+
   <div class="content-wrapper">
     <!-- ELECTRIS SECTION -->
     <section id="electris" class:visible={visibleSections.electris} class="electris-section">
@@ -124,13 +124,9 @@ setTimeout(orbitReset, 10);
     </section>
 
   </div>
-  
-  <div class="ambient-dots">
-    <div class="ambient-dot dot-1"></div>
-    <div class="ambient-dot dot-2"></div>
-  </div>
+
 </div>
-  
+
 <style>
   .page-container {
     min-height: 100vh;
@@ -228,7 +224,7 @@ setTimeout(orbitReset, 10);
     color: var(--color-electro);
     border-color: var(--color-electro);
   }
-  
+
   .electro-text strong {
     color: var(--color-electro);
   }
@@ -296,32 +292,6 @@ setTimeout(orbitReset, 10);
   }
 
   /* Ambient Dots (Subtler) */
-  .ambient-dots {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .ambient-dot {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: var(--color-primary);
-    border-radius: 50%;
-    opacity: 0.15; /* Reduced opacity */
-  }
-
-  .dot-1 { top: 15%; left: 5%; animation: float 15s infinite ease-in-out; }
-  .dot-2 { bottom: 20%; right: 10%; animation: float 12s infinite ease-in-out reverse; }
-
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(15px, -15px); }
-  }
 
   @media (max-width: 768px) {
     .page-container { padding-top: 100px; }

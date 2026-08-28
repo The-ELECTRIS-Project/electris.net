@@ -6,7 +6,7 @@
   import PinsGrid from './components/ui/PinsGrid.svelte';
   import Customize from './components/ui/Customize.svelte';
   import Search from './components/ui/Search.svelte';
-  
+
   let currentTime = $state(new Date());
   let i18nInitialized = $state(false);
 
@@ -24,7 +24,7 @@
   ];
 
   useHoverConfig(hoverConfigs);
-  
+
   onMount(() => {
     modsState.init();
     i18nInitialized = true;
@@ -40,64 +40,35 @@
     const interval = setInterval(() => {
       currentTime = new Date();
     }, 1000);
-    
-    const createFloatingOrb = () => {
-      const orb = document.createElement('div');
-      orb.className = 'floating-orb';
-      orb.style.left = Math.random() * 100 + '%';
-      orb.style.animationDuration = (8 + Math.random() * 4) + 's';
-      orb.style.animationDelay = Math.random() * 2 + 's';
-      document.body.appendChild(orb);
-
-      setTimeout(() => {
-        orb.remove();
-      }, 12000);
-    };
-
-    const orbInterval = setInterval(createFloatingOrb, 8000 + Math.random() * 5000);
-
-    const addGlitchEffect = () => {
-      const title = document.querySelector('.newhome-subtitle');
-      if (title && Math.random() < 0.15) {
-        title.classList.add('glitch-pulse');
-        setTimeout(() => {
-          title.classList.remove('glitch-pulse');
-        }, 300);
-      }
-    };
-
-    const glitchInterval = setInterval(addGlitchEffect, 6000 + Math.random() * 8000);
 
     return () => {
       clearInterval(interval);
-      clearInterval(orbInterval);
-      clearInterval(glitchInterval);
     };
   });
-  
+
   function formatTime(date: Date, locale: string): string {
     if (!i18nInitialized) return date.toLocaleTimeString();
-    
+
     const timeOptions: Intl.DateTimeFormatOptions = {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
       hour12: false
     };
-    
+
     return date.toLocaleTimeString(locale, timeOptions);
   }
-  
+
   function formatDate(date: Date, locale: string): string {
     if (!i18nInitialized) return date.toLocaleDateString();
-    
+
     const dateOptions: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric'
     };
-    
+
     return date.toLocaleDateString(locale, dateOptions);
   }
 </script>
@@ -108,18 +79,12 @@
 </svelte:head>
 
 <div class="newhome-container">
-  <div class="ambient-dots">
-    <div class="ambient-dot dot-1"></div>
-    <div class="ambient-dot dot-2"></div>
-    <div class="ambient-dot dot-3"></div>
-  </div>
-  
   <div class="welcome-section">
     <h1 class="newhome-title">
       <span class="title-main">{t('site.title')}</span>
       <span class="newhome-subtitle">{t('site.newhome.title')}</span>
     </h1>
-    
+
     <div class="time-display">
       <div class="time">{formatTime(currentTime, i18nState.currentLocale)}</div>
       <div class="date">{formatDate(currentTime, i18nState.currentLocale)}</div>
@@ -129,7 +94,7 @@
   {#if showSearchBar}
     <Search/>
   {/if}
-  
+
   {#if showQuickPins}
     <h2 class="section-title wrap-sentence">
       {t('newhome.pins.title')}
@@ -137,43 +102,11 @@
 
     <PinsGrid/>
   {/if}
-  
+
   <Customize/>
 </div>
 
 <style>
-  :global(.floating-orb) {
-    position: fixed;
-    width: 4px;
-    height: 4px;
-    background: rgba(246, 89, 1, 0.6);
-    border-radius: 50%;
-    opacity: 0;
-    top: 100vh;
-    z-index: 1;
-    animation: float-up 10s linear forwards;
-    pointer-events: none;
-    box-shadow: 0 0 8px rgba(246, 89, 1, 0.4);
-  }
-
-  @keyframes float-up {
-    0% {
-      opacity: 0;
-      transform: translateY(0) translateX(0);
-    }
-    10% {
-      opacity: 0.8;
-    }
-    90% {
-      opacity: 0.8;
-      transform: translateY(-100vh) translateX(20px);
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-100vh) translateX(40px);
-    }
-  }
-
   .newhome-container {
     display: flex;
     flex-direction: column;
@@ -186,55 +119,13 @@
     position: relative;
   }
 
-  .ambient-dots {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .ambient-dot {
-    position: absolute;
-    width: 0.2vmin;
-    height: 0.2vmin;
-    background: rgba(246, 89, 1, 0.3);
-    border-radius: 50%;
-    animation: ambient-pulse 4s ease-in-out infinite;
-  }
-
-  .dot-1 {
-    top: 20%;
-    left: 10%;
-    animation-delay: 0s;
-  }
-
-  .dot-2 {
-    top: 60%;
-    right: 15%;
-    animation-delay: 1.5s;
-  }
-
-  .dot-3 {
-    bottom: 30%;
-    left: 80%;
-    animation-delay: 3s;
-  }
-
-  @keyframes ambient-pulse {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 1; transform: scale(2); }
-  }
-  
   .welcome-section {
     text-align: center;
     margin-bottom: 3rem;
     position: relative;
     z-index: 2;
   }
-  
+
   .newhome-title {
     font-size: 3.5rem;
     font-weight: 700;
@@ -258,7 +149,7 @@
     font-family: 'Tourner';
     font-size: 1.15em;
     display: block;
-    background: linear-gradient(to left, 
+    background: linear-gradient(to left,
       #764ba2 10%,
       #667eea 25%,
       #667eea 40%,
@@ -279,56 +170,47 @@
   }
 
   @keyframes gradient-text-pulse {
-    0%, 100% { 
+    0%, 100% {
       background-position: 90% 0%;
       background-size: 400% 100%;
     }
-    50% { 
+    50% {
       background-position: 60% 0%;
       background-size: 450% 100%;
     }
   }
 
   @keyframes gradient-text-pulse-intense {
-    0%, 100% { 
+    0%, 100% {
       background-position: 85% 0%;
       background-size: 350% 100%;
     }
-    25% { 
+    25% {
       background-position: 45% 0%;
       background-size: 400% 100%;
     }
-    50% { 
+    50% {
       background-position: 30% 0%;
       background-size: 450% 100%;
     }
-    75% { 
+    75% {
       background-position: 50% 0%;
       background-size: 380% 100%;
     }
   }
 
-  @keyframes subtitle-glitch {
-    0% { transform: translate(0); }
-    20% { transform: translate(-1px, 1px); }
-    40% { transform: translate(-1px, -1px); }
-    60% { transform: translate(1px, 1px); }
-    80% { transform: translate(1px, -1px); }
-    100% { transform: translate(0); }
-  }
-  
   .time-display {
     margin-bottom: 2rem;
     position: relative;
   }
-  
+
   .time {
     font-size: 3rem;
     font-weight: 300;
     margin-bottom: 0.5rem;
     font-family: 'Redwing', Aileron;
   }
-  
+
   .date {
     font-size: 1.1rem;
     opacity: 0.7;
@@ -342,7 +224,7 @@
     font-family: 'Letric';
     position: relative;
   }
-  
+
   @media (max-width: 900px) {
     .newhome-container {
       padding: 6.5rem 1.5rem 5rem;
@@ -356,7 +238,7 @@
     .newhome-subtitle {
       top: -1rem;
     }
-    
+
     .time {
       font-size: clamp(2.6rem, 10vw, 3.3rem);
     }
