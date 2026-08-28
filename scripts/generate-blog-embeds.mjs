@@ -36,6 +36,26 @@ const resolveEmbedPath = (coverPath) => {
   return path.join(path.dirname(coverPath), 'cover-embed.jpg');
 };
 
+const FALLBACK_LOCALES = ['en_GB', 'en_US'];
+
+const resolveMetadataPath = async (postDir) => {
+  const localeFiles = new Map();
+
+  for (const file of await fs.readdir(postDir)) {
+    const match = file.match(/^\+metadata\.([a-z]{2}_[A-Z]{2})\.json$/);
+    if (match) {
+      localeFiles.set(match[1], path.join(postDir, file));
+    }
+  }
+
+  for (const locale of FALLBACK_LOCALES) {
+    if (localeFiles.has(locale)) return localeFiles.get(locale);
+  }
+
+  const [firstLocale] = [...localeFiles.keys()].sort();
+  return firstLocale ? localeFiles.get(firstLocale) : null;
+};
+
 const shouldRegenerate = async (sourcePath, embedPath) => {
   if (force) return true;
   if (!(await exists(embedPath))) return true;
@@ -85,10 +105,10 @@ const run = async () => {
   let failed = 0;
 
   for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
+    if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
 
-    const metadataPath = path.join(rootDir, entry.name, 'metadata.json');
-    if (!(await exists(metadataPath))) continue;
+    const metadataPath = await resolveMetadataPath(path.join(rootDir, entry.name));
+    if (!metadataPath) continue;
 
     try {
       const metadata = JSON.parse(await fs.readFile(metadataPath, 'utf8'));
