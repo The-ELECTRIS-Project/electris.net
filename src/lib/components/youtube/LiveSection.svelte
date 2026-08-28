@@ -393,15 +393,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .live-signal-bar,
-    .live-cta,
-    .indicator-dot {
-      transition: none;
-      animation: none;
-    }
-  }
-
   :global([data-theme="cyber-neotic"]) .live-signal-bar {
     box-shadow:
       0 1.5rem 3.2rem rgba(0, 0, 0, 0.2),

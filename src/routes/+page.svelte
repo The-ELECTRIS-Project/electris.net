@@ -1422,24 +1422,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .ambient-beam,
-    .cyber-reticle,
-    .cyber-data-rail span {
-      animation: none;
-    }
-
-    .reveal-block,
-    .logo-card,
-    .signal-card,
-    .snapshot-mini,
-    .news-card,
-    .info-buttons,
-    .hero-frame {
-      transition: none;
-    }
-  }
-
   :global([data-theme="cyber-neotic"]) .cyber-signal-layer {
     opacity: 1;
   }

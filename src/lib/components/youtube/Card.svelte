@@ -523,13 +523,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .card-chassis,
-    .watch-link {
-      transition: none;
-    }
-  }
-
   :global([data-theme="cyber-neotic"]) .card-chassis {
     box-shadow:
       0 1.5rem 3.2rem rgba(0, 0, 0, 0.2),

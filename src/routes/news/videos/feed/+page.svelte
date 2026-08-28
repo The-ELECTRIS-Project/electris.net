@@ -473,13 +473,6 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .reveal-block,
-    .back-link {
-      transition: none;
-    }
-  }
-
   :global([data-theme="cyber-neotic"]) .page-header,
   :global([data-theme="cyber-neotic"]) .video-shell,
   :global([data-theme="cyber-neotic"]) .empty-state {
