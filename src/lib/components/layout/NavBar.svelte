@@ -1498,7 +1498,8 @@
   }
 
   .footer span {
-    font-family: 'Redwing Light';
+    font-family: 'Redwing';
+    font-weight: 300;
   }
 
   .reset-button {
