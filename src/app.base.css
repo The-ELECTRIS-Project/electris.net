@@ -1,4 +1,5 @@
-@import 'tailwindcss';
+@layer theme, base, components, utilities;
+@import 'tailwindcss/preflight.css' layer(base);
 @import '../static/fonts/fonts.css';
 
 /* ===== BASE STYLES ===== */
