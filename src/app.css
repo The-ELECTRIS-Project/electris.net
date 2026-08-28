@@ -1,0 +1,9 @@
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/preflight.css' layer(base);
+@import '../static/fonts/fonts.css';
+
+@import './styles/tokens.css';
+@import './styles/schemes.css';
+@import './styles/base.css';
+@import './styles/theme-cyber.css';

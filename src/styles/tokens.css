@@ -1,0 +1,80 @@
+/* Scales. Theme-independent: these never change between themes or colour schemes. */
+
+:root {
+  /* ===== SPACING ===== */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* ===== RADIUS ===== */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-pill: 999px;
+  --radius-round: 50%;
+
+  /* ===== TYPE ===== */
+  --text-2xs: 0.75rem;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.5rem;
+
+  /* The only three fluid sizes. New headings pick one of these. */
+  --display-sm: clamp(2rem, 5vw, 2.75rem);
+  --display-md: clamp(2.5rem, 7vw, 3.5rem);
+  --display-lg: clamp(3rem, 9vw, 5rem);
+
+  --font-display: 'Letric', sans-serif;
+  --font-body: 'Redwing', 'Aileron', sans-serif;
+  --font-ui: 'Aileron', sans-serif;
+  --font-brand: 'Tourner', sans-serif;
+  --font-game: 'Nightcore', sans-serif;
+
+  /* ===== MOTION ===== */
+  --duration-fast: 120ms;
+  --duration-normal: 220ms;
+  --duration-slow: 380ms;
+
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --transition-colors:
+    color var(--duration-normal) var(--ease-out),
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
+
+  /* ===== LAYOUT ===== */
+  --layout-nav-height: 5rem;
+  --layout-page-top: calc(var(--layout-nav-height) + var(--space-6));
+  --layout-page-inline: clamp(1rem, 3vw, 3rem);
+  --layout-measure: 42rem;
+  --layout-max: 80rem;
+
+  /* ===== STACKING ===== */
+  --z-raised: 1;
+  --z-sticky: 10;
+  --z-nav: 100;
+  --z-overlay: 200;
+  --z-popup: 300;
+  --z-toast: 400;
+  --z-effects: 450;
+  --z-orbit: 500;
+
+  /* ===== MISC ===== */
+  --touch-target-size: 2.75rem;
+  --scrollbar-width: 10px;
+}

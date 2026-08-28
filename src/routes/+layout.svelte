@@ -1,6 +1,5 @@
 <script lang="ts">
-  import '/src/app.base.css';
-  import '/src/app.cyber.css';
+  import '/src/app.css';
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { afterNavigate } from '$app/navigation';
