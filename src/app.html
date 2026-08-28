@@ -1,10 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="default" data-color-scheme="dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/icons/favicon.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<a rel="me" href="https://mastodon.social/@ELECTRIS" style="display:none;">Mastodon</a>
+
+		<script>
+			/* Mirrors applyStyles() in src/lib/state/theme.svelte.ts. Runs before first paint so a
+			   stored theme does not flash. Key is MODS_STORAGE_KEY in src/lib/state/mods.svelte.ts. */
+			try {
+				var site = (JSON.parse(localStorage.getItem('electris-mods') || '{}').site) || {};
+				var scheme = site.colorScheme;
+				if (!scheme || scheme === 'auto') {
+					scheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				var root = document.documentElement;
+				root.setAttribute('data-theme', site.theme === 'cyber-neotic' ? 'cyber-neotic' : 'default');
+				root.setAttribute('data-color-scheme', scheme);
+				root.setAttribute('data-hide-scrollbar', String(!!site.hideScrollbar));
+			} catch (e) { /* the defaults on the root element stand */ }
+		</script>
 
 		%sveltekit.head%
 	</head>

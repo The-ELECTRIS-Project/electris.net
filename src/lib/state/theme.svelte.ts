@@ -119,6 +119,5 @@ export function applyStyles(selectedTheme: Theme, selectedColorScheme: ColorSche
 
   document.documentElement.setAttribute('data-theme', selectedTheme);
   document.documentElement.setAttribute('data-color-scheme', resolvedColorScheme);
-  document.documentElement.setAttribute('data-color-scheme-selected', selectedColorScheme);
   document.documentElement.setAttribute('data-hide-scrollbar', modsState.config.site.hideScrollbar.toString());
 }

@@ -51,7 +51,7 @@ type ModsSettingValue =
   | NewHomeModsConfig[keyof NewHomeModsConfig]
   | DevToolsModsConfig[keyof DevToolsModsConfig];
 
-const MODS_STORAGE_KEY = 'electris-mods';
+export const MODS_STORAGE_KEY = 'electris-mods';
 
 const DEFAULT_SITE_MODS: SiteModsConfig = {
   theme: 'default',
