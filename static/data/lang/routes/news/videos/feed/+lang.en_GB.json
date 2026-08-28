@@ -1,0 +1,19 @@
+{
+  "videos.page.kicker": "YouTube // signal feed",
+  "videos.page.title": "Signal Broadcasts",
+  "videos.page.intro": "The latest transmissions from the ELECTRIS network channels.",
+  "videos.metric.live": "Live / upcoming",
+  "videos.metric.latest": "Latest uploads",
+  "videos.metric.refresh": "Last refresh",
+  "videos.last_updated.empty": "Awaiting refresh",
+  "videos.section.live.kicker": "Signal Window",
+  "videos.section.live": "Live & Upcoming",
+  "videos.section.live.copy": "If a stream is active or already scheduled, it lands here.",
+  "videos.section.latest.kicker": "Network Feed",
+  "videos.section.latest": "Latest Uploads",
+  "videos.section.latest.copy": "Each channel contributes its newest finished upload, with the player frame adapting to the actual video shape instead of forcing one generic format.",
+  "videos.empty_state.kicker": "No active signals",
+  "videos.empty_state.title": "Nothing is on the wire right now.",
+  "videos.empty_state": "No signals found. Please check back later.",
+  "videos.back_home": "Back to Base"
+}
