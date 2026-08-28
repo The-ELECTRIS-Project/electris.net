@@ -160,13 +160,27 @@
     }
   ]);
 
+  let pointerFrame = 0;
+  let scrollFrame = 0;
+
   function handlePointerMove(event: MouseEvent) {
-    pointer.x = (event.clientX / window.innerWidth) * 100;
-    pointer.y = (event.clientY / window.innerHeight) * 100;
+    const { clientX, clientY } = event;
+    if (pointerFrame) return;
+
+    pointerFrame = requestAnimationFrame(() => {
+      pointerFrame = 0;
+      pointer.x = (clientX / window.innerWidth) * 100;
+      pointer.y = (clientY / window.innerHeight) * 100;
+    });
   }
 
   function handleScroll() {
-    scrollShift = Math.min(window.scrollY, window.innerHeight * 1.4);
+    if (scrollFrame) return;
+
+    scrollFrame = requestAnimationFrame(() => {
+      scrollFrame = 0;
+      scrollShift = Math.min(window.scrollY, window.innerHeight * 1.4);
+    });
   }
 
   onMount(() => {
@@ -203,6 +217,8 @@
 
     return () => {
       observer.disconnect();
+      cancelAnimationFrame(pointerFrame);
+      cancelAnimationFrame(scrollFrame);
     };
   });
 </script>
