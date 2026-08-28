@@ -42,31 +42,31 @@
 <style>
   .disclosure-box {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
+    bottom: var(--space-5);
+    right: var(--space-5);
     width: min(22rem, calc(100vw - 3rem));
-    background-color: #131615;
-    color: #f65901;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(246, 89, 1, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-    z-index: 2000;
+    background-color: var(--surface-nav);
+    color: var(--accent);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-popup);
   }
 
   .close-btn {
     position: absolute;
-    top: 0.5rem;
-    right: 0.75rem;
+    top: var(--space-2);
+    right: var(--space-3);
     background: none;
     border: none;
-    color: #f65901;
-    font-size: 1.5rem;
+    color: var(--accent);
+    font-size: var(--text-xl);
     cursor: pointer;
     line-height: 1;
-    padding: 0.25rem;
+    padding: var(--space-1);
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: opacity var(--duration-normal) var(--ease-out);
   }
 
   .close-btn:hover {
@@ -75,45 +75,45 @@
 
   .title {
     user-select: none;
-    margin: 0 0 0.5rem;
-    font-size: 1.5rem;
-    font-family: 'Letric';
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xl);
+    font-family: var(--font-display);
     line-height: 1.1;
   }
 
   .body {
     user-select: none;
-    margin: 0 0 1.25rem;
-    font-size: 0.9rem;
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-sm);
     line-height: 1.5;
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 300;
   }
 
   .got-it-btn {
     user-select: none;
     width: 100%;
-    background-color: #0f1010;
-    color: #f65901;
-    border: 1px solid #f65901;
-    padding: 0.75rem;
-    border-radius: 0.75rem;
+    background-color: var(--surface-page);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 1rem;
-    font-family: 'Redwing';
-    transition: all 0.2s;
+    font-size: var(--text-base);
+    font-family: var(--font-body);
+    transition: var(--transition-colors);
   }
 
   .got-it-btn:hover {
-    background-color: #f65901;
-    color: #0f1010;
+    background-color: var(--accent);
+    color: var(--surface-page);
   }
 
   @media (max-width: 600px) {
     .disclosure-box {
-      bottom: 1rem;
-      right: 1rem;
-      left: 1rem;
+      bottom: var(--space-4);
+      right: var(--space-4);
+      left: var(--space-4);
       width: auto;
     }
   }

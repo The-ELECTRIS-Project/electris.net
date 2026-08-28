@@ -45,84 +45,90 @@
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.5);
+    padding: var(--space-3);
+    background-color: var(--scrim-page);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: var(--z-popup);
   }
 
   .mobile-popup {
-    background-color: #131615;
-    color: #f65901;
+    background-color: var(--surface-nav);
+    color: var(--accent);
     width: min(19rem, calc(100vw - 1.5rem));
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
     max-width: 100%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    animation: fadeInGrow 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    animation: fadeInGrow var(--duration-slow) var(--ease-out);
   }
 
   .mobile-popup-title {
     user-select: none;
-    margin: 0 0 0.65rem;
-    font-size: 1.55rem;
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xl);
     line-height: 1.05;
-    font-family: 'Letric';
+    font-family: var(--font-display);
   }
 
   .mobile-popup-body {
     user-select: none;
     margin: 0;
-    font-size: 0.95rem;
+    font-size: var(--text-sm);
     line-height: 1.5;
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 300;
-    padding-bottom: 0.75rem;
-    padding-top: 0.2rem;
+    padding-bottom: var(--space-3);
+    padding-top: var(--space-1);
   }
 
   .mobile-popup label {
     user-select: none;
     display: flex;
     align-items: center;
-    gap: 0.45rem;
-    font-size: 0.8rem;
+    gap: var(--space-2);
+    font-size: var(--text-2xs);
     line-height: 1.35;
   }
 
   .mobile-popup button {
     user-select: none;
-    min-height: 2.5rem;
-    font-size: 0.95rem;
+    min-height: var(--touch-target-size);
+    font-size: var(--text-sm);
   }
 
   .popup-controls {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
   }
 
   button {
-    background-color: #0f1010;
-    color: #f65901;
-    border: 1px solid #f65901;
-    padding: 0.65rem 0.95rem;
-    border-radius: 0.75rem;
+    background-color: var(--surface-page);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
     cursor: pointer;
+    transition: var(--transition-colors);
+  }
+
+  button:hover {
+    background-color: var(--accent);
+    color: var(--surface-page);
   }
 
   input[type="checkbox"] {
     width: 0.95rem;
     height: 0.95rem;
     margin: 0;
-    accent-color: #f65901;
+    accent-color: var(--accent);
     flex: 0 0 auto;
   }
-  
+
   @keyframes fadeInGrow {
     from { opacity: 0; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1); }
