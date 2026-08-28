@@ -576,7 +576,7 @@
     background:
       radial-gradient(circle at var(--pointer-x) var(--pointer-y), color-mix(in srgb, var(--color-primary) 20%, transparent) 0%, transparent 28%),
       radial-gradient(circle at calc(var(--pointer-x) - 18%) calc(var(--pointer-y) + 12%), color-mix(in srgb, var(--color-electro) 16%, transparent) 0%, transparent 26%),
-      radial-gradient(circle at calc(var(--pointer-x) + 22%) calc(var(--pointer-y) - 18%), color-mix(in srgb, var(--color-varrow) 12%, transparent) 0%, transparent 24%);
+      radial-gradient(circle at calc(var(--pointer-x) + 22%) calc(var(--pointer-y) - 18%), color-mix(in srgb, var(--brand-electris) 12%, transparent) 0%, transparent 24%);
     filter: blur(1.4vmin);
     opacity: 0.95;
   }
@@ -1288,7 +1288,7 @@
     background:
       radial-gradient(circle at var(--pointer-x) var(--pointer-y), color-mix(in srgb, var(--color-primary) 24%, transparent) 0%, transparent 24%),
       radial-gradient(circle at calc(var(--pointer-x) - 16%) calc(var(--pointer-y) + 11%), color-mix(in srgb, var(--color-electro) 22%, transparent) 0%, transparent 23%),
-      radial-gradient(circle at calc(var(--pointer-x) + 18%) calc(var(--pointer-y) - 12%), color-mix(in srgb, var(--color-varrow) 16%, transparent) 0%, transparent 21%);
+      radial-gradient(circle at calc(var(--pointer-x) + 18%) calc(var(--pointer-y) - 12%), color-mix(in srgb, var(--brand-electris) 16%, transparent) 0%, transparent 21%);
     filter: blur(10px) saturate(125%);
   }
 

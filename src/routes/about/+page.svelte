@@ -5,15 +5,14 @@
 
   let visibleSections: Record<string, boolean> = $state({
     electris: false,
-    electro: false,
-    varrow: false
+    electro: false
   });
   const withLineBreaks = (text: string): string => text.replace(/<br\s*\/?>/gi, '\n');
 
   useHoverConfig([
     {
       type: ['h1', 'h2'],
-      selectors: ['.main-title', '.electris-header', '.electro-header', '.varrow-header'],
+      selectors: ['.main-title', '.electris-header', '.electro-header'],
       className: 'hovered-word-wrap',
       lockPosition: true,
       wrapText: {
@@ -124,19 +123,6 @@ setTimeout(orbitReset, 10);
       </div>
     </section>
 
-    <!-- VARROW SECTION -->
-    <section id="varrow" class:visible={visibleSections.varrow} class="varrow-section">
-      <h2 class="section-title varrow-header">{t('about.vrrw.hero')}</h2>
-      <div class="content-text varrow-text">
-        <p class="intro">{t('about.vrrw.intro')}</p>
-        <div class="terminal-block">
-          <blockquote class="quote-text">
-            {t('about.vrrw.quote')}
-          </blockquote>
-          <footer class="quote-author">{t('site.author.vrrw')}</footer>
-        </div>
-      </div>
-    </section>
   </div>
   
   <div class="ambient-dots">
@@ -237,7 +223,6 @@ setTimeout(orbitReset, 10);
     white-space: pre-line;
   }
 
-
   /* --- ELECTRO STYLES --- */
   .electro-header {
     color: var(--color-electro);
@@ -309,38 +294,6 @@ setTimeout(orbitReset, 10);
     background: color-mix(in srgb, var(--color-electro) 14%, transparent);
     box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.16);
   }
-
-
-  /* --- VARROW STYLES --- */
-  .varrow-header {
-    color: var(--color-varrow);
-    border-color: var(--color-varrow);
-  }
-
-  .terminal-block {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--color-varrow);
-    padding: 1.5rem;
-    margin-top: 1rem;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-  }
-
-  .quote-text {
-    color: var(--color-varrow);
-    font-size: 1.1rem;
-    margin: 0;
-    font-style: italic;
-  }
-
-  .quote-author {
-    color: var(--color-varrow);
-    text-align: right;
-    margin-top: 0.5rem;
-    font-weight: bold;
-    opacity: 0.8;
-  }
-
 
   /* Ambient Dots (Subtler) */
   .ambient-dots {
@@ -427,8 +380,7 @@ setTimeout(orbitReset, 10);
     }
 
     .personal-block,
-    .creator-standard-callout,
-    .terminal-block {
+    .creator-standard-callout {
       padding: 1rem;
     }
 

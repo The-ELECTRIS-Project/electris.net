@@ -22,7 +22,6 @@
   --accent-hover: hsl(22, 100%, 53%);
   --brand-electris: #ffa251;
   --brand-electro: #00ffaa;
-  --color-varrow: #ccff00;
 
   --scrim-page: rgba(0, 0, 0, 0.2);
   --scrim-video: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.8));
@@ -68,7 +67,6 @@
   --accent-hover: #ff6811;
   --brand-electris: #ff983e;
   --brand-electro: #00bf80;
-  --color-varrow: #88cc00;
 
   --scrim-page: rgba(0, 0, 0, 0.2);
   --scrim-video: linear-gradient(rgba(10, 10, 10, 0), rgba(10, 10, 10, 0));
@@ -114,7 +112,6 @@
   --accent-hover: hsl(22, 100%, 65%);
   --brand-electris: #ffa251;
   --brand-electro: #20ffb0;
-  --color-varrow: #d4ff33;
 
   --scrim-page: rgba(0, 0, 0, 0.4);
   --scrim-video: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.95));

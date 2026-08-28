@@ -78,7 +78,7 @@
   .blob-2 {
     bottom: -10%;
     right: -10%;
-    background: var(--color-varrow);
+    background: var(--brand-electris);
     animation-duration: 30s;
     animation-delay: -5s;
   }
