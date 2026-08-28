@@ -10,7 +10,7 @@
   import YTLive from '$lib/components/youtube/LiveSection.svelte';
   import YTSkeleton from '$lib/components/youtube/Skeleton.svelte';
 
-  type HomeSection = 'hero' | 'pillars' | 'news' | 'note';
+  type HomeSection = 'hero' | 'news' | 'note';
 
   let { data } = $props();
   
@@ -40,7 +40,6 @@
   let scrollShift = $state(0);
   let visibleSections = $state<Record<HomeSection, boolean>>({
     hero: false,
-    pillars: false,
     news: false,
     note: false
   });
@@ -56,42 +55,6 @@
         }).format(new Date(latestPost.date))
       : ''
   );
-
-  let principleCards = $derived([
-    {
-      slug: 'make',
-      aspect: 'electris',
-      eyebrow: t('home.principle.make.eyebrow', 'Make'),
-      title: t('home.principle.make.title', 'Take the work seriously.'),
-      body: t(
-        'home.principle.make.body',
-        "A minute or a year, the time it takes does not make it any less yours. If it matters to you, it is worth carrying through."
-      ),
-      lift: '0rem'
-    },
-    {
-      slug: 'share',
-      aspect: 'electro',
-      eyebrow: t('home.principle.share.eyebrow', 'Share'),
-      title: t('home.principle.share.title', 'Let it leave the room.'),
-      body: t(
-        'home.principle.share.body',
-        'It\'s easy to create for yourself, but creation is meant to be shared and enjoyed by many, so if you made something you like, maybe someone else will like it too.'
-      ),
-      lift: '1.8rem'
-    },
-    {
-      slug: 'evolve',
-      aspect: 'varrow',
-      eyebrow: t('home.principle.evolve.eyebrow', 'Evolve'),
-      title: t('home.principle.evolve.title', 'Let the vision change shape.'),
-      body: t(
-        'home.principle.evolve.body',
-        'Sometimes your ideas inspire others to make something of their own. You might agree, disagree, like or dislike their creation, but remember that what you made inspired someone to make something new.'
-      ),
-      lift: '0.8rem'
-    }
-  ]);
 
   let snapshotCards = $derived([
     {
@@ -147,27 +110,6 @@
         width: -0.8,
         height: -1.6
       }
-    },
-    {
-      selectors: ['.signal-card.make'],
-      className: 'hovered-home-make',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 76%, var(--color-electris) 24%)'
-    },
-    {
-      selectors: ['.signal-card.share'],
-      className: 'hovered-home-share',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 82%, var(--color-primary) 18%)'
-    },
-    {
-      selectors: ['.signal-card.evolve'],
-      className: 'hovered-home-evolve',
-      lockPosition: true,
-      preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-varrow) 74%, var(--color-electro) 26%)'
     },
     {
       selectors: ['.news-card.latest-blog'],
@@ -348,19 +290,6 @@
         )}
       </p>
     </aside>
-  </section>
-
-  <section class="pillar-grid reveal-block" data-section="pillars" class:visible={visibleSections.pillars}>
-    {#each principleCards as card, index}
-      <article
-        class={`signal-card ${card.slug} ${card.aspect} wrap-no-interact-all`}
-        style={`--stagger:${index * 140}ms; --lift:${card.lift};`}
-      >
-        <span class="signal-eyebrow">{card.eyebrow}</span>
-        <h2>{card.title}</h2>
-        <p>{card.body}</p>
-      </article>
-    {/each}
   </section>
 
   <section class="snapshot-section reveal-block" data-section="news" class:visible={visibleSections.news}>
@@ -768,7 +697,6 @@
 
   .hero-kicker,
   .section-kicker,
-  .signal-eyebrow,
   .frame-label,
   .mini-label,
   .news-meta {
@@ -931,14 +859,6 @@
     opacity: 0.88;
   }
 
-  .pillar-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    margin-bottom: 4rem;
-  }
-
-  .signal-card,
   .snapshot-mini,
   .news-card {
     transition:
@@ -947,57 +867,6 @@
       box-shadow 0.35s ease;
   }
 
-  .signal-card {
-    position: relative;
-    min-height: 20vmin;
-    padding: 2vmin;
-    border-radius: 2vmin;
-    border: 1px solid var(--surface-border);
-    overflow: hidden;
-    background: linear-gradient(180deg, color-mix(in srgb, currentColor 8%, transparent), transparent 68%), color-mix(in srgb, var(--surface-elevated) 92%, transparent);
-    box-shadow: 0 1rem 2.8rem rgba(0, 0, 0, 0.12);
-    transform: translateY(var(--lift));
-  }
-
-  .signal-card::after {
-    content: '';
-    position: absolute;
-    inset: auto 1vmin 1vmin;
-    height: 34%;
-    border-radius: 1.4vmin;
-    background: linear-gradient(180deg, transparent, color-mix(in srgb, currentColor 10%, transparent));
-    opacity: 0.42;
-    pointer-events: none;
-  }
-
-  .signal-card:hover {
-    transform: translateY(calc(var(--lift) - 0.45rem));
-    border-color: color-mix(in srgb, currentColor 28%, transparent);
-    box-shadow: 0 1.3rem 3rem rgba(0, 0, 0, 0.18);
-  }
-
-  .signal-card.electris {
-    color: var(--color-primary);
-  }
-
-  .signal-card.electro {
-    color: var(--color-electro);
-  }
-
-  .signal-card.varrow {
-    color: var(--color-varrow);
-  }
-
-  .signal-eyebrow {
-    position: relative;
-    z-index: 1;
-    display: block;
-    margin-bottom: 1rem;
-    font-size: 0.78rem;
-    opacity: 0.82;
-  }
-
-  .signal-card h2,
   .snapshot-header h2,
   .snapshot-mini h3,
   .news-copy h3 {
@@ -1005,29 +874,10 @@
     text-transform: uppercase;
   }
 
-  .signal-card h2 {
-    position: relative;
-    z-index: 1;
-    max-width: 10ch;
-    margin: 0 0 1rem;
-    font-size: 2.15rem;
-    line-height: 1.02;
-  }
-
-  .signal-card p,
   .snapshot-mini p,
   .news-copy p,
   .news-intro {
     font-family: 'Redwing';
-  }
-
-  .signal-card p {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    max-width: 25rem;
-    font-size: 1.05rem;
-    line-height: 1.62;
   }
 
   .snapshot-section {
@@ -1335,17 +1185,6 @@
       transform: translateY(calc((var(--scroll-soft-neg) * 0.48) - 0.35rem)) rotate(-2.6deg);
     }
 
-    .pillar-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .signal-card {
-      transform: none;
-    }
-
-    .signal-card:hover {
-      transform: translateY(-0.35rem);
-    }
   }
 
   @media (max-width: 780px) {
@@ -1401,7 +1240,6 @@
     }
 
     .logo-card,
-    .signal-card,
     .snapshot-mini,
     .hero-frame,
     .news-copy {
@@ -1416,8 +1254,7 @@
       transform: translateY(calc((var(--scroll-soft-neg) * 0.32) - 0.24rem)) rotate(-1.8deg);
     }
 
-    .news-copy h3,
-    .signal-card h2 {
+    .news-copy h3 {
       max-width: none;
     }
   }
@@ -1445,7 +1282,6 @@
   }
 
   :global([data-theme="cyber-neotic"]) .logo-card,
-  :global([data-theme="cyber-neotic"]) .signal-card,
   :global([data-theme="cyber-neotic"]) .snapshot-mini,
   :global([data-theme="cyber-neotic"]) .hero-frame,
   :global([data-theme="cyber-neotic"]) .news-card {
@@ -1494,7 +1330,6 @@
 
   :global([data-theme="cyber-neotic"]) .hero-kicker,
   :global([data-theme="cyber-neotic"]) .section-kicker,
-  :global([data-theme="cyber-neotic"]) .signal-eyebrow,
   :global([data-theme="cyber-neotic"]) .mini-label {
     text-shadow: 0 0 0.8rem color-mix(in srgb, var(--color-primary) 18%, transparent);
   }
@@ -1518,7 +1353,6 @@
       0 0 1.3rem color-mix(in srgb, var(--color-electro) 14%, transparent);
   }
 
-  :global([data-theme="cyber-neotic"]) .signal-card,
   :global([data-theme="cyber-neotic"]) .snapshot-mini {
     box-shadow:
       0 1rem 2.8rem rgba(0, 0, 0, 0.18),
