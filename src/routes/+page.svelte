@@ -59,20 +59,20 @@
   let snapshotCards = $derived([
     {
       slug: 'devlog',
-      label: t('home.snapshot.devlog.label', 'Still Underway'),
+      label: t('home.snapshot.devlog.label', 'Not yet'),
       title: t('home.snapshot.devlog.title', 'Latest devlog'),
       body: t(
         'home.snapshot.devlog.body',
-        'The will be news regarding the progress on our games.'
+        "Once there's progress on the games worth showing, it'll go here."
       )
     },
     {
       slug: 'music',
-      label: t('home.snapshot.music.label', 'Still Underway'),
+      label: t('home.snapshot.music.label', 'Not yet'),
       title: t('home.snapshot.music.title', 'Latest music'),
       body: t(
         'home.snapshot.music.body',
-        'The will be news regarding music we produce and/or share.'
+        'Music we make, or music we just want to share, will land here.'
       )
     }
   ]);
@@ -258,7 +258,7 @@
 
   <section class="hero-grid reveal-block" data-section="hero" class:visible={visibleSections.hero}>
     <div class="hero-copy">
-      <p class="hero-kicker">{t('home.hero.kicker', 'ELECTRIS // creative freedom')}</p>
+      <p class="hero-kicker">{t('home.hero.kicker', 'By creators, for creators')}</p>
       <h1 class="hero-title">
         <span>{t('home.hero.title.line1', 'What you create')}</span>
         <span class="aspect">{t('home.hero.title.line2', 'is yours')}</span>
@@ -271,10 +271,10 @@
       </p>
       <div class="action-row">
         <a href="/about" class="info-buttons about-link wrap-no-interact-all">
-          {t('home.hero.link.about', 'Read About ELECTRIS')}
+          {t('home.hero.link.about', 'What ELECTRIS is')}
         </a>
         <a href={latestPostHref} class="info-buttons latest-link ghost wrap-no-interact-all">
-          {t('home.hero.link.latest', 'Open Latest Thought')}
+          {t('home.hero.link.latest', 'Read the latest thought')}
         </a>
       </div>
     </div>
@@ -286,7 +286,7 @@
       <p class="frame-copy">
         {t(
           'home.frame.copy',
-          'Still enough to build something, still keeping the lightning.'
+          'Everything here was made by someone who meant it.'
         )}
       </p>
     </aside>
@@ -294,11 +294,11 @@
 
   <section class="snapshot-section reveal-block" data-section="news" class:visible={visibleSections.news}>
     <div class="snapshot-header">
-      <h2>{t('home.snapshot.title', 'Latest Stuff')}</h2>
+      <h2>{t('home.snapshot.title', 'Latest News')}</h2>
       <p class="news-intro">
         {t(
           'home.snapshot.lead',
-          'This pulls the latest changes from ELECTRIS.'
+          "Whatever we've been working on lately shows up here."
         )}
       </p>
     </div>
@@ -369,7 +369,7 @@
               {/each}
             </div>
 
-            <span class="news-cta">{t('home.snapshot.cta', 'Open latest post')}</span>
+            <span class="news-cta">{t('home.snapshot.cta', 'Read it')}</span>
           </div>
         </a>
       {:else}
@@ -378,11 +378,11 @@
             <div class="news-meta">
               <span>{t('home.snapshot.badge.waiting', 'Waiting for first post')}</span>
             </div>
-            <h3>{t('home.snapshot.empty.title', 'The first signal lands here.')}</h3>
+            <h3>{t('home.snapshot.empty.title', 'Nothing written yet.')}</h3>
             <p>
               {t(
                 'home.snapshot.empty.body',
-                'Once coherent thought is formed, this card will start carrying the newest writing on the site.'
+                "When there's something worth writing down, it'll show up here first."
               )}
             </p>
             <span class="news-cta">{t('home.snapshot.empty.cta', 'Visit the blog')}</span>
