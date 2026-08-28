@@ -18,7 +18,6 @@
     title: 'ELECTRIS',
     description: 'ELECTRIS, where the art matters more than the revenue.',
     image: 'https://electris.net/media/ELECTRIS-Embed-Banner.png',
-    url: 'https://electris.net/',
     type: 'website',
     twitterCard: 'summary_large_image'
   };
@@ -39,9 +38,9 @@
       page.url.origin
     )
   );
-  let ogUrl = $derived(
+  let canonicalUrl = $derived(
     resolveAbsoluteUrl(
-      page.data?.meta?.url || defaultMeta.url,
+      page.data?.meta?.url || page.url.pathname,
       page.url.origin
     )
   );
@@ -61,9 +60,10 @@
 </script>
 
 <svelte:head>
+  <link rel="canonical" href={canonicalUrl} />
   <meta property="og:title" content={ogTitle} />
   <meta property="og:description" content={ogDescription} />
-  <meta property="og:url" content={ogUrl} />
+  <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImage} />
   <meta property="og:image:secure_url" content={ogImage} />
   <meta property="og:type" content={ogType} />
