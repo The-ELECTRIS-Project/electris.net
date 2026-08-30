@@ -83,34 +83,34 @@ main {
   width: 100vw;
   height: 100vh;
   z-index: var(--z-nav);
-  background: var(--overlay-bg);
+  background: var(--scrim-page);
 }
 
 /* ===== NAVIGATION ===== */
 .navbar {
-  background-color: var(--navbar-bg);
-  color: var(--color-primary);
+  background-color: var(--surface-nav);
+  color: var(--text-primary);
 }
 
 .nav-button {
-  color: var(--color-primary);
+  color: var(--text-primary);
 }
 
 .hamburger {
-  background-color: var(--hamburger-bg);
+  background-color: var(--surface-hamburger);
 }
 
 .hamburger-button {
-  color: var(--color-primary);
+  color: var(--text-primary);
 }
 
 .hamburger-footer {
-  color: var(--color-primary);
-  border-top-color: var(--color-primary);
+  color: var(--text-primary);
+  border-top-color: var(--accent);
 }
 
 .hamburger-footer a {
-  color: var(--color-link);
+  color: var(--accent-hover);
 }
 
 /* ===== CURSOR FOLLOWER ===== */

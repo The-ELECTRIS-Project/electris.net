@@ -1139,7 +1139,7 @@
     width: 100vw;
     height: 100vh;
     z-index: var(--z-overlay);
-    background: var(--overlay-bg);
+    background: var(--scrim-page);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
   }
@@ -1157,9 +1157,9 @@
     padding: var(--space-5);
     border-radius: var(--radius-lg);
     z-index: calc(var(--z-overlay) + 1);
-    color: var(--color-primary);
-    background: var(--options-menu-bg);
-    border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    color: var(--text-primary);
+    background: var(--surface-overlay);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
     width: min(30rem, calc(100vw - var(--space-6)));
     min-height: 25rem;
     transition: var(--transition-colors);
@@ -1174,10 +1174,10 @@
       linear-gradient(var(--cyber-grid-color) 1px, transparent 1px),
       linear-gradient(90deg, var(--cyber-grid-color) 1px, transparent 1px);
     background-size: 1.5rem 1.5rem;
-    border-color: var(--color-primary);
+    border-color: var(--accent);
     box-shadow: 
-      0 0 1.5rem color-mix(in srgb, var(--color-primary) 15%, transparent),
-      inset 0 0 1.1rem color-mix(in srgb, var(--color-primary) 5%, transparent);
+      0 0 1.5rem color-mix(in srgb, var(--accent) 15%, transparent),
+      inset 0 0 1.1rem color-mix(in srgb, var(--accent) 5%, transparent);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
   }
@@ -1188,23 +1188,23 @@
     margin-bottom: var(--space-5);
     font-size: var(--text-xl);
     font-weight: 700;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
     padding-bottom: var(--space-3);
   }
 
   :global([data-theme="cyber-neotic"]) .options-menu h2 {
-    text-shadow: 0 0 0.9rem color-mix(in srgb, var(--color-primary) 60%, transparent);
-    border-bottom-color: var(--color-primary);
+    text-shadow: 0 0 0.9rem color-mix(in srgb, var(--accent) 60%, transparent);
+    border-bottom-color: var(--accent);
   }
 
   :global([data-theme="cyber-neotic"]) .options-space-item:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    box-shadow: 0 0 1.1rem color-mix(in srgb, var(--color-primary) 10%, transparent);
-    text-shadow: 0 0 0.6rem var(--color-primary);
+    background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+    box-shadow: 0 0 1.1rem color-mix(in srgb, var(--accent) 10%, transparent);
+    text-shadow: 0 0 0.6rem var(--accent);
   }
 
   :global([data-theme="cyber-neotic"]) .options-back:hover {
-    text-shadow: 0 0 0.6rem var(--color-primary);
+    text-shadow: 0 0 0.6rem var(--accent);
   }
 
   .option {
@@ -1226,7 +1226,7 @@
     margin-top: var(--space-5);
     display: inline-block;
     padding: var(--space-1) var(--space-2);
-    border: 2px solid hsl(22, 100%, 50%);
+    border: 2px solid var(--accent);
     border-radius: var(--radius-sm);
     text-decoration: none;
     color: inherit;
@@ -1235,8 +1235,8 @@
   }
 
   .switch-button:hover {
-    border-color: hsl(22, 100%, 60%);
-    background: rgba(139, 59, 35, 0.274);
+    border-color: var(--accent-hover);
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
   }
 
   .selector {
@@ -1249,8 +1249,8 @@
 
   .theme-button {
     background: none;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-xs);
     cursor: pointer;
@@ -1265,11 +1265,11 @@
   }
 
   .theme-button:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   :global(.options-menu .theme-icon) {
-    color: var(--color-primary);
+    color: var(--text-primary);
   }
 
   .theme-name {
@@ -1297,7 +1297,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary);
+    background: var(--surface-sunken);
     border: 1px solid;
     border-radius: var(--radius-xs);
     border-top: none;
@@ -1314,7 +1314,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: var(--color-primary);
+    color: var(--text-primary);
     padding: var(--space-2) var(--space-3);
     cursor: pointer;
     display: flex;
@@ -1328,11 +1328,11 @@
   }
 
   .theme-option:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .theme-option.active {
-    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 20%, transparent);
     font-weight: 500;
   }
 
@@ -1352,7 +1352,7 @@
 
   .theme-description {
     font-size: var(--text-2xs);
-    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1361,8 +1361,8 @@
 
   .color-scheme-button {
     background: none;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-xs);
     cursor: pointer;
@@ -1377,11 +1377,11 @@
   }
 
   .color-scheme-button:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   :global(.options-menu .color-scheme-icon) {
-    color: var(--color-primary);
+    color: var(--text-primary);
   }
 
   .color-scheme-name {
@@ -1399,7 +1399,7 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary);
+    background: var(--surface-sunken);
     border: 1px solid;
     border-radius: var(--radius-xs);
     border-top: none;
@@ -1416,7 +1416,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: var(--color-primary);
+    color: var(--text-primary);
     padding: var(--space-2) var(--space-3);
     cursor: pointer;
     display: flex;
@@ -1430,11 +1430,11 @@
   }
 
   .color-scheme-option:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .color-scheme-option.active {
-    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 20%, transparent);
     font-weight: 500;
   }
 
@@ -1454,7 +1454,7 @@
 
   .color-scheme-description {
     font-size: var(--text-2xs);
-    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1462,7 +1462,7 @@
   }
 
   .checkmark {
-    color: var(--color-primary);
+    color: var(--text-primary);
     font-weight: bold;
     font-size: var(--text-sm);
     flex-shrink: 0;
@@ -1481,16 +1481,16 @@
     line-height: 1.4;
     font-family: var(--font-ui);
     text-decoration: none;
-    color: var(--color-primary);
+    color: var(--text-primary);
     font-size: var(--text-lg);
   }
 
   .env-indicator {
     margin-left: var(--space-2);
-    color: var(--color-primary);
+    color: var(--text-primary);
     font-size: var(--text-xs);
     letter-spacing: 0.03em;
-    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 20%, transparent);
     padding: 0.1rem 0.3rem;
     border-radius: var(--radius-xs);
     font-family: monospace;
@@ -1504,8 +1504,8 @@
   .reset-button {
     background: none;
     width: auto;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -1521,7 +1521,7 @@
   }
 
   .reset-button:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 15%, transparent);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
   }
@@ -1561,7 +1561,7 @@
     width: 100%;
     background: none;
     border: none;
-    color: var(--color-primary);
+    color: var(--text-primary);
     padding: var(--space-4) var(--space-3);
     cursor: pointer;
     font-family: inherit;
@@ -1579,7 +1579,7 @@
   }
 
   .options-space-item:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
     padding-left: var(--space-4);
   }
 
@@ -1605,7 +1605,7 @@
     gap: var(--space-2);
     background: none;
     border: none;
-    color: color-mix(in srgb, var(--color-primary) 70%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 70%, transparent);
     cursor: pointer;
     font-family: inherit;
     font-size: var(--text-sm);
@@ -1619,8 +1619,8 @@
   }
 
   .options-back:hover {
-    color: var(--color-primary);
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    color: var(--text-primary);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .options-space-title {
@@ -1628,8 +1628,8 @@
     padding: 0 var(--space-2);
     font-size: var(--text-base);
     font-weight: 700;
-    color: var(--color-primary);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--text-primary);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
     padding-bottom: var(--space-2);
   }
 
@@ -1650,15 +1650,15 @@
   }
 
   .devtools-option span {
-    color: color-mix(in srgb, var(--color-primary) 90%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 90%, transparent);
   }
 
   .toggle-switch-mini {
     position: relative;
     width: 2.5rem;
     height: 1.25rem;
-    background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: var(--transition-colors);
@@ -1666,8 +1666,8 @@
   }
 
   .toggle-switch-mini.active {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+    background: var(--accent);
+    border-color: var(--accent);
   }
 
   .toggle-slider-mini {
@@ -1710,7 +1710,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--scrim-page);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1720,19 +1720,19 @@
   }
 
   .confirm-dialog {
-    background: var(--bg-body, #1a1a1a);
-    border: 2px solid var(--color-primary);
+    background: var(--surface-page);
+    border: 2px solid var(--accent);
     border-radius: var(--radius-md);
     padding: var(--space-5);
     width: min(22rem, calc(100vw - var(--space-6)));
     text-align: center;
-    color: var(--color-primary);
+    color: var(--text-primary);
   }
 
   .confirm-dialog h3 {
     margin: 0 0 var(--space-3);
     font-size: var(--text-lg);
-    color: var(--color-primary);
+    color: var(--text-primary);
   }
 
   .confirm-dialog p {
@@ -1744,12 +1744,12 @@
   .cookie-stats {
     margin: var(--space-3) 0;
     padding: var(--space-2);
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
     border-radius: var(--radius-xs);
   }
 
   .cookie-stats small {
-    color: color-mix(in srgb, var(--color-primary) 80%, transparent);
+    color: color-mix(in srgb, var(--text-primary) 80%, transparent);
     font-family: monospace;
   }
 
@@ -1772,14 +1772,14 @@
 
   .confirm-cancel {
     background: none;
-    border-color: #666;
-    color: #666;
+    border-color: var(--text-muted);
+    color: var(--text-muted);
   }
 
   .confirm-cancel:hover {
-    background-color: rgba(102, 102, 102, 0.1);
-    border-color: #888;
-    color: #888;
+    background-color: color-mix(in srgb, var(--text-muted) 10%, transparent);
+    border-color: var(--text-secondary);
+    color: var(--text-secondary);
   }
 
   .confirm-reset {
@@ -1807,7 +1807,7 @@
     font-weight: 600;
     min-width: 3.2ch;
     text-align: right;
-    color: var(--color-primary);
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
@@ -1817,7 +1817,7 @@
     width: 7rem;
     height: 0.35rem;
     border-radius: var(--radius-pill);
-    background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
     outline: none;
     transition: background-color var(--duration-normal) var(--ease-out);
     flex-shrink: 1;
@@ -1836,9 +1836,9 @@
     width: 1.2rem;
     height: 0.75rem;
     border-radius: var(--radius-pill);
-    background: var(--color-primary);
+    background: var(--accent);
     cursor: pointer;
-    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--color-primary) 30%, transparent);
+    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--accent) 30%, transparent);
     transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
     margin-top: -0.2rem;
   }
@@ -1847,9 +1847,9 @@
     width: 1.2rem;
     height: 0.75rem;
     border-radius: var(--radius-pill);
-    background: var(--color-primary);
+    background: var(--accent);
     cursor: pointer;
-    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--color-primary) 30%, transparent);
+    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--accent) 30%, transparent);
     transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
     border: none;
   }
@@ -1857,13 +1857,13 @@
   .spacing-slider:hover::-webkit-slider-thumb,
   .spacing-slider:focus::-webkit-slider-thumb {
     transform: scale(1.15);
-    box-shadow: 0 0 0.75rem var(--color-primary);
+    box-shadow: 0 0 0.75rem var(--accent);
   }
 
   .spacing-slider:hover::-moz-range-thumb,
   .spacing-slider:focus::-moz-range-thumb {
     transform: scale(1.15);
-    box-shadow: 0 0 0.75rem var(--color-primary);
+    box-shadow: 0 0 0.75rem var(--accent);
   }
 
   @media (max-width: 900px) {
