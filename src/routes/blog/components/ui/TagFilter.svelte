@@ -115,55 +115,58 @@
   .tag-filter-container {
     position: relative;
     min-width: 6rem;
-    z-index: 100;
+    z-index: var(--z-sticky);
   }
 
   .filter-trigger {
     width: 100%;
-    padding: 0.65rem 1rem;
-    background: rgba(246, 89, 1, 0.1);
-    border: 0.2vmin solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vmin;
-    font-family: 'Redwing';
-    font-size: 0.9rem;
+    padding: var(--space-2) var(--space-4);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     color: inherit;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-colors);
     text-align: left;
   }
 
   .filter-trigger:hover, .filter-trigger[aria-expanded="true"] {
-    border-color: rgba(246, 89, 1, 0.6);
-    background: rgba(246, 89, 1, 0.15);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .filter-trigger.active {
-    border-color: var(--accent-color, #ff6811);
-    background: rgba(246, 89, 1, 0.15);
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .trigger-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
   }
 
   .trigger-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .clear-trigger {
     background: none;
     border: none;
     color: inherit;
-    font-size: 0.8rem;
-    padding: 0.2rem;
+    font-size: var(--text-xs);
+    padding: var(--space-1);
     cursor: pointer;
     opacity: 0.5;
-    transition: all 0.2s ease;
+    transition:
+      var(--transition-colors),
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,13 +174,13 @@
 
   .clear-trigger:hover {
     opacity: 1;
-    color: var(--accent-color, #ff6811);
+    color: var(--accent);
     transform: scale(1.1);
   }
 
   .trigger-icon {
-    font-size: 0.7rem;
-    transition: transform 0.3s ease;
+    font-size: var(--text-2xs);
+    transition: transform var(--duration-slow) var(--ease-out);
     opacity: 0.7;
   }
 
@@ -187,34 +190,29 @@
 
   .filter-menu {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: calc(100% + var(--space-2));
     left: 0;
     right: 0;
-    background: #111;
-    border: 0.2vmin solid rgba(246, 89, 1, 0.4);
-    border-radius: 0.8vmin;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: var(--surface-overlay);
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
     min-width: 12rem;
   }
 
-  :global([data-color-scheme='light']) .filter-menu {
-    background: #fff;
-    box-shadow: 0 10px 30px rgba(246, 89, 1, 0.15);
-  }
-
   .menu-header {
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid rgba(246, 89, 1, 0.2);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(246, 89, 1, 0.05);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
   }
 
   .menu-title {
-    font-family: 'Redwing';
-    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
     opacity: 0.7;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -223,71 +221,70 @@
   .clear-all {
     background: none;
     border: none;
-    color: var(--accent-color, #ff6811);
-    font-family: 'Redwing';
-    font-size: 0.75rem;
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
     cursor: pointer;
-    padding: 0.2rem 0.5rem;
-    border-radius: 0.3rem;
-    transition: background 0.2s;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-xs);
+    transition: var(--transition-colors);
   }
 
   .clear-all:hover {
-    background: rgba(246, 89, 1, 0.1);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .tags-list {
     max-height: 25rem;
     overflow-y: auto;
-    padding: 0.5rem;
+    padding: var(--space-2);
   }
 
   .tag-option {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.7rem 0.8rem;
+    gap: var(--space-3);
+    padding: var(--space-3);
     background: none;
     border: none;
     color: inherit;
-    font-family: 'Redwing';
-    font-size: 0.95rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     text-align: left;
     cursor: pointer;
-    border-radius: 0.4rem;
-    transition: all 0.2s;
+    border-radius: var(--radius-xs);
+    transition: var(--transition-colors);
   }
 
   .tag-option:hover {
-    background: rgba(246, 89, 1, 0.1);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .tag-option.selected {
-    color: var(--accent-color, #ff6811);
-    background: rgba(246, 89, 1, 0.08);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .checkbox {
     width: 1.2rem;
     height: 1.2rem;
-    border: 1px solid rgba(246, 89, 1, 0.4);
-    border-radius: 0.3rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius: var(--radius-xs);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
-    transition: all 0.2s;
+    font-size: var(--text-xs);
+    transition: var(--transition-colors);
     flex-shrink: 0;
   }
 
   .tag-option.selected .checkbox {
-    background: var(--accent-color, #ff6811);
-    border-color: var(--accent-color, #ff6811);
+    background: var(--accent);
+    border-color: var(--accent);
     color: white;
   }
 
-  /* Custom Scrollbar */
   .tags-list::-webkit-scrollbar {
     width: 4px;
   }
@@ -297,11 +294,11 @@
   }
 
   .tags-list::-webkit-scrollbar-thumb {
-    background: rgba(246, 89, 1, 0.3);
-    border-radius: 10px;
+    background: color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-pill);
   }
 
   .tags-list::-webkit-scrollbar-thumb:hover {
-    background: rgba(246, 89, 1, 0.5);
+    background: color-mix(in srgb, var(--accent) 50%, transparent);
   }
 </style>

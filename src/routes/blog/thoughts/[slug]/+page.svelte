@@ -365,8 +365,8 @@
 
   .post-container {
     min-height: 100vh;
-    padding: 6rem 2rem 4rem;
-    max-width: 80vmin;
+    padding: var(--layout-page-top) var(--space-6) var(--space-8);
+    max-width: 59rem;
     margin: 0 auto;
     position: relative;
   }
@@ -377,9 +377,9 @@
   }
 
   .error h2 {
-    font-family: 'Letric';
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-4);
   }
 
   .banner-image {
@@ -390,34 +390,36 @@
 
   .cover-image {
     width: 100%;
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-7);
   }
 
   .post-info {
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: var(--post-info-bg, rgba(246, 89, 1, 0.03));
-    border-radius: 1rem;
-    border: 0.1vmin solid var(--post-info-border, rgba(246, 89, 1, 0.1));
+    margin-bottom: var(--space-7);
+    padding: var(--space-6);
+    background: var(--post-info-bg, color-mix(in srgb, var(--accent) 3%, transparent));
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--post-info-border, color-mix(in srgb, var(--accent) 10%, transparent));
   }
 
   .post-nav {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
   }
 
   .back-link {
-    color: rgba(246, 89, 1, 0.8);
+    color: color-mix(in srgb, var(--accent) 80%, transparent);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     text-decoration: none;
-    font-family: 'Redwing';
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    transition:
+      var(--transition-colors),
+      transform var(--duration-slow) var(--ease-out);
   }
 
   .back-link:hover {
-    color: rgba(246, 89, 1, 1);
+    color: var(--accent);
     transform: translateX(-3px);
   }
 
@@ -537,14 +539,14 @@
   .fallback-notice {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: rgba(246, 89, 1, 0.04);
-    border: 1px solid rgba(246, 89, 1, 0.08);
-    border-radius: 0.5rem;
-    margin-top: 1rem;
-    font-family: 'Redwing';
-    font-size: 0.75rem;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: color-mix(in srgb, var(--accent) 4%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
+    border-radius: var(--radius-sm);
+    margin-top: var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
     opacity: 0.7;
     width: fit-content;
   }
@@ -556,39 +558,41 @@
   .post-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+    font-size: var(--text-sm);
     color: var(--post-info-meta, inherit);
     opacity: 0.7;
   }
 
   .post-date, .author, .read-time {
-    font-family: var(--post-info-meta-font, 'Redwing');
+    font-family: var(--post-info-meta-font, var(--font-body));
   }
 
   .featured-badge {
-    background: rgba(246, 89, 1, 0.2);
-    padding: 0.3rem 0.8rem;
-    border-radius: 0.4rem;
-    font-size: 0.8rem;
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-xs);
+    font-size: var(--text-xs);
     font-weight: 600;
-    font-family: var(--post-info-meta-font, 'Redwing');
+    font-family: var(--post-info-meta-font, var(--font-body));
   }
 
   .post-available-locales {
     display: flex;
-    gap: 0.4rem;
+    gap: var(--space-1);
     align-items: center;
-    margin-left: 0.5rem;
-    padding-left: 0.8rem;
-    border-left: 1px solid rgba(246, 89, 1, 0.2);
+    margin-left: var(--space-2);
+    padding-left: var(--space-3);
+    border-left: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .locale-flag {
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
     opacity: 0.4;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
     cursor: default;
   }
 
@@ -598,20 +602,20 @@
   }
 
   .post-title {
-    font-family: var(--post-title-font, 'Letric');
-    font-size: 3rem;
+    font-family: var(--post-title-font, var(--font-display));
+    font-size: var(--display-sm);
     line-height: 1.2;
-    margin: 0 0 1.5rem;
+    margin: 0 0 var(--space-5);
     cursor: default;
-    color: var(--post-info-title, var(--accent-color, #ff6811));
-    text-shadow: 0 0 15px rgba(246, 89, 1, 0.2);
+    color: var(--post-info-title, var(--accent));
+    text-shadow: 0 0 0.95rem color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .post-description {
-    font-family: var(--post-description-font, 'Redwing');
-    font-size: 1.2rem;
+    font-family: var(--post-description-font, var(--font-body));
+    font-size: var(--text-md);
     line-height: 1.6;
-    margin: 0 0 2rem;
+    margin: 0 0 var(--space-6);
     color: var(--post-info-description, inherit);
     opacity: 0.9;
     font-style: italic;
@@ -621,34 +625,37 @@
     display: inline-flex;
     align-items: center;
     margin: 0;
-    padding: 0.55rem 1rem;
-    border-radius: 0.65rem;
-    border: 0.1vmin solid rgba(246, 89, 1, 0.35);
-    background: rgba(246, 89, 1, 0.12);
-    color: rgba(246, 89, 1, 0.95);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: color-mix(in srgb, var(--accent) 95%, transparent);
     text-decoration: none;
-    font-family: var(--post-info-link-font, 'Redwing');
-    font-size: 0.95rem;
-    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    font-family: var(--post-info-link-font, var(--font-body));
+    font-size: var(--text-sm);
+    transition:
+      var(--transition-colors),
+      box-shadow var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .post-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
-    margin: 0 0 1.5rem;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5);
   }
 
   .post-link-out:hover,
   .post-link-out:focus-visible {
     transform: translateY(-1px);
-    border-color: rgba(246, 89, 1, 0.55);
-    background: rgba(246, 89, 1, 0.2);
-    box-shadow: 0 0.4rem 0.9rem rgba(246, 89, 1, 0.16);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: 0 0.4rem 0.9rem color-mix(in srgb, var(--accent) 16%, transparent);
   }
 
   .cover-embed {
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--scrim-page);
     aspect-ratio: var(--embed-aspect-ratio, 16 / 9);
   }
 
@@ -660,40 +667,40 @@
 
   .spotify-embed-wrap {
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
   }
 
   .spotify-embed {
     width: 100%;
     min-height: 9.5rem;
     border: 0;
-    border-radius: 0.95rem;
+    border-radius: var(--radius-lg);
     display: block;
-    background: rgba(0, 0, 0, 0.25);
+    background: var(--scrim-page);
   }
 
   .post-tags-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-4);
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
   }
 
   .post-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: var(--space-2);
     margin: 0;
   }
 
   .tag {
-    background: var(--post-info-tag-bg, rgba(246, 89, 1, 0.15));
-    border: 0.1vmin solid var(--post-info-tag-border, rgba(246, 89, 1, 0.3));
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.5rem;
-    font-size: 0.85rem;
-    font-family: var(--post-info-tag-font, 'Redwing');
+    background: var(--post-info-tag-bg, color-mix(in srgb, var(--accent) 15%, transparent));
+    border: 1px solid var(--post-info-tag-border, color-mix(in srgb, var(--accent) 30%, transparent));
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-family: var(--post-info-tag-font, var(--font-body));
     color: var(--post-info-tag-text, inherit);
   }
 
@@ -702,27 +709,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.2vmin;
-    height: 3.25vmin;
-    width: 3.5vmin;
-    padding: 0.35vmin 0.86vmin;
-    border-radius: 5vmin;
-    background: rgba(246, 89, 1, 0.12);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.35);
-    color: rgba(246, 89, 1, 0.95);
-    font-family: 'Redwing';
-    font-size: 0.9rem;
+    gap: var(--space-1);
+    height: 2.4rem;
+    width: 2.6rem;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    color: color-mix(in srgb, var(--accent) 95%, transparent);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     cursor: pointer;
-    transition: width 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    transition:
+      var(--transition-colors),
+      width var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
     overflow: hidden;
   }
 
   .share-button:hover,
   .share-button:focus-visible {
-    width: 6.5vmin;
-    background: rgba(246, 89, 1, 0.18);
-    border-color: rgba(246, 89, 1, 0.55);
-    box-shadow: 0 0.45rem 1rem rgba(246, 89, 1, 0.15);
+    width: 4.8rem;
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 0.45rem 1rem color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .share-icon {
@@ -738,7 +748,10 @@
     display: inline-block;
     opacity: 0;
     transform: translateX(0.35rem);
-    transition: max-width 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      max-width var(--duration-normal) var(--ease-out),
+      opacity var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .share-button:hover .share-label,
@@ -749,60 +762,59 @@
   }
 
   .post-content {
-    font-family: 'Redwing';
-    font-size: 1.1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-md);
     line-height: 1.8;
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-8);
   }
 
   /* Blog content styling */
   .post-content :global(h1) {
-    font-size: 2.5rem;
-    margin: 3rem 0 1.5rem;
-    color: var(--accent-color, #ff6811);
+    font-size: var(--text-3xl);
+    margin: var(--space-7) 0 var(--space-5);
+    color: var(--accent);
   }
 
   .post-content :global(h2) {
-    font-size: 2rem;
-    margin: 2.5rem 0 1rem;
-    color: var(--accent-color, #ff6811);
+    font-size: var(--text-2xl);
+    margin: var(--space-6) 0 var(--space-4);
+    color: var(--accent);
   }
 
   .post-content :global(h3) {
-    font-size: 1.5rem;
-    margin: 2rem 0 1rem;
+    font-size: var(--text-xl);
+    margin: var(--space-6) 0 var(--space-4);
   }
 
   .post-content :global(p) {
-    margin: 1.5rem 0;
+    margin: var(--space-5) 0;
   }
 
   .post-content :global(blockquote) {
-    border-left: 0.3rem solid rgba(246, 89, 1, 0.5);
-    padding-left: 1.5rem;
-    margin: 2rem 0;
+    border-left: 0.3rem solid color-mix(in srgb, var(--accent) 50%, transparent);
+    margin: var(--space-6) 0;
     font-style: italic;
     opacity: 0.9;
-    background: rgba(246, 89, 1, 0.05);
-    border-radius: 0 0.5rem 0.5rem 0;
-    padding: 1rem 1.5rem;
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: var(--space-4) var(--space-5);
   }
 
   .post-content :global(code) {
-    background: rgba(246, 89, 1, 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 0.3rem;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-xs);
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
   }
 
   .post-content :global(pre) {
-    background: rgba(246, 89, 1, 0.1);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    padding: var(--space-5);
+    border-radius: var(--radius-sm);
     overflow-x: auto;
-    margin: 2rem 0;
-    border: 0.1rem solid rgba(246, 89, 1, 0.2);
+    margin: var(--space-6) 0;
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .post-content :global(pre code) {
@@ -811,71 +823,71 @@
   }
 
   .post-content :global(ul ol) {
-    padding-left: 2rem;
-    margin: 1.5rem 0;
+    padding-left: var(--space-6);
+    margin: var(--space-5) 0;
   }
 
   .post-content :global(li) {
-    margin: 0.5rem 0;
+    margin: var(--space-2) 0;
   }
 
   .post-content :global(img) {
     max-width: 100%;
     height: auto;
-    border-radius: 0.5rem;
-    margin: 2rem 0;
-    box-shadow: 0 4px 20px rgba(246, 89, 1, 0.1);
+    border-radius: var(--radius-sm);
+    margin: var(--space-6) 0;
+    box-shadow: 0 0.25rem 1.25rem color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .post-content :global(a) {
-    color: rgba(246, 89, 1, 0.9);
+    color: color-mix(in srgb, var(--accent) 90%, transparent);
     text-decoration: underline;
-    transition: color 0.3s ease;
+    transition: var(--transition-colors);
   }
 
   .post-content :global(a:hover) {
-    color: rgba(246, 89, 1, 1);
+    color: var(--accent);
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
     .post-container {
-      padding: 6.5rem 1rem 4rem;
+      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
       max-width: min(48rem, 100%);
     }
 
     .post-info {
-      padding: 1.25rem;
+      padding: var(--space-4);
     }
 
     .post-meta {
       flex-direction: row;
       align-items: center;
-      gap: 0.5rem 0.85rem;
+      gap: var(--space-2) 0.85rem;
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
-      min-height: 2.75rem;
+      min-height: var(--touch-target-size);
     }
 
-    .cover-image { margin-bottom: 2rem; }
+    .cover-image { margin-bottom: var(--space-6); }
 
     .post-title {
       font-size: clamp(2.2rem, 10vw, 3rem);
     }
 
     .post-description {
-      font-size: 1.05rem;
+      font-size: var(--text-base);
     }
 
     .post-tags-row {
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
 
     .share-button {
       width: auto;
-      padding: 0.35rem 0.85rem;
+      padding: var(--space-1) var(--space-3);
     }
 
     .share-button:hover,
@@ -890,43 +902,43 @@
     }
 
     .post-content {
-      font-size: 1rem;
+      font-size: var(--text-base);
       line-height: 1.75;
     }
 
     .post-content :global(h1) {
-      font-size: 2rem;
+      font-size: var(--text-2xl);
     }
 
     .post-content :global(h2) {
-      font-size: 1.7rem;
+      font-size: var(--text-xl);
     }
 
     .post-content :global(h3) {
-      font-size: 1.35rem;
+      font-size: var(--text-lg);
     }
 
     .post-content :global(blockquote) {
-      padding: 1rem;
+      padding: var(--space-4);
     }
   }
 
   @media (max-width: 640px) {
     .post-meta {
-      gap: 0.45rem 0.75rem;
+      gap: var(--space-1) var(--space-3);
     }
 
     .post-tags {
-      gap: 0.5rem;
+      gap: var(--space-2);
     }
 
     .tag {
-      font-size: 0.8rem;
+      font-size: var(--text-xs);
     }
 
     .share-button {
       height: 2.1rem;
-      font-size: 0.85rem;
+      font-size: var(--text-sm);
     }
 
     .share-icon {
