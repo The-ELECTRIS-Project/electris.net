@@ -990,7 +990,7 @@
     <div class="confirm-dialog" transition:slide={{ duration: 300 }}>
       <h3>💾 Reset LocalStorage?</h3>
       <p>This will delete ALL data stored in LocalStorage for this domain, including:</p>
-      <ul style="text-align: left; margin: 1vmin 0; padding-left: 2vmin;">
+      <ul style="text-align: left; margin: var(--space-3) 0; padding-left: var(--space-5);">
         <li>All stored items ({getLocalStorageCount()})</li>
         <li>Theme preferences</li>
         <li>Language settings</li>
@@ -1021,7 +1021,7 @@
     <div class="confirm-dialog" transition:slide={{ duration: 300 }}>
       <h3>🧨 Reset Everything?</h3>
       <p>This will delete <strong>ALL</strong> cookies and LocalStorage data for this domain:</p>
-      <ul style="text-align: left; margin: 1vmin 0; padding-left: 2vmin;">
+      <ul style="text-align: left; margin: var(--space-3) 0; padding-left: var(--space-5);">
         <li>All cookies ({getCookieCount()})</li>
         <li>All localStorage items ({getLocalStorageCount()})</li>
         <li>Theme and language settings</li>
@@ -1052,11 +1052,11 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: calc(2vmin + 1.5vmin + 1.5vmin);
-    padding: 1.5vmin 1vmin;
+    height: var(--layout-nav-height);
+    padding: 0 var(--space-3);
     display: flex;
     align-items: center;
-    z-index: 100;
+    z-index: var(--z-nav);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
   }
@@ -1067,13 +1067,13 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    gap: 1.5vmin;
+    gap: var(--space-4);
   }
 
   .nav-button {
-    font-family: Aileron;
+    font-family: var(--font-ui);
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
     white-space: nowrap;
   }
 
@@ -1081,14 +1081,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 20vmin;
+    width: 15rem;
     height: 100vh;
     max-width: 80%;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    z-index: 110;
-    padding: 1.4vmin;
-    padding-top: 4.5vmin;
+    transition: transform var(--duration-slow) var(--ease-out);
+    z-index: var(--z-sticky);
+    padding: var(--space-4);
+    padding-top: var(--space-7);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1101,14 +1101,14 @@
   .hamburger-footer {
     user-select: none;
     text-align: center;
-    font-family: Aileron;
-    font-size: 0.9rem;
-    border-top: 0.1vmin solid;
-    padding-top: 1vmin;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    border-top: 1px solid;
+    padding-top: var(--space-3);
   }
 
   .hamburger-footer a {
-    font-size: 1rem;
+    font-size: var(--text-base);
   }
 
   .hamburger.open {
@@ -1117,7 +1117,7 @@
 
   .settings-button {
     position: fixed;
-    right: 1vmin;
+    right: var(--space-3);
     user-select: none;
     background: none;
     border: none;
@@ -1126,7 +1126,7 @@
 
   .settings-icon {
     user-select: none;
-    height: 2.8vmin;
+    height: var(--space-6);
     transition: none;
     transform-origin: center;
   }
@@ -1138,7 +1138,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 150;
+    z-index: var(--z-overlay);
     background: var(--overlay-bg);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
@@ -1152,18 +1152,18 @@
 
   .options-menu {
     position: fixed;
-    top: 5.15vmin;
-    right: 1vmin;
-    padding: 2vmin;
-    border-radius: 1.2vmin;
-    z-index: 200;
+    top: calc(var(--layout-nav-height) + var(--space-2));
+    right: var(--space-3);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    z-index: calc(var(--z-overlay) + 1);
     color: var(--color-primary);
     background: var(--options-menu-bg);
-    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 30%, transparent);
-    width: 40vmin;
-    min-height: 35vmin;
-    transition: all 0.3s ease;
-    box-shadow: 0 1vmin 3vmin rgba(0, 0, 0, 0.3);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    width: min(30rem, calc(100vw - var(--space-6)));
+    min-height: 25rem;
+    transition: var(--transition-colors);
+    box-shadow: var(--shadow-lg);
     overflow: visible;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -1173,92 +1173,91 @@
     background-image: 
       linear-gradient(var(--cyber-grid-color) 1px, transparent 1px),
       linear-gradient(90deg, var(--cyber-grid-color) 1px, transparent 1px);
-    background-size: 2vmin 2vmin;
+    background-size: 1.5rem 1.5rem;
     border-color: var(--color-primary);
     box-shadow: 
-      0 0 2vmin color-mix(in srgb, var(--color-primary) 15%, transparent),
-      inset 0 0 1.5vmin color-mix(in srgb, var(--color-primary) 5%, transparent);
+      0 0 1.5rem color-mix(in srgb, var(--color-primary) 15%, transparent),
+      inset 0 0 1.1rem color-mix(in srgb, var(--color-primary) 5%, transparent);
     backdrop-filter: blur(15px) saturate(180%);
     -webkit-backdrop-filter: blur(15px) saturate(180%);
   }
   
   .options-menu h2 {
-    font-family: 'Aileron';
+    font-family: var(--font-ui);
     margin-top: 0;
-    margin-bottom: 2vmin;
-    font-size: 1.6rem;
+    margin-bottom: var(--space-5);
+    font-size: var(--text-xl);
     font-weight: 700;
-    border-bottom: 0.1vmin solid color-mix(in srgb, var(--color-primary) 20%, transparent);
-    padding-bottom: 1vmin;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    padding-bottom: var(--space-3);
   }
 
   :global([data-theme="cyber-neotic"]) .options-menu h2 {
-    text-shadow: 0 0 1.2vmin color-mix(in srgb, var(--color-primary) 60%, transparent);
+    text-shadow: 0 0 0.9rem color-mix(in srgb, var(--color-primary) 60%, transparent);
     border-bottom-color: var(--color-primary);
   }
 
   :global([data-theme="cyber-neotic"]) .options-space-item:hover {
     background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    box-shadow: 0 0 1.5vmin color-mix(in srgb, var(--color-primary) 10%, transparent);
-    text-shadow: 0 0 0.8vmin var(--color-primary);
+    box-shadow: 0 0 1.1rem color-mix(in srgb, var(--color-primary) 10%, transparent);
+    text-shadow: 0 0 0.6rem var(--color-primary);
   }
 
   :global([data-theme="cyber-neotic"]) .options-back:hover {
-    text-shadow: 0 0 0.8vmin var(--color-primary);
+    text-shadow: 0 0 0.6rem var(--color-primary);
   }
 
   .option {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 2vmin;
-    margin-bottom: 1.5vmin;
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-4);
   }
 
   .option-label {
     display: flex;
     align-items: center;
-    gap: 1vmin;
+    gap: var(--space-3);
     font-weight: 600;
   }
 
   .switch-button {
-    margin-top: 2vmin;
+    margin-top: var(--space-5);
     display: inline-block;
-    padding: 0.1vmin 0.2vmin;
-    border: 0.2vmin solid hsl(22, 100%, 50%);
-    border-radius: 0.5vmin;
+    padding: var(--space-1) var(--space-2);
+    border: 2px solid hsl(22, 100%, 50%);
+    border-radius: var(--radius-sm);
     text-decoration: none;
     color: inherit;
     cursor: pointer;
-    transition: 200.0ms;
+    transition: var(--transition-colors);
   }
 
   .switch-button:hover {
-    border: 0.2vmin solid hsl(22, 100%, 60%);
+    border-color: hsl(22, 100%, 60%);
     background: rgba(139, 59, 35, 0.274);
-    transition: 200.0ms;
   }
 
   .selector {
     position: relative;
     display: inline-block;
-    width: 18vmin;
+    width: 13rem;
   }
 
   /* Theme Selector Styles */
 
   .theme-button {
     background: none;
-    border: 0.1vmin solid var(--color-primary);
+    border: 1px solid var(--color-primary);
     color: var(--color-primary);
-    padding: 0.5vmin 1vmin;
-    border-radius: 0.4vmin;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-xs);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-2);
+    transition: background-color var(--duration-normal) var(--ease-out);
     font-family: inherit;
     width: 100%;
     justify-content: space-between;
@@ -1274,7 +1273,7 @@
   }
 
   .theme-name {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     flex-grow: 1;
     text-align: left;
     white-space: nowrap;
@@ -1284,8 +1283,8 @@
   }
 
   .dropdown-arrow {
-    font-size: 0.8rem;
-    transition: transform 0.2s;
+    font-size: var(--text-xs);
+    transition: transform var(--duration-normal) var(--ease-out);
     flex-shrink: 0;
   }
 
@@ -1299,15 +1298,15 @@
     left: 0;
     width: 100%;
     background: var(--bg-secondary);
-    border: 0.1vmin solid;
-    border-radius: 0.4vmin;
+    border: 1px solid;
+    border-radius: var(--radius-xs);
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    z-index: 1000;
-    max-height: 250px;
+    z-index: var(--z-raised);
+    max-height: 15rem;
     overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     box-sizing: border-box;
   }
 
@@ -1316,16 +1315,16 @@
     background: none;
     border: none;
     color: var(--color-primary);
-    padding: 0.75vmin 1vmin;
+    padding: var(--space-2) var(--space-3);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-2);
+    transition: background-color var(--duration-normal) var(--ease-out);
     font-family: inherit;
     text-align: left;
     box-sizing: border-box;
-    min-height: 3.5vmin;
+    min-height: 2.5rem;
   }
 
   .theme-option:hover {
@@ -1345,32 +1344,32 @@
   }
 
   .theme-option .theme-name {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .theme-description {
-    font-size: 0.75rem;
+    font-size: var(--text-2xs);
     color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 0.1vmin;
+    margin-top: 1px;
   }
 
   .color-scheme-button {
     background: none;
-    border: 0.1vmin solid var(--color-primary);
+    border: 1px solid var(--color-primary);
     color: var(--color-primary);
-    padding: 0.5vmin 1vmin;
-    border-radius: 0.4vmin;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-xs);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-2);
+    transition: background-color var(--duration-normal) var(--ease-out);
     font-family: inherit;
     width: 100%;
     justify-content: space-between;
@@ -1386,7 +1385,7 @@
   }
 
   .color-scheme-name {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     flex-grow: 1;
     text-align: left;
     white-space: nowrap;
@@ -1401,15 +1400,15 @@
     left: 0;
     width: 100%;
     background: var(--bg-secondary);
-    border: 0.1vmin solid;
-    border-radius: 0.4vmin;
+    border: 1px solid;
+    border-radius: var(--radius-xs);
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    z-index: 1000;
-    max-height: 250px;
+    z-index: var(--z-raised);
+    max-height: 15rem;
     overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     box-sizing: border-box;
   }
 
@@ -1418,16 +1417,16 @@
     background: none;
     border: none;
     color: var(--color-primary);
-    padding: 0.75vmin 1vmin;
+    padding: var(--space-2) var(--space-3);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-2);
+    transition: background-color var(--duration-normal) var(--ease-out);
     font-family: inherit;
     text-align: left;
     box-sizing: border-box;
-    min-height: 3.5vmin;
+    min-height: 2.5rem;
   }
 
   .color-scheme-option:hover {
@@ -1447,31 +1446,31 @@
   }
 
   .color-scheme-option .color-scheme-name {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .color-scheme-description {
-    font-size: 0.75rem;
+    font-size: var(--text-2xs);
     color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 0.1vmin;
+    margin-top: 1px;
   }
 
   .checkmark {
     color: var(--color-primary);
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     flex-shrink: 0;
   }
 
   .menu-item {
-    margin-top: 1vmin;
-    margin-bottom: 1vmin;
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-3);
     display: flex;
     flex-direction: column;
     justify-content: left;
@@ -1479,49 +1478,52 @@
 
   .menu-item a {
     display: inline-block;
-    line-height: 2.25vmin;
-    font-family: Aileron;
+    line-height: 1.4;
+    font-family: var(--font-ui);
     text-decoration: none;
     color: var(--color-primary);
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
   }
 
   .env-indicator {
-    margin-left: 0.5rem;
+    margin-left: var(--space-2);
     color: var(--color-primary);
-    font-size: 0.8rem;
-    letter-spacing: 0.045vmin;
+    font-size: var(--text-xs);
+    letter-spacing: 0.03em;
     background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     padding: 0.1rem 0.3rem;
-    border-radius: 0.4vmin;
+    border-radius: var(--radius-xs);
     font-family: monospace;
   }
 
   .footer span {
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 300;
   }
 
   .reset-button {
     background: none;
     width: auto;
-    border: 0.1vmin solid var(--color-primary);
+    border: 1px solid var(--color-primary);
     color: var(--color-primary);
-    padding: 0.6vmin 1.2vmin;
-    border-radius: 0.5vmin;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     font-weight: 600;
-    transition: all 0.2s;
+    transition:
+      var(--transition-colors),
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
     display: flex;
     align-items: center;
-    gap: 0.8vmin;
+    gap: var(--space-2);
   }
 
   .reset-button:hover {
     background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    transform: translateY(-0.1vmin);
-    box-shadow: 0 0.2vmin 0.5vmin rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
   }
 
   /* Workspace panel system */
@@ -1534,7 +1536,7 @@
 
   .options-panel-track {
     display: flex;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--duration-slow) var(--ease-in-out);
   }
 
   .options-panel {
@@ -1543,7 +1545,7 @@
     box-sizing: border-box;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-slow) var(--ease-out);
     overflow: visible;
   }
 
@@ -1560,54 +1562,60 @@
     background: none;
     border: none;
     color: var(--color-primary);
-    padding: 1.5vmin 1.2vmin;
+    padding: var(--space-4) var(--space-3);
     cursor: pointer;
     font-family: inherit;
-    font-size: 1.1rem;
+    font-size: var(--text-md);
     font-weight: 700;
-    border-radius: 0.8vmin;
-    transition: all 0.2s;
+    border-radius: var(--radius-sm);
+    transition:
+      var(--transition-colors),
+      padding-left var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out),
+      text-shadow var(--duration-normal) var(--ease-out);
     text-align: left;
-    margin-bottom: 0.8vmin;
+    margin-bottom: var(--space-2);
     line-height: 1;
   }
 
   .options-space-item:hover {
     background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    padding-left: 1.5vmin;
+    padding-left: var(--space-4);
   }
 
   .options-space-label {
     display: flex;
     align-items: center;
-    gap: 1.5vmin;
+    gap: var(--space-4);
   }
 
   :global(.options-menu .space-chevron) {
     opacity: 0.5;
-    transition: transform 0.2s;
+    transition: transform var(--duration-normal) var(--ease-out);
   }
 
   .options-space-item:hover :global(.space-chevron) {
     opacity: 1;
-    transform: translateX(0.3vmin);
+    transform: translateX(0.2rem);
   }
 
   .options-back {
     display: inline-flex;
     align-items: center;
-    gap: 0.8vmin;
+    gap: var(--space-2);
     background: none;
     border: none;
     color: color-mix(in srgb, var(--color-primary) 70%, transparent);
     cursor: pointer;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     font-weight: 600;
-    padding: 0.5vmin 0.8vmin;
-    border-radius: 0.5vmin;
-    margin-bottom: 1.5vmin;
-    transition: all 0.2s;
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-4);
+    transition:
+      var(--transition-colors),
+      text-shadow var(--duration-normal) var(--ease-out);
   }
 
   .options-back:hover {
@@ -1616,17 +1624,17 @@
   }
 
   .options-space-title {
-    margin: 0 0 1.5vmin 0;
-    padding: 0 0.5vmin;
-    font-size: 1rem;
+    margin: 0 0 var(--space-4);
+    padding: 0 var(--space-2);
+    font-size: var(--text-base);
     font-weight: 700;
     color: var(--color-primary);
-    border-bottom: 0.1vmin solid color-mix(in srgb, var(--color-primary) 15%, transparent);
-    padding-bottom: 0.8vmin;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+    padding-bottom: var(--space-2);
   }
 
   .environment-option {
-    margin-top: 3vmin;
+    margin-top: var(--space-6);
     margin-bottom: 0;
     justify-content: center;
   }
@@ -1635,9 +1643,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 1.5vmin 0;
-    padding: 0 0.5vmin;
-    font-size: 0.95rem;
+    margin: var(--space-4) 0;
+    padding: 0 var(--space-2);
+    font-size: var(--text-sm);
     font-weight: 500;
   }
 
@@ -1647,13 +1655,13 @@
 
   .toggle-switch-mini {
     position: relative;
-    width: 3.5vmin;
-    height: 1.8vmin;
+    width: 2.5rem;
+    height: 1.25rem;
     background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 25%, transparent);
-    border-radius: 0.9vmin;
+    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+    border-radius: var(--radius-pill);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: var(--transition-colors);
     padding: 0;
   }
 
@@ -1664,24 +1672,24 @@
 
   .toggle-slider-mini {
     position: absolute;
-    top: 0.2vmin;
-    left: 0.2vmin;
-    width: 1.2vmin;
-    height: 1.2vmin;
+    top: 0.175rem;
+    left: 0.175rem;
+    width: 0.9rem;
+    height: 0.9rem;
     background: white;
-    border-radius: 50%;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: var(--radius-round);
+    transition: transform var(--duration-slow) var(--ease-in-out);
   }
 
   .toggle-switch-mini.active .toggle-slider-mini {
-    transform: translateX(1.7vmin);
+    transform: translateX(1.25rem);
   }
 
   @media (any-pointer: coarse) {
     .toggle-switch-mini {
       width: 2.8rem;
       height: 1.6rem;
-      border-radius: 0.8rem;
+      border-radius: var(--radius-pill);
     }
 
     .toggle-slider-mini {
@@ -1706,39 +1714,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 300;
-    backdrop-filter: blur(0.5vmin);
-    -webkit-backdrop-filter: blur(0.5vmin);
+    z-index: var(--z-popup);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   .confirm-dialog {
     background: var(--bg-body, #1a1a1a);
-    border: 0.2vmin solid var(--color-primary);
-    border-radius: 1vmin;
-    padding: 2vmin;
-    max-width: 30vmin;
-    width: 30vmin;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    width: min(22rem, calc(100vw - var(--space-6)));
     text-align: center;
     color: var(--color-primary);
   }
 
   .confirm-dialog h3 {
-    margin: 0 0 1vmin 0;
-    font-size: 1.3rem;
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-lg);
     color: var(--color-primary);
   }
 
   .confirm-dialog p {
-    margin: 1vmin 0;
-    line-height: 1.65vmin;
+    margin: var(--space-3) 0;
+    line-height: 1.6;
     color: inherit;
   }
 
   .cookie-stats {
-    margin: 1vmin 0;
-    padding: 0.5vmin;
+    margin: var(--space-3) 0;
+    padding: var(--space-2);
     background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border-radius: 0.4vmin;
+    border-radius: var(--radius-xs);
   }
 
   .cookie-stats small {
@@ -1748,18 +1755,18 @@
 
   .confirm-buttons {
     display: flex;
-    gap: 1vmin;
+    gap: var(--space-3);
     justify-content: center;
-    margin-top: 1.5vmin;
+    margin-top: var(--space-4);
   }
 
   .confirm-btn {
-    padding: 0.7vmin 1.2vmin;
-    border-radius: 0.4vmin;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-xs);
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     font-weight: 500;
-    transition: all 0.2s;
+    transition: var(--transition-colors);
     border: 1px solid;
   }
 
@@ -1789,14 +1796,14 @@
   .slider-container {
     display: flex;
     align-items: center;
-    gap: 1vmin;
+    gap: var(--space-3);
     flex-shrink: 1;
     min-width: 0;
   }
 
   .slider-value {
     font-family: monospace;
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     min-width: 3.2ch;
     text-align: right;
@@ -1807,62 +1814,62 @@
   .spacing-slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 10vmin;
-    height: 0.5vmin;
-    border-radius: 0.25vmin;
+    width: 7rem;
+    height: 0.35rem;
+    border-radius: var(--radius-pill);
     background: color-mix(in srgb, var(--color-primary) 20%, transparent);
     outline: none;
-    transition: background 0.2s;
+    transition: background-color var(--duration-normal) var(--ease-out);
     flex-shrink: 1;
     min-width: 0;
   }
 
   .spacing-slider::-webkit-slider-runnable-track {
     width: 100%;
-    height: 0.5vmin;
+    height: 0.35rem;
     cursor: pointer;
   }
 
   .spacing-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 1.6vmin;
-    height: 1vmin;
-    border-radius: 0.5vmin;
+    width: 1.2rem;
+    height: 0.75rem;
+    border-radius: var(--radius-pill);
     background: var(--color-primary);
     cursor: pointer;
-    box-shadow: 0 0 0.6vmin color-mix(in srgb, var(--color-primary) 30%, transparent);
-    transition: transform 0.1s, box-shadow 0.1s;
-    margin-top: -0.25vmin;
+    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--color-primary) 30%, transparent);
+    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+    margin-top: -0.2rem;
   }
 
   .spacing-slider::-moz-range-thumb {
-    width: 1.6vmin;
-    height: 1vmin;
-    border-radius: 0.5vmin;
+    width: 1.2rem;
+    height: 0.75rem;
+    border-radius: var(--radius-pill);
     background: var(--color-primary);
     cursor: pointer;
-    box-shadow: 0 0 0.6vmin color-mix(in srgb, var(--color-primary) 30%, transparent);
-    transition: transform 0.1s, box-shadow 0.1s;
+    box-shadow: 0 0 0.45rem color-mix(in srgb, var(--color-primary) 30%, transparent);
+    transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
     border: none;
   }
 
   .spacing-slider:hover::-webkit-slider-thumb,
   .spacing-slider:focus::-webkit-slider-thumb {
     transform: scale(1.15);
-    box-shadow: 0 0 1vmin var(--color-primary);
+    box-shadow: 0 0 0.75rem var(--color-primary);
   }
 
   .spacing-slider:hover::-moz-range-thumb,
   .spacing-slider:focus::-moz-range-thumb {
     transform: scale(1.15);
-    box-shadow: 0 0 1vmin var(--color-primary);
+    box-shadow: 0 0 0.75rem var(--color-primary);
   }
 
   @media (max-width: 900px) {
     .navbar {
       height: auto;
-      padding: calc(env(safe-area-inset-top) + 0.9rem) 1rem 0.9rem;
+      padding: calc(env(safe-area-inset-top) + 0.9rem) var(--space-4) 0.9rem;
     }
 
     .nav-buttons {
@@ -1892,10 +1899,10 @@
       left: 50%;
       right: auto;
       transform: translate(-50%, -50%);
-      width: min(26rem, calc(100vw - 1.5rem));
+      width: min(26rem, calc(100vw - var(--space-5)));
       min-width: auto;
       max-width: none;
-      padding: 1rem;
+      padding: var(--space-4);
     }
 
     .options-overlay {
@@ -1924,7 +1931,7 @@
       left: 50%;
       right: auto;
       transform: translate(-50%, -50%);
-      width: min(24rem, calc(100vw - 1.5rem));
+      width: min(24rem, calc(100vw - var(--space-5)));
     }
 
     .options-overlay {
@@ -1934,7 +1941,7 @@
     .option {
       flex-direction: column;
       align-items: stretch;
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
 
     .selector {
@@ -1950,7 +1957,7 @@
   @media (any-pointer: coarse) {
     .navbar {
       height: auto;
-      padding: calc(env(safe-area-inset-top) + 0.85rem) 1rem 0.85rem;
+      padding: calc(env(safe-area-inset-top) + 0.85rem) var(--space-4) 0.85rem;
     }
 
     .nav-buttons {
@@ -1986,19 +1993,18 @@
     }
 
     .menu-item a {
-      line-height: 1.4;
-      font-size: 1.25rem;
+      font-size: var(--text-lg);
       padding: 0.45rem 0;
     }
 
     .hamburger-footer {
-      font-size: 1rem;
-      padding-top: 1rem;
+      font-size: var(--text-base);
+      padding-top: var(--space-4);
     }
 
     .settings-button {
-      min-width: 2.75rem;
-      min-height: 2.75rem;
+      min-width: var(--touch-target-size);
+      min-height: var(--touch-target-size);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -2013,23 +2019,22 @@
       left: 50%;
       right: auto;
       transform: translate(-50%, -50%);
-      min-width: min(28rem, calc(100vw - 1.5rem));
-      max-width: min(30rem, calc(100vw - 1.5rem));
-      padding: 1rem;
-      border-radius: 1rem;
+      min-width: min(28rem, calc(100vw - var(--space-5)));
+      max-width: min(30rem, calc(100vw - var(--space-5)));
+      padding: var(--space-4);
     }
 
     .options-menu h2 {
-      font-size: 1.65rem;
+      font-size: var(--text-xl);
     }
 
     .option {
-      gap: 0.75rem;
+      gap: var(--space-3);
       flex-wrap: wrap;
     }
 
     .option-label span {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .selector {
@@ -2045,53 +2050,48 @@
     .color-scheme-option,
     .reset-button,
     .confirm-btn {
-      min-height: 2.9rem;
+      min-height: var(--touch-target-size);
     }
 
     .switch-button,
     .options-space-item,
     .theme-button,
     .color-scheme-button {
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
     }
 
     .theme-option,
     .color-scheme-option {
-      padding: 0.85rem 1rem;
-      gap: 0.75rem;
+      padding: 0.85rem var(--space-4);
+      gap: var(--space-3);
       min-height: 3.25rem;
     }
 
     .theme-name,
     .color-scheme-name {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .theme-description,
     .color-scheme-description {
-      font-size: 0.85rem;
+      font-size: var(--text-sm);
     }
 
     .dropdown-arrow,
     .checkmark {
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
     }
 
     .devtools-option {
-      gap: 0.75rem;
+      gap: var(--space-3);
       align-items: flex-start;
     }
 
     .confirm-dialog {
-      width: min(24rem, calc(100vw - 1.5rem));
-      max-width: min(24rem, calc(100vw - 1.5rem));
-      padding: 1.5rem;
-      border-radius: 1rem;
-    }
-
-    .confirm-dialog p {
-      line-height: 1.6;
+      width: min(24rem, calc(100vw - var(--space-5)));
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
     }
 
     .confirm-buttons {
@@ -2100,8 +2100,8 @@
 
     .confirm-btn {
       width: 100%;
-      padding: 0.85rem 1rem;
-      border-radius: 0.75rem;
+      padding: 0.85rem var(--space-4);
+      border-radius: var(--radius-md);
     }
   }
 </style>

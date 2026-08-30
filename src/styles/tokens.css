@@ -58,7 +58,7 @@
     border-color var(--duration-normal) var(--ease-out);
 
   /* ===== LAYOUT ===== */
-  --layout-nav-height: 5rem;
+  --layout-nav-height: 3.5rem;
   --layout-page-top: calc(var(--layout-nav-height) + var(--space-6));
   --layout-page-inline: clamp(1rem, 3vw, 3rem);
   --layout-measure: 42rem;
