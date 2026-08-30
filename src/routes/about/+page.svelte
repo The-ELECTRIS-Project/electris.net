@@ -293,12 +293,6 @@ setTimeout(orbitReset, 10);
 
   /* Ambient Dots (Subtler) */
 
-  @media (max-width: 768px) {
-    .page-container { padding-top: 100px; }
-    .main-title { font-size: 2.5rem; }
-    .section-title { font-size: 1.8rem; }
-  }
-
   @media (max-width: 900px) {
     .page-container {
       padding: 6.5rem 1.5rem 4rem;
@@ -321,6 +315,11 @@ setTimeout(orbitReset, 10);
       padding: 0.95rem 1.25rem;
       font-size: 0.82rem;
     }
+  }
+
+  @media (max-width: 768px) {
+    .main-title { font-size: 2.5rem; }
+    .section-title { font-size: 1.8rem; }
   }
 
   @media (max-width: 560px) {
