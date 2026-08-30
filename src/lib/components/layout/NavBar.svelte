@@ -1760,7 +1760,7 @@
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.2s;
-    border: 0.1tx solid;
+    border: 1px solid;
   }
 
   .confirm-cancel {
