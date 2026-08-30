@@ -26,7 +26,7 @@
       className: 'hovered-about-link',
       lockPosition: true,
       preventRotation: true,
-      color: 'var(--color-electro)'
+      color: 'var(--brand-electro)'
     },
     {
       type: ['p'],
@@ -133,37 +133,39 @@ setTimeout(orbitReset, 10);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 120px 20px 60px;
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     position: relative;
     overflow-x: hidden;
   }
 
   /* Header */
   .page-header {
-    margin-bottom: 4rem;
+    margin-bottom: var(--space-8);
     text-align: center;
   }
 
   .main-title {
-    font-family: 'Letric';
-    font-size: 3.5rem;
-    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-size: var(--display-md);
+    color: var(--text-primary);
     margin: 0;
   }
 
   /* Layout */
   .content-wrapper {
     width: 100%;
-    max-width: 56.64vmin;
+    max-width: var(--layout-measure);
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: var(--space-8);
   }
 
   section {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition:
+      opacity 0.8s var(--ease-out),
+      transform 0.8s var(--ease-out);
   }
 
   section.visible {
@@ -172,159 +174,152 @@ setTimeout(orbitReset, 10);
   }
 
   .section-title {
-    font-family: 'Letric';
-    font-size: 2.2rem;
-    margin: 0 0 1rem 0;
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    margin: 0 0 var(--space-4);
     border-bottom: 2px solid;
     display: inline-block;
-    padding-bottom: 0.2rem;
+    padding-bottom: var(--space-1);
   }
 
   .content-text {
-    font-family: 'Redwing';
-    font-size: 1.15rem;
+    font-family: var(--font-body);
+    font-size: var(--text-md);
     line-height: 1.6;
     opacity: 0.9;
   }
 
   .content-text p {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
     color: inherit;
   }
 
   /* --- ELECTRIS STYLES --- */
   .electris-section {
-    color: var(--color-primary);
+    color: var(--text-primary);
   }
 
   .electris-header {
-    color: var(--color-electris);
-    border-color: var(--color-electris);
+    color: var(--brand-electris);
+    border-color: var(--brand-electris);
   }
 
   .intro {
     font-weight: bold;
-    font-size: 1.3rem;
+    font-size: var(--text-lg);
   }
 
   .underintro {
-    margin-top: -1.6vmin;
+    margin-top: calc(var(--space-4) * -1);
   }
 
   .statement {
-    border-left: 3px solid var(--color-primary);
-    padding-left: 1rem;
+    border-left: 3px solid var(--accent);
+    padding-left: var(--space-4);
     font-style: italic;
-    margin-top: 1.5rem;
+    margin-top: var(--space-5);
     white-space: pre-line;
   }
 
   /* --- ELECTRO STYLES --- */
   .electro-header {
-    color: var(--color-electro);
-    border-color: var(--color-electro);
+    color: var(--brand-electro);
+    border-color: var(--brand-electro);
   }
 
   .electro-text strong {
-    color: var(--color-electro);
+    color: var(--brand-electro);
   }
 
   .personal-block {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    border-left: 1px dashed var(--color-electro);
-    background: linear-gradient(90deg, rgba(0, 255, 170, 0.05), transparent);
+    margin: var(--space-5) 0;
+    padding: var(--space-4);
+    border-left: 1px dashed var(--brand-electro);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--brand-electro) 5%, transparent), transparent);
   }
 
   .creator-standard-callout {
-    margin-top: 2rem;
-    padding: 1.4rem;
-    border-radius: 1rem;
-    border: 1px solid color-mix(in srgb, var(--color-electro) 30%, transparent);
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--brand-electro) 30%, transparent);
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--color-electro) 10%, transparent), transparent 70%),
-      color-mix(in srgb, var(--bg-body) 92%, transparent);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+      linear-gradient(135deg, color-mix(in srgb, var(--brand-electro) 10%, transparent), transparent 70%),
+      color-mix(in srgb, var(--surface-page) 92%, transparent);
+    box-shadow: var(--shadow-md);
   }
 
   .callout-kicker {
-    margin: 0 0 0.75rem;
-    font-family: Aileron;
-    font-size: 0.78rem;
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-ui);
+    font-size: var(--text-2xs);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     opacity: 0.78;
   }
 
   .creator-standard-callout h3 {
-    margin: 0 0 0.85rem;
-    font-family: 'Letric';
-    font-size: 1.8rem;
-    color: var(--color-electro);
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--brand-electro);
   }
 
   .creator-standard-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 0.4rem;
-    padding: 0.8rem 1rem;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--color-electro) 28%, transparent);
-    background: color-mix(in srgb, var(--color-electro) 10%, transparent);
-    color: var(--color-electro);
-    font-family: Aileron;
-    font-size: 0.74rem;
+    margin-top: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--brand-electro) 28%, transparent);
+    background: color-mix(in srgb, var(--brand-electro) 10%, transparent);
+    color: var(--brand-electro);
+    font-family: var(--font-ui);
+    font-size: var(--text-2xs);
     letter-spacing: 0.16em;
     text-transform: uppercase;
     transition:
-      transform 0.3s ease,
-      border-color 0.3s ease,
-      background 0.3s ease,
-      box-shadow 0.3s ease;
+      var(--transition-colors),
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .creator-standard-link:hover {
     transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--color-electro) 48%, transparent);
-    background: color-mix(in srgb, var(--color-electro) 14%, transparent);
-    box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.16);
+    border-color: color-mix(in srgb, var(--brand-electro) 48%, transparent);
+    background: color-mix(in srgb, var(--brand-electro) 14%, transparent);
+    box-shadow: var(--shadow-md);
   }
-
-  /* Ambient Dots (Subtler) */
 
   @media (max-width: 900px) {
     .page-container {
-      padding: 6.5rem 1.5rem 4rem;
+      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-5) var(--space-8);
     }
 
     .page-header {
-      margin-bottom: 3rem;
-    }
-
-    .content-wrapper {
-      max-width: 42rem;
+      margin-bottom: var(--space-7);
     }
 
     .content-text {
-      font-size: 1.12rem;
+      font-size: var(--text-md);
       line-height: 1.7;
     }
 
     .creator-standard-link {
-      padding: 0.95rem 1.25rem;
-      font-size: 0.82rem;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
     }
   }
 
   @media (max-width: 768px) {
-    .main-title { font-size: 2.5rem; }
-    .section-title { font-size: 1.8rem; }
+    .main-title { font-size: var(--text-3xl); }
+    .section-title { font-size: var(--text-xl); }
   }
 
   @media (max-width: 560px) {
     .page-container {
-      padding: 5.75rem 1rem 3rem;
+      padding: var(--layout-page-top) var(--space-4) var(--space-7);
     }
 
     .main-title {
@@ -332,25 +327,25 @@ setTimeout(orbitReset, 10);
     }
 
     .section-title {
-      font-size: 1.75rem;
+      font-size: var(--text-xl);
     }
 
     .content-wrapper {
       max-width: none;
-      gap: 3rem;
+      gap: var(--space-7);
     }
 
     .content-text {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .intro {
-      font-size: 1.15rem;
+      font-size: var(--text-md);
     }
 
     .personal-block,
     .creator-standard-callout {
-      padding: 1rem;
+      padding: var(--space-4);
     }
 
     .creator-standard-link {

@@ -128,15 +128,15 @@
 <style>
 
   .hero {
-    font-family: 'Letric';
+    font-family: var(--font-display);
     text-align: center;
-    padding-top: 5vmin;
-    margin-bottom: 1vmin;
+    padding-top: var(--layout-nav-height);
+    margin-bottom: var(--space-3);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 40vmin;
+    min-height: 29rem;
     position: relative;
     overflow: hidden;
   }
@@ -157,25 +157,25 @@
   }
 
   .hero h1 {
-    font-family: 'Letric';
+    font-family: var(--font-display);
     font-size: 4rem;
     margin: 0;
     position: relative;
-    z-index: 2;
-    transition: all 0.1s ease;
+    z-index: var(--z-raised);
+    transition: var(--transition-colors);
   }
 
   .highlight {
-    font-family: 'Nightcore';
+    font-family: var(--font-game);
     font-size: 4.2rem;
     position: relative;
     display: inline-block;
   }
 
   .content {
-    max-width: 800px;
+    max-width: 54rem;
     margin: 0 auto;
-    padding: 0 20px 80px;
+    padding: 0 var(--space-5) var(--space-8);
     position: relative;
   }
 
@@ -184,11 +184,11 @@
   }
 
   .section-header {
-    font-family: 'Letric';
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-5);
     border-bottom: 2px solid;
-    padding-bottom: 10px;
+    padding-bottom: var(--space-3);
     position: relative;
     overflow: hidden;
   }
@@ -212,26 +212,28 @@
   }
 
   .definition {
-    font-family: 'Redwing';
-    font-size: 2rem;
-    margin-bottom: 3vmin;
+    font-family: var(--font-body);
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
     font-weight: 400;
     font-style: italic;
     position: relative;
-    transition: all 0.3s ease;
+    transition: var(--transition-colors);
   }
 
   .explanation {
-    font-family: 'Redwing';
-    font-size: 1.2rem;
+    font-family: var(--font-body);
+    font-size: var(--text-md);
     line-height: 1.6;
   }
 
   .explanation p {
-    margin-bottom: 25px;
+    margin-bottom: var(--space-5);
     font-weight: 300;
     position: relative;
-    transition: all 0.2s ease;
+    transition:
+      var(--transition-colors),
+      letter-spacing var(--duration-normal) var(--ease-out);
     cursor: default;
     white-space: pre-line;
   }
@@ -241,10 +243,10 @@
   }
 
   .vision-evolution {
-    margin-top: 3vmin;
-    padding: 2vmin;
-    border-radius: 0.5vmin;
-    border-left: 0.3vmin solid;
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid;
     position: relative;
     overflow: hidden;
   }
@@ -267,19 +269,19 @@
   }
 
   .vision-evolution h3 {
-    font-family: 'Nightcore';
-    font-size: 2rem;
-    margin: 0 0 15px 0;
+    font-family: var(--font-game);
+    font-size: var(--text-2xl);
+    margin: 0 0 var(--space-4);
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
   }
 
   .vision-evolution p {
     margin: 0;
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: var(--text-md);
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
   }
 
   @keyframes screen-distort {
@@ -303,8 +305,8 @@
       0deg,
       transparent,
       transparent 2px,
-      rgba(255, 134, 17, 0.01) 2px,
-      rgba(255, 134, 17, 0.01) 4px
+      color-mix(in srgb, var(--accent) 1%, transparent) 2px,
+      color-mix(in srgb, var(--accent) 1%, transparent) 4px
     );
     animation: scan-lines 0.1s linear infinite;
     pointer-events: none;
@@ -318,25 +320,25 @@
 
   @media (max-width: 900px) {
     .hero {
-      padding: 6.5rem 1rem 2rem;
+      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-6);
       min-height: 30rem;
     }
 
     .content {
-      padding: 0 1rem 4rem;
+      padding: 0 var(--space-4) var(--space-8);
     }
 
     .section-header {
-      font-size: 2.1rem;
+      font-size: var(--text-2xl);
     }
 
     .definition {
-      font-size: 1.8rem;
+      font-size: var(--text-xl);
     }
 
     .vision-evolution {
-      padding: 1.25rem;
-      border-radius: 1rem;
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
     }
   }
 
@@ -350,17 +352,17 @@
     }
 
     .definition {
-      font-size: 1.6rem;
+      font-size: var(--text-xl);
     }
 
     .explanation {
-      font-size: 1.1rem;
+      font-size: var(--text-md);
     }
   }
 
   @media (max-width: 560px) {
     .hero {
-      padding-top: 5.75rem;
+      padding-top: var(--layout-page-top);
       min-height: 24rem;
     }
 
@@ -373,25 +375,25 @@
     }
 
     .content {
-      padding-inline: 1rem;
+      padding-inline: var(--space-4);
     }
 
     .section-header {
-      font-size: 1.75rem;
+      font-size: var(--text-xl);
     }
 
     .definition {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-5);
     }
 
     .explanation,
     .vision-evolution p {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .vision-evolution h3 {
-      font-size: 1.5rem;
+      font-size: var(--text-xl);
     }
   }
 </style>
