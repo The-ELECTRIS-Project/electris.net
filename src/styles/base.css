@@ -82,7 +82,7 @@ main {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: var(--z-nav);
+  z-index: var(--z-raised);
   background: var(--scrim-page);
 }
 
