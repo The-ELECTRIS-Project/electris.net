@@ -113,14 +113,6 @@
       <p use:glitchAction={t('creator.standard.explanation.p2')}>
         {withLineBreaks(t('creator.standard.explanation.p2'))}
       </p>
-
-      <div class="vision-evolution">
-        <h3>{t('creator.standard.vision.title')}</h3>
-        <p use:glitchAction={t('creator.standard.vision.desc')}>
-          {t('creator.standard.vision.desc')}
-        </p>
-        <div class="notice-glow"></div>
-      </div>
     </div>
   </div>
 </div>
@@ -242,48 +234,6 @@
     letter-spacing: 0.5px;
   }
 
-  .vision-evolution {
-    margin-top: var(--space-6);
-    padding: var(--space-5);
-    border-radius: var(--radius-sm);
-    border-left: 3px solid;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .notice-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transform: translateX(-100%);
-    animation: notice-sweep 6s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  @keyframes notice-sweep {
-    0% { transform: translateX(-100%) skewX(-15deg); }
-    50% { transform: translateX(0%) skewX(-15deg); }
-    100% { transform: translateX(100%) skewX(-15deg); }
-  }
-
-  .vision-evolution h3 {
-    font-family: var(--font-game);
-    font-size: var(--text-2xl);
-    margin: 0 0 var(--space-4);
-    position: relative;
-    z-index: var(--z-raised);
-  }
-
-  .vision-evolution p {
-    margin: 0;
-    font-weight: 500;
-    font-size: var(--text-md);
-    position: relative;
-    z-index: var(--z-raised);
-  }
-
   @keyframes screen-distort {
     0%, 100% { transform: translate(0, 0) scale(1); }
     33% { transform: translate(0.5px, -0.5px) scale(1.001); }
@@ -335,11 +285,6 @@
     .definition {
       font-size: var(--text-xl);
     }
-
-    .vision-evolution {
-      padding: var(--space-4);
-      border-radius: var(--radius-lg);
-    }
   }
 
   @media (max-width: 768px) {
@@ -387,13 +332,8 @@
       margin-bottom: var(--space-5);
     }
 
-    .explanation,
-    .vision-evolution p {
+    .explanation {
       font-size: var(--text-base);
-    }
-
-    .vision-evolution h3 {
-      font-size: var(--text-xl);
     }
   }
 </style>

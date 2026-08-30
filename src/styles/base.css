@@ -275,10 +275,6 @@ main {
   background: var(--electrical-bg);
 }
 
-.notice-glow {
-  background: var(--notice-glow);
-}
-
 /* ===== ##### ===== */
 .crown-image {
   filter: var(--crown-filter);
