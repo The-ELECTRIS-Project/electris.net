@@ -388,19 +388,6 @@
     height: auto;
   }
 
-  .post-nav {
-    margin-bottom: 2rem;
-  }
-
-  .back-link {
-    color: rgba(255, 255, 255, 0.9);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  }
-
-  .back-link:hover {
-    color: rgba(255, 255, 255, 1);
-  }
-  
   .cover-image {
     width: 100%;
     border-radius: 1rem;
@@ -422,6 +409,7 @@
 
   .back-link {
     color: rgba(246, 89, 1, 0.8);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     text-decoration: none;
     font-family: 'Redwing';
     font-size: 1rem;
@@ -849,24 +837,7 @@
     color: rgba(246, 89, 1, 1);
   }
 
-  @media (max-width: 53.33vmin) {
-    .post-container {
-      padding: 5rem 1rem 4rem;
-      max-width: none;
-    }
-
-    .post-title {
-      font-size: 2.5rem;
-    }
-
-    .post-meta {
-      flex-direction: row;
-      align-items: center;
-      gap: 0.5rem 0.85rem;
-    }
-  }
-
-  @media (max-width: 62.5vmin), (any-pointer: coarse) {
+  @media (max-width: 900px), (any-pointer: coarse) {
     .post-container {
       padding: 6.5rem 1rem 4rem;
       max-width: min(48rem, 100%);
@@ -940,7 +911,7 @@
     }
   }
 
-  @media (max-width: 38.8vmin) {
+  @media (max-width: 640px) {
     .post-meta {
       gap: 0.45rem 0.75rem;
     }
