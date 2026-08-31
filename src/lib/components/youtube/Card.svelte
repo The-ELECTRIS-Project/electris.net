@@ -31,14 +31,14 @@
   let summary = $derived.by(() => {
     if (!video.description) {
       if (video.status === 'live') {
-        return `${video.channelName} is live right now, with the player kept directly in the card so you can watch without leaving the page.`;
+        return `${video.channelName} is live right now.`;
       }
 
       if (video.status === 'upcoming') {
-        return `${video.channelName} already has this stream scheduled, and the player frame stays shaped for the actual broadcast instead of forcing a generic shell.`;
+        return `${video.channelName} has this one scheduled.`;
       }
 
-      return `${video.channelName}'s newest upload is playable right here, while the layout still stays clean for long titles and unusual formats.`;
+      return `The newest thing ${video.channelName} put out.`;
     }
 
     // Extract first paragraph: up to the first empty line (double newline)

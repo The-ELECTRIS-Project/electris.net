@@ -1,8 +1,18 @@
 {
-  "videos.page.title": "Transmisiuni Semnal",
-  "videos.page.intro": "Ultimele transmisii de pe canalele rețelei ELECTRIS.",
-  "videos.section.live": "Live și În curând",
-  "videos.section.latest": "Ultimele videoclipuri",
-  "videos.empty_state": "Niciun semnal găsit. Te rugăm să revii mai târziu.",
-  "videos.back_home": "Înapoi la bază"
+  "videos.page.kicker": "De la canale",
+  "videos.page.title": "Videoclipuri",
+  "videos.page.intro": "Ce este mai nou de la canalele sprijinite de ELECTRIS.",
+  "videos.metric.live": "Live și curând",
+  "videos.metric.latest": "Cele mai noi publicări",
+  "videos.metric.refresh": "Ultima verificare la",
+  "videos.last_updated.empty": "Nu s-a verificat încă",
+  "videos.section.live.kicker": "Chiar acum",
+  "videos.section.live": "Live și Curând",
+  "videos.section.live.copy": "Orice în direct acum sau planificat apare aici.",
+  "videos.section.latest.kicker": "Ce este mai nou",
+  "videos.section.latest": "Ultimele Publicări",
+  "videos.empty_state.kicker": "Nimic deocamdată",
+  "videos.empty_state.title": "Nici un videoclip încă.",
+  "videos.empty_state": "Nimic nu a fost publicat recent. Verifică din nou mai târziu.",
+  "videos.back_home": "Înapoi acasă"
 }

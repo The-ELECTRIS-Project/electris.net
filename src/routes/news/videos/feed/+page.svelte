@@ -28,7 +28,7 @@
   });
 
   let lastUpdatedLabel = $derived(
-    youtube.lastUpdated ? formatYoutubeDateTime(new Date(youtube.lastUpdated).toISOString(), locale) : t('videos.last_updated.empty', 'Awaiting refresh')
+    youtube.lastUpdated ? formatYoutubeDateTime(new Date(youtube.lastUpdated).toISOString(), locale) : t('videos.last_updated.empty', 'Not checked yet')
   );
 
   useHoverConfig([
@@ -60,17 +60,17 @@
 
   <header class="page-header wrap-no-interact-all">
     <div class="page-copy">
-      <p class="page-kicker">{t('videos.page.kicker', 'YouTube // signal feed')}</p>
-      <h1>{t('videos.page.title', 'Latest Broadcasts')}</h1>
+      <p class="page-kicker">{t('videos.page.kicker', 'From the channels')}</p>
+      <h1>{t('videos.page.title', 'Videos')}</h1>
       <p class="page-intro">
-        {t('videos.page.intro', 'The latest uploads from the ELECTRIS channels')}
+        {t('videos.page.intro', 'The latest from the channels ELECTRIS supports.')}
       </p>
     </div>
 
     <div class="header-side">
       <div class="page-metrics">
         <article class="metric-card">
-          <span>{t('videos.metric.live', 'Live / upcoming')}</span>
+          <span>{t('videos.metric.live', 'Live and upcoming')}</span>
           <strong>{liveAndUpcoming.length}</strong>
         </article>
         <article class="metric-card">
@@ -78,7 +78,7 @@
           <strong>{finishedVideos.length}</strong>
         </article>
         <article class="metric-card wide">
-          <span>{t('videos.metric.refresh', 'Last refresh')}</span>
+          <span>{t('videos.metric.refresh', 'Last checked')}</span>
           <strong>{lastUpdatedLabel}</strong>
         </article>
       </div>
@@ -87,7 +87,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
           <path d="M19 12H5M12 19l-7-7 7-7" />
         </svg>
-        {t('videos.back_home', 'Back to Base')}
+        {t('videos.back_home', 'Back home')}
       </a>
     </div>
   </header>
@@ -96,14 +96,14 @@
     <section class="video-shell">
       <div class="section-header">
         <div class="section-copy-group">
-          <p class="section-kicker">{t('videos.section.live.kicker', 'Signal Window')}</p>
+          <p class="section-kicker">{t('videos.section.live.kicker', 'Right now')}</p>
           <h2 class="section-title">
             <span class="indicator-dot"></span>
-            {t('videos.section.live', 'Live & Upcoming')}
+            {t('videos.section.live', 'Live and Upcoming')}
           </h2>
         </div>
         <p class="section-copy">
-          {t('videos.section.live.copy', 'If a stream is active or already scheduled, it lands here.')}
+          {t('videos.section.live.copy', 'Anything streaming now or already scheduled shows up here.')}
         </p>
       </div>
 
@@ -119,12 +119,9 @@
     <section class="video-shell latest-shell">
       <div class="section-header">
         <div class="section-copy-group">
-          <p class="section-kicker">{t('videos.section.latest.kicker', 'Network Feed')}</p>
+          <p class="section-kicker">{t('videos.section.latest.kicker', 'Newest')}</p>
           <h2 class="section-title">{t('videos.section.latest', 'Latest Uploads')}</h2>
         </div>
-        <p class="section-copy">
-          {t('videos.section.latest.copy', 'Each channel contributes its newest finished upload, with the player frame adapting to the actual video shape instead of forcing one generic format.')}
-        </p>
       </div>
 
       <div class:single={finishedVideos.length === 1} class="video-grid">
@@ -135,9 +132,9 @@
     </section>
   {:else if liveAndUpcoming.length === 0}
     <div class="empty-state wrap-no-interact-all">
-      <p class="empty-kicker">{t('videos.empty_state.kicker', 'No active signals')}</p>
-      <h2>{t('videos.empty_state.title', 'Nothing is on the wire right now.')}</h2>
-      <p>{t('videos.empty_state', 'No signals found. Please check back later.')}</p>
+      <p class="empty-kicker">{t('videos.empty_state.kicker', 'Nothing yet')}</p>
+      <h2>{t('videos.empty_state.title', 'No videos right now.')}</h2>
+      <p>{t('videos.empty_state', 'Nothing has gone up recently. Check back later.')}</p>
     </div>
   {/if}
 </div>
