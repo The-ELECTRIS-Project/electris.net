@@ -34,9 +34,9 @@
     if (!featuredVideo) return '';
     if (!featuredVideo.description) {
       if (featuredVideo.status === 'live') {
-        return `${featuredVideo.channelName} is live right now, with the player kept directly in the section so you can watch without leaving the page.`;
+        return `${featuredVideo.channelName} ${t('youtube.summary.live', 'is live right now.')}`;
       }
-      return `${featuredVideo.channelName} already has this stream scheduled, and the player frame stays shaped for the actual broadcast.`;
+      return `${featuredVideo.channelName} ${t('youtube.summary.upcoming', 'has this one scheduled.')}`;
     }
 
     const paragraphs = featuredVideo.description.split(/\n\s*\n/);
