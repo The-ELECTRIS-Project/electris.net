@@ -145,9 +145,12 @@
 :root {
   --text-primary: var(--accent);
 
-  /* Labels that sit on top of an accent fill. White in every scheme, so it is
-     declared once here rather than three times above. */
+  /* Labels that sit on top of a solid accent or status fill. White in every scheme,
+     so it is declared once here rather than three times above. */
   --text-on-accent: #ffffff;
+
+  /* The solid destructive colour, for actions that throw something away. */
+  --status-negative: #dc2626;
 
   --bg-body: var(--surface-page);
   --bg-secondary: var(--surface-sunken);

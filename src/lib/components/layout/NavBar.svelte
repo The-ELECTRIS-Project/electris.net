@@ -1787,13 +1787,13 @@
 
   .confirm-reset {
     background: none;
-    border-color: #dc2626;
-    color: #dc2626;
+    border-color: var(--status-negative);
+    color: var(--status-negative);
   }
 
   .confirm-reset:hover {
-    background-color: #dc2626;
-    color: white;
+    background-color: var(--status-negative);
+    color: var(--text-on-accent);
   }
 
   .slider-container {
