@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { t } from '$lib/state/i18n.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
 
   let { content } = $props<{ content?: string }>();
 
@@ -344,7 +344,7 @@
     if (!dateString) return '';
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
+      return date.toLocaleDateString(i18nState.currentLocale || undefined, {
         year: 'numeric',
         month: 'short',
         day: 'numeric'
