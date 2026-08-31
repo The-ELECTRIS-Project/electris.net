@@ -142,13 +142,14 @@
       color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--color-primary) 28%)'
     },
     {
-      type: ['h3'],
+      type: ['p'],
       selectors: ['.summary'],
       className: 'hovered-word-wrap',
       lockPosition: true,
       wrapText: {
         words: true,
-        sentences: false
+        sentences: false,
+        ignorePunctuation: true
       }
     },
     {
