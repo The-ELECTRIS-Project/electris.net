@@ -60,7 +60,7 @@
 
       <div class="error-actions">
         <a href="/" class="return-button">
-          <span class="button-text">{t('error.action.home', 'Back to the home page')}</span>
+          <span class="button-text">{t('error.action.home', 'To the home page')}</span>
           <div class="button-spark"></div>
         </a>
         <button onclick={goBack} class="back-button">

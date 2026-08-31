@@ -20,6 +20,6 @@
   "error.404.detail": "Either it moved, or it never existed in the first place.",
   "error.generic.message": "Something broke.",
   "error.generic.detail": "No idea what, which is the annoying part.",
-  "error.action.home": "Back to the home page",
+  "error.action.home": "To the home page",
   "error.action.back": "Go back"
 }
