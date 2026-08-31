@@ -1,11 +1,10 @@
 <script lang="ts">
   interface Props {
     type?: 'card' | 'live' | 'row';
-    big?: boolean;
     count?: number;
   }
 
-  let { type = 'card', big = false, count = 2 }: Props = $props();
+  let { type = 'card', count = 2 }: Props = $props();
 
   let skeletonIndices = $derived(Array.from({ length: count }, (_, i) => i));
 </script>
@@ -24,7 +23,7 @@
     </div>
   </div>
 {:else if type === 'card'}
-  <div class="skeleton-card" class:big-card={big}>
+  <div class="skeleton-card">
     <div class="skeleton-media"></div>
     <div class="skeleton-content">
       <div class="skeleton-line title"></div>
