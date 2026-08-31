@@ -1676,12 +1676,15 @@
     left: 0.175rem;
     width: 0.9rem;
     height: 0.9rem;
-    background: white;
+    background: var(--text-muted);
     border-radius: var(--radius-round);
-    transition: transform var(--duration-slow) var(--ease-in-out);
+    transition:
+      var(--transition-colors),
+      transform var(--duration-slow) var(--ease-in-out);
   }
 
   .toggle-switch-mini.active .toggle-slider-mini {
+    background: var(--text-on-accent);
     transform: translateX(1.25rem);
   }
 
