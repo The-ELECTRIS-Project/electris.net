@@ -53,6 +53,13 @@
 
   const previewCache = new Map<string, GithubData>();
 
+  // Every measurement here is in rem, so the popover tracks the text it sits beside.
+  const POPOVER_WIDTH = 22;
+  const POPOVER_FALLBACK_HEIGHT = 13;
+  const POPOVER_MARGIN = 0.875;
+  const POPOVER_OFFSET = 0.6;
+  const POPOVER_CLEARANCE = 1.5;
+
   const RESERVED_PATHS = new Set([
     'features', 'pricing', 'trending', 'pulls', 'issues', 'marketplace',
     'explore', 'notifications', 'settings', 'orgs', 'search', 'login',
@@ -138,19 +145,21 @@
 
   function calculatePosition(link: HTMLElement) {
     if (!link) return;
-    
-    const vmin = Math.min(window.innerWidth, window.innerHeight) / 100;
-    const popoverWidth = 30 * vmin;
-    
+
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const popoverWidth = POPOVER_WIDTH * rem;
+
     const linkRect = link.getBoundingClientRect();
-    const popoverHeight = popoverElement ? popoverElement.getBoundingClientRect().height : 18 * vmin;
-    
+    const popoverHeight = popoverElement
+      ? popoverElement.getBoundingClientRect().height
+      : POPOVER_FALLBACK_HEIGHT * rem;
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
     let leftPos = linkRect.left + (linkRect.width / 2) - (popoverWidth / 2);
-    
-    const margin = 1.2 * vmin;
+
+    const margin = POPOVER_MARGIN * rem;
     if (leftPos < margin) {
       leftPos = margin;
     } else if (leftPos + popoverWidth > viewportWidth - margin) {
@@ -158,13 +167,14 @@
     }
 
     const spaceBelow = viewportHeight - linkRect.bottom;
-    const offset = 0.8 * vmin;
-    
+    const offset = POPOVER_OFFSET * rem;
+    const clearance = POPOVER_CLEARANCE * rem;
+
     // Prefer bottom, but switch to top if there is not enough space below
-    if (spaceBelow > popoverHeight + offset + 2 * vmin) {
+    if (spaceBelow > popoverHeight + offset + clearance) {
       y = linkRect.bottom + offset;
       placement = 'bottom';
-    } else if (linkRect.top > popoverHeight + offset + 2 * vmin) {
+    } else if (linkRect.top > popoverHeight + offset + clearance) {
       y = linkRect.top - popoverHeight - offset;
       placement = 'top';
     } else {
@@ -549,38 +559,46 @@
 
 <style>
   .github-preview-popover {
+    /* GitHub's own state palette, so a merged or closed item reads the same as it does there. */
+    --github-open: #238636;
+    --github-open-text: #3fb950;
+    --github-closed: #da3633;
+    --github-closed-text: #f85149;
+    --github-merged: #8957e5;
+    --github-merged-text: #a371f7;
+    --github-additions: #2ea043;
     position: fixed;
-    width: 30vmin;
-    z-index: 1000;
+    width: 22rem;
+    z-index: var(--z-popup);
     pointer-events: auto;
-    border-radius: 1.2vmin;
-    background: var(--options-menu-bg, rgba(20, 20, 25, 0.85));
-    border: 0.1vmin solid var(--color-primary, #ff5608);
-    backdrop-filter: blur(1.6vmin) saturate(180%);
-    -webkit-backdrop-filter: blur(1.6vmin) saturate(180%);
-    box-shadow: 
-      0 1.2vmin 3vmin rgba(0, 0, 0, 0.5), 
-      0 0 1.5vmin color-mix(in srgb, var(--color-primary, #ff5608) 12%, transparent);
-    color: var(--color-primary, #ff5608);
-    font-family: 'Redwing', 'Aileron', sans-serif;
+    border-radius: var(--radius-lg);
+    background: var(--surface-overlay);
+    border: 1px solid var(--accent);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow:
+      var(--shadow-lg),
+      0 0 var(--space-4) color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--accent);
+    font-family: var(--font-body);
     overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform var(--duration-normal) var(--ease-out);
   }
 
   .github-preview-popover.top {
     transform-origin: bottom center;
-    animation: scale-up-top 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: scale-up-top var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .github-preview-popover.bottom {
     transform-origin: top center;
-    animation: scale-up-bottom 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: scale-up-bottom var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   @keyframes scale-up-top {
     from {
       opacity: 0;
-      transform: translateY(0.8vmin) scale(0.95);
+      transform: translateY(var(--space-2)) scale(0.95);
     }
     to {
       opacity: 1;
@@ -591,7 +609,7 @@
   @keyframes scale-up-bottom {
     from {
       opacity: 0;
-      transform: translateY(-0.8vmin) scale(0.95);
+      transform: translateY(calc(var(--space-2) * -1)) scale(0.95);
     }
     to {
       opacity: 1;
@@ -603,51 +621,46 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10vmin;
+    height: 7.5rem;
     width: 100%;
   }
 
   .spinner {
-    width: 2.4vmin;
-    height: 2.4vmin;
-    border: 0.2vmin solid rgba(246, 89, 1, 0.1);
-    border-top: 0.2vmin solid var(--color-primary, #ff5608);
-    border-radius: 50%;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 2px solid color-mix(in srgb, var(--accent) 10%, transparent);
+    border-top: 2px solid var(--accent);
+    border-radius: var(--radius-round);
     animation: spin 0.8s linear infinite;
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   .popover-content {
-    padding: 1.6vmin;
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 1vmin;
-    font-size: 0.95rem;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
     line-height: 1.4;
   }
 
   .popover-header {
     display: flex;
     align-items: center;
-    gap: 1vmin;
+    gap: var(--space-3);
   }
 
   .avatar {
-    width: 2.4vmin;
-    height: 2.4vmin;
-    border-radius: 0.4vmin;
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--radius-xs);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .user-avatar {
-    width: 4.4vmin;
-    height: 4.4vmin;
-    border-radius: 50%;
-    border: 0.1vmin solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: var(--radius-round);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .title-area {
@@ -656,10 +669,10 @@
   }
 
   .repo-name {
-    font-family: 'Redwing', sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
     font-weight: bold;
-    color: var(--color-link, #ff6811);
+    color: var(--accent-hover);
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -672,9 +685,9 @@
   }
 
   .description {
-    font-family: 'Aileron', sans-serif;
-    font-size: 0.85rem;
-    color: var(--color-text-dim, #e0e0e0);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -691,39 +704,40 @@
   .footer-stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.2vmin;
-    font-size: 0.8rem;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
     align-items: center;
-    margin-top: 0.4vmin;
-    color: var(--color-text-muted, #b0b0b0);
+    margin-top: var(--space-1);
+    color: var(--text-muted);
   }
 
   .stat-item {
     display: flex;
     align-items: center;
-    gap: 0.4vmin;
+    gap: var(--space-1);
   }
 
   .lang-color {
-    width: 0.8vmin;
-    height: 0.8vmin;
-    border-radius: 50%;
+    width: var(--space-2);
+    height: var(--space-2);
+    border-radius: var(--radius-round);
     display: inline-block;
   }
 
-  /* PR & Issues styling */
+  /* ===== PULL REQUESTS AND ISSUES ===== */
+
   .repo-context {
-    font-size: 0.75rem;
-    color: var(--color-text-muted, #a0a0a0);
+    font-size: var(--text-2xs);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
   .item-title {
-    font-family: 'Redwing', sans-serif;
-    font-size: 0.95rem;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-link, #ff6811);
+    color: var(--accent-hover);
     text-decoration: none;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -737,90 +751,91 @@
   }
 
   .item-number {
-    color: var(--color-text-muted, #858585);
+    color: var(--text-muted);
     font-weight: normal;
   }
 
   .meta-row {
     display: flex;
     align-items: center;
-    gap: 0.8vmin;
-    font-size: 0.8rem;
-    margin-top: 0.2vmin;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    margin-top: var(--space-1);
   }
 
   .badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.4vmin;
-    padding: 0.2vmin 0.8vmin;
-    border-radius: 1.2vmin;
-    font-size: 0.75rem;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-2xs);
     font-weight: 600;
     text-transform: capitalize;
   }
 
   .badge.open {
-    background: rgba(35, 134, 54, 0.15);
-    border: 0.1vmin solid #238636;
-    color: #3fb950;
+    background: color-mix(in srgb, var(--github-open) 15%, transparent);
+    border: 1px solid var(--github-open);
+    color: var(--github-open-text);
   }
 
   .badge.closed {
-    background: rgba(218, 54, 51, 0.15);
-    border: 0.1vmin solid #da3633;
-    color: #f85149;
+    background: color-mix(in srgb, var(--github-closed) 15%, transparent);
+    border: 1px solid var(--github-closed);
+    color: var(--github-closed-text);
   }
 
   .badge.merged {
-    background: rgba(137, 87, 229, 0.15);
-    border: 0.1vmin solid #8957e5;
-    color: #a371f7;
+    background: color-mix(in srgb, var(--github-merged) 15%, transparent);
+    border: 1px solid var(--github-merged);
+    color: var(--github-merged-text);
   }
 
   .author-info {
     display: flex;
     align-items: center;
-    gap: 0.6vmin;
-    color: var(--color-text-dim, #c0c0c0);
+    gap: var(--space-2);
+    color: var(--text-secondary);
   }
 
   .mini-avatar {
-    width: 1.6vmin;
-    height: 1.6vmin;
-    border-radius: 50%;
+    width: var(--space-4);
+    height: var(--space-4);
+    border-radius: var(--radius-round);
   }
 
   .diff-stats {
     display: flex;
     align-items: center;
-    gap: 0.8vmin;
-    font-size: 0.8rem;
-    margin-top: 0.4vmin;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    margin-top: var(--space-1);
   }
 
   .additions {
-    color: #2ea043;
+    color: var(--github-additions);
     font-weight: 600;
   }
 
   .deletions {
-    color: #f85149;
+    color: var(--github-closed-text);
     font-weight: 600;
   }
 
   .commits-count {
-    color: var(--color-text-muted, #858585);
-    margin-left: 0.4vmin;
+    color: var(--text-muted);
+    margin-left: var(--space-1);
   }
 
   .time-info {
-    font-size: 0.75rem;
-    color: var(--color-text-muted, #858585);
-    margin-top: 0.2vmin;
+    font-size: var(--text-2xs);
+    color: var(--text-muted);
+    margin-top: var(--space-1);
   }
 
-  /* User/Org styling */
+  /* ===== USERS AND ORGANISATIONS ===== */
+
   .user-info-area {
     display: flex;
     flex-direction: column;
@@ -828,10 +843,10 @@
   }
 
   .user-display-name {
-    font-family: 'Redwing', sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
     font-weight: bold;
-    color: var(--color-link, #ff6811);
+    color: var(--accent-hover);
     text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -843,36 +858,35 @@
   }
 
   .user-login {
-    font-size: 0.8rem;
-    color: var(--color-text-muted, #858585);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
   }
 
   .user-stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.2vmin;
-    font-size: 0.8rem;
-    color: var(--color-text-muted, #a0a0a0);
-    border-top: 0.1vmin solid rgba(255, 86, 8, 0.15);
-    padding-top: 0.8vmin;
-    margin-top: 0.4vmin;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    border-top: 1px solid color-mix(in srgb, var(--accent) 15%, transparent);
+    padding-top: var(--space-2);
+    margin-top: var(--space-1);
   }
 
   .user-stat strong {
-    color: var(--color-primary, #ff5608);
+    color: var(--accent);
   }
 
   .fallback-badge {
-    font-size: 0.65rem;
-    color: var(--color-text-muted, #858585);
+    font-size: var(--text-2xs);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     align-self: flex-end;
-    margin-top: -0.4vmin;
+    margin-top: calc(var(--space-1) * -1);
     opacity: 0.6;
   }
 
-  /* Global integration selector override for cursor */
   :global(.github-hover-link) {
     position: relative;
     cursor: pointer;
