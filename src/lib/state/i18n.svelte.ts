@@ -22,6 +22,7 @@ export const availableLocales: AvailableLocale[] = [
 ];
 
 const defaultLocale = 'en-GB';
+const MISSING_KEY_REPORT_DELAY = 1000;
 
 class I18nState {
   currentLocale = $state<string>(defaultLocale);
@@ -37,6 +38,10 @@ class I18nState {
   availableFiles: Set<string> | null = null;
   availableFilesRequest: Promise<void> | null = null;
   fileRequests = new Map<string, Promise<unknown | null>>();
+
+  reportedKeys = new Set<string>();
+  suspectKeys = new Set<string>();
+  reportTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     if (browser) {
@@ -266,8 +271,37 @@ class I18nState {
     
     if (fallback !== undefined) return fallback;
 
-    console.warn(`Translation key "${key}" not found in locale "${locale}"`);
+    this.reportMissingKey(key, locale);
     return key;
+  }
+
+  // A key can be missing simply because its file has not arrived yet, so the report waits
+  // and then only warns about the keys that are still missing once loading has settled.
+  reportMissingKey(key: string, locale: string) {
+    if (!browser) return;
+
+    const id = `${locale}|${key}`;
+    if (this.reportedKeys.has(id) || this.suspectKeys.has(id)) return;
+
+    this.suspectKeys.add(id);
+
+    if (this.reportTimer) clearTimeout(this.reportTimer);
+    this.reportTimer = setTimeout(() => this.flushMissingKeys(), MISSING_KEY_REPORT_DELAY);
+  }
+
+  flushMissingKeys() {
+    this.reportTimer = null;
+
+    for (const id of this.suspectKeys) {
+      const [locale, key] = id.split('|');
+      this.reportedKeys.add(id);
+
+      if (this.getTranslation(key, locale) === undefined) {
+        console.warn(`Translation key "${key}" not found in locale "${locale}"`);
+      }
+    }
+
+    this.suspectKeys.clear();
   }
 
   get currentLocaleInfo() {
