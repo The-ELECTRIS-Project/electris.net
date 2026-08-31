@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
+    import { t } from '$lib/state/i18n.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
@@ -36,7 +37,7 @@
             <nav class="breadcrumb">
                 <a href="/music/{artist.slug}">{artist.name}</a>
                 <span>/</span>
-                <a href="/music/{artist.slug}/singles">Singles</a>
+                <a href="/music/{artist.slug}/singles">{t('ems.music.card.disc', 'Singles')}</a>
             </nav>
 
             <h1 style="font-family: {single.titleFont || 'inherit'}">{single.title}</h1>
@@ -47,7 +48,7 @@
             {/if}
 
             <div class="listen-links">
-                <h3>LISTEN ON</h3>
+                <h3>{t('ems.music.single.listen', 'Listen on')}</h3>
                 <div class="links-grid">
                     {#if single.links?.youtube}
                         <a href={single.links.youtube} target="_blank" class="link-btn yt option">
@@ -149,6 +150,7 @@
 
     .listen-links h3 {
         font-size: var(--text-xs);
+        text-transform: uppercase;
         letter-spacing: 0.25em;
         margin-bottom: var(--space-5);
         opacity: 0.5;

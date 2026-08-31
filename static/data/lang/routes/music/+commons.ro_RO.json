@@ -3,5 +3,13 @@
   "ems.music.hero.slogan": "Dacă muzica îți dă viață, dă viață muzicii înapoi",
   "ems.music.card.vinyl": "Albume",
   "ems.music.card.disc": "Single-uri",
-  "ems.music.artists.title": "Artiști"
+  "ems.music.artists.title": "Artiști",
+  "ems.music.album.released": "Lansat",
+  "ems.music.album.tracklist": "Lista pieselor",
+  "ems.music.single.listen": "Ascultă pe",
+  "ems.music.albums.empty.title": "Niciun album încă",
+  "ems.music.albums.empty.body": "nu a lansat încă un album. Când se schimbă asta, va apărea aici.",
+  "ems.music.singles.empty.title": "Niciun single încă",
+  "ems.music.singles.empty.body": "nu a lansat încă un single. Când se schimbă asta, va apărea aici.",
+  "ems.music.return.artist": "Înapoi la artist"
 }

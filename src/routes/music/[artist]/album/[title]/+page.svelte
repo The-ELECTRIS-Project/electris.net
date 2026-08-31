@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
+    import { t, i18nState } from '$lib/state/i18n.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
@@ -34,11 +35,14 @@
                 <nav class="breadcrumb">
                     <a href="/music/{artist.slug}">{artist.name}</a>
                     <span>/</span>
-                    <a href="/music/{artist.slug}/albums">Albums</a>
+                    <a href="/music/{artist.slug}/albums">{t('ems.music.card.vinyl', 'Albums')}</a>
                 </nav>
 
                 <h1 style="font-family: {album.titleFont || 'inherit'}">{album.title}</h1>
-                <p class="release-date">Released {new Date(album.releaseDate).toLocaleDateString()}</p>
+                <p class="release-date">
+                    {t('ems.music.album.released', 'Released')}
+                    {new Date(album.releaseDate).toLocaleDateString(i18nState.currentLocale || undefined)}
+                </p>
                 
                 {#if album.description}
                     <p class="description">{album.description}</p>
@@ -58,7 +62,7 @@
         </div>
 
         <div class="tracklist-container">
-            <h2>TRACKLIST</h2>
+            <h2>{t('ems.music.album.tracklist', 'Tracklist')}</h2>
             <div class="tracklist">
                 {#each album.tracks as track, i}
                     <div class="tracklist-item option" role="listitem">
@@ -162,6 +166,7 @@
     .tracklist-container h2 {
         font-family: var(--font-display);
         font-size: var(--text-2xl);
+        text-transform: uppercase;
         letter-spacing: 0.14em;
         margin-bottom: var(--space-6);
         padding-bottom: var(--space-4);

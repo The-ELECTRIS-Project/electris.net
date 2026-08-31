@@ -63,9 +63,17 @@
             <div class="empty-icon">
                 <img src="/icons/buttons/cd.svg" alt="Empty" />
             </div>
-            <h2>NO SINGLES YET</h2>
-            <p>{artist.name} hasn't released any singles with ELECTRIS yet. When they do, they'll appear here!</p>
-            <a href="/music/{artist.slug}" class="btn-return">Return to Artist</a>
+            <h2>{t('ems.music.singles.empty.title', 'No singles yet')}</h2>
+            <p>
+                {artist.name}
+                {t(
+                    'ems.music.singles.empty.body',
+                    'hasn\'t put a single out yet. When that changes, it will show up here.'
+                )}
+            </p>
+            <a href="/music/{artist.slug}" class="btn-return">
+                {t('ems.music.return.artist', 'Back to the artist')}
+            </a>
         </div>
     {/if}
 </div>

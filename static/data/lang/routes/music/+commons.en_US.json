@@ -3,5 +3,13 @@
   "ems.music.hero.slogan": "If music gives you life, give life back to music",
   "ems.music.card.vinyl": "Albums",
   "ems.music.card.disc": "Singles",
-  "ems.music.artists.title": "Artists"
+  "ems.music.artists.title": "Artists",
+  "ems.music.album.released": "Released",
+  "ems.music.album.tracklist": "Tracklist",
+  "ems.music.single.listen": "Listen on",
+  "ems.music.albums.empty.title": "No albums yet",
+  "ems.music.albums.empty.body": "hasn't put an album out yet. When that changes, it will show up here.",
+  "ems.music.singles.empty.title": "No singles yet",
+  "ems.music.singles.empty.body": "hasn't put a single out yet. When that changes, it will show up here.",
+  "ems.music.return.artist": "Back to the artist"
 }
