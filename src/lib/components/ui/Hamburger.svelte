@@ -83,7 +83,7 @@
     width: 3.5vmin;
     position: fixed;
     left: 1vmin;
-    z-index: 121;
+    z-index: calc(var(--z-nav) + 1);
     cursor: pointer;
     background: none;
     border: none;
@@ -96,11 +96,17 @@
   .hamburger-svg {
     width: 100%;
     height: 100%;
-    transition: transform 0.3s ease;
+    transition: transform var(--duration-slow) var(--ease-out);
   }
-  
+
+  .hovered .hamburger-svg {
+    transition: none;
+  }
+
   .line {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition:
+      transform var(--duration-slow) var(--ease-in-out),
+      opacity var(--duration-slow) var(--ease-in-out);
     transform-origin: center;
   }
   
@@ -166,14 +172,6 @@
   
   .open.hovered .hamburger-svg {
     animation: nudge-left 1s ease-in-out infinite;
-  }
-  
-  .hamburger-svg {
-    transition: transform 0.3s ease-out;
-  }
-  
-  .hovered .hamburger-svg {
-    transition: none;
   }
   
   @keyframes nudge-right {
