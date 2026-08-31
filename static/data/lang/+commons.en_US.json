@@ -21,5 +21,7 @@
   "error.generic.message": "Something broke.",
   "error.generic.detail": "No idea what, which is the annoying part.",
   "error.action.home": "To the home page",
-  "error.action.back": "Go back"
+  "error.action.back": "Go back",
+  "social.role.founder": "Founder",
+  "social.role.contributor": "Contributor"
 }

@@ -21,5 +21,7 @@
   "error.generic.message": "S-a stricat ceva.",
   "error.generic.detail": "Habar n-am ce, asta e partea enervantă.",
   "error.action.home": "La pagina principală",
-  "error.action.back": "Înapoi"
+  "error.action.back": "Înapoi",
+  "social.role.founder": "Fondator",
+  "social.role.contributor": "Colaborator"
 }
