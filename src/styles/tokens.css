@@ -32,10 +32,12 @@
   --text-2xl: 2rem;
   --text-3xl: 2.5rem;
 
-  /* The only three fluid sizes. New headings pick one of these. */
+  /* The only fluid sizes. New headings pick one of these. */
   --display-sm: clamp(2rem, 5vw, 2.75rem);
   --display-md: clamp(2.5rem, 7vw, 3.5rem);
   --display-lg: clamp(3rem, 9vw, 5rem);
+  /* Reserved for the home hero, the one heading that has to outrank a page title. */
+  --display-xl: clamp(3.5rem, 10vw, 7rem);
 
   --font-display: 'Letric', sans-serif;
   --font-body: 'Redwing', 'Aileron', sans-serif;
