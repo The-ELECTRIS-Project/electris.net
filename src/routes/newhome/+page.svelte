@@ -149,12 +149,7 @@
     font-family: var(--font-brand);
     font-size: 1.15em;
     display: block;
-    background: linear-gradient(to left,
-      #764ba2 10%,
-      #667eea 25%,
-      #667eea 40%,
-      #667eea 100%
-    );
+    background: linear-gradient(to left, var(--brand-electris) 10%, var(--brand-electro) 25%);
     background-size: 500% 100%;
     background-position: 80% 0%;
     -webkit-background-clip: text;
