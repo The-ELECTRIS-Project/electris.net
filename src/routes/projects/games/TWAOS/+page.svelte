@@ -457,8 +457,11 @@
     text-align: center;
     overflow: hidden;
 
-    --sip-ink: hsl(30, 100%, 60%);
-    --sip-glow: hsl(29, 100%, 50%);
+    /* Sip's green, lifted off the mascot's eye sockets and brightened so it
+       still reads as his colour at display size. */
+    --sip-eye: #5eff00;
+    --sip-ink: hsl(90, 100%, 71%);
+    --sip-glow: var(--sip-eye);
     /* Picked against the video, so these do not follow the site theme. */
     --twaos-title-ink: hsl(32, 100%, 50%);
     --twaos-card-ink: hsl(126, 99%, 48%);
