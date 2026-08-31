@@ -36,6 +36,7 @@ class I18nState {
   // index falls back to asking for every file rather than loading nothing at all.
   availableFiles: Set<string> | null = null;
   availableFilesRequest: Promise<void> | null = null;
+  fileRequests = new Map<string, Promise<unknown | null>>();
 
   constructor() {
     if (browser) {
@@ -96,9 +97,17 @@ class I18nState {
   }
 
   async fetchLangFile(relativePath: string): Promise<unknown | null> {
-    await this.loadAvailableFiles();
-    if (this.availableFiles && !this.availableFiles.has(relativePath)) return null;
-    return this.fetchJson(`/data/lang/${relativePath}`);
+    const pending = this.fileRequests.get(relativePath);
+    if (pending) return pending;
+
+    const request = (async () => {
+      await this.loadAvailableFiles();
+      if (this.availableFiles && !this.availableFiles.has(relativePath)) return null;
+      return this.fetchJson(`/data/lang/${relativePath}`);
+    })();
+
+    this.fileRequests.set(relativePath, request);
+    return request;
   }
 
   normalizeLocaleData(data: unknown, locale: string): MultiLocaleData {
