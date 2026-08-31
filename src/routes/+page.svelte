@@ -31,9 +31,8 @@
     })();
 
     const displayVideos = newestPerChannel.slice(0, 2);
-    const hasMoreVideos = newestPerChannel.length > 2 || liveAndUpcoming.length > 1;
 
-    return { liveAndUpcoming, displayVideos, hasMoreVideos };
+    return { liveAndUpcoming, displayVideos };
   }
 
   let pointer = $state({ x: 50, y: 22 });
@@ -323,7 +322,7 @@
       <YTSkeleton type="live" />
       <YTSkeleton type="row" count={2} />
     {:then youtubeData}
-      {@const { liveAndUpcoming, displayVideos, hasMoreVideos } = processYoutubeData(youtubeData, includeExcludedVideos)}
+      {@const { liveAndUpcoming, displayVideos } = processYoutubeData(youtubeData, includeExcludedVideos)}
       
       <YTLive videos={liveAndUpcoming} />
       
@@ -332,18 +331,17 @@
           {#each displayVideos as video}
             <YouTube {video} big={displayVideos.length === 1} />
           {/each}
-          {#if hasMoreVideos}
-            <div class="show-all-container">
-              <a href="/news/videos/feed" class="show-all-link wrap-no-interact-all">
-                <span>View all new uploads</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </a>
-            </div>
-          {/if}
         </div>
       {/if}
+
+      <div class="show-all-container">
+        <a href="/news/videos/feed" class="show-all-link wrap-no-interact-all">
+          <span>{t('home.snapshot.videos.cta', 'All videos')}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
     {:catch}
       <!-- Silently fail -->
     {/await}
@@ -937,7 +935,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     align-items: start;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .youtube-row.single {
@@ -945,10 +943,9 @@
   }
 
   .show-all-container {
-    grid-column: 1 / -1;
     display: flex;
     justify-content: flex-end;
-    margin-top: -0.15rem;
+    margin-bottom: 1.5rem;
   }
 
   .show-all-link {
