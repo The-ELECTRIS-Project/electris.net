@@ -347,8 +347,8 @@
         <video bind:this={nextVideo} class="hero-video next" muted playsinline autoplay style="opacity:0;"></video>
         <div class="video-overlay"></div>
       </div>
-      <div class="hero-text">
-        <div class="wrap-no-interact-all twaos-title">
+      <div class="hero-text wrap-no-interact-all">
+        <div class="twaos-title">
           <span class="text-container"><h2 class="tw">{t('proj.twaos.title.tw')}</h2></span>
           <span class="text-container"><h3 class="ao">{t('proj.twaos.title.ao')}</h3></span>
           <span class="text-container"><h1 class="sip">{t('proj.twaos.title.sip')}</h1></span>

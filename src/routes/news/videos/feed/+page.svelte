@@ -116,7 +116,7 @@
 
   {#if liveAndUpcoming.length > 0}
     <section class="video-shell">
-      <div class="section-header">
+      <div class="section-header wrap-no-interact-all">
         <p class="section-kicker">{t('videos.section.live.kicker', 'Right now')}</p>
         <h2 class="section-title">
           <span class="indicator-dot"></span>
@@ -134,7 +134,7 @@
 
   {#if finishedVideos.length > 0}
     <section class="video-shell latest-shell">
-      <div class="section-header">
+      <div class="section-header wrap-no-interact-all">
         <p class="section-kicker">{t('videos.section.latest.kicker', 'Newest')}</p>
         <h2 class="section-title">{t('videos.section.latest', 'Latest Uploads')}</h2>
       </div>
@@ -155,7 +155,7 @@
 
   {#if previousVideos.length > 0}
     <section class="video-shell">
-      <div class="section-header">
+      <div class="section-header wrap-no-interact-all">
         <p class="section-kicker">{t('videos.section.previous.kicker', 'Before that')}</p>
         <h2 class="section-title">{t('videos.section.previous', 'Previous Uploads')}</h2>
       </div>
