@@ -139,9 +139,8 @@
   --crown-filter-hover: drop-shadow(0 0.5vmin 1vmin rgba(0, 0, 0, 0.5)) drop-shadow(0 0 3vmin rgba(255, 255, 255, 1));
 }
 
-/* Roles derived from the above, and the legacy names still used by unconverted pages.
-   Custom property references resolve lazily, so declaring these once here is enough:
-   each one picks up whichever scheme block is active. */
+/* Roles derived from the above. Custom property references resolve lazily, so declaring
+   these once here is enough: each one picks up whichever scheme block is active. */
 :root {
   --text-primary: var(--accent);
 
@@ -151,28 +150,17 @@
 
   /* The solid destructive colour, for actions that throw something away. */
   --status-negative: #dc2626;
+}
 
-  --bg-body: var(--surface-page);
-  --bg-secondary: var(--surface-sunken);
+/* The four names a blog post body may use.
+
+   Post bodies are hand-written HTML fragments rendered with {@html}, and everything under
+   a post's `revisions/` is a snapshot of what was published, so it cannot be rewritten
+   later. That makes these four a published interface rather than a migration leftover:
+   they stay, and no new site code should use them. */
+:root {
   --color-primary: var(--accent);
   --color-link: var(--accent-hover);
-  --color-electris: var(--brand-electris);
   --color-electro: var(--brand-electro);
-  --navbar-bg: var(--surface-nav);
-  --hamburger-bg: var(--surface-hamburger);
-  --options-menu-bg: var(--surface-overlay);
-  --overlay-bg: var(--scrim-page);
-  --video-overlay: var(--scrim-video);
-  --card-bg: var(--surface-raised);
-  --circle-border: var(--orbit-border);
-  --encouraged-bg: var(--status-positive-bg);
-  --encouraged-border: var(--status-positive-border);
-  --unacceptable-bg: var(--status-negative-bg);
-  --unacceptable-border: var(--status-negative-border);
-  --color-text-dim: var(--text-secondary);
-  --color-text-muted: var(--text-muted);
-
-  /* Read in five files and never defined until now, so it always fell back to a
-     fixed orange regardless of scheme. */
   --accent-color: var(--accent);
 }
