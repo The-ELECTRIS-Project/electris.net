@@ -282,11 +282,6 @@
     margin: 0 auto var(--space-4);
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   .no-posts {
     text-align: center;
     padding: var(--space-8) 0;

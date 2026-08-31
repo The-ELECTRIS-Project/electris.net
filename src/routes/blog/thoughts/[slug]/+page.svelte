@@ -374,11 +374,6 @@
     position: relative;
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   .error h2 {
     font-family: var(--font-display);
     font-size: var(--text-3xl);

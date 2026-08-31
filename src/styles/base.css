@@ -311,6 +311,14 @@ main {
   }
 }
 
+/* ===== SHARED ANIMATIONS ===== */
+/* Declared once here so a component that only spins something does not restate it.
+   A component that declares its own `spin` still wins, because Svelte scopes it. */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* ===== REDUCED MOTION ===== */
 /* One site-wide rule, instead of a per-file block that most files forgot. */
 @media (prefers-reduced-motion: reduce) {
