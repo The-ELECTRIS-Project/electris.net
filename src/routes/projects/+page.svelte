@@ -3,15 +3,13 @@
   import { onMount } from 'svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
-  let iconSize = 150;
-
   let projects = $derived([
     {
       title: t('proj.twaos.title.short'),
       font: 'Nightcore',
       description: t('proj.twaos.desc.long'),
       icon: '/media/TWAOS/Logo/twaos.svg',
-      width: 6,
+      width: 4.4,
       link: '/projects/games/TWAOS'
     },
     {
@@ -19,7 +17,7 @@
       font: 'Tourner',
       description: t('site.newhome.slogan'),
       icon: '/icons/logo/FirstParty/newhome-v1.svg',
-      width: 6,
+      width: 4.4,
       link: '/newhome'
     }
   ]);
@@ -57,11 +55,11 @@
     <a class="card wrap-no-interact-all" href={project.link}>
       <div class="card-content" style="font-family: {project.font};">
         <div class="card-header">
-          <div class="card-icon" style="margin-right: {Math.min(iconSize * 0.02, 0.44)}vmin;">
+          <div class="card-icon">
             <img
               src={project.icon}
               alt="{project.title} icon"
-              style="width: {project.width}vmin; object-fit: contain; margin-right: {Math.min(iconSize * 0.5, 10)}px; margin-left: {Math.min(iconSize * 0.5, 5)}px;"
+              style="--project-icon-width: {project.width}rem;"
             />
           </div>
           <h2>{project.title}</h2>
@@ -74,10 +72,10 @@
 
 <style>
   .hero {
-    font-family: 'Aileron';
+    font-family: var(--font-ui);
     text-align: center;
-    padding-top: 80px;
-    margin-bottom: 40px;
+    padding-top: var(--layout-page-top);
+    margin-bottom: var(--space-7);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -85,8 +83,8 @@
   }
   
   .hero h1 {
-    padding-top: 1vmin;
-    font-family: 'Letric';
+    padding-top: var(--space-3);
+    font-family: var(--font-display);
     font-size: 4rem;
     margin: 0;
   }
@@ -95,22 +93,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding: 0 20px 20px;
+    gap: var(--space-5);
+    padding: 0 var(--space-5) var(--space-5);
     justify-content: center;
     align-items: center;
   }
 
   .card {
-    font-family: 'Aileron';
+    font-family: var(--font-ui);
     display: flex;
-    padding: 10px;
-    border-radius: 8px;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
     text-decoration: none;
-    color: #f65901;
+    color: var(--text-primary);
     width: 100%;
-    max-width: 600px;
-    transition: transform 0.2s, background-color 0.2s ease;
+    max-width: var(--layout-measure);
+    transition:
+      var(--transition-colors),
+      transform var(--duration-normal) var(--ease-out);
     justify-content: left;
     text-align: left;
   }
@@ -124,6 +124,13 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    margin-right: var(--space-1);
+  }
+
+  .card-icon img {
+    width: var(--project-icon-width);
+    object-fit: contain;
+    margin-inline: var(--space-2) var(--space-1);
   }
   
   .card-content {
@@ -135,26 +142,26 @@
   .card-header {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: var(--space-3);
   }
 
   .card-content h2 {
     margin: 0;
-    font-size: 2rem;
+    font-size: var(--text-2xl);
   }
   
   .card-content p {
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 300;
-    font-size: 1.2rem;
-    margin: 5px 0 0;
+    font-size: var(--text-md);
+    margin: var(--space-1) 0 0;
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
     .hero {
-      padding-top: 6.5rem;
-      margin-bottom: 2rem;
-      padding-inline: 1rem;
+      padding-top: calc(var(--layout-page-top) + var(--space-4));
+      margin-bottom: var(--space-6);
+      padding-inline: var(--space-4);
     }
 
     .hero h1 {
@@ -162,40 +169,38 @@
     }
 
     .cards {
-      gap: 1rem;
-      padding: 0 1rem 2rem;
+      gap: var(--space-4);
+      padding: 0 var(--space-4) var(--space-6);
     }
 
     .card {
-      max-width: 42rem;
-      padding: 1rem 1.1rem;
-      border-radius: 1rem;
-      gap: 0.9rem;
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      gap: var(--space-3);
     }
 
     .card-icon img {
-      width: clamp(3rem, 12vw, 4.5rem) !important;
-      margin-right: 0 !important;
-      margin-left: 0 !important;
+      width: clamp(3rem, 12vw, 4.5rem);
+      margin-inline: 0;
     }
 
     .card-content h2 {
-      font-size: 1.8rem;
+      font-size: var(--text-xl);
     }
 
     .card-content p {
-      font-size: 1.15rem;
+      font-size: var(--text-md);
       line-height: 1.5;
     }
   }
 
   @media (max-width: 640px) {
     .card-content h2 {
-      font-size: 1.6rem;
+      font-size: var(--text-xl);
     }
 
     .card-header {
-      gap: 0.7rem;
+      gap: var(--space-2);
     }
   }
 </style>

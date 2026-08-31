@@ -31,8 +31,10 @@
         customPositioning: {
             targetSelector: '.styled-sip'
         },
-        dynamicSizeOffset: -3,
-        dynamicBorderRadiusOffset: 66,
+        dynamicSizeOffset: {
+          width: -3
+        },
+        shape: `circle`,
         positionOffset: { x: -1.4, y: -0.3 },
     },
     {
@@ -167,7 +169,7 @@
 
     const clientX = (e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
     const mouseDelta = mouseDownAt - clientX;
-    
+
     const vmin = Math.min(window.innerWidth, window.innerHeight);
     const margin = (vmin * 5) / 100;
     const W = track.scrollWidth;
@@ -339,14 +341,14 @@
           <span class="text-container"><h3 class="ao">{t('proj.twaos.title.ao')}</h3></span>
           <span class="text-container"><h1 class="sip">{t('proj.twaos.title.sip')}</h1></span>
         </div>
-        <span class="text-container"><h5>{t('proj.twaos.desc.short')}</h5></span>
+        <span class="text-container"><h5>{t('proj.twaos.desc.short', "An Indie Game created by a Solo Developer")}</h5></span>
       </div>
       <div class="wrap-no-interact-all cards-wrapper">
         {#each pages as page}
           <div class="card-container">
             <a class="card" href={page.href} target="_blank">
               <div class="card-icon">
-                <img src={page.icon} alt="{page.title} - icon" style="width: 8vmin; object-fit: contain;"/>
+                <img src={page.icon} alt="{page.title} - icon" />
               </div>
               <div class="card-content">
                 <h2>{page.title}</h2>
@@ -359,13 +361,9 @@
       <div class="sip-icon">
         <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
           <img class="styled-sip" src="/media/TWAOS/Styled/Sip.svg" alt="SIP" />
+          <img class="eye eye-near" src="/media/TWAOS/Styled/SipEye.png" alt="" />
+          <img class="eye eye-far" src="/media/TWAOS/Styled/SipEye.png" alt="" />
         </a>
-        <div class="eyes">
-          <a href="https://github.com/ItzELECTR0/TWAOS" target="_blank" class="styled-sip-link">
-            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-LEFT" style="bottom: 15vmin; left: 24vmin;" />
-            <img class="eye" src="/media/TWAOS/Styled/SipEye.png" alt="SIPEYE-RIGHT" style="bottom: 17vmin; left: 32.8vmin;" />
-          </a>
-        </div>
       </div>
     </div>
   </div>
@@ -415,13 +413,14 @@
   .canvas-2 {
     position: relative;
     z-index: 10;
-    background-color: var(--bg-body);
+    background-color: var(--surface-page);
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 -2vmin 5vmin rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -1.5rem 3.7rem rgba(0, 0, 0, 0.5);
   }
 
+  /* The gallery scales with the screen, not the text, so these stay in vmin. */
   #image-track {
     display: flex;
     gap: 4vmin;
@@ -454,9 +453,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 6vmin;
+    padding-top: var(--layout-page-top);
     text-align: center;
     overflow: hidden;
+
+    --sip-ink: hsl(30, 100%, 60%);
+    --sip-glow: hsl(29, 100%, 50%);
+    /* Picked against the video, so these do not follow the site theme. */
+    --twaos-title-ink: hsl(32, 100%, 50%);
+    --twaos-card-ink: hsl(126, 99%, 48%);
   }
 
   .twaos-title,
@@ -478,60 +483,59 @@
     height: 100%;
     object-fit: cover;
     z-index: -2;
-    transition: opacity 0.1s ease-in-out;
+    transition: opacity var(--duration-fast) var(--ease-in-out);
   }
 
   .hero h1 {
     display: inline-block;
-    font-family: 'Nightcore';
+    font-family: var(--font-game);
     font-size: 8rem;
     margin: 0;
   }
 
   .hero h1.sip {
-    margin-top: 0;
     padding-top: 0;
-    padding-bottom: 10px;
-    margin: -1.7vmin;
-    color: hsl(30, 100%, 60%);
+    padding-bottom: var(--space-3);
+    margin: -1.25rem;
+    color: var(--sip-ink);
     position: relative;
-    z-index: 1;
-    filter: drop-shadow(0 0 1vmin rgba(255, 123, 0, 0.7));
+    z-index: var(--z-raised);
+    filter: drop-shadow(0 0 0.75rem color-mix(in srgb, var(--sip-glow) 70%, transparent));
   }
 
   .hero h2 {
-    font-family: 'Nightcore';
+    font-family: var(--font-game);
     font-size: 4rem;
-    margin: -0.8vmin;
+    margin: -0.6rem;
   }
 
   .hero h2.tw {
-    font-family: 'Nightcore';
-    font-size: 4rem;
-    margin: -0.8vmin;
-    color: hsl(22, 99%, 48%);
-    text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
+    color: var(--twaos-title-ink);
+    text-shadow:
+      0 0 0.6rem color-mix(in srgb, var(--twaos-title-ink) 30%, transparent),
+      0 0 1.25rem color-mix(in srgb, var(--twaos-title-ink) 20%, transparent),
+      0 0 1.9rem color-mix(in srgb, var(--twaos-title-ink) 5%, transparent);
   }
 
   .hero h3 {
-    font-family: 'Nightcore';
+    font-family: var(--font-game);
     font-size: 3.5rem;
-    margin: -0.5vmin;
+    margin: -0.35rem;
   }
 
   .hero h3.ao {
-    font-family: 'Nightcore';
-    font-size: 3.5rem;
-    margin: -0.5vmin;
-    color: hsl(22, 99%, 48%);
-    text-shadow: 0 0 10px rgba(246, 89, 1, 0.3), 0 0 20px rgba(246, 89, 1, 0.2), 0 0 30px rgba(246, 89, 1, 0.05);
+    color: var(--twaos-title-ink);
+    text-shadow:
+      0 0 0.6rem color-mix(in srgb, var(--twaos-title-ink) 30%, transparent),
+      0 0 1.25rem color-mix(in srgb, var(--twaos-title-ink) 20%, transparent),
+      0 0 1.9rem color-mix(in srgb, var(--twaos-title-ink) 5%, transparent);
   }
 
   .hero h5 {
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 500;
-    font-size: 1.5rem;
-    margin: 2vmin;
+    font-size: var(--text-xl);
+    margin: var(--space-5);
   }
 
   .video-container {
@@ -553,54 +557,83 @@
     z-index: -1;
   }
 
-  .styled-sip {
-    position: absolute;
-    bottom: -10vmin;
-    left: 2vmin;
-    width: 40vmin;
-    height: 40vmin;
-  }
-
-  .eye {
-    position: absolute;
-    bottom: 2vmin;
-    right: 2vmin;
-    width: 3vmin;
-    height: 3vmin;
-  }
-
   .sip-icon {
     display: grid;
     place-items: center;
+
+    --sip-width: 29rem;
+    /* Sip.svg's viewBox, so the link box matches the artwork with no letterboxing */
+    --sip-aspect: 1.0766;
+    --sip-offset-bottom: -7.4rem;
+    --eye-size: calc(var(--sip-width) * 0.0759);
+  }
+
+  .styled-sip-link {
+    position: absolute;
+    left: var(--space-5);
+    bottom: calc(var(--sip-offset-bottom) + var(--sip-width) * 0.0356);
+    width: var(--sip-width);
+    height: calc(var(--sip-width) / var(--sip-aspect));
+  }
+
+  .styled-sip {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Positions are percentages of the mascot box, so the eyes track it at any size. */
+  .eye {
+    position: absolute;
+    left: var(--socket-x);
+    top: var(--socket-y);
+    width: var(--eye-size);
+    height: var(--eye-size);
+    margin-left: calc(var(--eye-size) / -2);
+    margin-top: calc(var(--eye-size) / -2);
+  }
+
+  .eye-near {
+    --socket-x: 58.75%;
+    --socket-y: 32.51%;
+  }
+
+  /* Just inside the far socket's centre, so the pupil grazes the edge of the
+     artwork at full reach instead of swinging clear of it. */
+  .eye-far {
+    --socket-x: 80.75%;
+    --socket-y: 27.12%;
   }
 
   .cards-wrapper {
     position: absolute;
-    bottom: 5vmin;
+    bottom: var(--space-8);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
-    gap: 3.54vmin;
-    z-index: 2;
+    gap: var(--space-7);
+    z-index: var(--z-raised);
   }
 
   .card-container {
-    gap: 1vmin;
+    gap: var(--space-3);
   }
 
   .card {
-    font-family: 'Aileron';
+    font-family: var(--font-ui);
     display: flex;
-    padding: 1vmin;
-    border-radius: 1.8vmin;
+    padding: var(--space-3);
+    border-radius: var(--radius-xl);
     text-decoration: none;
-    color: hsl(22, 99%, 48%);
-    width: 35vmin;
-    transition: transform 0.2s, background-color 0.2s ease;
+    color: var(--text-primary);
+    width: 26rem;
+    transition:
+      var(--transition-colors),
+      transform var(--duration-normal) var(--ease-out);
     justify-content: left;
     text-align: left;
-    gap: 1vmin;
+    gap: var(--space-3);
   }
 
   .card:hover {
@@ -613,6 +646,11 @@
     justify-content: center;
     flex-shrink: 0;
   }
+
+  .card-icon img {
+    width: 5.9rem;
+    object-fit: contain;
+  }
   
   .card-content {
     display: flex;
@@ -622,22 +660,22 @@
 
   .card-content h2 {
     margin: 0;
-    font-family: 'Nightcore';
-    font-size: 2rem;
-    color: hsl(126, 99%, 48%);
+    font-family: var(--font-game);
+    font-size: var(--text-2xl);
+    color: var(--twaos-card-ink);
   }
 
   .card-content p {
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 300;
-    font-size: 1.2rem;
-    margin: 5px 0 0;
-    color: hsl(126, 99%, 48%);
+    font-size: var(--text-md);
+    margin: var(--space-1) 0 0;
+    color: var(--twaos-card-ink);
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
     #image-track {
-      gap: 1rem;
+      gap: var(--space-4);
       top: 54%;
     }
 
@@ -647,7 +685,7 @@
     }
 
     .hero {
-      padding: 6.5rem 1rem 12rem;
+      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) 12rem;
     }
 
     .hero h1 {
@@ -663,55 +701,42 @@
     }
 
     .hero h5 {
-      font-size: 1.02rem;
+      font-size: var(--text-base);
       max-width: 21rem;
-      margin: 1.1rem 0 0;
+      margin: var(--space-4) 0 0;
     }
 
-    .styled-sip {
-      width: clamp(18rem, 56vw, 24rem);
-      height: clamp(18rem, 56vw, 24rem);
+    .sip-icon {
+      --sip-width: clamp(18rem, 56vw, 24rem);
+      --sip-offset-bottom: -1.2rem;
+    }
+
+    .styled-sip-link {
       left: -2.6rem;
-      bottom: -1.2rem;
       opacity: 0.9;
-    }
-
-    .eye {
-      width: 1.4rem;
-      height: 1.4rem;
-    }
-
-    .eyes .eye:first-child {
-      bottom: 8.7rem !important;
-      left: 10.8rem !important;
-    }
-
-    .eyes .eye:last-child {
-      bottom: 10rem !important;
-      left: 14.7rem !important;
     }
 
     .cards-wrapper {
       left: auto;
-      right: max(1rem, env(safe-area-inset-right));
-      bottom: max(1rem, env(safe-area-inset-bottom));
+      right: max(var(--space-4), env(safe-area-inset-right));
+      bottom: max(var(--space-4), env(safe-area-inset-bottom));
       transform: none;
       width: auto;
       gap: 0;
     }
 
     .card {
-      width: 4rem;
-      height: 4rem;
-      padding: 0.8rem;
-      border-radius: 1rem;
+      width: var(--space-8);
+      height: var(--space-8);
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
       gap: 0;
       align-items: center;
       justify-content: center;
     }
 
     .card-icon img {
-      width: 2.2rem !important;
+      width: 2.2rem;
     }
 
     .card-content {
@@ -721,7 +746,7 @@
 
   @media (max-width: 560px) {
     .hero {
-      padding-top: 5.75rem;
+      padding-top: var(--layout-page-top);
       padding-bottom: 13rem;
     }
 
@@ -738,25 +763,17 @@
     }
 
     .hero h5 {
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
       max-width: 18rem;
     }
 
-    .styled-sip {
-      width: 17rem;
-      height: 17rem;
+    .sip-icon {
+      --sip-width: 17rem;
+      --sip-offset-bottom: -0.8rem;
+    }
+
+    .styled-sip-link {
       left: -3.3rem;
-      bottom: -0.8rem;
-    }
-
-    .eyes .eye:first-child {
-      bottom: 7.8rem !important;
-      left: 9.7rem !important;
-    }
-
-    .eyes .eye:last-child {
-      bottom: 9rem !important;
-      left: 13.2rem !important;
     }
   }
 </style>
