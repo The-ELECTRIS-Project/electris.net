@@ -24,5 +24,9 @@
   "github.user.followers": "followers",
   "github.user.following": "following",
   "github.user.repos": "repos",
-  "github.fallback": "Offline view"
+  "github.fallback": "Offline view",
+  "blog.author.by": "by",
+  "blog.locales.title": "Available in more than one language",
+  "blog.notfound.title": "Thought not found",
+  "blog.notfound.body": "There is nothing written at this address."
 }

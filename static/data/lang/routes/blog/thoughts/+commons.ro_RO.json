@@ -24,5 +24,9 @@
   "github.user.followers": "urmăritori",
   "github.user.following": "urmărește",
   "github.user.repos": "depozite",
-  "github.fallback": "Vizualizare offline"
+  "github.fallback": "Vizualizare offline",
+  "blog.author.by": "de",
+  "blog.locales.title": "Disponibil în mai multe limbi",
+  "blog.notfound.title": "Gând negăsit",
+  "blog.notfound.body": "Nu este nimic scris la această adresă."
 }

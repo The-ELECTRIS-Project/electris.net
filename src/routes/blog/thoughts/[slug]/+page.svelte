@@ -163,7 +163,7 @@
     <meta name="description" content={data.post.description} />
     <meta name="author" content={data.post.author} />
   {:else}
-    <title>Thought Not Found | ELECTRIS</title>
+    <title>{t('blog.notfound.title', 'Thought not found')} | ELECTRIS</title>
   {/if}
 </svelte:head>
 
@@ -179,8 +179,8 @@
 
   {#if !data.post}
     <div class="error">
-      <h2>Thought Not Found</h2>
-      <p>The requested post could not be found.</p>
+      <h2>{t('blog.notfound.title', 'Thought not found')}</h2>
+      <p>{t('blog.notfound.body', 'There is nothing written at this address.')}</p>
       <a href={backHref} class="back-link">← {backText}</a>
     </div>
   {:else}
@@ -189,15 +189,18 @@
       <div class="post-info" style={postInfoInlineStyle}>
         <div class="post-meta">
           <time class="post-date">{formatDate(data.post.date)}</time>
-          <span class="author">by {data.post.author}</span>
+          <span class="author">{t('blog.author.by', 'by')} {data.post.author}</span>
           {#if data.post.readTime}
-            <span class="read-time">{data.post.readTime} min read</span>
+            <span class="read-time">{data.post.readTime} {t('blog.readtime', 'minute read')}</span>
           {/if}
           {#if data.post.featured}
-            <span class="featured-badge">Featured</span>
+            <span class="featured-badge">{t('blog.feature', 'Featured')}</span>
           {/if}
           {#if availablePostLocales.length > 1}
-            <div class="post-available-locales" title="Available in multiple languages">
+            <div
+              class="post-available-locales"
+              title={t('blog.locales.title', 'Available in more than one language')}
+            >
               {#each availablePostLocales as loc}
                 <span 
                   class="locale-flag" 
