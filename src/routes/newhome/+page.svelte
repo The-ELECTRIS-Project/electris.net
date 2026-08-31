@@ -113,40 +113,40 @@
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    padding: 6rem 2rem 4rem;
-    max-width: 120vh;
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
+    max-width: var(--layout-max);
     margin: 0 auto;
     position: relative;
   }
 
   .welcome-section {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-7);
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
   }
 
   .newhome-title {
-    font-size: 3.5rem;
+    font-size: var(--display-md);
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
     position: relative;
     cursor: default;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.2rem;
+    gap: var(--space-1);
   }
 
   .title-main {
-    font-family: 'Letric';
-    color: var(--accent-color, #ff6811);
-    text-shadow: 0 0 20px rgba(246, 89, 1, 0.3);
+    font-family: var(--font-display);
+    color: var(--accent);
+    text-shadow: 0 0 var(--space-5) color-mix(in srgb, var(--accent) 30%, transparent);
     display: block;
   }
 
   .newhome-subtitle {
-    font-family: 'Tourner';
+    font-family: var(--font-brand);
     font-size: 1.15em;
     display: block;
     background: linear-gradient(to left,
@@ -162,7 +162,7 @@
     background-clip: text;
     animation: gradient-text-pulse 3s ease-in-out infinite;
     position: relative;
-    top: -2.5vmin;
+    top: -1.85rem;
   }
 
   .newhome-subtitle:hover {
@@ -200,84 +200,52 @@
   }
 
   .time-display {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
     position: relative;
   }
 
   .time {
-    font-size: 3rem;
+    font-size: var(--display-sm);
     font-weight: 300;
-    margin-bottom: 0.5rem;
-    font-family: 'Redwing', Aileron;
+    margin-bottom: var(--space-2);
+    font-family: var(--font-body);
   }
 
   .date {
-    font-size: 1.1rem;
+    font-size: var(--text-md);
     opacity: 0.7;
-    font-family: 'Redwing', Aileron;
+    font-family: var(--font-body);
   }
 
   .section-title {
     text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    font-family: 'Letric';
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    font-family: var(--font-display);
     position: relative;
   }
 
   @media (max-width: 900px) {
     .newhome-container {
-      padding: 6.5rem 1.5rem 5rem;
       max-width: 48rem;
-    }
-
-    .newhome-title {
-      font-size: clamp(3rem, 9vw, 4.2rem);
     }
 
     .newhome-subtitle {
       top: -1rem;
     }
-
-    .time {
-      font-size: clamp(2.6rem, 10vw, 3.3rem);
-    }
-
-    .date {
-      font-size: 1.05rem;
-    }
   }
 
   @media (max-width: 560px) {
-    .newhome-container {
-      padding: 5.75rem 1rem 5rem;
-    }
-
     .welcome-section {
-      margin-bottom: 2.25rem;
-    }
-
-    .newhome-title {
-      font-size: clamp(2.4rem, 12vw, 3.2rem);
-      gap: 0.35rem;
+      margin-bottom: var(--space-6);
     }
 
     .newhome-subtitle {
       top: -0.4rem;
     }
 
-    .time {
-      font-size: clamp(2.2rem, 13vw, 2.8rem);
-    }
-
-    .date {
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
     .section-title {
-      font-size: 1.7rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--space-5);
     }
   }
 </style>

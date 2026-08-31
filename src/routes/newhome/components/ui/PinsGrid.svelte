@@ -16,19 +16,22 @@
   let editUrl = $state('');
   let editTitle = $state('');
 
+  // Every measurement here is in rem, so the grid and the text inside it scale together.
+  const PIN_GAP = 1;
+
   function getPinSize(rows: number): number {
-    if (rows === 1) return 15;
-    if (rows === 2) return 12.5;
-    if (rows === 3) return 10.5;
-    return 12.5;
+    if (rows === 1) return 11;
+    if (rows === 2) return 9.25;
+    if (rows === 3) return 7.75;
+    return 9.25;
   }
 
   let basePinSize = $derived(getPinSize(gridRows));
-  let hoverPinSize = $derived(basePinSize + 0.9);
+  let hoverPinSize = $derived(basePinSize + 0.65);
 
   $effect(() => {
     if (browser) {
-      document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}vmin`);
+      document.documentElement.style.setProperty('--hover-pin-size', `${hoverPinSize}rem`);
     }
   });
 
@@ -70,7 +73,7 @@
   ]);
 
   let totalPins = $derived(gridCols * gridRows);
-  let gridWidth = $derived((gridCols * basePinSize) + ((gridCols - 1) * 1.6));
+  let gridWidth = $derived((gridCols * basePinSize) + ((gridCols - 1) * PIN_GAP));
   
   $effect(() => {
     if (browser && totalPins > 0) {
@@ -253,11 +256,11 @@
   }
 </script>
 
-<div class="pins-section" style="max-width: {gridWidth}vmin;">
+<div class="pins-section" style="max-width: {gridWidth}rem;">
   <div 
     class="pins-grid" 
     class:arabic-layout={isPageArabic}
-    style="grid-template-columns: repeat({gridCols}, 1fr); width: {gridWidth}vmin;"
+    style="grid-template-columns: repeat({gridCols}, 1fr); width: {gridWidth}rem;"
   >
     {#each pins as pin, index}
       <div 
@@ -332,27 +335,21 @@
 <style>
   .pins-section {
     width: 100%;
-    max-width: 68vmin;
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
   }
 
-  .pin-gear {
-    position: relative;
-    width: 1.5vmin;
-    height: 1.5vmin;
-  }
-
+  .pin-gear,
   .pin-trash {
     position: relative;
-    width: 1.5vmin;
-    height: 1.5vmin;
+    width: 1rem;
+    height: 1rem;
   }
-  
+
   .pins-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
+    gap: var(--space-4);
   }
 
   .pins-grid.arabic-layout {
@@ -361,7 +358,7 @@
 
   .pin-card {
     aspect-ratio: 1;
-    border-radius: 1vmin;
+    border-radius: var(--radius-md);
     position: relative;
     overflow: visible;
   }
@@ -373,42 +370,42 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 0.3vmin dashed rgba(246, 89, 1, 0.3);
-    border-radius: 1vmin;
-    transition: all 0.3s ease;
+    border: 2px dashed color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-md);
+    transition: var(--transition-colors);
     background: transparent;
     cursor: pointer;
-    font-family: 'Redwing', Aileron;
+    font-family: var(--font-body);
     color: inherit;
   }
 
   .pin-card.empty:hover .pin-empty {
-    border-color: rgba(246, 89, 1, 0.6);
-    background: rgba(246, 89, 1, 0.05);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
   }
 
   .pin-card.editing {
-    border: 0.2vmin solid rgba(246, 89, 1, 0.6);
-    border-radius: 1vmin;
-    background: rgba(246, 89, 1, 0.1);
-    animation: pin-edit-appear 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    animation: pin-edit-appear 0.25s var(--ease-spring);
   }
 
   @keyframes pin-edit-appear {
     0% {
       transform: scale(0.8) rotateY(-15deg);
       opacity: 0;
-      filter: blur(0.8vmin);
+      filter: blur(8px);
     }
     50% {
       transform: scale(1.05) rotateY(5deg);
       opacity: 0.8;
-      filter: blur(0.2vmin);
+      filter: blur(2px);
     }
     100% {
       transform: scale(1) rotateY(0deg);
       opacity: 1;
-      filter: blur(0vmin);
+      filter: blur(0);
     }
   }
 
@@ -416,17 +413,17 @@
     0% {
       transform: scale(1) rotateY(0deg);
       opacity: 1;
-      filter: blur(0vmin);
+      filter: blur(0);
     }
     50% {
       transform: scale(1.05) rotateY(-5deg);
       opacity: 0.6;
-      filter: blur(0.2vmin);
+      filter: blur(2px);
     }
     100% {
       transform: scale(0.8) rotateY(15deg);
       opacity: 0;
-      filter: blur(0.8vmin);
+      filter: blur(8px);
     }
   }
 
@@ -435,15 +432,15 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.8rem;
+    gap: var(--space-2);
+    padding: var(--space-3);
     position: relative;
-    animation: pin-edit-content 0.3s ease-out 0.1s both;
+    animation: pin-edit-content var(--duration-slow) var(--ease-out) 0.1s both;
   }
 
   @keyframes pin-edit-content {
     0% {
-      transform: translateY(10px);
+      transform: translateY(0.75rem);
       opacity: 0;
     }
     100% {
@@ -455,70 +452,72 @@
   .pin-edit-url,
   .pin-edit-title {
     width: 100%;
-    padding: 0.5rem;
-    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.6vmin;
-    background: rgba(246, 89, 1, 0.05);
+    padding: var(--space-2);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
     color: inherit;
-    font-family: 'Redwing', Aileron;
-    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
     outline: none;
   }
 
   .pin-edit-url:focus,
   .pin-edit-title:focus {
-    border-color: rgba(246, 89, 1, 0.6);
-    background: rgba(246, 89, 1, 0.1);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .pin-edit-url::placeholder,
   .pin-edit-title::placeholder {
-    color: rgba(246, 89, 1, 0.5);
+    color: color-mix(in srgb, var(--accent) 50%, transparent);
   }
 
   .pin-edit-actions {
     display: flex;
-    gap: 0.3rem;
+    gap: var(--space-1);
     margin-top: auto;
   }
 
   .pin-save-btn,
   .pin-cancel-btn {
     flex: 1;
-    padding: 0.4rem;
-    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.4vmin;
-    background: rgba(246, 89, 1, 0.1);
+    padding: var(--space-2);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-xs);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: inherit;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
+    font-size: var(--text-sm);
+    transition: var(--transition-colors);
   }
 
   .pin-save-btn:hover {
-    background: rgba(76, 175, 80, 0.2);
-    border-color: rgba(76, 175, 80, 0.5);
+    background: var(--status-positive-bg);
+    border-color: var(--status-positive-border);
   }
 
   .pin-cancel-btn:hover {
-    background: rgba(244, 67, 54, 0.2);
-    border-color: rgba(244, 67, 54, 0.5);
+    background: var(--status-negative-bg);
+    border-color: var(--status-negative-border);
   }
 
   .pin-edit-trigger,
   .pin-delete-trigger {
     position: absolute;
-    top: 0.3rem;
-    background: rgba(246, 89, 1, 0.2);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.3);
-    border-radius: 0.4vmin;
-    padding: 0.2rem 0.4rem;
-    font-size: 0.7rem;
+    top: var(--space-1);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: var(--radius-xs);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-2xs);
     cursor: pointer;
     opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 20;
-    backdrop-filter: blur(0.5vmin);
+    transition:
+      var(--transition-colors),
+      opacity var(--duration-slow) var(--ease-out);
+    z-index: var(--z-sticky);
+    backdrop-filter: blur(4px);
   }
 
   .pin-edit-trigger {
@@ -526,7 +525,7 @@
   }
 
   .pin-delete-trigger {
-    right: 0.3rem;
+    right: var(--space-1);
   }
 
   .pin-card:hover .pin-edit-trigger,
@@ -540,27 +539,27 @@
   }
 
   .pin-edit-trigger:hover {
-    background: rgba(255, 154, 59, 0.4);
-    border-color: rgba(255, 117, 38, 0.349);
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
   }
 
   .pin-delete-trigger:hover {
-    background: rgba(244, 67, 54, 0.3);
-    border-color: rgba(244, 67, 54, 0.5);
+    background: color-mix(in srgb, var(--status-negative) 30%, transparent);
+    border-color: color-mix(in srgb, var(--status-negative) 50%, transparent);
   }
 
   .empty-icon {
-    font-size: 2rem;
+    font-size: var(--text-2xl);
     opacity: 0.5;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 
   .empty-text {
-    font-size: 0.8rem;
+    font-size: var(--text-2xs);
     opacity: 0.6;
-    font-family: 'Redwing', Aileron;
+    font-family: var(--font-body);
   }
-  
+
   .pin-link {
     display: flex;
     flex-direction: column;
@@ -568,31 +567,28 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    padding: 1rem;
-    border: 0.2vmin solid rgba(246, 89, 1, 0.2);
-    border-radius: 1vmin;
-    background: rgba(246, 89, 1, 0.05);
-    backdrop-filter: blur(1vmin);
+    padding: var(--space-4);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    backdrop-filter: blur(10px);
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
+    transition:
+      var(--transition-colors),
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
     position: relative;
     overflow: hidden;
-    z-index: 1;
-  }
-  
-  .pin-link:hover {
-    transform: translateY(-0.3vmin);
-    border-color: rgba(246, 89, 1, 0.5);
-    background: rgba(246, 89, 1, 0.1);
-    box-shadow: 0 0.8vmin 2.2vmin rgba(246, 89, 1, 0.15);
+    z-index: var(--z-raised);
   }
 
+  .pin-link:hover,
   .pin-card:hover .pin-link {
-    transform: translateY(-0.3vmin);
-    border-color: rgba(246, 89, 1, 0.5);
-    background: rgba(246, 89, 1, 0.1);
-    box-shadow: 0 0.8vmin 2.2vmin rgba(246, 89, 1, 0.15);
+    transform: translateY(-0.2rem);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    box-shadow: 0 var(--space-2) var(--space-5) color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .pin-card:hover .pin-glow {
@@ -600,9 +596,9 @@
   }
 
   .pin-favicon {
-    width: 3vmin;
-    height: 3vmin;
-    margin-bottom: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: var(--space-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -618,21 +614,21 @@
     text-align: center;
     width: 100%;
   }
-  
+
   .pin-title {
     font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.2rem;
-    font-family: 'Redwing', Aileron;
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-1);
+    font-family: var(--font-body);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  
+
   .pin-domain {
-    font-size: 0.7rem;
+    font-size: var(--text-2xs);
     opacity: 0.6;
-    font-family: 'Redwing', Aileron;
+    font-family: var(--font-body);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -644,15 +640,15 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(246, 89, 1, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 10%, transparent) 0%, transparent 70%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-slow) var(--ease-out);
   }
 
   .pin-link:hover .pin-glow {
     opacity: 1;
   }
-  
+
   @media (max-width: 900px) {
     .pins-section {
       max-width: 100% !important;
@@ -673,7 +669,7 @@
   @media (max-width: 560px) {
     .pins-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 0.85rem;
+      gap: var(--space-3);
     }
   }
 
@@ -689,55 +685,35 @@
     .pin-link,
     .pin-card.empty .pin-empty,
     .pin-card.editing {
-      border-radius: 1rem;
-    }
-
-    .pin-link {
-      padding: 1rem;
-    }
-
-    .pin-favicon {
-      width: 2.5rem;
-      height: 2.5rem;
-      margin-bottom: 0.75rem;
+      border-radius: var(--radius-lg);
     }
 
     .pin-title {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .pin-domain,
     .empty-text,
     .pin-edit-url,
     .pin-edit-title {
-      font-size: 0.9rem;
-    }
-
-    .empty-icon {
-      font-size: 2.25rem;
+      font-size: var(--text-sm);
     }
 
     .pin-save-btn,
     .pin-cancel-btn,
     .pin-edit-trigger,
     .pin-delete-trigger {
-      min-height: 2.5rem;
+      min-height: var(--touch-target-size);
     }
 
     .pin-edit-trigger,
     .pin-delete-trigger {
       opacity: 1;
-      padding: 0.35rem 0.55rem;
+      padding: var(--space-1) var(--space-2);
     }
 
     .pin-edit-trigger {
       right: 2.8rem;
-    }
-
-    .pin-gear,
-    .pin-trash {
-      width: 1rem;
-      height: 1rem;
     }
   }
 </style>
