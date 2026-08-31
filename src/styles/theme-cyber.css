@@ -48,26 +48,26 @@
 [data-theme="cyber-neotic"] .navbar {
   backdrop-filter: var(--cyber-blur);
   -webkit-backdrop-filter: var(--cyber-blur);
-  border-bottom: 0.1vmin solid var(--accent);
+  border-bottom: 1px solid var(--accent);
   background-color: var(--surface-nav);
 }
 
 [data-theme="cyber-neotic"] .hamburger {
   backdrop-filter: var(--cyber-blur);
   -webkit-backdrop-filter: var(--cyber-blur);
-  border-right: 0.1vmin solid var(--accent);
+  border-right: 1px solid var(--accent);
 }
 
 [data-theme="cyber-neotic"] .nav-button:hover {
-  text-shadow: 0 0 0.8vmin var(--accent), 0 0 1.5vmin var(--accent);
-  color: #fff;
+  text-shadow: 0 0 var(--space-2) var(--accent), 0 0 var(--space-4) var(--accent);
+  color: var(--text-on-accent);
 }
 
 [data-theme="cyber-neotic"] .options-menu {
   backdrop-filter: var(--cyber-blur);
   -webkit-backdrop-filter: var(--cyber-blur);
-  border: 0.1vmin solid var(--accent);
-  box-shadow: 0 0 2vmin color-mix(in srgb, var(--accent) 20%, transparent);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 var(--space-5) color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 :where([data-theme="cyber-neotic"]) .circle {
@@ -89,7 +89,7 @@
   border-radius: 0;
   border: 3px solid var(--surface-page);
   box-shadow: inset 0 0 10px color-mix(in srgb, white 20%, transparent);
-  transition: background var(--duration-normal) var(--ease-out);
+  transition: background-color var(--duration-normal) var(--ease-out);
 }
 
 [data-theme="cyber-neotic"] ::-webkit-scrollbar-thumb:hover {
