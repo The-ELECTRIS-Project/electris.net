@@ -188,20 +188,28 @@
     editTitle = pins[index].title;
   }
 
-  function cancelEditing() {
+  // The exit class is added by hand, so it has to be taken off by hand once the card is back.
+  function closeEditor() {
     const pinCard = document.querySelector(`[data-pin-index="${editingPinIndex}"]`);
-    if (pinCard) {
-      pinCard.classList.add('pin-edit-exit');
-      setTimeout(() => {
-        editingPinIndex = -1;
-        editUrl = '';
-        editTitle = '';
-      }, 250);
-    } else {
+
+    const reset = () => {
+      pinCard?.classList.remove('pin-edit-exit');
       editingPinIndex = -1;
       editUrl = '';
       editTitle = '';
+    };
+
+    if (!pinCard) {
+      reset();
+      return;
     }
+
+    pinCard.addEventListener('animationend', reset, { once: true });
+    pinCard.classList.add('pin-edit-exit');
+  }
+
+  function cancelEditing() {
+    closeEditor();
   }
 
   function savePin() {
@@ -219,18 +227,7 @@
     };
     
     savePins();
-    
-    const pinCard = document.querySelector(`[data-pin-index="${editingPinIndex}"]`);
-    if (pinCard) {
-      pinCard.classList.add('pin-edit-exit');
-      setTimeout(() => {
-        editingPinIndex = -1;
-        editUrl = '';
-        editTitle = '';
-      }, 250);
-    } else {
-      cancelEditing();
-    }
+    closeEditor();
   }
 
   function deletePin(index: number) {
@@ -407,6 +404,11 @@
       opacity: 1;
       filter: blur(0);
     }
+  }
+
+  /* The class is added from JavaScript, so it cannot carry the scoping hash. */
+  .pin-card:global(.pin-edit-exit) {
+    animation: pin-edit-disappear 0.25s var(--ease-in-out) forwards;
   }
 
   @keyframes pin-edit-disappear {
