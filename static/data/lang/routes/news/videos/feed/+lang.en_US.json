@@ -11,6 +11,8 @@
   "videos.section.live.copy": "Anything streaming now or already scheduled shows up here.",
   "videos.section.latest.kicker": "Newest",
   "videos.section.latest": "Latest Uploads",
+  "videos.section.previous.kicker": "Before that",
+  "videos.section.previous": "Previous Uploads",
   "videos.empty_state.kicker": "Nothing yet",
   "videos.empty_state.title": "No videos right now.",
   "videos.empty_state": "Nothing has gone up recently. Check back later.",

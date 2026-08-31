@@ -1,14 +1,16 @@
 import type { YoutubeVideo, YoutubeChannel, YoutubeData } from '$lib/types/youtube';
 import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
-import { isExcludedVideo } from '$lib/utils/youtube';
+import { isExcludedVideo, PREVIOUS_UPLOAD_LIMIT } from '$lib/utils/youtube';
 
 const CHANNELS_PATH = '/api/youtube/channels.json';
 const VIDEO_POLL_INTERVAL = dev ? 15 * 1000 : 2 * 60 * 1000; // 15s in dev, 2m in prod
 const UPCOMING_POLL_INTERVAL = dev ? 30 * 1000 : 60 * 60 * 1000; // 30s in dev, 60m in prod
 const EMBED_MAX_DIMENSION = 2000;
-const LATEST_UPLOAD_BATCH_SIZE = 10;
+const LATEST_UPLOAD_BATCH_SIZE = 50;
 const LATEST_UPLOAD_LOOKAHEAD_PAGES = 4;
+// The newest upload plus the previous ones the feed lists, so paging can reach past a run of VODs.
+const LISTED_UPLOADS_PER_CHANNEL = 1 + PREVIOUS_UPLOAD_LIMIT;
 const YOUTUBE_SHORT_MAX_DURATION_SECONDS = 180;
 
 let videoCache: YoutubeData | null = null;
@@ -179,6 +181,28 @@ function isYoutubeShort(video: YoutubeVideoDetailsItem, thumbnail: YoutubeThumbn
   return /(^|\s)#shorts?\b/i.test(video.snippet.title);
 }
 
+function isListedUpload(video: YoutubeVideo) {
+  return video.status === 'finished' && !video.isShort && !video.isExcluded;
+}
+
+// Keeps the excluded videos sitting above the listed ones, so the dev-tools toggle still
+// reveals them without the payload carrying whole channels.
+function trimToListedUploads(videos: YoutubeVideo[]) {
+  let listed = 0;
+
+  for (const [index, video] of videos.entries()) {
+    if (!isListedUpload(video)) continue;
+
+    listed += 1;
+
+    if (listed >= LISTED_UPLOADS_PER_CHANNEL) {
+      return videos.slice(0, index + 1);
+    }
+  }
+
+  return videos;
+}
+
 function createYoutubeVideo(
   video: YoutubeVideoDetailsItem,
   channel: YoutubeChannel,
@@ -290,18 +314,16 @@ async function fetchLatestVideos(channels: Record<string, YoutubeChannel>): Prom
           }
         }
 
-        const foundLatestLongForm = channelVideos.some(
-          (video) => video.status === 'finished' && !video.isShort && !video.isExcluded
-        );
+        const listedUploads = channelVideos.filter(isListedUpload).length;
 
-        if (foundLatestLongForm || !playlistData.nextPageToken) {
+        if (listedUploads >= LISTED_UPLOADS_PER_CHANNEL || !playlistData.nextPageToken) {
           break;
         }
 
         pageToken = playlistData.nextPageToken;
       }
 
-      allVideos.push(...channelVideos);
+      allVideos.push(...trimToListedUploads(channelVideos));
     } catch (error) {
       console.error(`[YouTube] Error for ${channel.channel_name}:`, error);
     }

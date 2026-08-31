@@ -4,6 +4,8 @@ export type YoutubeAspect = 'portrait' | 'square' | 'landscape';
 
 export const EXCLUDED_VIDEO_SUFFIXES = ['| LIVE'];
 
+export const PREVIOUS_UPLOAD_LIMIT = 4;
+
 export function isExcludedVideo(video: { title: string; status: string }) {
   if (video.status !== 'finished') return false;
   return EXCLUDED_VIDEO_SUFFIXES.some((suffix) => video.title.endsWith(suffix));

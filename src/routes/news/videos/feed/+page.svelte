@@ -3,7 +3,13 @@
   import { modsState } from '$lib/state/mods.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import YoutubeCard from '$lib/components/youtube/Card.svelte';
-  import { formatYoutubeDateTime } from '$lib/utils/youtube';
+  import type { YoutubeVideo } from '$lib/types/youtube';
+  import {
+    formatYoutubeDate,
+    formatYoutubeDateTime,
+    getYoutubeWatchUrl,
+    PREVIOUS_UPLOAD_LIMIT
+  } from '$lib/utils/youtube';
 
   let { data } = $props();
   let youtube = $derived(data.youtube);
@@ -14,7 +20,7 @@
   const liveAndUpcoming = $derived(visibleVideos.filter((video) => video.status === 'live' || video.status === 'upcoming'));
 
   const finishedVideos = $derived.by(() => {
-    const map = new Map();
+    const map = new Map<string, YoutubeVideo>();
 
     visibleVideos
       .filter((video) => video.status === 'finished')
@@ -25,6 +31,15 @@
       });
 
     return Array.from(map.values()).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  });
+
+  const previousVideos = $derived.by(() => {
+    const newest = new Set(finishedVideos.map((video) => video.id));
+
+    return visibleVideos
+      .filter((video) => video.status === 'finished' && !newest.has(video.id))
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(0, PREVIOUS_UPLOAD_LIMIT);
   });
 
   let lastUpdatedLabel = $derived(
@@ -45,6 +60,13 @@
       lockPosition: true,
       preventRotation: true,
       color: 'color-mix(in srgb, var(--brand-electro) 56%, var(--accent) 44%)'
+    },
+    {
+      selectors: ['.previous-item'],
+      className: 'hovered-youtube-previous',
+      lockPosition: true,
+      preventRotation: true,
+      color: 'color-mix(in srgb, var(--accent) 72%, var(--brand-electro) 28%)'
     }
   ]);
 </script>
@@ -136,6 +158,39 @@
       <h2>{t('videos.empty_state.title', 'No videos right now.')}</h2>
       <p>{t('videos.empty_state', 'Nothing has gone up recently. Check back later.')}</p>
     </div>
+  {/if}
+
+  {#if previousVideos.length > 0}
+    <section class="video-shell">
+      <div class="section-header">
+        <div class="section-copy-group">
+          <p class="section-kicker">{t('videos.section.previous.kicker', 'Before that')}</p>
+          <h2 class="section-title">{t('videos.section.previous', 'Previous Uploads')}</h2>
+        </div>
+      </div>
+
+      <ul class="previous-list">
+        {#each previousVideos as video}
+          <li>
+            <a
+              href={getYoutubeWatchUrl(video.id)}
+              target="_blank"
+              rel="noreferrer"
+              class="previous-item wrap-no-interact-all"
+            >
+              <img src={video.thumbnail} alt="" loading="lazy" />
+              <span class="previous-copy">
+                <strong>{video.title}</strong>
+                <span class="previous-meta">
+                  <span>{video.channelName}</span>
+                  <time datetime={video.publishedAt}>{formatYoutubeDate(video.publishedAt, locale)}</time>
+                </span>
+              </span>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    </section>
   {/if}
 </div>
 
@@ -396,6 +451,67 @@
     align-items: start;
   }
 
+  .previous-list {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .previous-item {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-3);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+    background: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform var(--duration-normal) var(--ease-out),
+      border-color var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
+  }
+
+  .previous-item:hover {
+    transform: translateX(0.35rem);
+    border-color: var(--surface-border-strong);
+    box-shadow: var(--shadow-md);
+  }
+
+  .previous-item img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .previous-copy {
+    display: grid;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .previous-copy strong {
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    line-height: 1.3;
+  }
+
+  .previous-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    opacity: 0.72;
+  }
+
   .empty-state {
     display: grid;
     justify-items: center;
@@ -444,6 +560,11 @@
     .video-shell,
     .empty-state {
       border-radius: var(--radius-xl);
+    }
+
+    .previous-item {
+      grid-template-columns: 7rem minmax(0, 1fr);
+      gap: var(--space-3);
     }
   }
 
