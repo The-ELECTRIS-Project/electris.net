@@ -37,14 +37,14 @@
       className: 'hovered-youtube-shell',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-primary) 64%, var(--color-electro) 36%)'
+      color: 'color-mix(in srgb, var(--accent) 64%, var(--brand-electro) 36%)'
     },
     {
       selectors: ['.back-link'],
       className: 'hovered-youtube-back',
       lockPosition: true,
       preventRotation: true,
-      color: 'color-mix(in srgb, var(--color-electro) 56%, var(--color-primary) 44%)'
+      color: 'color-mix(in srgb, var(--brand-electro) 56%, var(--accent) 44%)'
     }
   ]);
 </script>
@@ -53,7 +53,7 @@
   <title>Video Feed | ELECTRIS</title>
 </svelte:head>
 
-<div class="videos-page reveal-block visible">
+<div class="videos-page">
   <div class="background-grid" aria-hidden="true"></div>
   <div class="page-glow glow-a" aria-hidden="true"></div>
   <div class="page-glow glow-b" aria-hidden="true"></div>
@@ -143,29 +143,18 @@
 </div>
 
 <style>
-  .reveal-block {
-    opacity: 0;
-    transform: translateY(2.5rem);
-    transition:
-      opacity 0.9s ease,
-      transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .reveal-block.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   .videos-page {
-    --surface-border: color-mix(in srgb, var(--color-primary) 18%, transparent);
-    --surface-border-strong: color-mix(in srgb, var(--color-electro) 28%, var(--color-primary) 20%);
-    --surface-base: color-mix(in srgb, var(--bg-body) 82%, transparent);
-    --surface-elevated: color-mix(in srgb, var(--bg-body) 90%, transparent);
+    --surface-border: color-mix(in srgb, var(--accent) 18%, transparent);
+    --surface-border-strong: color-mix(in srgb, var(--brand-electro) 28%, var(--accent) 20%);
+    --surface-base: color-mix(in srgb, var(--surface-page) 82%, transparent);
+    --surface-elevated: color-mix(in srgb, var(--surface-page) 90%, transparent);
+    /* The live marker is fixed, so a broadcast reads as live in every theme. */
+    --live-signal: #ff4e4e;
     position: relative;
     isolation: isolate;
-    max-width: 90rem;
+    max-width: var(--layout-max);
     margin: 0 auto;
-    padding: 8rem clamp(1.1rem, 3vw, 2.4rem) 6rem;
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     overflow: clip;
   }
 
@@ -180,8 +169,8 @@
     inset: 0;
     opacity: 0.42;
     background-image:
-      linear-gradient(color-mix(in srgb, var(--color-primary) 10%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--color-electro) 9%, transparent) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--accent) 10%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--brand-electro) 9%, transparent) 1px, transparent 1px);
     background-size: 6rem 6rem;
     mask: linear-gradient(180deg, transparent 0%, black 10%, black 90%, transparent 100%);
   }
@@ -189,7 +178,7 @@
   .page-glow {
     width: 26rem;
     height: 26rem;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     filter: blur(40px);
     opacity: 0.44;
   }
@@ -197,25 +186,25 @@
   .glow-a {
     top: 6rem;
     right: -8rem;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-electro) 20%, transparent), transparent 72%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--brand-electro) 20%, transparent), transparent 72%);
   }
 
   .glow-b {
     top: 30rem;
     left: -8rem;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 72%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 72%);
   }
 
   .page-header,
   .video-shell,
   .empty-state {
     position: relative;
-    border-radius: 2rem;
+    border-radius: var(--radius-2xl);
     border: 1px solid var(--surface-border);
     background:
-      radial-gradient(circle at 14% 16%, color-mix(in srgb, var(--color-electro) 10%, transparent), transparent 38%),
+      radial-gradient(circle at 14% 16%, color-mix(in srgb, var(--brand-electro) 10%, transparent), transparent 38%),
       linear-gradient(160deg, color-mix(in srgb, var(--surface-elevated) 95%, transparent), color-mix(in srgb, var(--surface-base) 98%, transparent));
-    box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.14);
+    box-shadow: var(--shadow-lg);
     overflow: hidden;
   }
 
@@ -224,18 +213,18 @@
   .empty-state::before {
     content: '';
     position: absolute;
-    inset: 0.95rem;
-    border-radius: 1.45rem;
-    border: 1px solid color-mix(in srgb, var(--color-primary) 12%, transparent);
+    inset: var(--space-4);
+    border-radius: calc(var(--radius-2xl) - var(--space-4));
+    border: 1px solid color-mix(in srgb, var(--accent) 12%, transparent);
     pointer-events: none;
   }
 
   .page-header {
     display: grid;
     grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
-    gap: 1.3rem;
-    padding: clamp(1.2rem, 2.8vw, 1.8rem);
-    margin-bottom: 1.3rem;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
   }
 
   .page-copy {
@@ -248,21 +237,21 @@
   .back-link,
   .section-title,
   .empty-kicker {
-    font-family: 'Redwing', Aileron, sans-serif;
+    font-family: var(--font-body);
     text-transform: uppercase;
     letter-spacing: 0.09em;
   }
 
   .page-kicker {
-    margin: 0 0 1rem;
-    font-size: 0.75rem;
+    margin: 0 0 var(--space-4);
+    font-size: var(--text-2xs);
     opacity: 0.78;
   }
 
   .page-header h1 {
-    margin: 0 0 1rem;
-    font-family: 'Letric';
-    font-size: clamp(3rem, 7vw, 6.4rem);
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-size: var(--display-lg);
     line-height: 0.93;
     text-transform: uppercase;
   }
@@ -271,36 +260,36 @@
   .section-copy,
   .empty-state p {
     margin: 0;
-    font-family: Aileron, sans-serif;
+    font-family: var(--font-ui);
     line-height: 1.7;
   }
 
   .page-intro {
-    max-width: 38rem;
-    font-size: 1.05rem;
+    max-width: var(--layout-measure);
+    font-size: var(--text-base);
     opacity: 0.9;
   }
 
   .header-side {
     display: grid;
-    gap: 1rem;
+    gap: var(--space-4);
     align-content: space-between;
   }
 
   .page-metrics {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.85rem;
+    gap: var(--space-3);
   }
 
   .metric-card {
     display: grid;
-    gap: 0.4rem;
-    padding: 0.95rem 1rem;
-    border-radius: 1.2rem;
-    border: 1px solid color-mix(in srgb, var(--color-primary) 14%, transparent);
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--color-electro) 7%, transparent), transparent 60%),
+      linear-gradient(135deg, color-mix(in srgb, var(--brand-electro) 7%, transparent), transparent 60%),
       color-mix(in srgb, var(--surface-elevated) 94%, transparent);
   }
 
@@ -309,13 +298,13 @@
   }
 
   .metric-card span {
-    font-size: 0.62rem;
+    font-size: var(--text-2xs);
     opacity: 0.72;
   }
 
   .metric-card strong {
-    font-family: Aileron, sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
     line-height: 1.45;
   }
 
@@ -323,24 +312,24 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.7rem;
-    padding: 0.95rem 1.15rem;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--color-electro) 22%, transparent);
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--brand-electro) 22%, transparent);
     background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
     color: inherit;
     text-decoration: none;
-    font-size: 0.76rem;
+    font-size: var(--text-2xs);
     transition:
-      transform 0.3s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
+      transform var(--duration-slow) var(--ease-out),
+      border-color var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .back-link:hover {
     transform: translateX(-0.25rem);
     border-color: var(--surface-border-strong);
-    box-shadow: 0 0.9rem 2.2rem rgba(0, 0, 0, 0.16);
+    box-shadow: var(--shadow-md);
   }
 
   .back-link svg {
@@ -350,26 +339,26 @@
 
   .video-shell,
   .empty-state {
-    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+    padding: var(--space-5);
   }
 
   .video-shell + .video-shell,
   .video-shell + .empty-state {
-    margin-top: 1.15rem;
+    margin-top: var(--space-4);
   }
 
   .latest-shell {
     background:
-      radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 40%),
+      radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 40%),
       linear-gradient(160deg, color-mix(in srgb, var(--surface-elevated) 95%, transparent), color-mix(in srgb, var(--surface-base) 98%, transparent));
   }
 
   .section-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
-    gap: 1rem;
+    gap: var(--space-4);
     align-items: end;
-    margin-bottom: 1.1rem;
+    margin-bottom: var(--space-4);
   }
 
   .section-copy-group {
@@ -377,8 +366,8 @@
   }
 
   .section-kicker {
-    margin: 0 0 0.7rem;
-    font-size: 0.68rem;
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-2xs);
     opacity: 0.74;
   }
 
@@ -386,46 +375,46 @@
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    gap: var(--space-3);
+    font-size: var(--text-xl);
     line-height: 1.2;
   }
 
   .indicator-dot {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 50%;
-    background: #ff4e4e;
-    box-shadow: 0 0 1rem rgba(255, 78, 78, 0.4);
+    width: var(--space-3);
+    height: var(--space-3);
+    border-radius: var(--radius-round);
+    background: var(--live-signal);
+    box-shadow: 0 0 var(--space-4) color-mix(in srgb, var(--live-signal) 40%, transparent);
   }
 
   .section-copy {
-    font-size: 0.98rem;
+    font-size: var(--text-base);
     opacity: 0.82;
   }
 
   .video-grid {
     display: grid;
-    gap: 1rem;
+    gap: var(--space-4);
     align-items: start;
   }
 
   .empty-state {
     display: grid;
     justify-items: center;
-    gap: 0.7rem;
+    gap: var(--space-3);
     text-align: center;
   }
 
   .empty-kicker {
-    font-size: 0.74rem;
+    font-size: var(--text-2xs);
     opacity: 0.74;
   }
 
   .empty-state h2 {
     margin: 0;
-    font-family: 'Letric';
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-family: var(--font-display);
+    font-size: var(--display-sm);
     line-height: 0.95;
     text-transform: uppercase;
   }
@@ -444,10 +433,6 @@
   }
 
   @media (max-width: 680px) {
-    .videos-page {
-      padding-top: 6.5rem;
-    }
-
     .page-metrics {
       grid-template-columns: 1fr;
     }
@@ -458,18 +443,10 @@
   }
 
   @media (max-width: 560px) {
-    .videos-page {
-      padding-inline: 1rem;
-    }
-
     .page-header,
     .video-shell,
     .empty-state {
-      border-radius: 1.55rem;
-    }
-
-    .page-header h1 {
-      font-size: clamp(2.6rem, 14vw, 4.3rem);
+      border-radius: var(--radius-xl);
     }
   }
 
@@ -479,12 +456,12 @@
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
     box-shadow:
-      0 1.4rem 3rem rgba(0, 0, 0, 0.18),
-      0 0 1.6rem color-mix(in srgb, var(--color-primary) 10%, transparent);
+      var(--shadow-lg),
+      0 0 var(--space-5) color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   :global([data-theme="cyber-neotic"]) .metric-card,
   :global([data-theme="cyber-neotic"]) .back-link {
-    box-shadow: inset 0 0 1rem color-mix(in srgb, var(--color-electro) 4%, transparent);
+    box-shadow: inset 0 0 var(--space-4) color-mix(in srgb, var(--brand-electro) 4%, transparent);
   }
 </style>
