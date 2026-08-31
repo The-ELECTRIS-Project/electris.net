@@ -10,7 +10,7 @@
   import YTLive from '$lib/components/youtube/LiveSection.svelte';
   import YTSkeleton from '$lib/components/youtube/Skeleton.svelte';
 
-  type HomeSection = 'hero' | 'news' | 'note';
+  type HomeSection = 'hero' | 'news';
 
   let { data } = $props();
   
@@ -39,8 +39,7 @@
   let scrollShift = $state(0);
   let visibleSections = $state<Record<HomeSection, boolean>>({
     hero: false,
-    news: false,
-    note: false
+    news: false
   });
 
   let latestPost = $derived(data.latestPost ?? null);
