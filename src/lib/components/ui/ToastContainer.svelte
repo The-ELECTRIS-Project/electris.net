@@ -23,14 +23,14 @@
 <style>
   .toast-container {
     position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 4.5rem);
+    top: calc(env(safe-area-inset-top, 0px) + var(--layout-page-top));
     left: 50%;
     transform: translate(-50%, 0);
-    z-index: 1000;
+    z-index: var(--z-toast);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
     pointer-events: none;
     width: max-content;
     max-width: 90vw;
@@ -39,31 +39,33 @@
   .toast {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.6rem 1.4rem;
-    border-radius: 999px;
-    background: rgba(20, 8, 0, 0.75);
-    border: 0.1vmin solid rgba(246, 89, 1, 0.45);
-    color: rgba(246, 89, 1, 0.95);
-    font-family: 'Redwing';
-    font-size: 0.95rem;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--surface-overlay) 88%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
     letter-spacing: 0.01em;
-    box-shadow: 0 0.8rem 1.6rem rgba(0, 0, 0, 0.35), 0 0 1.4rem rgba(246, 89, 1, 0.2);
+    box-shadow:
+      var(--shadow-md),
+      0 0 var(--space-5) color-mix(in srgb, var(--accent) 20%, transparent);
     backdrop-filter: blur(0.6rem);
     animation: toast-fade var(--duration) ease forwards;
   }
 
   .toast:has(.toast-title) {
-    border-radius: 1rem;
+    border-radius: var(--radius-lg);
     align-items: flex-start;
-    padding: 0.8rem 1.4rem;
+    padding: var(--space-3) var(--space-5);
   }
 
   .toast-icon {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: var(--text-lg);
+    height: var(--text-lg);
     flex-shrink: 0;
-    filter: drop-shadow(0 0 0.2rem rgba(246, 89, 1, 0.5));
+    filter: drop-shadow(0 0 var(--space-1) color-mix(in srgb, var(--accent) 50%, transparent));
   }
 
   .toast-content {
@@ -73,10 +75,10 @@
   }
 
   .toast-title {
-    font-size: 1.1rem;
+    font-size: var(--text-md);
     line-height: 1.2;
     margin-bottom: 0.15rem;
-    color: #fff;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
@@ -105,13 +107,9 @@
   }
 
   @media (max-width: 768px) {
-    .toast-container {
-      top: calc(env(safe-area-inset-top, 0px) + 4rem);
-    }
-    
     .toast {
-      padding: 0.5rem 1.2rem;
-      font-size: 0.9rem;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-xs);
     }
   }
 </style>
