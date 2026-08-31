@@ -47,7 +47,7 @@
                 >
                     <div class="cover-wrapper">
                         <img src={album.cover} alt={album.title} class="cover-img" />
-                        <div class="overlay">
+                        <div class="cover-overlay">
                             <span>VIEW TRACKS</span>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
         transition: transform var(--duration-slow) var(--ease-out);
     }
 
-    .overlay {
+    .cover-overlay {
         position: absolute;
         inset: 0;
         background: color-mix(in srgb, var(--accent) 90%, transparent);
@@ -140,7 +140,7 @@
         transition: opacity var(--duration-normal) var(--ease-out);
     }
 
-    .overlay span {
+    .cover-overlay span {
         color: var(--text-on-accent);
         font-weight: bold;
         letter-spacing: 0.2em;
@@ -151,7 +151,7 @@
         transform: scale(1.05);
     }
 
-    .album-card:hover .overlay {
+    .album-card:hover .cover-overlay {
         opacity: 1;
     }
 
@@ -284,14 +284,14 @@
     }
 
     @media (any-pointer: coarse) {
-        .overlay {
+        .cover-overlay {
             opacity: 1;
             background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--accent) 82%, transparent) 100%);
             align-items: flex-end;
             padding: var(--space-4);
         }
 
-        .overlay span {
+        .cover-overlay span {
             font-size: var(--text-sm);
             letter-spacing: 0.16em;
         }

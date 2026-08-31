@@ -47,7 +47,7 @@
                 >
                     <div class="cover-wrapper">
                         <img src={single.cover} alt={single.title} class="cover-img" />
-                        <div class="overlay">
+                        <div class="cover-overlay">
                             <span>VIEW DETAILS</span>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
         transition: transform var(--duration-slow) var(--ease-out);
     }
 
-    .overlay {
+    .cover-overlay {
         position: absolute;
         inset: 0;
         background: color-mix(in srgb, var(--accent) 35%, transparent);
@@ -140,7 +140,7 @@
         transition: opacity var(--duration-normal) var(--ease-out);
     }
 
-    .overlay span {
+    .cover-overlay span {
         color: var(--text-on-accent);
         font-weight: bold;
         letter-spacing: 0.15em;
@@ -151,7 +151,7 @@
         transform: scale(1.1);
     }
 
-    .single-card:hover .overlay {
+    .single-card:hover .cover-overlay {
         opacity: 1;
     }
 
