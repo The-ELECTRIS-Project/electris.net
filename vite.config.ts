@@ -20,6 +20,7 @@ interface BlogIndexEntry {
 
 const LOCALE = /^([a-z]{2}_[A-Z]{2})$/;
 const REVISION_ID = /^\d{4}-\d{2}-\d{2}(T\d{2}-\d{2})?$/;
+const LANG_FILE = /^\+(commons|lang)\.[a-z]{2}_[A-Z]{2}\.json$/;
 
 /*
  * Publishing an edit, by hand:
@@ -168,9 +169,81 @@ function createBlogIndexPlugin(): Plugin {
 	};
 }
 
+function createLangIndexPlugin(): Plugin {
+	let root = process.cwd();
+
+	const getPaths = () => {
+		const langDir = path.resolve(root, 'static', 'data', 'lang');
+		const indexPath = path.join(langDir, 'index.json');
+
+		return { langDir, indexPath };
+	};
+
+	const collectLangFiles = (dir: string, prefix: string): string[] =>
+		fs
+			.readdirSync(dir, { withFileTypes: true })
+			.flatMap((entry) => {
+				const entryPath = path.join(dir, entry.name);
+				const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+
+				if (entry.isDirectory()) {
+					return collectLangFiles(entryPath, relativePath);
+				}
+
+				return LANG_FILE.test(entry.name) ? [relativePath] : [];
+			});
+
+	const syncIndex = () => {
+		const { langDir, indexPath } = getPaths();
+
+		if (!fs.existsSync(langDir)) {
+			return;
+		}
+
+		const nextContents = `${JSON.stringify(collectLangFiles(langDir, '').sort(), null, 2)}\n`;
+		const currentContents = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, 'utf8') : null;
+
+		if (currentContents !== nextContents) {
+			fs.writeFileSync(indexPath, nextContents);
+		}
+	};
+
+	const shouldSync = (filePath: string) => {
+		const { langDir, indexPath } = getPaths();
+		const resolvedPath = path.resolve(filePath);
+
+		return resolvedPath.startsWith(`${langDir}${path.sep}`) && resolvedPath !== indexPath;
+	};
+
+	return {
+		name: 'electris-lang-index',
+		configResolved(config) {
+			root = config.root;
+		},
+		buildStart() {
+			syncIndex();
+		},
+		configureServer(server) {
+			syncIndex();
+
+			const handleChange = (filePath: string) => {
+				if (shouldSync(filePath)) {
+					syncIndex();
+				}
+			};
+
+			server.watcher.on('add', handleChange);
+			server.watcher.on('change', handleChange);
+			server.watcher.on('unlink', handleChange);
+			server.watcher.on('addDir', handleChange);
+			server.watcher.on('unlinkDir', handleChange);
+		}
+	};
+}
+
 export default defineConfig(() => {
 	return {
-		plugins: [createBlogIndexPlugin(), sveltekit(), tailwindcss()],
+		plugins: [createBlogIndexPlugin(), createLangIndexPlugin(), sveltekit(), tailwindcss()],
 		server: {
 			host: '0.0.0.0',
 			allowedHosts: ['.electris.net']

@@ -32,6 +32,11 @@ class I18nState {
   routeCache = new Set<string>();
   libCache = new Set<string>();
 
+  // Null until the index has been read, and stays null if it could not be, so a missing
+  // index falls back to asking for every file rather than loading nothing at all.
+  availableFiles: Set<string> | null = null;
+  availableFilesRequest: Promise<void> | null = null;
+
   constructor() {
     if (browser) {
       this.currentLocale = this.getInitialLocale();
@@ -79,6 +84,23 @@ class I18nState {
     }
   }
 
+  async loadAvailableFiles() {
+    this.availableFilesRequest ??= (async () => {
+      const data = await this.fetchJson('/data/lang/index.json');
+      if (Array.isArray(data)) {
+        this.availableFiles = new Set(data.filter((entry) => typeof entry === 'string'));
+      }
+    })();
+
+    await this.availableFilesRequest;
+  }
+
+  async fetchLangFile(relativePath: string): Promise<unknown | null> {
+    await this.loadAvailableFiles();
+    if (this.availableFiles && !this.availableFiles.has(relativePath)) return null;
+    return this.fetchJson(`/data/lang/${relativePath}`);
+  }
+
   normalizeLocaleData(data: unknown, locale: string): MultiLocaleData {
     const normalized: MultiLocaleData = {};
     if (!data || typeof data !== 'object' || Array.isArray(data)) return normalized;
@@ -106,7 +128,7 @@ class I18nState {
 
   async loadCommonData(locale: string = this.currentLocale) {
     const safeLocale = locale.replace('-', '_');
-    const data = await this.fetchJson(`/data/lang/+commons.${safeLocale}.json`);
+    const data = await this.fetchLangFile(`+commons.${safeLocale}.json`);
     if (data) {
       this.commonLocaleData = this.mergeMultiLocaleData(this.commonLocaleData, this.normalizeLocaleData(data, locale));
     }
@@ -117,7 +139,7 @@ class I18nState {
     const cacheKey = `${libPath}|${safeLocale}`;
     if (this.libCache.has(cacheKey)) return;
 
-    const data = await this.fetchJson(`/data/lang/lib/${libPath}/+lang.${safeLocale}.json`);
+    const data = await this.fetchLangFile(`lib/${libPath}/+lang.${safeLocale}.json`);
     if (data) {
       this.libLocaleData = this.mergeMultiLocaleData(this.libLocaleData, this.normalizeLocaleData(data, locale));
       this.libCache.add(cacheKey);
@@ -152,11 +174,11 @@ class I18nState {
     }
 
     for (const path of pathsToLoad) {
-      const fetchPath = path === '' 
-        ? `/data/lang/routes/+commons.${safeLocale}.json`
-        : `/data/lang/routes/${path}/+commons.${safeLocale}.json`;
-        
-      const segmentCommon = await this.fetchJson(fetchPath);
+      const fetchPath = path === ''
+        ? `routes/+commons.${safeLocale}.json`
+        : `routes/${path}/+commons.${safeLocale}.json`;
+
+      const segmentCommon = await this.fetchLangFile(fetchPath);
       if (segmentCommon) {
         mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(segmentCommon, locale));
       }
@@ -164,10 +186,10 @@ class I18nState {
 
     // 2. Load the specific +lang.json for the route
     const langPath = normalized === ''
-      ? `/data/lang/routes/+lang.${safeLocale}.json`
-      : `/data/lang/routes/${normalized}/+lang.${safeLocale}.json`;
-      
-    const specificLang = await this.fetchJson(langPath);
+      ? `routes/+lang.${safeLocale}.json`
+      : `routes/${normalized}/+lang.${safeLocale}.json`;
+
+    const specificLang = await this.fetchLangFile(langPath);
     if (specificLang) {
       mergedRouteData = this.mergeMultiLocaleData(mergedRouteData, this.normalizeLocaleData(specificLang, locale));
     }

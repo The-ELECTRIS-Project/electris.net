@@ -24,3 +24,4 @@ vite.config.ts.timestamp-*
 
 # Generated content indexes
 static/data/blog/index.json
+static/data/lang/index.json
