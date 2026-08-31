@@ -2,20 +2,16 @@
   import { t } from '$lib/state/i18n.svelte';
   import { onMount } from 'svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
-  import PageShell from '$lib/components/ui/PageShell.svelte';
-  import Section from '$lib/components/ui/Section.svelte';
-  import LinkCard from '$lib/components/ui/LinkCard.svelte';
-  import PersonLinks from '$lib/components/ui/PersonLinks.svelte';
 
   useHoverConfig([
     {
-      selectors: ['.link-card'],
+      selectors: ['.card:not(.card-disabled)'],
       className: 'hovered-social-card',
       lockPosition: true
     },
     {
       type: ['h2'],
-      selectors: ['.section h2'],
+      selectors: ['.section-title'],
       className: 'hovered-section-title',
       wrapText: {
         sentences: true
@@ -76,60 +72,381 @@
   <meta name="description" content={t('donate.undertitle')} />
 </svelte:head>
 
-<PageShell width="wide" title={t('donate.title')} lead={t('donate.undertitle')}>
-  <Section title={t('donate.section.project')} description={t('donate.section.project.desc')}>
-    {#snippet media()}
-      <img src="/icons/logo/FirstParty/elts-v1.png" alt="ELECTRIS" class="section-logo" />
-    {/snippet}
+<div class="donate-page">
+  <div class="hero">
+    <h1 class="wrap-sentence">{t('donate.title')}</h1>
+    <p>{t('donate.undertitle')}</p>
+  </div>
 
-    <div class="grid">
-      {#each projectLinks as link}
-        <LinkCard
-          title={link.title}
-          handle={link.handle}
-          icon={link.platformLogo}
-          href={link.url}
-        />
-      {/each}
-    </div>
-  </Section>
+  <div class="hub-container">
+    <section class="hub-section">
+      <div class="section-header">
+        <img src="/icons/logo/FirstParty/elts-v1.png" alt="ELECTRIS" class="section-logo" />
+        <div class="header-text">
+          <h2 class="section-title">{t('donate.section.project')}</h2>
+          <p class="section-desc">{t('donate.section.project.desc')}</p>
+        </div>
+      </div>
+      <div class="grid">
+        {#each projectLinks as link}
+          <a class="card wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+            <div class="icons">
+              <img src={link.platformLogo} alt={link.title} class="platform-icon" />
+            </div>
+            <div class="card-text">
+              <div class="card-header">
+                <h2>{link.title}</h2>
+                <span class="platform-tag tag-brand">{link.handle}</span>
+              </div>
+            </div>
+          </a>
+        {/each}
+      </div>
+    </section>
 
-  <Section title={t('donate.section.team')} description={t('donate.section.team.desc')}>
-    <div class="team-split">
-      <PersonLinks
-        name={t('site.author.eltr')}
-        role={t('social.role.founder', 'Founder')}
-        logo="/icons/logo/FirstParty/eltr-v10.png"
-        links={founderLinks}
-      />
-      <PersonLinks
-        name={t('site.author.vrrw')}
-        role={t('social.role.contributor', 'Contributor')}
-        logo="/icons/logo/FirstParty/VArrow-v1.png"
-        emptyMessage={t('donate.vrrw.no_donations.desc')}
-      />
-    </div>
-  </Section>
-</PageShell>
+    <section class="hub-section team-section">
+      <div class="section-header main-team-header">
+        <div class="header-text">
+          <h2 class="section-title">{t('donate.section.team')}</h2>
+          <p class="section-desc">{t('donate.section.team.desc')}</p>
+        </div>
+      </div>
+
+      <div class="team-split">
+        <div class="team-member-group">
+          <div class="member-header">
+            <img src="/icons/logo/FirstParty/eltr-v10.png" alt="ELECTRO" class="member-logo" />
+            <div class="member-name">
+              <h3>{t('site.author.eltr')}</h3>
+              <p class="member-role">{t('social.role.founder', 'Founder')}</p>
+            </div>
+          </div>
+          <div class="grid grid-small">
+            {#each founderLinks as link}
+              <a class="card card-compact wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+                <div class="icons">
+                  <img src={link.platformLogo} alt={link.title} class="platform-icon" />
+                </div>
+                <div class="card-text">
+                  <div class="card-header">
+                    <h2>{link.title}</h2>
+                    <span class="platform-tag">{link.handle}</span>
+                  </div>
+                </div>
+              </a>
+            {/each}
+          </div>
+        </div>
+
+        <div class="team-member-group">
+          <div class="member-header">
+            <img src="/icons/logo/FirstParty/VArrow-v1.png" alt="Varrow" class="member-logo" />
+            <div class="member-name">
+              <h3>{t('site.author.vrrw')}</h3>
+              <p class="member-role">{t('social.role.contributor', 'Contributor')}</p>
+            </div>
+          </div>
+          <div class="grid grid-small">
+            <div class="card card-compact card-disabled wrap-no-interact-all">
+              <div class="card-text">
+                <p>{t('donate.vrrw.no_donations.desc')}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
 
 <style>
+  .donate-page {
+    min-height: 100vh;
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--accent);
+  }
+
+  .hero {
+    margin-bottom: var(--space-8);
+    text-align: center;
+  }
+
+  .hero h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--display-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+  }
+
+  .hero p {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-ui);
+    font-size: var(--text-xl);
+    opacity: 0.8;
+  }
+
+  .hub-container {
+    width: 100%;
+    max-width: var(--layout-content);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .hub-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    width: 100%;
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .main-team-header {
+    margin-bottom: var(--space-5);
+  }
+
+  .header-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
   .section-logo {
     width: 3rem;
     height: 3rem;
-    object-fit: contain;
+    border-radius: var(--radius-round);
+    border: 2px solid var(--accent);
+  }
+
+  .section-title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-2xl);
+    letter-spacing: 0.1rem;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  .team-split {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+    padding-left: var(--space-5);
+    border-left: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .team-member-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .member-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .member-logo {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-round);
+    border: 1px solid var(--accent);
+  }
+
+  .member-name h3 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-xl);
+    opacity: 0.9;
+  }
+
+  .member-role {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(28rem, 100%), 1fr));
+    gap: var(--space-5);
   }
 
-
-  .team-split {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-    gap: var(--space-7);
+  .grid-small {
+    grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
   }
 
+  .card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: var(--space-5);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    color: var(--accent);
+    text-decoration: none;
+    transition:
+      background-color var(--duration-slow) var(--ease-in-out),
+      border-color var(--duration-slow) var(--ease-in-out),
+      transform var(--duration-slow) var(--ease-in-out),
+      box-shadow var(--duration-slow) var(--ease-in-out);
+  }
+
+  .card:not(.card-disabled):hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    transform: translateY(-0.25rem);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-compact {
+    padding: var(--space-4);
+  }
+
+  .card.card-disabled {
+    opacity: 0.5;
+    cursor: default;
+    background: color-mix(in srgb, var(--accent) 2%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .icons {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: var(--space-5);
+  }
+
+  /* The platform marks are transparent SVGs, so they need a plate to read against. */
+  .platform-icon {
+    width: 4rem;
+    height: 4rem;
+    padding: var(--space-3);
+    background: #fff;
+    border-radius: var(--radius-md);
+    object-fit: contain;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-compact .platform-icon {
+    width: 3rem;
+    height: 3rem;
+    padding: var(--space-2);
+  }
+
+  .card-text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .card-text h2 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--text-xl);
+    line-height: 1;
+  }
+
+  .card-compact .card-text h2 {
+    font-size: var(--text-lg);
+  }
+
+  .card-text p {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  .card-compact .card-text p {
+    font-size: var(--text-sm);
+  }
+
+  .platform-tag {
+    padding: var(--space-1) var(--space-2);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .tag-brand {
+    font-family: var(--font-display);
+    letter-spacing: 0.05rem;
+  }
+
+  .team-section {
+    opacity: 0.9;
+  }
+
+  .team-section .main-team-header {
+    border-bottom-width: 1px;
+    opacity: 0.8;
+  }
+
+  .team-section .section-title {
+    font-size: var(--text-xl);
+  }
+
+  @media (max-width: 900px) {
+    .grid,
+    .grid-small {
+      grid-template-columns: 1fr;
+    }
+
+    .hero p {
+      font-size: var(--text-md);
+    }
+
+    .platform-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-1);
+    }
+
+    .team-split {
+      padding-left: var(--space-4);
+    }
+  }
 </style>

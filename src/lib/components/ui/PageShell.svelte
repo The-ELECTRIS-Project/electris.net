@@ -54,7 +54,7 @@
   }
 
   .default {
-    max-width: 64rem;
+    max-width: var(--layout-content);
   }
 
   .wide {

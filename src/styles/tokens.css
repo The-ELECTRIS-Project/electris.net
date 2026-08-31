@@ -64,6 +64,7 @@
   --layout-page-top: calc(var(--layout-nav-height) + var(--space-6));
   --layout-page-inline: clamp(1rem, 3vw, 3rem);
   --layout-measure: 42rem;
+  --layout-content: 64rem;
   --layout-max: 80rem;
 
   /* ===== STACKING ===== */
