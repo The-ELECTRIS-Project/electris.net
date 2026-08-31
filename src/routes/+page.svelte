@@ -396,7 +396,7 @@
             <p>
               {t(
                 'home.snapshot.empty.body',
-                "When there's something worth writing down, it'll show up here first."
+                "When there's something worth writing down, it'll show up here."
               )}
             </p>
             <span class="news-cta">{t('home.snapshot.empty.cta', 'Visit the blog')}</span>
