@@ -13,5 +13,16 @@
   "blog.version.original": "Originală",
   "blog.version.viewing": "Aceasta este o versiune mai veche a articolului, din",
   "blog.version.readCurrent": "Citește versiunea curentă",
-  "blog.version.replaced": "A fost înlocuită pentru că:"
+  "blog.version.replaced": "A fost înlocuită pentru că:",
+  "github.state.open": "Deschis",
+  "github.state.closed": "Închis",
+  "github.state.merged": "Integrat",
+  "github.author.by": "de",
+  "github.commits.one": "commit",
+  "github.commits.many": "commits",
+  "github.issue.opened": "Deschis pe",
+  "github.user.followers": "urmăritori",
+  "github.user.following": "urmărește",
+  "github.user.repos": "depozite",
+  "github.fallback": "Vizualizare offline"
 }

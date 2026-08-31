@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
+  import { t } from '$lib/state/i18n.svelte';
 
   let { content } = $props<{ content?: string }>();
 
@@ -410,7 +411,7 @@
             {/if}
           </div>
           {#if previewData.fallback}
-            <div class="fallback-badge">Offline View</div>
+            <div class="fallback-badge">{t('github.fallback', 'Offline view')}</div>
           {/if}
 
         {:else if previewData.type === 'pull_request'}
@@ -428,17 +429,17 @@
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
                   <path d="M5 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm0 2.122a2.25 2.25 0 1 0-1.5 0v.878A2.25 2.25 0 0 0 5.75 8.5h1.5v2.128a2.251 2.251 0 1 0 1.5 0V8.5h1.5A2.25 2.25 0 0 0 12.5 6.25v-.878a2.25 2.25 0 1 0-1.5 0v.878a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1-.75-.75v-.878ZM12.5 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm-4 9.5a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
                 </svg>
-                Merged
+                {t('github.state.merged', 'Merged')}
               {:else if d.state === 'closed'}
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
                   <path d="M1.5 3.25a2.25 2.25 0 1 1 3 1.872v5.756a2.25 2.25 0 1 1-3 0V5.122A2.25 2.25 0 0 1 1.5 3.25Zm1.5 0a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm0 9.5a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm9.5-9.5a2.25 2.25 0 1 1 3 1.872v5.756a2.25 2.25 0 1 1-3 0V5.122A2.25 2.25 0 0 1 12.5 3.25Zm1.5 0a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm0 9.5a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0ZM5.75 7.75a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5H5.75Z"/>
                 </svg>
-                Closed
+                {t('github.state.closed', 'Closed')}
               {:else}
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
                   <path d="M1.5 3.25a2.25 2.25 0 1 1 3 1.872v5.756a2.25 2.25 0 1 1-3 0V5.122A2.25 2.25 0 0 1 1.5 3.25Zm1.5 0a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm0 9.5a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm9.5-9.5a2.25 2.25 0 1 1 3 1.872v5.756a2.25 2.25 0 1 1-3 0V5.122A2.25 2.25 0 0 1 1.5 3.25Zm1.5 0a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm0 9.5a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0ZM5.75 7.75a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5H5.75Z"/>
                 </svg>
-                Open
+                {t('github.state.open', 'Open')}
               {/if}
             </span>
             {#if d.author}
@@ -446,7 +447,7 @@
                 {#if d.authorAvatar}
                   <img class="mini-avatar" src={d.authorAvatar} alt="" />
                 {/if}
-                by <strong>{d.author}</strong>
+                {t('github.author.by', 'by')} <strong>{d.author}</strong>
               </span>
             {/if}
           </div>
@@ -454,11 +455,16 @@
             <div class="diff-stats">
               <span class="additions">+{d.additions}</span>
               <span class="deletions">-{d.deletions}</span>
-              <span class="commits-count">{d.commits} {d.commits === 1 ? 'commit' : 'commits'}</span>
+              <span class="commits-count">
+                {d.commits}
+                {d.commits === 1
+                  ? t('github.commits.one', 'commit')
+                  : t('github.commits.many', 'commits')}
+              </span>
             </div>
           {/if}
           {#if previewData.fallback}
-            <div class="fallback-badge">Offline View</div>
+            <div class="fallback-badge">{t('github.fallback', 'Offline view')}</div>
           {/if}
 
         {:else if previewData.type === 'issue'}
@@ -476,12 +482,12 @@
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
                   <path d="M11.28 3.97a.75.75 0 1 1 1.06 1.06l-6.22 6.22a.75.75 0 0 1-1.06 0L2.16 8.34a.75.75 0 1 1 1.06-1.06l2.44 2.44 5.62-5.75Z"/><path d="M1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0ZM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Z"/>
                 </svg>
-                Closed
+                {t('github.state.closed', 'Closed')}
               {:else}
                 <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
                   <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/>
                 </svg>
-                Open
+                {t('github.state.open', 'Open')}
               {/if}
             </span>
             {#if d.author}
@@ -489,15 +495,15 @@
                 {#if d.authorAvatar}
                   <img class="mini-avatar" src={d.authorAvatar} alt="" />
                 {/if}
-                by <strong>{d.author}</strong>
+                {t('github.author.by', 'by')} <strong>{d.author}</strong>
               </span>
             {/if}
           </div>
           {#if d.createdAt}
-            <div class="time-info">Opened on {formatDate(d.createdAt)}</div>
+            <div class="time-info">{t('github.issue.opened', 'Opened on')} {formatDate(d.createdAt)}</div>
           {/if}
           {#if previewData.fallback}
-            <div class="fallback-badge">Offline View</div>
+            <div class="fallback-badge">{t('github.fallback', 'Offline view')}</div>
           {/if}
 
         {:else if previewData.type === 'user'}
@@ -518,22 +524,22 @@
           <div class="user-stats">
             {#if d.followers !== undefined}
               <span class="user-stat">
-                <strong>{d.followers}</strong> followers
+                <strong>{d.followers}</strong> {t('github.user.followers', 'followers')}
               </span>
             {/if}
             {#if d.following !== undefined}
               <span class="user-stat">
-                <strong>{d.following}</strong> following
+                <strong>{d.following}</strong> {t('github.user.following', 'following')}
               </span>
             {/if}
             {#if d.publicRepos !== undefined}
               <span class="user-stat">
-                <strong>{d.publicRepos}</strong> repos
+                <strong>{d.publicRepos}</strong> {t('github.user.repos', 'repos')}
               </span>
             {/if}
           </div>
           {#if previewData.fallback}
-            <div class="fallback-badge">Offline View</div>
+            <div class="fallback-badge">{t('github.fallback', 'Offline view')}</div>
           {/if}
         {/if}
       </div>

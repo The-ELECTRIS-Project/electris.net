@@ -13,5 +13,16 @@
   "blog.version.original": "Original",
   "blog.version.viewing": "This is an older version of this post, from",
   "blog.version.readCurrent": "Read the current version",
-  "blog.version.replaced": "It was replaced because:"
+  "blog.version.replaced": "It was replaced because:",
+  "github.state.open": "Open",
+  "github.state.closed": "Closed",
+  "github.state.merged": "Merged",
+  "github.author.by": "by",
+  "github.commits.one": "commit",
+  "github.commits.many": "commits",
+  "github.issue.opened": "Opened on",
+  "github.user.followers": "followers",
+  "github.user.following": "following",
+  "github.user.repos": "repos",
+  "github.fallback": "Offline view"
 }
