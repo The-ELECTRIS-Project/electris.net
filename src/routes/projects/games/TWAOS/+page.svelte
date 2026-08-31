@@ -152,6 +152,18 @@
     return deg;
   }
 
+  // A drag across this much of the viewport travels the whole track.
+  const SWEEP_FRACTION_POINTER = 0.5;
+  const SWEEP_FRACTION_TOUCH = 1;
+
+  function dragSpeed(limit: number, viewportWidth: number): number {
+    if (limit <= 0) return 1;
+    const sweep = window.matchMedia('(any-pointer: coarse)').matches
+      ? SWEEP_FRACTION_TOUCH
+      : SWEEP_FRACTION_POINTER;
+    return (2 * limit) / (viewportWidth * sweep);
+  }
+
   function handleOnDown(e: MouseEvent | TouchEvent) {
     mouseDownAt = (e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
   }
@@ -176,7 +188,7 @@
     const V = window.innerWidth;
     const limit = Math.max(0, (W - V) / 2 + margin);
 
-    const nextOffsetUnconstrained = prevOffset - (mouseDelta * 0.8);
+    const nextOffsetUnconstrained = prevOffset - (mouseDelta * dragSpeed(limit, V));
     offset = Math.max(Math.min(nextOffsetUnconstrained, limit), -limit);
 
     animateTrack(track, limit);
