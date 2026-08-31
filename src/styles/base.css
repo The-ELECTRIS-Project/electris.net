@@ -30,10 +30,6 @@ textarea {
   -webkit-tap-highlight-color: color-mix(in srgb, var(--color-electro, #f65901) 22%, transparent);
 }
 
-.twaos-logo {
-  font-family: 'Nightcore';
-}
-
 main {
   overflow-x: clip;
 }
