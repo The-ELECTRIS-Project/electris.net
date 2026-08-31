@@ -30,7 +30,6 @@
   "nav.options.scrollbar.hide": "Hide Scrollbar",
   "nav.options.scrollbar.hide.tooltip": "Show or hide the browser scrollbar",
   "nav.options.space.orbit": "Orbit",
-  "nav.options.space.orbit.tooltip": "Configure the Orbit cursor effect",
   "nav.options.orbit.enable": "Enable Orbit",
   "nav.options.orbit.enable.tooltip": "Turn the Orbit cursor effect on or off",
   "nav.options.orbit.adaptive": "Adaptive Colour",
