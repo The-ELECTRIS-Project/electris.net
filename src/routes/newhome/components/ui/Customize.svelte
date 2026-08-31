@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { t } from '$lib/state/i18n.svelte';
   import { modsState } from '$lib/state/mods.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
 
@@ -119,8 +120,8 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <div class="customize-container">
-  <button bind:this={buttonElement} class="customize-button" onclick={toggleMenu} class:active={isMenuOpen} aria-label="Customization menu">
-    <img src="/icons/buttons/pen.svg" alt="Customize" class="pen-icon" />
+  <button bind:this={buttonElement} class="customize-button" onclick={toggleMenu} class:active={isMenuOpen} aria-label={t('newhome.customize.open', 'Customisation menu')}>
+    <img src="/icons/buttons/pen.svg" alt={t('newhome.customize.title', 'Customise')} class="pen-icon" />
   </button>
 
   {#if isMenuOpen}
@@ -131,32 +132,32 @@
       class:closing={isClosing}
       onclick={handleOverlayClick}
       onkeydown={(e) => e.key === 'Escape' && handleOverlayClick(e)}
-      aria-label="Close Menu"
+      aria-label={t('newhome.customize.close', 'Close the menu')}
     >
       <div class="menu-content" class:closing={isClosing}>
         <div class="menu-header">
-          <h2>Customize</h2>
+          <h2>{t('newhome.customize.title', 'Customise')}</h2>
           <button 
             class="edit-close-button" 
             onclick={closeMenu}
-            aria-label="Close menu"
+            aria-label={t('newhome.customize.close', 'Close the menu')}
           >
             ×
           </button>
         </div>
         <div class="menu-body">
           <div class="settings-section">
-            <h3 class="settings-title">Display Options</h3>
+            <h3 class="settings-title">{t('newhome.customize.display', 'Display Options')}</h3>
             
             <div class="setting-group">
               <div class="setting-row">
                 <label class="setting-label">
-                  Open Links in New Tabs
+                  {t('newhome.customize.newtabs', 'Open Links in New Tabs')}
                   <button 
                     class="toggle-switch" 
                     class:active={openLinksInNewTabs}
                     onclick={toggleLinksInNewTabs}
-                    aria-label="Toggle open links in new tabs"
+                    aria-label={t('newhome.customize.newtabs', 'Open Links in New Tabs')}
                   >
                     <span class="toggle-slider"></span>
                   </button>
@@ -167,12 +168,12 @@
             <div class="setting-group">
               <div class="setting-row">
                 <label class="setting-label">
-                  Show Quick Pins
+                  {t('newhome.customize.pins', 'Show Quick Pins')}
                   <button 
                     class="toggle-switch" 
                     class:active={showQuickPins}
                     onclick={toggleQuickPins}
-                    aria-label="Toggle quick pins visibility"
+                    aria-label={t('newhome.customize.pins', 'Show Quick Pins')}
                   >
                     <span class="toggle-slider"></span>
                   </button>
@@ -183,12 +184,12 @@
             <div class="setting-group">
               <div class="setting-row">
                 <label class="setting-label">
-                  Show Search Bar
+                  {t('newhome.customize.search', 'Show Search Bar')}
                   <button 
                     class="toggle-switch" 
                     class:active={showSearchBar}
                     onclick={toggleSearchBar}
-                    aria-label="Toggle search bar visibility"
+                    aria-label={t('newhome.customize.search', 'Show Search Bar')}
                   >
                     <span class="toggle-slider"></span>
                   </button>
@@ -199,18 +200,18 @@
 
           {#if modsState.config.newHome.showQuickPins}
             <div class="settings-section">
-              <h3 class="settings-title">Grid Layout</h3>
+              <h3 class="settings-title">{t('newhome.customize.grid', 'Grid Layout')}</h3>
               
               <div class="setting-group">
                 <div class="setting-row">
                   <label class="setting-label">
-                    Columns
+                    {t('newhome.customize.columns', 'Columns')}
                     <div class="setting-control">
                       <button 
                         class="control-btn"
                         onclick={() => updateCols(-1)}
                         disabled={gridCols <= MIN_COLS}
-                        aria-label="Decrease columns"
+                        aria-label={t('newhome.customize.columns.decrease', 'One column fewer')}
                       >
                         −
                       </button>
@@ -219,7 +220,7 @@
                         class="control-btn"
                         onclick={() => updateCols(1)}
                         disabled={gridCols >= MAX_COLS}
-                        aria-label="Increase columns"
+                        aria-label={t('newhome.customize.columns.increase', 'One column more')}
                       >
                         +
                       </button>
@@ -231,13 +232,13 @@
               <div class="setting-group">
                 <div class="setting-row">
                   <label class="setting-label">
-                    Rows
+                    {t('newhome.customize.rows', 'Rows')}
                     <div class="setting-control">
                       <button 
                         class="control-btn"
                         onclick={() => updateRows(-1)}
                         disabled={gridRows <= MIN_ROWS}
-                        aria-label="Decrease rows"
+                        aria-label={t('newhome.customize.rows.decrease', 'One row fewer')}
                       >
                         −
                       </button>
@@ -246,7 +247,7 @@
                         class="control-btn"
                         onclick={() => updateRows(1)}
                         disabled={gridRows >= MAX_ROWS}
-                        aria-label="Increase rows"
+                        aria-label={t('newhome.customize.rows.increase', 'One row more')}
                       >
                         +
                       </button>
@@ -256,7 +257,7 @@
               </div>
 
               <div class="grid-info">
-                <span class="info-text">{gridCols * gridRows} pins total</span>
+                <span class="info-text">{gridCols * gridRows} {t('newhome.customize.total', 'pins in total')}</span>
               </div>
             </div>
           {/if}
