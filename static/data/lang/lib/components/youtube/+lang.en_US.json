@@ -1,0 +1,16 @@
+{
+  "youtube.status.live": "Live now",
+  "youtube.status.upcoming": "Upcoming",
+  "youtube.status.finished": "Latest upload",
+  "youtube.label.started": "Started",
+  "youtube.label.livefrom": "Live from",
+  "youtube.label.scheduled": "Scheduled",
+  "youtube.label.published": "Published",
+  "youtube.label.announced": "Announced",
+  "youtube.label.channel": "Channel",
+  "youtube.summary.live": "is live right now.",
+  "youtube.summary.upcoming": "has this one scheduled.",
+  "youtube.summary.finished": "put this one out most recently.",
+  "youtube.link.watch": "Open on YouTube",
+  "youtube.link.stream": "View stream page"
+}

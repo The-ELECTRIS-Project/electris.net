@@ -1,0 +1,16 @@
+{
+  "youtube.status.live": "În direct acum",
+  "youtube.status.upcoming": "În curând",
+  "youtube.status.finished": "Ultima publicare",
+  "youtube.label.started": "A început",
+  "youtube.label.livefrom": "În direct de la",
+  "youtube.label.scheduled": "Programat",
+  "youtube.label.published": "Publicat",
+  "youtube.label.announced": "Anunțat",
+  "youtube.label.channel": "Canal",
+  "youtube.summary.live": "transmite în direct chiar acum.",
+  "youtube.summary.upcoming": "are asta programată.",
+  "youtube.summary.finished": "a lansat asta cel mai recent.",
+  "youtube.link.watch": "Deschide pe YouTube",
+  "youtube.link.stream": "Vezi pagina transmisiunii"
+}

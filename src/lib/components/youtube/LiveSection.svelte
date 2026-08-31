@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { i18nState } from '$lib/state/i18n.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import type { YoutubeVideo } from '$lib/types/youtube';
   import {
@@ -25,7 +25,9 @@
   let embedUrl = $derived(featuredVideo ? getYoutubeEmbedUrl(featuredVideo.id) : '');
 
   let statusLabel = $derived(
-    featuredVideo?.status === 'live' ? 'Live now' : 'Upcoming'
+    featuredVideo?.status === 'live'
+      ? t('youtube.status.live', 'Live now')
+      : t('youtube.status.upcoming', 'Upcoming')
   );
 
   let summary = $derived.by(() => {
@@ -46,13 +48,13 @@
 
     if (featuredVideo.status === 'live') {
       return featuredVideo.actualStartTime
-        ? `Started ${formatYoutubeDateTime(featuredVideo.actualStartTime, locale)}`
-        : `Live from ${formatYoutubeDateTime(featuredVideo.publishedAt, locale)}`;
+        ? `${t('youtube.label.started', 'Started')} ${formatYoutubeDateTime(featuredVideo.actualStartTime, locale)}`
+        : `${t('youtube.label.livefrom', 'Live from')} ${formatYoutubeDateTime(featuredVideo.publishedAt, locale)}`;
     }
 
     return featuredVideo.scheduledStartTime
-      ? `Scheduled ${formatYoutubeDateTime(featuredVideo.scheduledStartTime, locale)}`
-      : `Announced ${formatYoutubeDate(featuredVideo.publishedAt, locale)}`;
+      ? `${t('youtube.label.scheduled', 'Scheduled')} ${formatYoutubeDateTime(featuredVideo.scheduledStartTime, locale)}`
+      : `${t('youtube.label.announced', 'Announced')} ${formatYoutubeDate(featuredVideo.publishedAt, locale)}`;
   });
 
   function fitText(node: HTMLElement, params?: { min?: number; max?: number }) {
@@ -153,7 +155,11 @@
 
       <div class="live-cta-container">
         <a href={watchUrl} target="_blank" rel="noreferrer" class="live-cta">
-          <span>{featuredVideo.status === 'live' ? 'Open on YouTube →' : 'View Stream Page →'}</span>
+          <span>
+            {featuredVideo.status === 'live'
+              ? t('youtube.link.watch', 'Open on YouTube')
+              : t('youtube.link.stream', 'View stream page')} →
+          </span>
         </a>
       </div>
     </div>

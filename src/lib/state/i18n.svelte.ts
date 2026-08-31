@@ -220,6 +220,7 @@ class I18nState {
       this.loadLibLocale('components/layout/NavBar', locale),
       this.loadLibLocale('components/popups/Mobile', locale),
       this.loadLibLocale('components/popups/Cookies', locale),
+      this.loadLibLocale('components/youtube', locale),
       this.loadRouteLocale(pathname, locale)
     ]);
   }

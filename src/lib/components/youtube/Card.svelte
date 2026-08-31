@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { i18nState } from '$lib/state/i18n.svelte';
+  import { t, i18nState } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import type { YoutubeVideo } from '$lib/types/youtube';
   import {
@@ -25,20 +25,24 @@
   let embedUrl = $derived(getYoutubeEmbedUrl(video.id));
 
   let statusLabel = $derived(
-    video.status === 'live' ? 'Live now' : video.status === 'upcoming' ? 'Upcoming' : 'Latest upload'
+    video.status === 'live'
+      ? t('youtube.status.live', 'Live now')
+      : video.status === 'upcoming'
+        ? t('youtube.status.upcoming', 'Upcoming')
+        : t('youtube.status.finished', 'Latest upload')
   );
 
   let summary = $derived.by(() => {
     if (!video.description) {
       if (video.status === 'live') {
-        return `${video.channelName} is live right now.`;
+        return `${video.channelName} ${t('youtube.summary.live', 'is live right now.')}`;
       }
 
       if (video.status === 'upcoming') {
-        return `${video.channelName} has this one scheduled.`;
+        return `${video.channelName} ${t('youtube.summary.upcoming', 'has this one scheduled.')}`;
       }
 
-      return `The newest thing ${video.channelName} put out.`;
+      return `${video.channelName} ${t('youtube.summary.finished', 'put this one out most recently.')}`;
     }
 
     // Extract first paragraph: up to the first empty line (double newline)
@@ -49,7 +53,7 @@
   let primaryDetail = $derived.by(() => {
     if (video.status === 'live') {
       return {
-        label: 'Started',
+        label: t('youtube.label.started', 'Started'),
         value: video.actualStartTime
           ? formatYoutubeDateTime(video.actualStartTime, locale)
           : formatYoutubeDateTime(video.publishedAt, locale)
@@ -58,7 +62,7 @@
 
     if (video.status === 'upcoming') {
       return {
-        label: 'Scheduled',
+        label: t('youtube.label.scheduled', 'Scheduled'),
         value: video.scheduledStartTime
           ? formatYoutubeDateTime(video.scheduledStartTime, locale)
           : formatYoutubeDateTime(video.publishedAt, locale)
@@ -66,7 +70,7 @@
     }
 
     return {
-      label: 'Published',
+      label: t('youtube.label.published', 'Published'),
       value: formatYoutubeDate(video.publishedAt, locale)
     };
   });
@@ -74,13 +78,13 @@
   let secondaryDetail = $derived.by(() => {
     if (video.status === 'upcoming') {
       return {
-        label: 'Announced',
+        label: t('youtube.label.announced', 'Announced'),
         value: formatYoutubeDate(video.publishedAt, locale)
       };
     }
 
     return {
-      label: 'Channel',
+      label: t('youtube.label.channel', 'Channel'),
       value: video.channelName
     };
   });
@@ -208,7 +212,7 @@
 
       <div class="card-footer">
         <a href={watchUrl} target="_blank" rel="noreferrer" class="watch-link">
-          <span>Open on YouTube →</span>
+          <span>{t('youtube.link.watch', 'Open on YouTube')} →</span>
         </a>
       </div>
     </div>
