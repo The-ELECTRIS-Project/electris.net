@@ -117,16 +117,11 @@
   {#if liveAndUpcoming.length > 0}
     <section class="video-shell">
       <div class="section-header">
-        <div class="section-copy-group">
-          <p class="section-kicker">{t('videos.section.live.kicker', 'Right now')}</p>
-          <h2 class="section-title">
-            <span class="indicator-dot"></span>
-            {t('videos.section.live', 'Live and Upcoming')}
-          </h2>
-        </div>
-        <p class="section-copy">
-          {t('videos.section.live.copy', 'Anything streaming now or already scheduled shows up here.')}
-        </p>
+        <p class="section-kicker">{t('videos.section.live.kicker', 'Right now')}</p>
+        <h2 class="section-title">
+          <span class="indicator-dot"></span>
+          {t('videos.section.live', 'Live and Upcoming')}
+        </h2>
       </div>
 
       <div class:single={liveAndUpcoming.length === 1} class="video-grid">
@@ -140,10 +135,8 @@
   {#if finishedVideos.length > 0}
     <section class="video-shell latest-shell">
       <div class="section-header">
-        <div class="section-copy-group">
-          <p class="section-kicker">{t('videos.section.latest.kicker', 'Newest')}</p>
-          <h2 class="section-title">{t('videos.section.latest', 'Latest Uploads')}</h2>
-        </div>
+        <p class="section-kicker">{t('videos.section.latest.kicker', 'Newest')}</p>
+        <h2 class="section-title">{t('videos.section.latest', 'Latest Uploads')}</h2>
       </div>
 
       <div class:single={finishedVideos.length === 1} class="video-grid">
@@ -163,10 +156,8 @@
   {#if previousVideos.length > 0}
     <section class="video-shell">
       <div class="section-header">
-        <div class="section-copy-group">
-          <p class="section-kicker">{t('videos.section.previous.kicker', 'Before that')}</p>
-          <h2 class="section-title">{t('videos.section.previous', 'Previous Uploads')}</h2>
-        </div>
+        <p class="section-kicker">{t('videos.section.previous.kicker', 'Before that')}</p>
+        <h2 class="section-title">{t('videos.section.previous', 'Previous Uploads')}</h2>
       </div>
 
       <ul class="previous-list">
@@ -309,7 +300,6 @@
   }
 
   .page-intro,
-  .section-copy,
   .empty-state p {
     margin: 0;
     font-family: var(--font-ui);
@@ -406,15 +396,8 @@
   }
 
   .section-header {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
-    gap: var(--space-4);
-    align-items: end;
-    margin-bottom: var(--space-4);
-  }
-
-  .section-copy-group {
     min-width: 0;
+    margin-bottom: var(--space-4);
   }
 
   .section-kicker {
@@ -438,11 +421,6 @@
     border-radius: var(--radius-round);
     background: var(--live-signal);
     box-shadow: 0 0 var(--space-4) color-mix(in srgb, var(--live-signal) 40%, transparent);
-  }
-
-  .section-copy {
-    font-size: var(--text-base);
-    opacity: 0.82;
   }
 
   .video-grid {
@@ -539,8 +517,7 @@
   }
 
   @media (max-width: 980px) {
-    .page-header,
-    .section-header {
+    .page-header {
       grid-template-columns: 1fr;
     }
   }
