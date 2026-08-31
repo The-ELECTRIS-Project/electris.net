@@ -83,38 +83,38 @@
   .language-selector {
     position: relative;
     display: inline-block;
-    width: 18vmin;
+    width: 13rem;
   }
-  
+
   .language-button {
     background: none;
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
-    padding: 0.5vmin 1vmin;
-    border-radius: 4px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-xs);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-1);
+    transition: var(--transition-colors);
     font-family: inherit;
     width: 100%;
     justify-content: space-between;
     box-sizing: border-box;
   }
-  
+
   .language-button:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
-  
+
   .flag {
-    font-size: 1rem;
+    font-size: var(--text-base);
     display: inline-block;
     flex-shrink: 0;
   }
-  
+
   .language-name {
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     flex-grow: 1;
     text-align: left;
     white-space: nowrap;
@@ -122,64 +122,64 @@
     text-overflow: ellipsis;
     min-width: 0;
   }
-  
+
   .dropdown-arrow {
-    font-size: 0.8rem;
-    transition: transform 0.2s;
+    font-size: var(--text-2xs);
+    transition: transform var(--duration-normal) var(--ease-out);
     flex-shrink: 0;
   }
-  
+
   .dropdown-arrow.open {
     transform: rotate(180deg);
   }
-  
+
   .language-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-secondary);
-    border: 1px solid var(--color-primary);
-    border-radius: 4px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-xs);
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    z-index: 1000;
-    max-height: 200px;
+    z-index: var(--z-popup);
+    max-height: 12.5rem;
     overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     box-sizing: border-box;
   }
-  
+
   .language-option {
     width: 100%;
     background: none;
     border: none;
-    color: var(--color-primary);
-    padding: 0.5vmin 1vmin;
+    color: var(--accent);
+    padding: var(--space-1) var(--space-2);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5vmin;
-    transition: background-color 0.2s;
+    gap: var(--space-1);
+    transition: var(--transition-colors);
     font-family: inherit;
     text-align: left;
     box-sizing: border-box;
   }
-  
+
   .language-option:hover {
-    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
-  
+
   .language-option.active {
-    background-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 20%, transparent);
     font-weight: 500;
   }
-  
+
   .language-option .flag {
     flex-shrink: 0;
   }
-  
+
   .language-option .language-name {
     flex-grow: 1;
     white-space: nowrap;
@@ -187,11 +187,11 @@
     text-overflow: ellipsis;
     min-width: 0;
   }
-  
+
   .checkmark {
-    color: var(--color-primary);
+    color: var(--accent);
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     flex-shrink: 0;
   }
 
@@ -202,37 +202,37 @@
     }
 
     .language-button {
-      min-height: 3rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      gap: 0.75rem;
+      min-height: var(--touch-target-size);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      gap: var(--space-3);
     }
 
     .flag {
-      font-size: 1.1rem;
+      font-size: var(--text-md);
     }
 
     .language-name {
-      font-size: 1rem;
+      font-size: var(--text-base);
     }
 
     .dropdown-arrow,
     .checkmark {
-      font-size: 0.95rem;
+      font-size: var(--text-sm);
     }
 
     .language-dropdown {
       max-height: min(18rem, 45vh);
-      border-radius: 0.75rem;
+      border-radius: var(--radius-md);
       border-top-left-radius: 0;
       border-top-right-radius: 0;
       overflow: hidden auto;
     }
 
     .language-option {
-      min-height: 3rem;
-      padding: 0.75rem 1rem;
-      gap: 0.75rem;
+      min-height: var(--touch-target-size);
+      padding: var(--space-3) var(--space-4);
+      gap: var(--space-3);
     }
   }
 </style>
