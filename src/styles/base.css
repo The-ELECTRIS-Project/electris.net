@@ -7,19 +7,19 @@ html {
 }
 
 body {
-  font-family: 'Aileron';
-  font-size: 1rem;
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
   margin: 0;
   padding: 0;
-  background-color: var(--bg-body);
-  color: var(--color-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--surface-page);
+  color: var(--text-primary);
+  transition: var(--transition-colors);
   overflow-x: hidden;
 }
 
 a {
   text-decoration: none;
-  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-electro, #f65901) 22%, transparent);
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--brand-electro) 22%, transparent);
 }
 
 button,
@@ -27,7 +27,7 @@ input,
 select,
 textarea {
   font: inherit;
-  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-electro, #f65901) 22%, transparent);
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--brand-electro) 22%, transparent);
 }
 
 main {
@@ -41,24 +41,24 @@ main {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-body);
+  background: var(--surface-page);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
-  border-radius: 5px;
-  border: 2px solid var(--bg-body);
-  transition: background 0.3s ease;
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--surface-page);
+  transition: background-color var(--duration-slow) var(--ease-out);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--color-primary) 30%, transparent) var(--bg-body);
+  scrollbar-color: color-mix(in srgb, var(--accent) 30%, transparent) var(--surface-page);
 }
 
 /* Hiding logic */
@@ -117,12 +117,14 @@ main {
   left: 0;
   height: var(--circle-size);
   width: var(--circle-size);
-  border-radius: 50%;
+  border-radius: var(--radius-round);
   pointer-events: none;
   will-change: transform, width, height, border-radius;
-  transition: border-color 0.2s ease, border-width 0.1s ease-in-out;
-  z-index: 3000;
-  border: 0.2vmin solid var(--circle-border);
+  transition:
+    border-color var(--duration-normal) var(--ease-out),
+    border-width var(--duration-fast) var(--ease-in-out);
+  z-index: var(--z-orbit);
+  border: 0.2vmin solid var(--orbit-border);
 
   /* Effects defaults */
   --outer-glow-color: currentColor;
@@ -232,7 +234,9 @@ main {
 }
 
 .circle.hovered-word-wrap {
-  transition: opacity 0.2s ease, border-color 0.2s ease;
+  transition:
+    opacity var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out);
 }
 
 .circle.hovered-button-grow {
@@ -240,11 +244,11 @@ main {
 }
 
 .circle.hovered-menu-item {
-  transition: border 0.1s ease-in-out;
+  transition: border var(--duration-fast) var(--ease-in-out);
 }
 
 .circle.hovered-hamburger-footer {
-  transition: border 0.1s ease-in-out;
+  transition: border var(--duration-fast) var(--ease-in-out);
 }
 
 .circle.hovered-search {
@@ -253,17 +257,17 @@ main {
 
 /* ===== OPTIONS MENU ===== */
 .options-menu {
-  background-color: var(--options-menu-bg);
-  color: var(--color-primary);
+  background-color: var(--surface-overlay);
+  color: var(--text-primary);
 }
 
 /* ===== BOXES & CARDS ===== */
 .video-overlay {
-  background: var(--video-overlay);
+  background: var(--scrim-video);
 }
 
 .card {
-  background-color: var(--card-bg);
+  background-color: var(--surface-raised);
 }
 
 /* ===== BACKGROUNDS ===== */
@@ -274,7 +278,7 @@ main {
 /* ===== ##### ===== */
 .crown-image {
   filter: var(--crown-filter);
-  transition: filter 0.3s ease;
+  transition: filter var(--duration-slow) var(--ease-out);
 }
 
 .crown-image:hover,
