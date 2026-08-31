@@ -321,7 +321,7 @@
         {:else}
           <button class="pin-empty" onclick={() => startEditingPin(index)}>
             <div class="empty-icon">+</div>
-            <div class="empty-text">{t('newhome.pin.empty', 'Add Pin')}</div>
+            <div class="empty-text">{t('newhome.pin.empty', 'Add pin')}</div>
           </button>
         {/if}
       </div>
