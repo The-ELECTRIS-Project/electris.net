@@ -44,25 +44,25 @@
 
 <style>
   .hero {
-    min-height: 5vmin;
+    min-height: var(--space-8);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 6vmin;
+    padding-top: var(--layout-page-top);
     text-align: center;
   }
 
   .hero h1 {
-    padding-top: 1vmin;
-    font-family: 'Letric';
-    font-size: 4rem;
+    padding-top: var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--display-md);
     margin: 0;
   }
 
   .slogan {
-    font-size: 1.2rem;
-    margin-top: 1vmin;
+    font-size: var(--text-lg);
+    margin-top: var(--space-3);
     opacity: 0.8;
     font-style: italic;
   }
@@ -71,12 +71,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5vmin 0;
+    padding: var(--space-8) 0;
   }
 
   .artists-grid {
     display: flex;
-    gap: 8.85vmin;
+    gap: 6.5rem;
     justify-content: center;
     flex-wrap: wrap;
   }
@@ -87,54 +87,50 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform var(--duration-slow) var(--ease-spring);
   }
 
   .artist-card:hover {
-    transform: translateY(-10px) scale(1.05);
+    transform: translateY(-0.7rem) scale(1.05);
   }
 
   .artist-avatar {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
+    width: 12rem;
+    height: 12rem;
+    border-radius: var(--radius-round);
     overflow: hidden;
-    border: 3px solid var(--accent, #f65901);
-    margin-bottom: 2vmin;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: 3px solid var(--accent);
+    margin-bottom: var(--space-5);
+    box-shadow: var(--shadow-md);
   }
 
   .artist-card:hover .artist-avatar {
-    border-color: #fff;
+    border-color: var(--text-secondary);
   }
 
   .artist-name {
     font-weight: bold;
-    font-size: 1.8rem;
-    letter-spacing: 0.1rem;
+    font-size: var(--text-2xl);
+    letter-spacing: 0.06em;
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
     .hero {
-      padding-top: 6.5rem;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.8rem, 11vw, 4rem);
+      padding-top: calc(var(--layout-page-top) + var(--space-4));
     }
 
     .slogan {
-      font-size: 1.1rem;
-      padding: 0 1rem;
+      font-size: var(--text-md);
+      padding: 0 var(--space-4);
       max-width: 34rem;
     }
 
     .artists-section {
-      padding: 3rem 1rem 4rem;
+      padding: var(--space-7) var(--space-4) var(--space-8);
     }
 
     .artists-grid {
-      gap: 1.5rem;
+      gap: var(--space-5);
     }
 
     .artist-avatar {
@@ -143,17 +139,17 @@
     }
 
     .artist-name {
-      font-size: 1.5rem;
+      font-size: var(--text-xl);
     }
   }
 
   @media (max-width: 560px) {
     .artists-grid {
-      gap: 1rem;
+      gap: var(--space-4);
     }
 
     .artist-card {
-      width: calc(50% - 0.5rem);
+      width: calc(50% - var(--space-2));
     }
 
     .artist-avatar {

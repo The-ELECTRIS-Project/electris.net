@@ -161,21 +161,21 @@
     align-items: center;
   }
 
+  /* The crown is artwork, so it tracks the screen rather than the text size. */
   .crown-container {
     position: relative;
     max-width: 30vmin;
     max-height: 30vmin;
   }
-  
+
   .crown-image {
     max-width: 30vmin;
     max-height: 30vmin;
     display: block;
     cursor: pointer;
-    transition: all 0.3s ease;
     pointer-events: none;
   }
-  
+
   .crown-canvas {
     position: absolute;
     top: 0;
@@ -186,9 +186,9 @@
     cursor: default;
     background: none;
   }
-  
+
   .crown-canvas:focus {
-    outline: 2px solid rgba(246, 89, 1, 0.6);
+    outline: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
     outline-offset: 2px;
   }
 </style>

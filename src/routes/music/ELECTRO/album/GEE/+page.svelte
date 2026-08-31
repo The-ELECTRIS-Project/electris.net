@@ -21,15 +21,15 @@
 
 <style>
   .hero {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-family: "Redwing";
+    font-family: var(--font-body);
     font-weight: 400;
-    font-size: 5rem;
-    padding-top: 39vmin;
-    min-height: calc(20vmin - 25vmin);
+    font-size: var(--display-lg);
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
   }
 </style>

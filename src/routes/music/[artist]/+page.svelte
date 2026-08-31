@@ -99,28 +99,28 @@
 
 <style>
     .artist-hub {
-        min-height: 80vmin;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding-top: 10vmin;
+        padding-top: var(--layout-page-top);
     }
 
     .artist-header {
         text-align: center;
-        max-width: 600px;
-        margin-bottom: 8vmin;
+        max-width: var(--layout-measure);
+        margin-bottom: 6rem;
     }
 
     .avatar-container {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
+        width: 12rem;
+        height: 12rem;
+        border-radius: var(--radius-round);
         overflow: hidden;
-        border: 3px solid var(--accent, #f65901);
-        margin: 0 auto 2rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        transition: border-color 0.3s;
+        border: 3px solid var(--accent);
+        margin: 0 auto var(--space-6);
+        box-shadow: var(--shadow-md);
+        transition: border-color var(--duration-normal) var(--ease-out);
     }
 
     .artist-avatar {
@@ -130,75 +130,77 @@
     }
 
     .artist-header h1 {
-        font-size: 4rem;
-        margin: 0 0 1rem;
-        color: var(--accent, #f65901);
+        font-size: var(--display-md);
+        margin: 0 0 var(--space-4);
+        color: var(--accent);
     }
 
     .bio {
-        font-size: 1.2rem;
+        font-size: var(--text-lg);
         opacity: 0.8;
         line-height: 1.6;
     }
 
     .links-container {
         display: flex;
-        gap: 7.08vmin;
+        gap: var(--space-8);
         justify-content: center;
         width: 100%;
-        padding: 0 2rem;
+        padding: 0 var(--space-6);
     }
 
     .hub-card {
-        background: rgba(246, 89, 1, 0.05);
-        border: 1px solid rgba(246, 89, 1, 0.2);
-        border-radius: 20px;
-        padding: 3rem;
-        width: 280px;
+        background: color-mix(in srgb, var(--accent) 5%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+        border-radius: var(--radius-xl);
+        padding: var(--space-7);
+        width: 19rem;
         text-decoration: none;
         color: inherit;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition: all 0.3s ease;
+        transition:
+            var(--transition-colors),
+            transform var(--duration-normal) var(--ease-out);
         position: relative;
         overflow: hidden;
     }
 
     .hub-card:hover {
-        background: rgba(246, 89, 1, 0.1);
-        border-color: rgba(246, 89, 1, 0.5);
-        transform: translateY(-10px);
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+        transform: translateY(-0.7rem);
     }
 
     .icon-bg {
-        width: 80px;
-        height: 80px;
-        background: rgba(246, 89, 1, 0.1);
-        border-radius: 50%;
+        width: 5.5rem;
+        height: 5.5rem;
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        border-radius: var(--radius-round);
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: var(--space-5);
     }
 
     .icon-bg img {
-        width: 40px;
-        height: 40px;
+        width: 2.75rem;
+        height: 2.75rem;
     }
 
     .hub-card h2 {
-        font-family: 'Letric';
-        font-size: 2rem;
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
         margin: 0;
-        color: var(--accent, #f65901);
+        color: var(--accent);
     }
 
     .count {
         position: absolute;
-        top: 1rem;
-        right: 1.5rem;
-        font-size: 1.5rem;
+        top: var(--space-4);
+        right: var(--space-5);
+        font-size: var(--text-xl);
         font-weight: bold;
         opacity: 0.3;
     }
@@ -206,30 +208,26 @@
     @media (max-width: 900px), (any-pointer: coarse) {
         .artist-hub {
             min-height: auto;
-            padding: 6.5rem 1rem 4rem;
+            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
         }
 
         .artist-header {
             max-width: 36rem;
-            margin-bottom: 3rem;
+            margin-bottom: var(--space-7);
         }
 
         .avatar-container {
             width: 9rem;
             height: 9rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .artist-header h1 {
-            font-size: clamp(2.8rem, 12vw, 4rem);
+            margin-bottom: var(--space-5);
         }
 
         .bio {
-            font-size: 1.1rem;
+            font-size: var(--text-md);
         }
 
         .links-container {
-            gap: 1rem;
+            gap: var(--space-4);
             padding: 0;
             flex-direction: column;
             align-items: stretch;
@@ -238,29 +236,29 @@
 
         .hub-card {
             width: 100%;
-            padding: 2rem 1.5rem;
-            border-radius: 1rem;
+            padding: var(--space-6) var(--space-5);
+            border-radius: var(--radius-lg);
         }
 
         .icon-bg {
             width: 4.25rem;
             height: 4.25rem;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-4);
         }
 
         .icon-bg img {
-            width: 2rem;
-            height: 2rem;
+            width: var(--space-6);
+            height: var(--space-6);
         }
 
         .hub-card h2 {
-            font-size: 1.6rem;
+            font-size: var(--text-xl);
         }
 
         .count {
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.25rem;
+            top: var(--space-4);
+            right: var(--space-4);
+            font-size: var(--text-lg);
         }
     }
 </style>

@@ -73,36 +73,29 @@
 
 <style>
     .single-detail {
-        min-height: 90vmin;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 10vmin 8.85vmin;
+        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     }
 
     .content-wrapper {
         display: flex;
-        gap: 10.62vmin;
-        max-width: 1200px;
+        gap: 8rem;
+        max-width: var(--layout-max);
         width: 100%;
         align-items: center;
     }
 
-    @media (max-width: 900px) {
-        .content-wrapper {
-            flex-direction: column;
-            text-align: center;
-        }
-    }
-
     .cover-art {
         flex-shrink: 0;
-        width: 450px;
+        width: 30rem;
         max-width: 100%;
         aspect-ratio: 1;
-        border-radius: 20px;
+        border-radius: var(--radius-xl);
         overflow: hidden;
-        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        box-shadow: var(--shadow-lg);
     }
 
     .cover-art img {
@@ -116,24 +109,12 @@
         text-align: left;
     }
 
-    @media (max-width: 900px) {
-        .track-info {
-            text-align: center;
-        }
-    }
-
     .breadcrumb {
         display: flex;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-        font-size: 0.9rem;
+        gap: var(--space-2);
+        margin-bottom: var(--space-6);
+        font-size: var(--text-sm);
         opacity: 0.6;
-    }
-
-    @media (max-width: 900px) {
-        .breadcrumb {
-            justify-content: center;
-        }
     }
 
     .breadcrumb a {
@@ -142,115 +123,113 @@
     }
 
     .breadcrumb a:hover {
-        color: var(--accent, #f65901);
+        color: var(--accent);
     }
 
     .track-info h1 {
-        font-size: 4.5rem;
+        font-size: var(--display-lg);
         margin: 0;
         line-height: 1.1;
-        color: var(--accent, #f65901);
+        color: var(--accent);
     }
 
     .artist-name {
-        font-size: 2rem;
-        margin: 0.5rem 0 2rem;
+        font-size: var(--text-2xl);
+        margin: var(--space-2) 0 var(--space-6);
         opacity: 0.8;
     }
 
     .description {
-        font-size: 1.1rem;
+        font-size: var(--text-md);
         line-height: 1.6;
-        margin-bottom: 3rem;
+        margin-bottom: var(--space-7);
         opacity: 0.7;
-        max-width: 500px;
-    }
-
-    @media (max-width: 900px) {
-        .description {
-            margin-left: auto;
-            margin-right: auto;
-        }
+        max-width: 34rem;
     }
 
     .listen-links h3 {
-        font-size: 0.8rem;
-        letter-spacing: 3px;
-        margin-bottom: 1.5rem;
+        font-size: var(--text-xs);
+        letter-spacing: 0.25em;
+        margin-bottom: var(--space-5);
         opacity: 0.5;
     }
 
     .links-grid {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
-    }
-
-    @media (max-width: 900px) {
-        .links-grid {
-            justify-content: center;
-        }
+        gap: var(--space-4);
     }
 
     .link-btn {
         display: flex;
         align-items: center;
-        gap: 0.8rem;
-        padding: 0.8rem 1.5rem;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 12px;
+        gap: var(--space-3);
+        padding: var(--space-3) var(--space-5);
+        background: color-mix(in srgb, var(--text-secondary) 6%, transparent);
+        border: 1px solid color-mix(in srgb, var(--text-secondary) 12%, transparent);
+        border-radius: var(--radius-md);
         text-decoration: none;
-        color: white;
+        color: var(--text-secondary);
         font-weight: bold;
-        transition: all 0.3s ease;
+        transition:
+            var(--transition-colors),
+            transform var(--duration-normal) var(--ease-out);
     }
 
     .link-btn:hover {
-        background: rgba(246, 89, 1, 0.15);
-        border-color: var(--accent, #f65901);
-        transform: translateY(-3px);
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        border-color: var(--accent);
+        transform: translateY(-0.2rem);
     }
 
     .link-btn img {
-        width: 20px;
-        height: 20px;
+        width: 1.4rem;
+        height: 1.4rem;
     }
 
     @media (max-width: 900px) {
         .single-detail {
-            padding: 6.5rem 1rem 4rem;
+            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
             align-items: flex-start;
         }
 
         .content-wrapper {
-            gap: 2rem;
+            flex-direction: column;
+            gap: var(--space-6);
+            text-align: center;
         }
 
         .cover-art {
             width: min(100%, 22rem);
-            border-radius: 1rem;
+            border-radius: var(--radius-lg);
         }
 
-        .track-info h1 {
-            font-size: clamp(2.6rem, 12vw, 4rem);
+        .track-info {
+            text-align: center;
+        }
+
+        .breadcrumb {
+            justify-content: center;
         }
 
         .artist-name {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-5);
         }
 
         .description {
-            font-size: 1rem;
-            margin-bottom: 2rem;
+            font-size: var(--text-base);
+            margin-bottom: var(--space-6);
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .listen-links h3 {
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
         }
 
         .links-grid {
+            justify-content: center;
             width: 100%;
         }
 
@@ -258,7 +237,7 @@
             flex: 1 1 12rem;
             justify-content: center;
             min-height: 3rem;
-            font-size: 1rem;
+            font-size: var(--text-base);
         }
     }
 

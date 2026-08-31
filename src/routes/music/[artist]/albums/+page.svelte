@@ -72,20 +72,20 @@
 
 <style>
     .albums-page {
-        min-height: 90vmin;
-        padding: 10vmin 8.85vmin 5vmin;
+        min-height: 100vh;
+        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     }
 
     .page-header {
-        margin-bottom: 6vmin;
+        margin-bottom: var(--space-8);
     }
 
     .back-link {
         text-decoration: none;
-        color: var(--accent, #f65901);
+        color: var(--accent);
         font-weight: bold;
         opacity: 0.7;
-        transition: opacity 0.2s;
+        transition: opacity var(--duration-normal) var(--ease-out);
     }
 
     .back-link:hover {
@@ -93,16 +93,16 @@
     }
 
     .page-header h1 {
-        font-family: 'Letric';
-        font-size: 3.5rem;
-        margin: 1rem 0 0;
-        color: var(--accent, #f65901);
+        font-family: var(--font-display);
+        font-size: var(--display-md);
+        margin: var(--space-4) 0 0;
+        color: var(--accent);
     }
 
     .albums-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 4rem;
+        grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+        gap: var(--space-8);
     }
 
     .album-card {
@@ -110,41 +110,41 @@
         color: inherit;
         display: flex;
         flex-direction: column;
-        transition: transform 0.3s ease;
+        transition: transform var(--duration-normal) var(--ease-out);
     }
 
     .cover-wrapper {
         position: relative;
         aspect-ratio: 1;
-        border-radius: 4px;
+        border-radius: var(--radius-xs);
         overflow: hidden;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        margin-bottom: var(--space-5);
+        box-shadow: var(--shadow-lg);
     }
 
     .cover-img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: transform var(--duration-slow) var(--ease-out);
     }
 
     .overlay {
         position: absolute;
         inset: 0;
-        background: rgba(246, 89, 1, 0.9);
+        background: color-mix(in srgb, var(--accent) 90%, transparent);
         display: flex;
         justify-content: center;
         align-items: center;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity var(--duration-normal) var(--ease-out);
     }
 
     .overlay span {
-        color: white;
+        color: var(--text-on-accent);
         font-weight: bold;
-        letter-spacing: 3px;
-        font-size: 1rem;
+        letter-spacing: 0.2em;
+        font-size: var(--text-base);
     }
 
     .album-card:hover .cover-img {
@@ -157,14 +157,14 @@
 
     .info h3 {
         margin: 0;
-        font-size: 1.6rem;
-        color: var(--accent, #f65901);
+        font-size: var(--text-xl);
+        color: var(--accent);
     }
 
     .info p {
-        margin: 0.4rem 0 0;
+        margin: var(--space-1) 0 0;
         opacity: 0.7;
-        font-size: 1rem;
+        font-size: var(--text-base);
     }
 
     .none-found {
@@ -173,23 +173,23 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding-top: 10vmin;
+        padding-top: var(--space-8);
     }
 
     .empty-icon {
-        width: 140px;
-        height: 140px;
-        background: rgba(246, 89, 1, 0.05);
-        border: 1px dashed rgba(246, 89, 1, 0.3);
-        border-radius: 50%;
+        width: 9.5rem;
+        height: 9.5rem;
+        background: color-mix(in srgb, var(--accent) 5%, transparent);
+        border: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
+        border-radius: var(--radius-round);
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 2.5rem;
+        margin-bottom: var(--space-7);
     }
 
     .empty-icon img {
-        width: 70px;
+        width: 4.75rem;
         opacity: 0.3;
         animation: rotate 20s linear infinite;
     }
@@ -200,84 +200,78 @@
     }
 
     .none-found h2 {
-        font-family: 'Letric';
-        font-size: 3rem;
-        margin-bottom: 1.2rem;
+        font-family: var(--font-display);
+        font-size: var(--display-sm);
+        margin-bottom: var(--space-4);
         opacity: 0.8;
-        color: var(--accent, #f65901);
+        color: var(--accent);
     }
 
     .none-found p {
-        max-width: 450px;
+        max-width: 30rem;
         opacity: 0.6;
-        margin-bottom: 2.5rem;
+        margin-bottom: var(--space-7);
         line-height: 1.6;
     }
 
     .btn-return {
-        padding: 1rem 2.5rem;
+        padding: var(--space-4) var(--space-7);
         background: transparent;
-        border: 1px solid var(--accent, #f65901);
-        color: var(--accent, #f65901);
+        border: 1px solid var(--accent);
+        color: var(--accent);
         text-decoration: none;
-        border-radius: 4px;
+        border-radius: var(--radius-xs);
         font-weight: bold;
-        letter-spacing: 1px;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        letter-spacing: 0.07em;
+        transition:
+            var(--transition-colors),
+            box-shadow var(--duration-slow) var(--ease-out);
     }
 
     .btn-return:hover {
-        background: var(--accent, #f65901);
-        color: white;
-        box-shadow: 0 5px 15px rgba(246, 89, 1, 0.3);
+        background: var(--accent);
+        color: var(--text-on-accent);
+        box-shadow: 0 0.35rem 1rem color-mix(in srgb, var(--accent) 30%, transparent);
     }
 
     @media (max-width: 900px) {
         .albums-page {
-            padding: 6.5rem 1rem 4rem;
+            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
         }
 
         .page-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .page-header h1 {
-            font-size: clamp(2.5rem, 11vw, 3.4rem);
+            margin-bottom: var(--space-7);
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
-            min-height: 2.75rem;
-            font-size: 1rem;
+            min-height: var(--touch-target-size);
+            font-size: var(--text-base);
         }
 
         .albums-grid {
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+            gap: var(--space-5);
         }
 
         .none-found {
-            padding-top: 3rem;
+            padding-top: var(--space-7);
         }
 
         .empty-icon {
             width: 6.5rem;
             height: 6.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-5);
         }
 
         .empty-icon img {
-            width: 3rem;
-        }
-
-        .none-found h2 {
-            font-size: 2.2rem;
+            width: var(--space-7);
         }
 
         .btn-return {
-            padding: 0.9rem 1.25rem;
-            min-height: 2.75rem;
+            padding: var(--space-3) var(--space-5);
+            min-height: var(--touch-target-size);
             display: inline-flex;
             align-items: center;
         }
@@ -292,13 +286,13 @@
     @media (any-pointer: coarse) {
         .overlay {
             opacity: 1;
-            background: linear-gradient(180deg, transparent 0%, rgba(246, 89, 1, 0.82) 100%);
+            background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--accent) 82%, transparent) 100%);
             align-items: flex-end;
-            padding: 1rem;
+            padding: var(--space-4);
         }
 
         .overlay span {
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
             letter-spacing: 0.16em;
         }
     }

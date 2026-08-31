@@ -76,31 +76,25 @@
 
 <style>
     .album-detail {
-        min-height: 90vmin;
-        padding: 12vmin 8.85vmin 5vmin;
+        min-height: 100vh;
+        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     }
 
     .content-wrapper {
         display: grid;
-        grid-template-columns: 400px 1fr;
-        gap: 14.16vmin;
-        max-width: 1400px;
+        grid-template-columns: 27rem 1fr;
+        gap: 10rem;
+        max-width: 95rem;
         margin: 0 auto;
-    }
-
-    @media (max-width: 1000px) {
-        .content-wrapper {
-            grid-template-columns: 1fr;
-        }
     }
 
     .album-cover {
         width: 100%;
         aspect-ratio: 1;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
         overflow: hidden;
-        box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-        margin-bottom: 3rem;
+        box-shadow: var(--shadow-lg);
+        margin-bottom: var(--space-7);
     }
 
     .album-cover img {
@@ -111,9 +105,9 @@
 
     .breadcrumb {
         display: flex;
-        gap: 0.5rem;
-        margin-bottom: 1.5rem;
-        font-size: 0.9rem;
+        gap: var(--space-2);
+        margin-bottom: var(--space-5);
+        font-size: var(--text-sm);
         opacity: 0.6;
     }
 
@@ -123,56 +117,56 @@
     }
 
     .breadcrumb a:hover {
-        color: var(--accent, #f65901);
+        color: var(--accent);
     }
 
     .album-meta h1 {
-        font-size: 3.5rem;
+        font-size: var(--display-md);
         margin: 0;
-        color: var(--accent, #f65901);
+        color: var(--accent);
         line-height: 1.1;
     }
 
     .release-date {
         opacity: 0.5;
-        margin: 0.5rem 0 2rem;
+        margin: var(--space-2) 0 var(--space-6);
     }
 
     .description {
         line-height: 1.6;
         opacity: 0.8;
-        margin-bottom: 2rem;
+        margin-bottom: var(--space-6);
     }
 
     .links-grid {
         display: flex;
-        gap: 1rem;
+        gap: var(--space-4);
     }
 
     .link-btn {
-        padding: 0.6rem 1.2rem;
-        border: 1px solid rgba(246, 89, 1, 0.3);
-        border-radius: 6px;
+        padding: var(--space-2) var(--space-5);
+        border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+        border-radius: var(--radius-sm);
         text-decoration: none;
-        color: var(--accent, #f65901);
+        color: var(--accent);
         font-weight: bold;
-        font-size: 0.9rem;
-        transition: all 0.3s ease;
+        font-size: var(--text-sm);
+        transition: var(--transition-colors);
     }
 
     .link-btn:hover {
-        background: var(--accent, #f65901);
-        color: white;
+        background: var(--accent);
+        color: var(--text-on-accent);
     }
 
     .tracklist-container h2 {
-        font-family: 'Letric';
-        font-size: 2rem;
-        letter-spacing: 4px;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        color: var(--accent, #f65901);
+        font-family: var(--font-display);
+        font-size: var(--text-2xl);
+        letter-spacing: 0.14em;
+        margin-bottom: var(--space-6);
+        padding-bottom: var(--space-4);
+        border-bottom: 1px solid color-mix(in srgb, var(--text-secondary) 12%, transparent);
+        color: var(--accent);
     }
 
     .tracklist {
@@ -183,60 +177,57 @@
     .tracklist-item {
         display: flex;
         align-items: center;
-        padding: 1.2rem 1rem;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-        transition: background 0.2s ease;
-        border-radius: 8px;
+        padding: var(--space-5) var(--space-4);
+        border-bottom: 1px solid color-mix(in srgb, var(--text-secondary) 8%, transparent);
+        transition: background-color var(--duration-normal) var(--ease-out);
+        border-radius: var(--radius-sm);
     }
 
     .tracklist-item:hover {
-        background: rgba(246, 89, 1, 0.05);
+        background-color: color-mix(in srgb, var(--accent) 5%, transparent);
     }
 
     .track-num {
-        width: 40px;
+        width: 2.75rem;
         opacity: 0.3;
         font-family: monospace;
     }
 
     .track-title {
         flex-grow: 1;
-        font-size: 1.1rem;
+        font-size: var(--text-md);
     }
 
     .track-duration {
         opacity: 0.4;
-        font-size: 0.9rem;
+        font-size: var(--text-sm);
     }
 
     @media (max-width: 1000px) {
         .album-detail {
-            padding: 6.5rem 1rem 4rem;
+            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
         }
 
         .content-wrapper {
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
         }
     }
 
     @media (max-width: 640px), (any-pointer: coarse) {
         .album-cover {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-5);
         }
 
         .breadcrumb {
             flex-wrap: wrap;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .album-meta h1 {
-            font-size: clamp(2.4rem, 12vw, 3.2rem);
+            font-size: var(--text-base);
+            margin-bottom: var(--space-4);
         }
 
         .release-date,
         .description {
-            font-size: 1rem;
+            font-size: var(--text-base);
         }
 
         .links-grid {
@@ -247,19 +238,19 @@
         .link-btn {
             display: flex;
             justify-content: center;
-            padding: 0.9rem 1rem;
-            font-size: 1rem;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-base);
         }
 
         .tracklist-container h2 {
-            font-size: 1.6rem;
+            font-size: var(--text-xl);
             letter-spacing: 0.2em;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-4);
         }
 
         .tracklist-item {
-            padding: 1rem 0.75rem;
-            gap: 0.75rem;
+            padding: var(--space-4) var(--space-3);
+            gap: var(--space-3);
             align-items: flex-start;
             flex-wrap: wrap;
         }
@@ -270,11 +261,11 @@
         }
 
         .track-title {
-            font-size: 1rem;
+            font-size: var(--text-base);
         }
 
         .track-duration {
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
             margin-left: auto;
         }
     }

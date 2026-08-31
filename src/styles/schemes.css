@@ -145,6 +145,10 @@
 :root {
   --text-primary: var(--accent);
 
+  /* Labels that sit on top of an accent fill. White in every scheme, so it is
+     declared once here rather than three times above. */
+  --text-on-accent: #ffffff;
+
   --bg-body: var(--surface-page);
   --bg-secondary: var(--surface-sunken);
   --color-primary: var(--accent);
