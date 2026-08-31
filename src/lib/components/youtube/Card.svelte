@@ -139,7 +139,7 @@
       selectors: ['.media-frame'],
       className: 'hovered-home-media-youtube',
       lockPosition: true,
-      color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--color-primary) 28%)'
+      color: 'color-mix(in srgb, var(--youtube-brand) 72%, var(--accent) 28%)'
     },
     {
       type: ['p'],
@@ -222,13 +222,16 @@
 
 <style>
   .youtube-card {
+    /* YouTube's own red, and the video letterbox behind the player. Both fixed in every theme. */
     --youtube-brand: #ff0000;
-    --youtube-brand-deep: #c40000;
     --youtube-accent: #ff4d00;
-    --youtube-surface-base: var(--surface-base, color-mix(in srgb, var(--bg-body) 82%, transparent));
-    --youtube-surface-elevated: var(--surface-elevated, color-mix(in srgb, var(--bg-body) 90%, transparent));
+    --youtube-letterbox: #050608;
+    /* Broadcast state reads the same everywhere, so these do not follow the scheme either. */
+    --live-signal: #ff4e4e;
+    --upcoming-signal: #ff8c00;
+    --youtube-surface-base: var(--surface-base, color-mix(in srgb, var(--surface-page) 82%, transparent));
+    --youtube-surface-elevated: var(--surface-elevated, color-mix(in srgb, var(--surface-page) 90%, transparent));
     --youtube-border: color-mix(in srgb, var(--youtube-brand) 12%, transparent);
-    --youtube-border-strong: color-mix(in srgb, var(--youtube-brand) 34%, var(--youtube-accent) 24%);
     min-width: 0;
     align-self: start;
     container-type: inline-size;
@@ -241,27 +244,27 @@
   .card-chassis {
     position: relative;
     display: grid;
-    gap: clamp(1rem, 2.2vw, 1.35rem);
-    padding: clamp(1rem, 2.4vw, 1.45rem);
-    border-radius: 2rem;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    border-radius: var(--radius-2xl);
     border: 1px solid var(--youtube-border);
     overflow: hidden;
     isolation: isolate;
     background:
       radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--youtube-brand) 8%, transparent), transparent 36%),
       linear-gradient(160deg, color-mix(in srgb, var(--youtube-surface-elevated) 96%, transparent), color-mix(in srgb, var(--youtube-surface-base) 98%, transparent));
-    box-shadow: 0 1.3rem 3rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
     transition:
-      transform 0.35s ease,
-      border-color 0.35s ease,
-      box-shadow 0.35s ease;
+      transform var(--duration-slow) var(--ease-out),
+      border-color var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .card-chassis::before {
     content: '';
     position: absolute;
-    inset: 0.85rem;
-    border-radius: 1.45rem;
+    inset: var(--space-3);
+    border-radius: calc(var(--radius-2xl) - var(--space-3));
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 8%, transparent);
     pointer-events: none;
   }
@@ -269,7 +272,7 @@
   .card-chassis::after {
     content: '';
     position: absolute;
-    inset: auto 1.1rem 1rem;
+    inset: auto var(--space-4) var(--space-4);
     height: 1px;
     background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--youtube-brand) 32%, transparent), transparent);
     opacity: 0.72;
@@ -283,20 +286,20 @@
 
   .media-stack {
     display: grid;
-    gap: 0.8rem;
+    gap: var(--space-3);
     align-content: start;
   }
 
   .frame-topline,
   .detail-label,
   .watch-link {
-    font-family: 'Redwing', Aileron, sans-serif;
+    font-family: var(--font-body);
   }
 
   .frame-topline {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: var(--space-2);
     align-items: center;
   }
 
@@ -304,19 +307,19 @@
   .status-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.45rem 0.78rem;
-    border-radius: 999px;
-    font-family: 'Redwing', Aileron, sans-serif;
-    font-size: 0.72rem;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
     line-height: 1;
     letter-spacing: 0.09em;
     text-transform: uppercase;
   }
 
   .platform-badge {
-    background: #ff0000;
-    color: #fff;
-    box-shadow: 0 0 1rem rgba(255, 0, 0, 0.24);
+    background: var(--youtube-brand);
+    color: var(--text-on-accent);
+    box-shadow: 0 0 var(--space-4) color-mix(in srgb, var(--youtube-brand) 24%, transparent);
   }
 
   .status-badge {
@@ -326,36 +329,36 @@
   }
 
   .status-badge.live {
-    border-color: color-mix(in srgb, #ff4e4e 30%, transparent);
-    background: color-mix(in srgb, #ff4e4e 12%, transparent);
-    color: #ffb7b7;
+    border-color: color-mix(in srgb, var(--live-signal) 30%, transparent);
+    background: color-mix(in srgb, var(--live-signal) 12%, transparent);
+    color: color-mix(in srgb, var(--live-signal) 72%, currentColor 28%);
   }
 
   .status-badge.upcoming {
-    border-color: color-mix(in srgb, #ff8c00 30%, transparent);
-    background: color-mix(in srgb, #ff8c00 12%, transparent);
-    color: #ffd7b7;
+    border-color: color-mix(in srgb, var(--upcoming-signal) 30%, transparent);
+    background: color-mix(in srgb, var(--upcoming-signal) 12%, transparent);
+    color: color-mix(in srgb, var(--upcoming-signal) 72%, currentColor 28%);
   }
 
   .status-badge.finished {
     border-color: color-mix(in srgb, var(--youtube-accent) 26%, transparent);
     background: color-mix(in srgb, var(--youtube-brand) 8%, transparent);
-    color: color-mix(in srgb, var(--youtube-brand) 72%, white 28%);
+    color: color-mix(in srgb, var(--youtube-brand) 72%, currentColor 28%);
   }
 
   .media-frame {
     position: relative;
     width: 100%;
     aspect-ratio: var(--media-width) / var(--media-height);
-    border-radius: 1.45rem;
-    border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-    background: #050608;
+    border-radius: var(--radius-xl);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+    background: var(--youtube-letterbox);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, white 4%, transparent),
-      0 1rem 2rem rgba(0, 0, 0, 0.22);
+      var(--shadow-md);
     overflow: hidden;
     isolation: isolate;
-    clip-path: inset(0 round 1.45rem);
+    clip-path: inset(0 round var(--radius-xl));
     transform: translateZ(0);
   }
 
@@ -374,7 +377,7 @@
     inset: 0;
     overflow: hidden;
     border-radius: inherit;
-    background: #050608;
+    background: var(--youtube-letterbox);
   }
 
   .player-frame {
@@ -383,21 +386,22 @@
     width: calc(100% + 2px);
     height: calc(100% + 2px);
     border: 0;
-    background: #050608;
+    background: var(--youtube-letterbox);
   }
 
   .content {
     display: flex;
     flex-direction: column;
-    gap: 0.95rem;
-    padding-top: calc(0.72rem + 0.9rem + 0.95rem);
+    gap: var(--space-4);
+    /* Clears the badge row beside it, so both columns start on the same line. */
+    padding-top: calc(var(--text-2xs) + var(--space-3) + var(--space-4));
     min-width: 0;
     overflow: hidden;
   }
 
   h3 {
     margin: 0;
-    font-family: 'Redwing', Aileron, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.16;
     font-weight: 700;
     white-space: nowrap;
@@ -409,8 +413,8 @@
 
   .summary {
     margin: 0;
-    font-family: Aileron, sans-serif;
-    font-size: clamp(0.85rem, calc(350cqw / (var(--summary-len) + 100)), 1.05rem);
+    font-family: var(--font-ui);
+    font-size: clamp(var(--text-sm), calc(350cqw / (var(--summary-len) + 100)), var(--text-base));
     line-height: 1.68;
     opacity: 0.9;
     white-space: pre-line;
@@ -423,15 +427,15 @@
   .detail-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
+    gap: var(--space-3);
     margin-top: auto;
   }
 
   .detail-card {
     display: grid;
-    gap: 0.38rem;
-    padding: 0.9rem 1rem;
-    border-radius: 1.1rem;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 14%, transparent);
     background:
       linear-gradient(135deg, color-mix(in srgb, var(--youtube-brand) 7%, transparent), transparent 60%),
@@ -440,7 +444,7 @@
   }
 
   .detail-label {
-    font-size: 0.68rem;
+    font-size: var(--text-2xs);
     line-height: 1;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -448,8 +452,8 @@
   }
 
   .detail-card strong {
-    font-family: Aileron, sans-serif;
-    font-size: 0.97rem;
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
     line-height: 1.45;
     font-weight: 600;
     overflow-wrap: anywhere;
@@ -459,19 +463,21 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 0.1rem;
+    padding-top: var(--space-1);
   }
 
   .watch-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: var(--space-3);
     color: color-mix(in srgb, var(--youtube-brand) 82%, currentColor 18%);
     text-decoration: none;
-    font-size: 0.82rem;
+    font-size: var(--text-xs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition:
+      color var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .watch-link:hover {
@@ -499,12 +505,12 @@
 
   @media (max-width: 780px) {
     .card-chassis {
-      border-radius: 1.65rem;
+      border-radius: var(--radius-xl);
     }
 
     .media-frame {
-      border-radius: 1.2rem;
-      clip-path: inset(0 round 1.2rem);
+      border-radius: var(--radius-lg);
+      clip-path: inset(0 round var(--radius-lg));
     }
 
     .media-clip {
@@ -518,14 +524,14 @@
 
   @media (max-width: 560px) {
     .card-chassis {
-      padding: 1rem;
+      padding: var(--space-4);
     }
   }
 
   :global([data-theme="cyber-neotic"]) .card-chassis {
     box-shadow:
-      0 1.5rem 3.2rem rgba(0, 0, 0, 0.2),
-      0 0 1.6rem color-mix(in srgb, var(--youtube-brand) 10%, transparent);
+      var(--shadow-lg),
+      0 0 var(--space-5) color-mix(in srgb, var(--youtube-brand) 10%, transparent);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
   }
@@ -533,12 +539,12 @@
   :global([data-theme="cyber-neotic"]) .media-frame {
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, white 8%, transparent),
-      0 1rem 2rem rgba(0, 0, 0, 0.25),
-      0 0 1.2rem color-mix(in srgb, var(--youtube-brand) 14%, transparent);
+      var(--shadow-md),
+      0 0 var(--space-4) color-mix(in srgb, var(--youtube-brand) 14%, transparent);
   }
 
   :global([data-theme="cyber-neotic"]) .detail-card,
   :global([data-theme="cyber-neotic"]) .status-badge {
-    box-shadow: inset 0 0 0.9rem color-mix(in srgb, var(--youtube-brand) 4%, transparent);
+    box-shadow: inset 0 0 var(--space-3) color-mix(in srgb, var(--youtube-brand) 4%, transparent);
   }
 </style>

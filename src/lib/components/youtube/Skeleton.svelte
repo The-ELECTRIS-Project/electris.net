@@ -54,11 +54,11 @@
 
 <style>
   .skeleton-live, .skeleton-card {
-    background: 
-      radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--color-primary) 4%, transparent), transparent 36%),
-      linear-gradient(160deg, color-mix(in srgb, var(--bg-body) 90%, transparent), color-mix(in srgb, var(--bg-body) 82%, transparent));
-    border: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border-radius: 2rem;
+    background:
+      radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--accent) 4%, transparent), transparent 36%),
+      linear-gradient(160deg, color-mix(in srgb, var(--surface-page) 90%, transparent), color-mix(in srgb, var(--surface-page) 82%, transparent));
+    border: 1px solid color-mix(in srgb, var(--accent) 10%, transparent);
+    border-radius: var(--radius-2xl);
     position: relative;
     overflow: hidden;
   }
@@ -66,29 +66,29 @@
   .skeleton-live {
     display: grid;
     grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr);
-    gap: 2rem;
-    padding: 1.45rem;
+    gap: var(--space-5);
+    padding: var(--space-5);
     width: min(100%, 72rem);
-    margin: 0 auto 2.8rem;
+    margin: 0 auto var(--space-6);
   }
 
   .skeleton-card {
     display: grid;
-    gap: 1.35rem;
-    padding: 1.45rem;
+    gap: var(--space-4);
+    padding: var(--space-5);
   }
 
   .skeleton-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
   }
 
   .skeleton-media {
     aspect-ratio: 16 / 9;
-    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
-    border-radius: 1.45rem;
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    border-radius: var(--radius-xl);
     position: relative;
     overflow: hidden;
   }
@@ -96,54 +96,55 @@
   .skeleton-info, .skeleton-content {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--space-4);
   }
 
   .skeleton-badges {
     display: flex;
-    gap: 0.6rem;
+    gap: var(--space-2);
   }
 
   .skeleton-badge {
     width: 5rem;
     height: 1.6rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .skeleton-line {
-    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-    border-radius: 4px;
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-radius: var(--radius-xs);
   }
 
   .skeleton-line.title {
     width: 70%;
-    height: 2rem;
+    height: var(--space-6);
   }
 
   .skeleton-line.summary {
     width: 100%;
-    height: 4rem;
+    height: var(--space-8);
   }
 
   .skeleton-line.meta {
     width: 40%;
-    height: 1rem;
+    height: var(--space-4);
   }
 
   .skeleton-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: var(--space-3);
   }
 
   .skeleton-detail {
-    height: 4rem;
-    border-radius: 1.1rem;
-    background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+    height: var(--space-8);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
-  /* Shimmer animation */
+  /* ===== SHIMMER ===== */
+
   .skeleton-media::after,
   .skeleton-badge::after,
   .skeleton-line::after,
@@ -157,7 +158,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in srgb, var(--color-primary) 5%, transparent),
+      color-mix(in srgb, var(--accent) 5%, transparent),
       transparent
     );
     animation: shimmer 2s infinite;

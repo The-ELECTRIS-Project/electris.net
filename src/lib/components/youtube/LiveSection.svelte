@@ -168,42 +168,49 @@
 
 <style>
   .live-signal-container {
+    /* YouTube's own red, and the video letterbox behind the player. Both fixed in every theme. */
     --youtube-brand: #ff0000;
-    --youtube-brand-deep: #c40000;
     --youtube-accent: #ff4d00;
-    --youtube-surface-base: var(--surface-base, color-mix(in srgb, var(--bg-body) 82%, transparent));
-    --youtube-surface-elevated: var(--surface-elevated, color-mix(in srgb, var(--bg-body) 90%, transparent));
+    --youtube-letterbox: #050608;
+    /* Broadcast state reads the same everywhere, so these do not follow the scheme either. */
+    --live-signal: #ff4e4e;
+    --upcoming-signal: #ff8c00;
+    --youtube-surface-base: var(--surface-base, color-mix(in srgb, var(--surface-page) 82%, transparent));
+    --youtube-surface-elevated: var(--surface-elevated, color-mix(in srgb, var(--surface-page) 90%, transparent));
     --youtube-border: color-mix(in srgb, var(--youtube-brand) 12%, transparent);
 
     width: min(100%, 72rem);
-    margin: 0 auto 2.8rem;
+    margin: 0 auto var(--space-6);
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
     container-type: inline-size;
   }
 
   .live-signal-bar {
     display: grid;
     grid-template-columns: minmax(14rem, 20rem) minmax(0, 1fr) auto;
-    gap: clamp(1rem, 2.5vw, 2rem);
+    gap: var(--space-5);
     align-items: center;
-    padding: clamp(1rem, 2.4vw, 1.45rem);
-    border-radius: 2rem;
+    padding: var(--space-5);
+    border-radius: var(--radius-2xl);
     border: 1px solid var(--youtube-border);
     background:
       radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--youtube-brand) 8%, transparent), transparent 36%),
       linear-gradient(160deg, color-mix(in srgb, var(--youtube-surface-elevated) 96%, transparent), color-mix(in srgb, var(--youtube-surface-base) 98%, transparent));
-    box-shadow: 0 1.3rem 3rem rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-md);
     isolation: isolate;
     position: relative;
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    transition:
+      transform var(--duration-slow) var(--ease-out),
+      border-color var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .live-signal-bar::before {
     content: '';
     position: absolute;
-    inset: 0.85rem;
-    border-radius: 1.45rem;
+    inset: var(--space-3);
+    border-radius: calc(var(--radius-2xl) - var(--space-3));
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 8%, transparent);
     pointer-events: none;
   }
@@ -217,15 +224,15 @@
     position: relative;
     width: 100%;
     aspect-ratio: var(--live-width) / var(--live-height);
-    border-radius: 1.45rem;
-    border: 1px solid color-mix(in srgb, var(--color-primary) 18%, transparent);
-    background: #050608;
+    border-radius: var(--radius-xl);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+    background: var(--youtube-letterbox);
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, white 4%, transparent),
-      0 1rem 2rem rgba(0, 0, 0, 0.22);
+      var(--shadow-md);
     overflow: hidden;
     isolation: isolate;
-    clip-path: inset(0 round 1.45rem);
+    clip-path: inset(0 round var(--radius-xl));
     transform: translateZ(0);
   }
 
@@ -239,7 +246,7 @@
     inset: 0;
     overflow: hidden;
     border-radius: inherit;
-    background: #050608;
+    background: var(--youtube-letterbox);
   }
 
   .player-frame {
@@ -248,18 +255,18 @@
     width: calc(100% + 2px);
     height: calc(100% + 2px);
     border: 0;
-    background: #050608;
+    background: var(--youtube-letterbox);
   }
 
   .indicator-row,
   .live-cta {
-    font-family: 'Redwing', Aileron, sans-serif;
+    font-family: var(--font-body);
   }
 
   .indicator-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: var(--space-2);
     align-items: center;
   }
 
@@ -268,10 +275,10 @@
   .channel-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.45rem 0.78rem;
-    border-radius: 999px;
-    font-family: 'Redwing', Aileron, sans-serif;
-    font-size: 0.72rem;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--text-2xs);
     line-height: 1;
     letter-spacing: 0.09em;
     text-transform: uppercase;
@@ -279,8 +286,8 @@
 
   .platform-badge {
     background: var(--youtube-brand);
-    color: #fff;
-    box-shadow: 0 0 1rem rgba(255, 0, 0, 0.24);
+    color: var(--text-on-accent);
+    box-shadow: 0 0 var(--space-4) color-mix(in srgb, var(--youtube-brand) 24%, transparent);
   }
 
   .live-indicator,
@@ -288,38 +295,38 @@
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 22%, transparent);
     background: color-mix(in srgb, var(--youtube-brand) 10%, transparent);
     color: inherit;
-    gap: 0.55rem;
+    gap: var(--space-2);
   }
 
   .live-indicator.live {
-    border-color: color-mix(in srgb, #ff4e4e 30%, transparent);
-    background: color-mix(in srgb, #ff4e4e 12%, transparent);
-    color: #ffb7b7;
+    border-color: color-mix(in srgb, var(--live-signal) 30%, transparent);
+    background: color-mix(in srgb, var(--live-signal) 12%, transparent);
+    color: color-mix(in srgb, var(--live-signal) 72%, currentColor 28%);
   }
 
   .live-indicator.upcoming {
-    border-color: color-mix(in srgb, #ff8c00 30%, transparent);
-    background: color-mix(in srgb, #ff8c00 12%, transparent);
-    color: #ffd7b7;
+    border-color: color-mix(in srgb, var(--upcoming-signal) 30%, transparent);
+    background: color-mix(in srgb, var(--upcoming-signal) 12%, transparent);
+    color: color-mix(in srgb, var(--upcoming-signal) 72%, currentColor 28%);
   }
 
   .indicator-dot {
-    width: 0.55rem;
-    height: 0.55rem;
-    border-radius: 50%;
+    width: var(--space-2);
+    height: var(--space-2);
+    border-radius: var(--radius-round);
     background: currentColor;
-    box-shadow: 0 0 0.9rem currentColor;
+    box-shadow: 0 0 var(--space-3) currentColor;
     animation: live-pulse 1.5s infinite;
   }
 
   .live-copy {
     display: grid;
-    gap: 0.75rem;
+    gap: var(--space-3);
   }
 
   .live-title {
     margin: 0;
-    font-family: 'Redwing', Aileron, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.12;
     font-weight: 700;
     white-space: nowrap;
@@ -329,8 +336,8 @@
 
   .live-summary {
     margin: 0;
-    font-family: Aileron, sans-serif;
-    font-size: clamp(0.9rem, calc(400cqw / (var(--summary-len) + 150)), 1.05rem);
+    font-family: var(--font-ui);
+    font-size: clamp(var(--text-sm), calc(400cqw / (var(--summary-len) + 150)), var(--text-base));
     line-height: 1.6;
     opacity: 0.9;
     display: -webkit-box;
@@ -341,27 +348,29 @@
 
   .live-meta {
     margin: 0;
-    font-family: Aileron, sans-serif;
-    font-size: 0.85rem;
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     opacity: 0.65;
   }
 
   .live-cta-container {
-    padding-left: 1rem;
+    padding-left: var(--space-4);
   }
 
   .live-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: var(--space-3);
     color: color-mix(in srgb, var(--youtube-brand) 82%, currentColor 18%);
     text-decoration: none;
-    font-size: 0.82rem;
+    font-size: var(--text-xs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition:
+      color var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
   }
 
   .live-cta:hover {
@@ -388,11 +397,12 @@
   @media (max-width: 768px) {
     .live-signal-bar {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
-      border-radius: 1.65rem;
+      gap: var(--space-5);
+      border-radius: var(--radius-xl);
     }
     .preview-frame {
-      border-radius: 1.2rem;
+      border-radius: var(--radius-lg);
+      clip-path: inset(0 round var(--radius-lg));
     }
     .live-summary {
       line-clamp: 3;
@@ -401,8 +411,8 @@
 
   :global([data-theme="cyber-neotic"]) .live-signal-bar {
     box-shadow:
-      0 1.5rem 3.2rem rgba(0, 0, 0, 0.2),
-      0 0 1.6rem color-mix(in srgb, var(--youtube-brand) 10%, transparent);
+      var(--shadow-lg),
+      0 0 var(--space-5) color-mix(in srgb, var(--youtube-brand) 10%, transparent);
     backdrop-filter: blur(10px) saturate(150%);
     -webkit-backdrop-filter: blur(10px) saturate(150%);
   }
@@ -410,7 +420,7 @@
   :global([data-theme="cyber-neotic"]) .preview-frame {
     box-shadow:
       inset 0 0 0 1px color-mix(in srgb, white 8%, transparent),
-      0 1rem 2rem rgba(0, 0, 0, 0.25),
-      0 0 1.2rem color-mix(in srgb, var(--youtube-brand) 14%, transparent);
+      var(--shadow-md),
+      0 0 var(--space-4) color-mix(in srgb, var(--youtube-brand) 14%, transparent);
   }
 </style>
