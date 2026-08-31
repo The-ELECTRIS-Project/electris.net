@@ -101,8 +101,8 @@
 
   useHoverConfig([
     {
-      type: ['span'],
-      selectors: ['.live-cta'],
+      type: ['h3', 'span'],
+      selectors: ['.channel-pill', '.live-cta'],
       className: 'hovered-word-wrap',
       lockPosition: true,
       wrapText: {

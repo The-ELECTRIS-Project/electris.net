@@ -154,7 +154,7 @@
     },
     {
       type: ['h3', 'span'],
-      selectors: ['.channel-pill', '.watch-link'],
+      selectors: ['.watch-link'],
       className: 'hovered-word-wrap',
       lockPosition: true,
       wrapText: {
@@ -301,8 +301,7 @@
   }
 
   .platform-badge,
-  .status-badge,
-  .channel-pill {
+  .status-badge {
     display: inline-flex;
     align-items: center;
     padding: 0.45rem 0.78rem;
@@ -320,8 +319,7 @@
     box-shadow: 0 0 1rem rgba(255, 0, 0, 0.24);
   }
 
-  .status-badge,
-  .channel-pill {
+  .status-badge {
     border: 1px solid color-mix(in srgb, var(--youtube-brand) 22%, transparent);
     background: color-mix(in srgb, var(--youtube-brand) 10%, transparent);
     color: inherit;
@@ -343,10 +341,6 @@
     border-color: color-mix(in srgb, var(--youtube-accent) 26%, transparent);
     background: color-mix(in srgb, var(--youtube-brand) 8%, transparent);
     color: color-mix(in srgb, var(--youtube-brand) 72%, white 28%);
-  }
-
-  .channel-pill {
-    background: color-mix(in srgb, var(--youtube-accent) 12%, transparent);
   }
 
   .media-frame {
@@ -544,8 +538,7 @@
   }
 
   :global([data-theme="cyber-neotic"]) .detail-card,
-  :global([data-theme="cyber-neotic"]) .status-badge,
-  :global([data-theme="cyber-neotic"]) .channel-pill {
+  :global([data-theme="cyber-neotic"]) .status-badge {
     box-shadow: inset 0 0 0.9rem color-mix(in srgb, var(--youtube-brand) 4%, transparent);
   }
 </style>
