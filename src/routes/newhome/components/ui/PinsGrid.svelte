@@ -519,7 +519,6 @@
       var(--transition-colors),
       opacity var(--duration-slow) var(--ease-out);
     z-index: var(--z-sticky);
-    backdrop-filter: blur(4px);
   }
 
   .pin-edit-trigger {
@@ -573,7 +572,6 @@
     border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
     border-radius: var(--radius-md);
     background: color-mix(in srgb, var(--accent) 5%, transparent);
-    backdrop-filter: blur(10px);
     text-decoration: none;
     color: inherit;
     transition:
