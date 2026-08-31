@@ -82,7 +82,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 4vmin 2vmin;
+    padding: var(--space-7) var(--space-5);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -91,10 +91,7 @@
   .error-page::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: linear-gradient(45deg, transparent 30%, color-mix(in srgb, var(--accent) 3%, transparent) 50%, transparent 70%);
     animation: error-sweep 5s ease-in-out infinite;
     pointer-events: none;
@@ -102,23 +99,21 @@
 
   .error-container {
     position: relative;
-    z-index: 2;
-    max-width: 60vmin;
+    z-index: var(--z-raised);
+    max-width: var(--layout-measure);
   }
 
   .error-icon {
     position: relative;
-    margin-bottom: 4vmin;
-    width: 10vmin;
-    height: 10vmin;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto var(--space-7);
+    width: 7.5rem;
+    height: 7.5rem;
   }
 
   .broken-gear {
     position: absolute;
-    border-radius: 50%;
-    border: 0.3vmin solid var(--accent);
+    border-radius: var(--radius-round);
+    border: 3px solid var(--accent);
     animation: broken-rotate 4s ease-in-out infinite;
   }
 
@@ -130,22 +125,22 @@
     transform: translate(-50%, -50%);
     width: 60%;
     height: 60%;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     background: radial-gradient(circle, transparent 40%, var(--accent) 42%, var(--accent) 58%, transparent 60%);
   }
 
   .gear-1 {
-    width: 7vmin;
-    height: 7vmin;
+    width: 5.25rem;
+    height: 5.25rem;
     top: 0;
-    left: 1.5vmin;
+    left: 1.125rem;
     animation-duration: 3s;
   }
 
   .gear-2 {
-    width: 5vmin;
-    height: 5vmin;
-    top: 2.5vmin;
+    width: 3.75rem;
+    height: 3.75rem;
+    top: 1.875rem;
     right: 0;
     animation-direction: reverse;
     animation-duration: 4s;
@@ -154,10 +149,10 @@
 
   .crack-line {
     position: absolute;
-    top: 3vmin;
-    left: 3vmin;
-    width: 4vmin;
-    height: 0.2vmin;
+    top: 2.25rem;
+    left: 2.25rem;
+    width: var(--space-7);
+    height: 2px;
     background: linear-gradient(45deg, transparent, var(--error-damage), transparent);
     transform: rotate(45deg);
     animation: crack-glow 2s ease-in-out infinite;
@@ -166,30 +161,27 @@
   .crack-line::before {
     content: '';
     position: absolute;
-    top: 1vmin;
-    left: 1vmin;
-    width: 2vmin;
-    height: 0.1vmin;
+    top: var(--space-3);
+    left: var(--space-3);
+    width: var(--space-5);
+    height: 1px;
     background: linear-gradient(45deg, transparent, var(--error-damage), transparent);
     transform: rotate(-30deg);
   }
 
   .error-sparks {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
   }
 
   .error-spark {
     position: absolute;
-    width: 0.3vmin;
-    height: 0.3vmin;
+    width: 3px;
+    height: 3px;
     background: var(--error-damage);
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     animation: error-sparkle 1.5s ease-in-out infinite;
-    box-shadow: 0 0 0.5vmin var(--error-damage);
+    box-shadow: 0 0 var(--space-1) var(--error-damage);
   }
 
   .spark-1 {
@@ -217,26 +209,26 @@
   }
 
   .error-content h1 {
-    font-family: 'Letric';
-    font-size: 3rem;
-    margin: 0 0 2vmin 0;
+    font-family: var(--font-display);
+    font-size: var(--display-sm);
+    margin: 0 0 var(--space-5);
     position: relative;
   }
 
   .error-text-glitch, .status-glitch {
     position: relative;
     animation: error-glitch 2s ease-in-out infinite;
-    text-shadow: 0.1vmin 0.1vmin 0.2vmin rgba(255, 51, 0, 0.3);
+    text-shadow: 1px 1px 2px color-mix(in srgb, var(--error-damage) 30%, transparent);
     display: inline-block;
     color: var(--error-damage);
   }
 
   .error-text-glitch {
-    font-family: 'Letric';
+    font-family: var(--font-display);
   }
 
   .status-glitch {
-    font-family: 'Redwing';
+    font-family: var(--font-body);
     font-weight: 600;
   }
 
@@ -268,17 +260,17 @@
   }
 
   .error-message {
-    font-family: 'Redwing';
-    font-size: 1.3rem;
-    margin-bottom: 1vmin;
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
     font-weight: 500;
     color: var(--accent);
   }
 
   .error-submessage {
-    font-family: 'Redwing';
-    font-size: 1rem;
-    margin-bottom: 4vmin;
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    margin-bottom: var(--space-7);
     opacity: 0.8;
     font-weight: 300;
   }
@@ -286,72 +278,60 @@
   .error-actions {
     display: flex;
     flex-direction: column;
-    gap: 2vmin;
+    gap: var(--space-5);
     align-items: center;
   }
 
   .return-button, .back-button {
     position: relative;
-    padding: 1.2vmin 3vmin;
-    border: 0.2vmin solid var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target-size);
+    padding: var(--space-3) var(--space-6);
+    border: 2px solid var(--accent);
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
-    font-family: 'Redwing';
-    font-size: 1.1rem;
+    font-family: var(--font-body);
+    font-size: var(--text-md);
     font-weight: 500;
-    border-radius: 0.5vmin;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: all 0.3s ease;
     text-decoration: none;
-    display: inline-block;
     overflow: hidden;
+    transition:
+      var(--transition-colors),
+      transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out);
   }
 
   .return-button:hover, .back-button:hover {
     background: color-mix(in srgb, var(--accent) 20%, transparent);
-    box-shadow: 0 0 1vmin color-mix(in srgb, var(--accent) 50%, transparent);
-    transform: translateY(-0.2vmin);
+    box-shadow: 0 0 var(--space-3) color-mix(in srgb, var(--accent) 50%, transparent);
+    transform: translateY(-0.15rem);
   }
 
   .button-text {
     position: relative;
-    z-index: 2;
+    z-index: var(--z-raised);
   }
 
   .button-spark {
     position: absolute;
     top: 50%;
-    right: 1vmin;
-    width: 0.3vmin;
-    height: 0.3vmin;
+    right: var(--space-3);
+    width: 3px;
+    height: 3px;
     background: var(--accent);
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     transform: translateY(-50%);
     animation: button-spark-pulse 2s ease-in-out infinite;
-    box-shadow: 0 0 0.5vmin var(--accent);
-  }
-
-  @media (max-width: 768px) {
-    .error-content h1 {
-      font-size: 2.2rem;
-    }
-
-    .error-message {
-      font-size: 1.1rem;
-    }
-
-    .error-submessage {
-      font-size: 0.9rem;
-    }
-
-    .error-actions {
-      flex-direction: column;
-    }
+    box-shadow: 0 0 var(--space-1) var(--accent);
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
     .error-page {
-      padding: 6rem 1rem 3rem;
+      padding: var(--layout-page-top) var(--space-4) var(--space-7);
     }
 
     .error-container {
@@ -360,9 +340,8 @@
 
     .return-button,
     .back-button {
-      min-height: 3rem;
-      padding: 0.9rem 1.5rem;
-      border-radius: 0.85rem;
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-md);
     }
   }
 
@@ -381,7 +360,7 @@
 
   @keyframes crack-glow {
     0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; box-shadow: 0 0 1vmin var(--error-damage); }
+    50% { opacity: 1; box-shadow: 0 0 var(--space-3) var(--error-damage); }
   }
 
   @keyframes error-sparkle {
@@ -393,41 +372,41 @@
 
   @keyframes error-glitch {
     0%, 100% { transform: translate(0); }
-    10% { transform: translate(-0.15vmin, 0.15vmin); }
-    20% { transform: translate(-0.15vmin, -0.15vmin); }
-    30% { transform: translate(0.15vmin, 0.15vmin); }
-    40% { transform: translate(0.15vmin, -0.15vmin); }
+    10% { transform: translate(-1.5px, 1.5px); }
+    20% { transform: translate(-1.5px, -1.5px); }
+    30% { transform: translate(1.5px, 1.5px); }
+    40% { transform: translate(1.5px, -1.5px); }
     50% { transform: translate(0); }
-    60% { transform: translate(-0.1vmin, 0.1vmin); }
-    70% { transform: translate(0.1vmin, -0.1vmin); }
+    60% { transform: translate(-1px, 1px); }
+    70% { transform: translate(1px, -1px); }
     80% { transform: translate(0); }
-    90% { transform: translate(-0.15vmin, 0.15vmin); }
+    90% { transform: translate(-1.5px, 1.5px); }
   }
 
   @keyframes error-glitch-1 {
     0%, 100% { transform: translate(0); opacity: 0.6; }
-    10% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
-    20% { transform: translate(-0.3vmin, -0.3vmin); opacity: 0.4; }
-    30% { transform: translate(0.3vmin, 0.3vmin); opacity: 0.4; }
-    40% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
+    10% { transform: translate(-3px, 3px); opacity: 0.4; }
+    20% { transform: translate(-3px, -3px); opacity: 0.4; }
+    30% { transform: translate(3px, 3px); opacity: 0.4; }
+    40% { transform: translate(3px, -3px); opacity: 0.4; }
     50% { transform: translate(0); opacity: 0.6; }
-    60% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
-    70% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
+    60% { transform: translate(-2px, 2px); opacity: 0.5; }
+    70% { transform: translate(2px, -2px); opacity: 0.5; }
     80% { transform: translate(0); opacity: 0.6; }
-    90% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
+    90% { transform: translate(-3px, 3px); opacity: 0.4; }
   }
 
   @keyframes error-glitch-2 {
     0%, 100% { transform: translate(0); opacity: 0.6; }
-    10% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
-    20% { transform: translate(0.3vmin, 0.3vmin); opacity: 0.4; }
-    30% { transform: translate(-0.3vmin, -0.3vmin); opacity: 0.4; }
-    40% { transform: translate(-0.3vmin, 0.3vmin); opacity: 0.4; }
+    10% { transform: translate(3px, -3px); opacity: 0.4; }
+    20% { transform: translate(3px, 3px); opacity: 0.4; }
+    30% { transform: translate(-3px, -3px); opacity: 0.4; }
+    40% { transform: translate(-3px, 3px); opacity: 0.4; }
     50% { transform: translate(0); opacity: 0.6; }
-    60% { transform: translate(0.2vmin, -0.2vmin); opacity: 0.5; }
-    70% { transform: translate(-0.2vmin, 0.2vmin); opacity: 0.5; }
+    60% { transform: translate(2px, -2px); opacity: 0.5; }
+    70% { transform: translate(-2px, 2px); opacity: 0.5; }
     80% { transform: translate(0); opacity: 0.6; }
-    90% { transform: translate(0.3vmin, -0.3vmin); opacity: 0.4; }
+    90% { transform: translate(3px, -3px); opacity: 0.4; }
   }
 
   @keyframes button-spark-pulse {
