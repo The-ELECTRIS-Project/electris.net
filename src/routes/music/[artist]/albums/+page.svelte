@@ -2,13 +2,14 @@
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
     import { t } from '$lib/state/i18n.svelte';
+    import PageShell from '$lib/components/ui/PageShell.svelte';
+    import EmptyState from '$lib/components/ui/EmptyState.svelte';
+    import Button from '$lib/components/ui/Button.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
 
     let { artist, albums } = $derived(data);
-
-    let container: HTMLElement;
 
     onMount(() => {
         gsap.from('.album-card', {
@@ -30,7 +31,7 @@
     <title>Albums | {artist.name} | ELECTRIS</title>
 </svelte:head>
 
-<div class="albums-page" bind:this={container}>
+<PageShell width="full" class="albums-page">
     <header class="page-header">
         <a href="/music/{artist.slug}" class="back-link">
             ← {artist.name}
@@ -59,31 +60,23 @@
             {/each}
         </div>
     {:else}
-        <div class="none-found">
-            <div class="empty-icon">
-                <img src="/icons/buttons/vinyl.svg" alt="Empty" />
-            </div>
-            <h2>{t('ems.music.albums.empty.title', 'No albums yet')}</h2>
-            <p>
-                {artist.name}
-                {t(
-                    'ems.music.albums.empty.body',
-                    'hasn\'t put an album out yet. When that changes, it will show up here.'
-                )}
-            </p>
-            <a href="/music/{artist.slug}" class="btn-return">
+        <EmptyState
+            class="none-found"
+            icon="/icons/buttons/vinyl.svg"
+            title={t('ems.music.albums.empty.title', 'No albums yet')}
+            description="{artist.name} {t(
+                'ems.music.albums.empty.body',
+                'hasn\'t put an album out yet. When that changes, it will show up here.'
+            )}"
+        >
+            <Button href="/music/{artist.slug}" variant="fill" class="btn-return">
                 {t('ems.music.return.artist', 'Back to the artist')}
-            </a>
-        </div>
+            </Button>
+        </EmptyState>
     {/if}
-</div>
+</PageShell>
 
 <style>
-    .albums-page {
-        min-height: 100vh;
-        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
-    }
-
     .page-header {
         margin-bottom: var(--space-8);
     }
@@ -176,71 +169,51 @@
         font-size: var(--text-base);
     }
 
-    .none-found {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    :global(.albums-page .none-found) {
         padding-top: var(--space-8);
     }
 
-    .empty-icon {
+    :global(.albums-page .none-found .empty-icon) {
         width: 9.5rem;
         height: 9.5rem;
         background: color-mix(in srgb, var(--accent) 5%, transparent);
         border: 1px dashed color-mix(in srgb, var(--accent) 30%, transparent);
-        border-radius: var(--radius-round);
-        display: flex;
-        justify-content: center;
-        align-items: center;
         margin-bottom: var(--space-7);
     }
 
-    .empty-icon img {
+    :global(.albums-page .none-found .empty-icon img) {
         width: 4.75rem;
         opacity: 0.3;
         animation: spin 20s linear infinite;
     }
 
-    .none-found h2 {
-        font-family: var(--font-display);
+    :global(.albums-page .none-found h2) {
         font-size: var(--display-sm);
         margin-bottom: var(--space-4);
         opacity: 0.8;
         color: var(--accent);
     }
 
-    .none-found p {
+    :global(.albums-page .none-found p) {
         max-width: 30rem;
         opacity: 0.6;
         margin-bottom: var(--space-7);
         line-height: 1.6;
     }
 
-    .btn-return {
+    :global(.albums-page .none-found .btn-return) {
+        --btn-shadow-hover: 0 0.35rem 1rem color-mix(in srgb, var(--accent) 30%, transparent);
         padding: var(--space-4) var(--space-7);
-        background: transparent;
-        border: 1px solid var(--accent);
         color: var(--accent);
-        text-decoration: none;
         border-radius: var(--radius-xs);
         font-weight: bold;
         letter-spacing: 0.07em;
-        transition:
-            var(--transition-colors),
-            box-shadow var(--duration-slow) var(--ease-out);
-    }
-
-    .btn-return:hover {
-        background: var(--accent);
-        color: var(--text-on-accent);
-        box-shadow: 0 0.35rem 1rem color-mix(in srgb, var(--accent) 30%, transparent);
     }
 
     @media (max-width: 900px) {
-        .albums-page {
-            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
+        :global(.albums-page) {
+            --shell-pad-top: calc(var(--layout-page-top) + var(--space-4));
+            --shell-pad-inline: var(--space-4);
         }
 
         .page-header {
@@ -259,25 +232,23 @@
             gap: var(--space-5);
         }
 
-        .none-found {
+        :global(.albums-page .none-found) {
             padding-top: var(--space-7);
         }
 
-        .empty-icon {
+        :global(.albums-page .none-found .empty-icon) {
             width: 6.5rem;
             height: 6.5rem;
             margin-bottom: var(--space-5);
         }
 
-        .empty-icon img {
+        :global(.albums-page .none-found .empty-icon img) {
             width: var(--space-7);
         }
 
-        .btn-return {
+        :global(.albums-page .none-found .btn-return) {
             padding: var(--space-3) var(--space-5);
             min-height: var(--touch-target-size);
-            display: inline-flex;
-            align-items: center;
         }
     }
 

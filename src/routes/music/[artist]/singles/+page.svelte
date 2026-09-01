@@ -2,13 +2,14 @@
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
     import { t } from '$lib/state/i18n.svelte';
+    import PageShell from '$lib/components/ui/PageShell.svelte';
+    import EmptyState from '$lib/components/ui/EmptyState.svelte';
+    import Button from '$lib/components/ui/Button.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
 
     let { artist, singles } = $derived(data);
-
-    let container: HTMLElement;
 
     onMount(() => {
         gsap.from('.single-card', {
@@ -30,7 +31,7 @@
     <title>Singles | {artist.name} | ELECTRIS</title>
 </svelte:head>
 
-<div class="singles-page" bind:this={container}>
+<PageShell width="full" class="singles-page">
     <header class="page-header">
         <a href="/music/{artist.slug}" class="back-link">
             ← {artist.name}
@@ -59,31 +60,23 @@
             {/each}
         </div>
     {:else}
-        <div class="none-found">
-            <div class="empty-icon">
-                <img src="/icons/buttons/cd.svg" alt="Empty" />
-            </div>
-            <h2>{t('ems.music.singles.empty.title', 'No singles yet')}</h2>
-            <p>
-                {artist.name}
-                {t(
-                    'ems.music.singles.empty.body',
-                    'hasn\'t put a single out yet. When that changes, it will show up here.'
-                )}
-            </p>
-            <a href="/music/{artist.slug}" class="btn-return">
+        <EmptyState
+            class="none-found"
+            icon="/icons/buttons/cd.svg"
+            title={t('ems.music.singles.empty.title', 'No singles yet')}
+            description="{artist.name} {t(
+                'ems.music.singles.empty.body',
+                'hasn\'t put a single out yet. When that changes, it will show up here.'
+            )}"
+        >
+            <Button href="/music/{artist.slug}" variant="fill" class="btn-return">
                 {t('ems.music.return.artist', 'Back to the artist')}
-            </a>
-        </div>
+            </Button>
+        </EmptyState>
     {/if}
-</div>
+</PageShell>
 
 <style>
-    .singles-page {
-        min-height: 100vh;
-        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
-    }
-
     .page-header {
         margin-bottom: var(--space-8);
     }
@@ -176,56 +169,38 @@
         font-size: var(--text-sm);
     }
 
-    .none-found {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+    :global(.singles-page .none-found) {
         padding-top: var(--space-8);
     }
 
-    .empty-icon {
+    :global(.singles-page .none-found .empty-icon) {
         width: 8rem;
         height: 8rem;
         background: color-mix(in srgb, var(--accent) 10%, transparent);
-        border-radius: var(--radius-round);
-        display: flex;
-        justify-content: center;
-        align-items: center;
         margin-bottom: var(--space-6);
         opacity: 0.5;
     }
 
-    .empty-icon img {
+    :global(.singles-page .none-found .empty-icon img) {
         width: var(--space-8);
         opacity: 0.5;
     }
 
-    .none-found h2 {
-        font-family: var(--font-display);
+    :global(.singles-page .none-found h2) {
         font-size: var(--display-sm);
         margin-bottom: var(--space-4);
         opacity: 0.8;
     }
 
-    .none-found p {
+    :global(.singles-page .none-found p) {
         max-width: 27rem;
         opacity: 0.6;
         margin-bottom: var(--space-6);
     }
 
-    .btn-return {
+    :global(.singles-page .none-found .btn-return) {
         padding: var(--space-3) var(--space-6);
-        border: 1px solid var(--accent);
         color: var(--accent);
-        text-decoration: none;
         border-radius: var(--radius-pill);
-        transition: var(--transition-colors);
-    }
-
-    .btn-return:hover {
-        background: var(--accent);
-        color: var(--text-on-accent);
     }
 </style>
