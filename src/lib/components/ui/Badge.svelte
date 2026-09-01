@@ -31,7 +31,7 @@
   }
 
   .sm {
-    font-size: 0.75rem;
+    font-size: var(--text-2xs);
     padding: 0.125rem var(--space-2);
   }
 
@@ -45,9 +45,10 @@
     color: var(--text-secondary);
   }
 
+  /* Fixed in every scheme, so a state reads the same way wherever the badge is used. */
   .info {
     background: #4444ff;
-    color: #fff;
+    color: var(--text-on-accent);
   }
 
   .positive {
@@ -57,6 +58,6 @@
 
   .danger {
     background: #ff4444;
-    color: #fff;
+    color: var(--text-on-accent);
   }
 </style>
