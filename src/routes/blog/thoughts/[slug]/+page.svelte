@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Button from '$lib/components/ui/Button.svelte';
   import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { i18nState, t, availableLocales } from '$lib/state/i18n.svelte';
@@ -298,14 +299,9 @@
         {#if labeledLinks.length > 0}
           <div class="post-links">
             {#each labeledLinks as link, index (`${link.url}-${index}`)}
-              <a
-                href={link.url}
-                class="post-link-out"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Button href={link.url} external class="post-link-out">
                 {link.label}
-              </a>
+              </Button>
             {/each}
           </div>
         {/if}
@@ -619,22 +615,15 @@
     font-style: italic;
   }
 
-  .post-link-out {
-    display: inline-flex;
-    align-items: center;
+  .post-links :global(.post-link-out) {
+    --btn-raise: translateY(-1px);
+    --btn-shadow-hover: 0 0.4rem 0.9rem color-mix(in srgb, var(--accent) 16%, transparent);
     margin: 0;
     padding: var(--space-2) var(--space-4);
     border-radius: var(--radius-sm);
-    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
     color: color-mix(in srgb, var(--accent) 95%, transparent);
-    text-decoration: none;
     font-family: var(--post-info-link-font, var(--font-body));
     font-size: var(--text-sm);
-    transition:
-      var(--transition-colors),
-      box-shadow var(--duration-normal) var(--ease-out),
-      transform var(--duration-normal) var(--ease-out);
   }
 
   .post-links {
@@ -644,8 +633,7 @@
     margin: 0 0 var(--space-5);
   }
 
-  .post-link-out:hover,
-  .post-link-out:focus-visible {
+  .post-links :global(.post-link-out):focus-visible {
     transform: translateY(-1px);
     border-color: color-mix(in srgb, var(--accent) 55%, transparent);
     background: color-mix(in srgb, var(--accent) 20%, transparent);
