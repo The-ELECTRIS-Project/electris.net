@@ -108,6 +108,7 @@
   /* Declared here as well as on the rect so the arm length has two CSS ends to animate between. */
   .line {
     width: 70px;
+    transform-box: view-box;
     transition:
       transform var(--duration-slow) var(--ease-in-out),
       width var(--duration-slow) var(--ease-in-out),
@@ -141,8 +142,10 @@
     transform: translateY(0) rotate(0deg);
   }
   
+  /* The arms are rotated about the viewBox centre, so the offsets place each arm's far
+     end on the shaft's tip: (80, 50) when closed, (18, 50) when open. */
   .closed.hovered .line-top {
-    transform: translateY(11px) translateX(16px) rotate(45deg);
+    transform: translateY(16.3px) translateX(16.6px) rotate(45deg);
     width: 38px;
   }
   
@@ -152,12 +155,12 @@
   }
   
   .closed.hovered .line-bottom {
-    transform: translateY(-11px) translateX(16px) rotate(-45deg);
+    transform: translateY(-16.3px) translateX(16.6px) rotate(-45deg);
     width: 38px;
   }
   
   .open.hovered .line-top {
-    transform: translateY(-10px) translateX(8px) rotate(-45deg);
+    transform: translateY(-13.4px) translateX(11.1px) rotate(-45deg);
     width: 38px;
   }
   
@@ -167,7 +170,7 @@
   }
   
   .open.hovered .line-bottom {
-    transform: translateY(10px) translateX(8px) rotate(45deg);
+    transform: translateY(13.4px) translateX(11.1px) rotate(45deg);
     width: 38px;
   }
   
