@@ -81,8 +81,10 @@
     user-select: none;
     height: 4vmin;
     width: 3.5vmin;
-    position: fixed;
-    left: 1vmin;
+    position: absolute;
+    top: 50%;
+    left: var(--space-3);
+    transform: translateY(-50%);
     z-index: calc(var(--z-nav) + 1);
     cursor: pointer;
     background: none;
@@ -137,8 +139,8 @@
   }
   
   .closed.hovered .line-top {
-    transform: translateY(1vmin) translateX(1.5vmin) rotate(45deg);
-    width: 3.5vmin;
+    transform: translateY(11px) translateX(16px) rotate(45deg);
+    width: 38px;
   }
   
   .closed.hovered .line-middle {
@@ -147,23 +149,23 @@
   }
   
   .closed.hovered .line-bottom {
-    transform: translateY(-1vmin) translateX(1.5vmin) rotate(-45deg);
-    width: 3.5vmin;
+    transform: translateY(-11px) translateX(16px) rotate(-45deg);
+    width: 38px;
   }
   
   .open.hovered .line-top {
-    transform: translateY(-0.9vmin) translateX(0.75vmin) rotate(-45deg);
-    width: 3.5vmin;
+    transform: translateY(-10px) translateX(8px) rotate(-45deg);
+    width: 38px;
   }
   
   .open.hovered .line-middle {
-    transform: translateX(0.75vmin) scaleX(1);
+    transform: translateX(8px) scaleX(1);
     opacity: 1;
   }
   
   .open.hovered .line-bottom {
-    transform: translateY(0.9vmin) translateX(0.75vmin) rotate(45deg);
-    width: 3.5vmin;
+    transform: translateY(10px) translateX(8px) rotate(45deg);
+    width: 38px;
   }
   
   .closed.hovered .hamburger-svg {
@@ -192,32 +194,22 @@
     }
   }
   
-  .hamburger-animated:not(.hovered) .line {
-    transition-delay: 0.1s;
-  }
-  
-  .hamburger-animated.hovered .line {
-    transition-delay: 0s;
-  }
-
   @media (max-width: 900px) {
     .hamburger-button {
-      width: 3rem;
-      height: 3rem;
-      left: 0.25rem;
+      /* The navbar only pads for the safe area at the top, so centring shifts by half of it. */
+      top: calc(50% + (env(safe-area-inset-top) * 0.5));
+      left: var(--space-4);
+      width: 2rem;
+      height: 2rem;
     }
   }
 
   @media (any-pointer: coarse) {
-    .hamburger-button {
-      width: 3.5rem;
-      height: 3.5rem;
-      left: 0.4rem;
-    }
-
-    .hamburger-svg {
-      width: 2rem;
-      height: 2rem;
+    /* Widens the tap target without pushing the icon off the navbar's padding line. */
+    .hamburger-button::after {
+      content: '';
+      position: absolute;
+      inset: -0.75rem;
     }
 
     .closed.hovered .hamburger-svg,
