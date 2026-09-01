@@ -105,9 +105,12 @@
     transition: none;
   }
 
+  /* Declared here as well as on the rect so the arm length has two CSS ends to animate between. */
   .line {
+    width: 70px;
     transition:
       transform var(--duration-slow) var(--ease-in-out),
+      width var(--duration-slow) var(--ease-in-out),
       opacity var(--duration-slow) var(--ease-in-out);
     transform-origin: center;
   }
