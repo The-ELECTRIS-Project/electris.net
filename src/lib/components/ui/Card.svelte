@@ -4,8 +4,8 @@
   let {
     href = undefined,
     external = false,
-    variant = 'raised',
-    size = 'default',
+    variant = 'accent',
+    hover = 'lift',
     disabled = false,
     muted = false,
     class: className = '',
@@ -13,8 +13,8 @@
   } = $props<{
     href?: string;
     external?: boolean;
-    variant?: 'raised' | 'outline' | 'flat';
-    size?: 'compact' | 'default';
+    variant?: 'accent' | 'raised' | 'outline' | 'plain';
+    hover?: 'lift' | 'grow' | 'none';
     disabled?: boolean;
     muted?: boolean;
     class?: string;
@@ -26,7 +26,7 @@
 
 {#if interactive}
   <a
-    class="card {variant} {size} {className}"
+    class="card {variant} {hover} {className}"
     class:muted
     {href}
     target={external ? '_blank' : undefined}
@@ -35,38 +35,32 @@
     {@render children()}
   </a>
 {:else}
-  <div class="card {variant} {size} {className}" class:disabled class:muted>
+  <div class="card {variant} {className}" class:disabled class:muted>
     {@render children()}
   </div>
 {/if}
 
 <style>
+  /* Surface, state and motion only. Layout, padding and typography belong to the page.
+     Static properties it overrides directly; the two hover values come through the hooks. */
   .card {
     position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
     border-radius: var(--radius-md);
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
     transition:
-      background-color var(--duration-slow) var(--ease-in-out),
-      border-color var(--duration-slow) var(--ease-in-out),
-      transform var(--duration-slow) var(--ease-in-out),
-      box-shadow var(--duration-slow) var(--ease-in-out);
+      var(--transition-colors),
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
   }
 
-  .default {
-    padding: var(--space-5);
-  }
-
-  .compact {
-    padding: var(--space-4);
+  .accent {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .raised {
-    background: color-mix(in srgb, var(--accent) 5%, transparent);
-    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    background: var(--surface-raised);
   }
 
   .outline {
@@ -74,16 +68,28 @@
     border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   }
 
-  .flat {
-    background: var(--surface-raised);
+  .plain {
+    background: transparent;
     border: 1px solid transparent;
   }
 
-  a.card:hover {
+  a.accent:hover {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-    transform: translateY(-0.25rem);
-    box-shadow: var(--shadow-md);
+  }
+
+  a.outline:hover {
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+
+  a.lift:hover {
+    transform: translateY(var(--card-lift, -0.25rem));
+    box-shadow: var(--card-shadow, none);
+  }
+
+  a.grow:hover {
+    transform: scale(1.02);
+    box-shadow: var(--card-shadow, none);
   }
 
   .disabled {
