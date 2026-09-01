@@ -2,6 +2,7 @@
   import { page } from '$app/state';
   import { onMount } from 'svelte';
   import { t } from '$lib/state/i18n.svelte';
+  import Button from '$lib/components/ui/Button.svelte';
 
   let error = $derived(page.error);
   let status = $derived(page.status);
@@ -59,13 +60,13 @@
       {/if}
 
       <div class="error-actions">
-        <a href="/" class="return-button">
+        <Button href="/" class="return-button">
           <span class="button-text">{t('error.action.home', 'To the home page')}</span>
           <div class="button-spark"></div>
-        </a>
-        <button onclick={goBack} class="back-button">
+        </Button>
+        <Button onclick={goBack} class="back-button">
           <span class="button-text">{t('error.action.back', 'Go back')}</span>
-        </button>
+        </Button>
       </div>
     </div>
   </div>
@@ -282,33 +283,24 @@
     align-items: center;
   }
 
-  .return-button, .back-button {
+  .error-actions :global(.return-button),
+  .error-actions :global(.back-button) {
+    --btn-fill: 10%;
+    --btn-fill-hover: 20%;
+    --btn-edge: 100%;
+    --btn-edge-hover: 100%;
+    --btn-raise: translateY(-0.15rem);
+    --btn-shadow-hover: 0 0 var(--space-3) color-mix(in srgb, var(--accent) 50%, transparent);
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     min-height: var(--touch-target-size);
     padding: var(--space-3) var(--space-6);
-    border: 2px solid var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border-width: 2px;
     color: var(--accent);
     font-family: var(--font-body);
     font-size: var(--text-md);
     font-weight: 500;
     border-radius: var(--radius-sm);
-    cursor: pointer;
-    text-decoration: none;
     overflow: hidden;
-    transition:
-      var(--transition-colors),
-      transform var(--duration-slow) var(--ease-out),
-      box-shadow var(--duration-slow) var(--ease-out);
-  }
-
-  .return-button:hover, .back-button:hover {
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    box-shadow: 0 0 var(--space-3) color-mix(in srgb, var(--accent) 50%, transparent);
-    transform: translateY(-0.15rem);
   }
 
   .button-text {
@@ -338,8 +330,8 @@
       max-width: min(28rem, 100%);
     }
 
-    .return-button,
-    .back-button {
+    .error-actions :global(.return-button),
+    .error-actions :global(.back-button) {
       padding: var(--space-3) var(--space-5);
       border-radius: var(--radius-md);
     }
