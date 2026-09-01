@@ -2,6 +2,9 @@
   import { t } from '$lib/state/i18n.svelte';
   import { onMount } from 'svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import Card from '$lib/components/ui/Card.svelte';
+  import Badge from '$lib/components/ui/Badge.svelte';
+  import Section from '$lib/components/ui/Section.svelte';
 
   useHoverConfig([
     {
@@ -122,18 +125,17 @@
   </div>
 
   <div class="hub-container">
-    <section class="hub-section">
-      <div class="section-header">
+    <Section class="hub-section" title={t('social.section.project')}>
+      {#snippet media()}
         <img src="/icons/logo/FirstParty/elts-v1.png" alt="ELECTRIS" class="section-logo" />
-        <h2 class="section-title">{t('social.section.project')}</h2>
-      </div>
+      {/snippet}
       <div class="grid">
         {#each projectLinks as link}
-          <a
-            class="card wrap-no-interact-all {link.status || ''}"
+          <Card
             href={link.url}
-            target={link.url === '#' ? '_self' : '_blank'}
-            rel="noopener noreferrer"
+            external={link.url !== '#'}
+            muted={link.status === 'deprecated'}
+            class="wrap-no-interact-all {link.status ?? ''}"
           >
             <div class="icons">
               <img src={link.platformLogo} alt={link.title} class="platform-icon" />
@@ -141,23 +143,21 @@
             <div class="card-text">
               <div class="card-header">
                 <h2>{link.title}</h2>
-                <span class="platform-tag" class:tag-brand={link.handle === 'ELECTRIS'}>{link.handle}</span>
+                <Badge class="platform-tag {link.handle === 'ELECTRIS' ? 'tag-brand' : ''}">{link.handle}</Badge>
               </div>
               <p>{link.description}</p>
               {#if link.status}
-                <span class="status-badge {link.status}">{link.status.replace('-', ' ')}</span>
+                <Badge tone={link.status === 'deprecated' ? 'danger' : 'info'} class="status-badge">
+                  {link.status.replace('-', ' ')}
+                </Badge>
               {/if}
             </div>
-          </a>
+          </Card>
         {/each}
       </div>
-    </section>
+    </Section>
 
-    <section class="hub-section team-section">
-      <div class="section-header main-team-header">
-        <h2 class="section-title">{t('social.section.team')}</h2>
-      </div>
-
+    <Section class="hub-section team-section" title={t('social.section.team')}>
       <div class="team-split">
         <div class="team-member-group">
           <div class="member-header">
@@ -169,18 +169,18 @@
           </div>
           <div class="grid grid-small">
             {#each founderLinks as link}
-              <a class="card card-compact wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+              <Card href={link.url} external class="card-compact wrap-no-interact-all">
                 <div class="icons">
                   <img src={link.platformLogo} alt={link.title} class="platform-icon" />
                 </div>
                 <div class="card-text">
                   <div class="card-header">
                     <h2>{link.title}</h2>
-                    <span class="platform-tag">{link.handle}</span>
+                    <Badge class="platform-tag">{link.handle}</Badge>
                   </div>
                   <p>{link.description}</p>
                 </div>
-              </a>
+              </Card>
             {/each}
           </div>
         </div>
@@ -195,31 +195,28 @@
           </div>
           <div class="grid grid-small">
             {#each contributorLinks as link}
-              <a class="card card-compact wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+              <Card href={link.url} external class="card-compact wrap-no-interact-all">
                 <div class="icons">
                   <img src={link.platformLogo} alt={link.title} class="platform-icon" />
                 </div>
                 <div class="card-text">
                   <div class="card-header">
                     <h2>{link.title}</h2>
-                    <span class="platform-tag">{link.handle}</span>
+                    <Badge class="platform-tag">{link.handle}</Badge>
                   </div>
                   <p>{link.description}</p>
                 </div>
-              </a>
+              </Card>
             {/each}
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   </div>
 </div>
 
 <style>
   .socials-page {
-    /* Platform states, fixed in every scheme so "deprecated" reads the same way everywhere. */
-    --state-deprecated: #ff4444;
-    --state-coming-soon: #4444ff;
     min-height: 100vh;
     padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     display: flex;
@@ -256,23 +253,21 @@
     gap: var(--space-8);
   }
 
-  .hub-section {
-    display: flex;
-    flex-direction: column;
+  .socials-page :global(.hub-section) {
     gap: var(--space-6);
   }
 
-  .section-header {
-    display: flex;
-    align-items: center;
+  .socials-page :global(.section-header) {
     gap: var(--space-5);
     width: fit-content;
     padding-bottom: var(--space-3);
     border-bottom: 2px solid var(--accent);
   }
 
-  .main-team-header {
+  .socials-page :global(.team-section .section-header) {
     margin-bottom: var(--space-5);
+    border-bottom-width: 1px;
+    opacity: 0.8;
   }
 
   .section-logo {
@@ -282,8 +277,7 @@
     border: 2px solid var(--accent);
   }
 
-  .section-title {
-    margin: 0;
+  .socials-page :global(.section-title) {
     font-family: var(--font-body);
     font-size: var(--text-2xl);
     letter-spacing: 0.1rem;
@@ -342,41 +336,19 @@
     grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
   }
 
-  .card {
-    position: relative;
+  .socials-page :global(.card) {
+    --card-shadow: var(--shadow-md);
     display: flex;
     align-items: center;
     overflow: hidden;
     padding: var(--space-5);
-    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-    border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--accent) 5%, transparent);
-    color: var(--accent);
-    text-decoration: none;
-    transition:
-      background-color var(--duration-slow) var(--ease-in-out),
-      border-color var(--duration-slow) var(--ease-in-out),
-      transform var(--duration-slow) var(--ease-in-out),
-      box-shadow var(--duration-slow) var(--ease-in-out);
   }
 
-  .card:hover {
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-    transform: translateY(-0.25rem);
-    box-shadow: var(--shadow-md);
-  }
-
-  .card-compact {
+  .socials-page :global(.card-compact) {
     padding: var(--space-4);
   }
 
-  .card.deprecated {
-    opacity: 0.6;
-    filter: grayscale(0.5);
-  }
-
-  .card.coming-soon {
+  .socials-page :global(.card.coming-soon) {
     cursor: default;
   }
 
@@ -397,7 +369,7 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .card-compact .platform-icon {
+  :global(.card-compact) .platform-icon {
     width: 3rem;
     height: 3rem;
     padding: var(--space-2);
@@ -424,7 +396,7 @@
     line-height: 1;
   }
 
-  .card-compact .card-text h2 {
+  :global(.card-compact) .card-text h2 {
     font-size: var(--text-lg);
   }
 
@@ -436,55 +408,28 @@
     opacity: 0.9;
   }
 
-  .card-compact .card-text p {
+  :global(.card-compact) .card-text p {
     font-size: var(--text-sm);
   }
 
-  .platform-tag {
-    padding: var(--space-1) var(--space-2);
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-body);
+  .socials-page :global(.platform-tag) {
     font-size: var(--text-xs);
-    text-transform: uppercase;
-    white-space: nowrap;
   }
 
-  .tag-brand {
+  .socials-page :global(.tag-brand) {
     font-family: var(--font-display);
     letter-spacing: 0.05rem;
   }
 
-  .status-badge {
-    width: fit-content;
+  .socials-page :global(.status-badge) {
     margin-top: var(--space-1);
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-body);
-    font-size: var(--text-2xs);
-    text-transform: uppercase;
   }
 
-  .status-badge.deprecated {
-    background: var(--state-deprecated);
-    color: var(--text-on-accent);
-  }
-
-  .status-badge.coming-soon {
-    background: var(--state-coming-soon);
-    color: var(--text-on-accent);
-  }
-
-  .team-section {
+  .socials-page :global(.team-section) {
     opacity: 0.9;
   }
 
-  .team-section .main-team-header {
-    border-bottom-width: 1px;
-    opacity: 0.8;
-  }
-
-  .team-section .section-title {
+  .socials-page :global(.team-section .section-title) {
     font-size: var(--text-xl);
   }
 
