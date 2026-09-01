@@ -200,12 +200,7 @@
     .empty-icon img {
         width: 4.75rem;
         opacity: 0.3;
-        animation: rotate 20s linear infinite;
-    }
-
-    @keyframes rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
+        animation: spin 20s linear infinite;
     }
 
     .none-found h2 {
