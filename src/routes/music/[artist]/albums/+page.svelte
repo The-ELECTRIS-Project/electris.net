@@ -43,7 +43,7 @@
             {#each albums as album}
                 <a 
                     href="/music/{artist.slug}/album/{album.slug}" 
-                    class="album-card card"
+                    class="album-card"
                 >
                     <div class="cover-wrapper">
                         <img src={album.cover} alt={album.title} class="cover-img" />
@@ -114,6 +114,7 @@
     }
 
     .album-card {
+        background: var(--surface-raised);
         text-decoration: none;
         color: inherit;
         display: flex;

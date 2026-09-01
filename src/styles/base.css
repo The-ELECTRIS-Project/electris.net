@@ -266,10 +266,6 @@ main {
   background: var(--scrim-video);
 }
 
-.card {
-  background-color: var(--surface-raised);
-}
-
 /* ===== BACKGROUNDS ===== */
 .electrical-bg {
   background: var(--electrical-bg);

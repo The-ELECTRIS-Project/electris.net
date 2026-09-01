@@ -43,7 +43,7 @@
             {#each singles as single}
                 <a 
                     href="/music/{artist.slug}/single/{single.slug}" 
-                    class="single-card card"
+                    class="single-card"
                 >
                     <div class="cover-wrapper">
                         <img src={single.cover} alt={single.title} class="cover-img" />
@@ -114,6 +114,7 @@
     }
 
     .single-card {
+        background: var(--surface-raised);
         text-decoration: none;
         color: inherit;
         display: flex;
