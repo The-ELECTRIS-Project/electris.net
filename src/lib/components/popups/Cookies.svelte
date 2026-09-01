@@ -3,6 +3,7 @@
   import { t } from '$lib/state/i18n.svelte';
   import { modsState } from '$lib/state/mods.svelte';
   import { fly } from 'svelte/transition';
+  import Button from '$lib/components/ui/Button.svelte';
 
   let showPopup = $state(false);
   
@@ -32,9 +33,9 @@
       <p class="body">
         {t('notice.cookie.body', 'This website only uses cookies for absolutely necessary functionality and avoids tracking cookies at all costs.')}
       </p>
-      <button class="got-it-btn" onclick={handleGotIt}>
+      <Button variant="fill" class="got-it-btn" onclick={handleGotIt}>
         {t('notice.cookie.ok', 'Got it')}
-      </button>
+      </Button>
     </div>
   </div>
 {/if}
@@ -90,23 +91,16 @@
     font-weight: 300;
   }
 
-  .got-it-btn {
+  .content :global(.got-it-btn) {
+    --btn-fill-text: var(--surface-page);
     user-select: none;
     width: 100%;
     background-color: var(--surface-page);
     color: var(--accent);
-    border: 1px solid var(--accent);
     padding: var(--space-3);
     border-radius: var(--radius-md);
-    cursor: pointer;
     font-size: var(--text-base);
     font-family: var(--font-body);
-    transition: var(--transition-colors);
-  }
-
-  .got-it-btn:hover {
-    background-color: var(--accent);
-    color: var(--surface-page);
   }
 
   @media (max-width: 600px) {
