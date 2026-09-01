@@ -3,6 +3,7 @@
     import { gsap } from 'gsap';
     import { t } from '$lib/state/i18n.svelte';
     import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+    import Card from '$lib/components/ui/Card.svelte';
     import Crown from '../components/ui/Crown.svelte';
     import type { PageData } from './$types';
 
@@ -69,27 +70,21 @@
     </header>
 
     <div class="links-container wrap-no-interact-all">
-        <a 
-            href="/music/{artist.slug}/albums" 
-            class="hub-card card"
-        >
+        <Card href="/music/{artist.slug}/albums" class="hub-card">
             <div class="icon-bg">
                 <img src="/icons/buttons/vinyl.svg" alt="Albums" />
             </div>
             <h2>{t('ems.music.card.vinyl', 'Albums')}</h2>
             <span class="count">{albums.length}</span>
-        </a>
+        </Card>
 
-        <a 
-            href="/music/{artist.slug}/singles" 
-            class="hub-card card"
-        >
+        <Card href="/music/{artist.slug}/singles" class="hub-card">
             <div class="icon-bg">
                 <img src="/icons/buttons/cd.svg" alt="Singles" />
             </div>
             <h2>{t('ems.music.card.disc', 'Singles')}</h2>
             <span class="count">{singles.length}</span>
-        </a>
+        </Card>
     </div>
 
     {#if artist.slug === 'ELECTRO'}
@@ -149,28 +144,15 @@
         padding: 0 var(--space-6);
     }
 
-    .hub-card {
-        background: color-mix(in srgb, var(--accent) 5%, transparent);
-        border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    .links-container :global(.hub-card) {
+        --card-lift: -0.7rem;
         border-radius: var(--radius-xl);
         padding: var(--space-7);
         width: 19rem;
-        text-decoration: none;
-        color: inherit;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transition:
-            var(--transition-colors),
-            transform var(--duration-normal) var(--ease-out);
-        position: relative;
         overflow: hidden;
-    }
-
-    .hub-card:hover {
-        background: color-mix(in srgb, var(--accent) 10%, transparent);
-        border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-        transform: translateY(-0.7rem);
     }
 
     .icon-bg {
@@ -189,7 +171,7 @@
         height: 2.75rem;
     }
 
-    .hub-card h2 {
+    :global(.hub-card) h2 {
         font-family: var(--font-display);
         font-size: var(--text-2xl);
         margin: 0;
@@ -234,7 +216,7 @@
             max-width: 32rem;
         }
 
-        .hub-card {
+        .links-container :global(.hub-card) {
             width: 100%;
             padding: var(--space-6) var(--space-5);
             border-radius: var(--radius-lg);
@@ -251,7 +233,7 @@
             height: var(--space-6);
         }
 
-        .hub-card h2 {
+        :global(.hub-card) h2 {
             font-size: var(--text-xl);
         }
 
