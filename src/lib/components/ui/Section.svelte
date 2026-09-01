@@ -25,8 +25,8 @@
     <div class="section-header">
       {#if media}<span class="section-media">{@render media()}</span>{/if}
       <div class="section-copy">
-        {#if title}<h2>{title}</h2>{/if}
-        {#if description}<p>{description}</p>{/if}
+        {#if title}<h2 class="section-title">{title}</h2>{/if}
+        {#if description}<p class="section-description">{description}</p>{/if}
       </div>
       {#if actions}<div class="section-actions">{@render actions()}</div>{/if}
     </div>
@@ -36,16 +36,16 @@
 </section>
 
 <style>
+  /* Structure only. Spacing, rules and typography belong to the page. */
   .section {
     width: 100%;
-    margin-bottom: var(--space-8);
+    display: flex;
+    flex-direction: column;
   }
 
   .section-header {
     display: flex;
     align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-5);
   }
 
   .section-media {
@@ -57,21 +57,15 @@
     flex-grow: 1;
   }
 
-  h2 {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    text-transform: uppercase;
-  }
-
-  p {
-    margin: var(--space-1) 0 0;
-    font-family: var(--font-body);
-    font-size: var(--text-sm);
-    opacity: 0.8;
-  }
-
   .section-actions {
     flex-shrink: 0;
+  }
+
+  .section-title {
+    margin: 0;
+  }
+
+  .section-description {
+    margin: 0;
   }
 </style>
