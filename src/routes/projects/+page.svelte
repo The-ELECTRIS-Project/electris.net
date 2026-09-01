@@ -2,6 +2,7 @@
   import { t } from '$lib/state/i18n.svelte';
   import { onMount } from 'svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import Card from '$lib/components/ui/Card.svelte';
 
   let projects = $derived([
     {
@@ -52,7 +53,7 @@
 
 <div class="cards">
   {#each projects as project}
-    <a class="card wrap-no-interact-all" href={project.link}>
+    <Card href={project.link} variant="raised" hover="grow" class="wrap-no-interact-all">
       <div class="card-content" style="font-family: {project.font};">
         <div class="card-header">
           <div class="card-icon">
@@ -66,7 +67,7 @@
         </div>
         <p>{project.description}</p>
       </div>
-    </a>
+    </Card>
   {/each}
 </div>
 
@@ -99,26 +100,18 @@
     align-items: center;
   }
 
-  .card {
+  .cards :global(.card) {
     font-family: var(--font-ui);
     display: flex;
+    justify-content: left;
     padding: var(--space-3);
     border-radius: var(--radius-sm);
-    text-decoration: none;
     color: var(--text-primary);
     width: 100%;
     max-width: var(--layout-measure);
-    transition:
-      var(--transition-colors),
-      transform var(--duration-normal) var(--ease-out);
-    justify-content: left;
     text-align: left;
   }
   
-  .card:hover {
-    transform: scale(1.02);
-  }
-
   .card-icon {
     display: flex;
     align-items: center;
@@ -173,7 +166,7 @@
       padding: 0 var(--space-4) var(--space-6);
     }
 
-    .card {
+    .cards :global(.card) {
       padding: var(--space-4);
       border-radius: var(--radius-lg);
       gap: var(--space-3);

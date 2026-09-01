@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import Card from '$lib/components/ui/Card.svelte';
   import gsap from 'gsap';
 
   let currentVideo: HTMLVideoElement;
@@ -358,7 +359,7 @@
       <div class="wrap-no-interact-all cards-wrapper">
         {#each pages as page}
           <div class="card-container">
-            <a class="card" href={page.href} target="_blank">
+            <Card href={page.href} external variant="raised" hover="grow">
               <div class="card-icon">
                 <img src={page.icon} alt="{page.title} - icon" />
               </div>
@@ -366,7 +367,7 @@
                 <h2>{page.title}</h2>
                 <p>{page.description}</p>
               </div>
-            </a>
+            </Card>
           </div>
         {/each}
       </div>
@@ -635,24 +636,16 @@
     gap: var(--space-3);
   }
 
-  .card {
+  .cards-wrapper :global(.card) {
     font-family: var(--font-ui);
     display: flex;
+    justify-content: left;
+    gap: var(--space-3);
     padding: var(--space-3);
     border-radius: var(--radius-xl);
-    text-decoration: none;
     color: var(--text-primary);
     width: 26rem;
-    transition:
-      var(--transition-colors),
-      transform var(--duration-normal) var(--ease-out);
-    justify-content: left;
     text-align: left;
-    gap: var(--space-3);
-  }
-
-  .card:hover {
-    transform: scale(1.02);
   }
 
   .card-icon {
@@ -740,7 +733,7 @@
       gap: 0;
     }
 
-    .card {
+    .cards-wrapper :global(.card) {
       width: var(--space-8);
       height: var(--space-8);
       padding: var(--space-3);
