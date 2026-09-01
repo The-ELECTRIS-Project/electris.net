@@ -2,6 +2,9 @@
   import { t } from '$lib/state/i18n.svelte';
   import { onMount } from 'svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import Card from '$lib/components/ui/Card.svelte';
+  import Badge from '$lib/components/ui/Badge.svelte';
+  import Section from '$lib/components/ui/Section.svelte';
 
   useHoverConfig([
     {
@@ -79,39 +82,36 @@
   </div>
 
   <div class="hub-container">
-    <section class="hub-section">
-      <div class="section-header">
+    <Section
+      class="hub-section"
+      title={t('donate.section.project')}
+      description={t('donate.section.project.desc')}
+    >
+      {#snippet media()}
         <img src="/icons/logo/FirstParty/elts-v1.png" alt="ELECTRIS" class="section-logo" />
-        <div class="header-text">
-          <h2 class="section-title">{t('donate.section.project')}</h2>
-          <p class="section-desc">{t('donate.section.project.desc')}</p>
-        </div>
-      </div>
+      {/snippet}
       <div class="grid">
         {#each projectLinks as link}
-          <a class="card wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+          <Card href={link.url} external class="wrap-no-interact-all">
             <div class="icons">
               <img src={link.platformLogo} alt={link.title} class="platform-icon" />
             </div>
             <div class="card-text">
               <div class="card-header">
                 <h2>{link.title}</h2>
-                <span class="platform-tag tag-brand">{link.handle}</span>
+                <Badge class="platform-tag tag-brand">{link.handle}</Badge>
               </div>
             </div>
-          </a>
+          </Card>
         {/each}
       </div>
-    </section>
+    </Section>
 
-    <section class="hub-section team-section">
-      <div class="section-header main-team-header">
-        <div class="header-text">
-          <h2 class="section-title">{t('donate.section.team')}</h2>
-          <p class="section-desc">{t('donate.section.team.desc')}</p>
-        </div>
-      </div>
-
+    <Section
+      class="hub-section team-section"
+      title={t('donate.section.team')}
+      description={t('donate.section.team.desc')}
+    >
       <div class="team-split">
         <div class="team-member-group">
           <div class="member-header">
@@ -123,17 +123,17 @@
           </div>
           <div class="grid grid-small">
             {#each founderLinks as link}
-              <a class="card card-compact wrap-no-interact-all" href={link.url} target="_blank" rel="noopener noreferrer">
+              <Card href={link.url} external class="card-compact wrap-no-interact-all">
                 <div class="icons">
                   <img src={link.platformLogo} alt={link.title} class="platform-icon" />
                 </div>
                 <div class="card-text">
                   <div class="card-header">
                     <h2>{link.title}</h2>
-                    <span class="platform-tag">{link.handle}</span>
+                    <Badge class="platform-tag">{link.handle}</Badge>
                   </div>
                 </div>
-              </a>
+              </Card>
             {/each}
           </div>
         </div>
@@ -147,15 +147,15 @@
             </div>
           </div>
           <div class="grid grid-small">
-            <div class="card card-compact card-disabled wrap-no-interact-all">
+            <Card disabled class="card-compact wrap-no-interact-all">
               <div class="card-text">
                 <p>{t('donate.vrrw.no_donations.desc')}</p>
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   </div>
 </div>
 
@@ -197,26 +197,24 @@
     gap: var(--space-8);
   }
 
-  .hub-section {
-    display: flex;
-    flex-direction: column;
+  .donate-page :global(.hub-section) {
     gap: var(--space-6);
   }
 
-  .section-header {
-    display: flex;
-    align-items: center;
+  .donate-page :global(.section-header) {
     gap: var(--space-5);
     width: 100%;
     padding-bottom: var(--space-3);
     border-bottom: 2px solid var(--accent);
   }
 
-  .main-team-header {
+  .donate-page :global(.team-section .section-header) {
     margin-bottom: var(--space-5);
+    border-bottom-width: 1px;
+    opacity: 0.8;
   }
 
-  .header-text {
+  .donate-page :global(.section-copy) {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -229,16 +227,14 @@
     border: 2px solid var(--accent);
   }
 
-  .section-title {
-    margin: 0;
+  .donate-page :global(.section-title) {
     font-family: var(--font-body);
     font-size: var(--text-2xl);
     letter-spacing: 0.1rem;
     line-height: 1.1;
   }
 
-  .section-desc {
-    margin: 0;
+  .donate-page :global(.section-description) {
     font-family: var(--font-ui);
     font-size: var(--text-md);
     line-height: 1.4;
@@ -298,40 +294,16 @@
     grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
   }
 
-  .card {
-    position: relative;
+  .donate-page :global(.card) {
+    --card-shadow: var(--shadow-md);
     display: flex;
     align-items: center;
     overflow: hidden;
     padding: var(--space-5);
-    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-    border-radius: var(--radius-md);
-    background: color-mix(in srgb, var(--accent) 5%, transparent);
-    color: var(--accent);
-    text-decoration: none;
-    transition:
-      background-color var(--duration-slow) var(--ease-in-out),
-      border-color var(--duration-slow) var(--ease-in-out),
-      transform var(--duration-slow) var(--ease-in-out),
-      box-shadow var(--duration-slow) var(--ease-in-out);
   }
 
-  .card:not(.card-disabled):hover {
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-    transform: translateY(-0.25rem);
-    box-shadow: var(--shadow-md);
-  }
-
-  .card-compact {
+  .donate-page :global(.card-compact) {
     padding: var(--space-4);
-  }
-
-  .card.card-disabled {
-    opacity: 0.5;
-    cursor: default;
-    background: color-mix(in srgb, var(--accent) 2%, transparent);
-    border-color: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .icons {
@@ -351,7 +323,7 @@
     box-shadow: var(--shadow-sm);
   }
 
-  .card-compact .platform-icon {
+  :global(.card-compact) .platform-icon {
     width: 3rem;
     height: 3rem;
     padding: var(--space-2);
@@ -378,7 +350,7 @@
     line-height: 1;
   }
 
-  .card-compact .card-text h2 {
+  :global(.card-compact) .card-text h2 {
     font-size: var(--text-lg);
   }
 
@@ -390,35 +362,24 @@
     opacity: 0.9;
   }
 
-  .card-compact .card-text p {
+  :global(.card-compact) .card-text p {
     font-size: var(--text-sm);
   }
 
-  .platform-tag {
-    padding: var(--space-1) var(--space-2);
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    border-radius: var(--radius-xs);
-    font-family: var(--font-body);
+  .donate-page :global(.platform-tag) {
     font-size: var(--text-xs);
-    text-transform: uppercase;
-    white-space: nowrap;
   }
 
-  .tag-brand {
+  .donate-page :global(.tag-brand) {
     font-family: var(--font-display);
     letter-spacing: 0.05rem;
   }
 
-  .team-section {
+  .donate-page :global(.team-section) {
     opacity: 0.9;
   }
 
-  .team-section .main-team-header {
-    border-bottom-width: 1px;
-    opacity: 0.8;
-  }
-
-  .team-section .section-title {
+  .donate-page :global(.team-section .section-title) {
     font-size: var(--text-xl);
   }
 
