@@ -6,8 +6,7 @@
     href = undefined,
     external = false,
     type = 'button',
-    variant = 'outline',
-    size = 'md',
+    variant = 'tint',
     tone = 'accent',
     disabled = false,
     label = undefined,
@@ -19,8 +18,7 @@
     href?: string;
     external?: boolean;
     type?: 'button' | 'submit';
-    variant?: 'solid' | 'outline' | 'ghost' | 'link';
-    size?: 'sm' | 'md' | 'lg';
+    variant?: 'tint' | 'fill' | 'raised' | 'bare';
     tone?: 'accent' | 'neutral' | 'danger';
     disabled?: boolean;
     label?: string;
@@ -33,7 +31,7 @@
 
 {#if href && !disabled}
   <a
-    class="btn {variant} {size} {tone} {className}"
+    class="btn {variant} {tone} {className}"
     {href}
     aria-label={label}
     target={external ? '_blank' : undefined}
@@ -44,7 +42,7 @@
   </a>
 {:else}
   <button
-    class="btn {variant} {size} {tone} {className}"
+    class="btn {variant} {tone} {className}"
     {type}
     {disabled}
     aria-label={label}
@@ -56,42 +54,22 @@
 {/if}
 
 <style>
+  /* Box, state and motion only. Radius, padding and typography belong to the call site.
+     Every value that differs between call sites comes through a hook. */
   .btn {
+    --btn-tint: var(--accent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-2);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-ui);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
     cursor: pointer;
+    box-shadow: var(--btn-shadow, none);
     transition:
-      transform var(--duration-slow) var(--ease-out),
-      border-color var(--duration-slow) var(--ease-out),
-      background-color var(--duration-slow) var(--ease-out),
-      box-shadow var(--duration-slow) var(--ease-out);
-  }
-
-  .sm {
-    padding: var(--space-2) var(--space-3);
-    font-size: 0.72rem;
-  }
-
-  .md {
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--text-2xs);
-  }
-
-  .lg {
-    padding: var(--space-4) var(--space-5);
-    font-size: var(--text-sm);
-  }
-
-  .accent {
-    --btn-tint: var(--accent);
+      var(--transition-colors),
+      transform var(--duration-normal) var(--ease-out),
+      box-shadow var(--duration-normal) var(--ease-out);
   }
 
   .neutral {
@@ -99,44 +77,48 @@
   }
 
   .danger {
-    --btn-tint: #ff4444;
+    --btn-tint: var(--status-negative);
   }
 
-  .outline {
-    border: 1px solid color-mix(in srgb, var(--btn-tint) 24%, transparent);
-    background: color-mix(in srgb, var(--surface-raised) 92%, transparent);
-    box-shadow: var(--shadow-md);
+  .tint {
+    background: color-mix(in srgb, var(--btn-tint) var(--btn-fill, 12%), transparent);
+    border: 1px solid color-mix(in srgb, var(--btn-tint) var(--btn-edge, 35%), transparent);
   }
 
-  .solid {
-    border: 1px solid color-mix(in srgb, var(--btn-tint) 40%, transparent);
-    background: color-mix(in srgb, var(--btn-tint) 16%, transparent);
-    color: var(--btn-tint);
+  .raised {
+    background: color-mix(in srgb, var(--btn-surface, var(--surface-raised)) var(--btn-fill, 92%), transparent);
+    border: 1px solid color-mix(in srgb, var(--btn-tint) var(--btn-edge, 24%), transparent);
   }
 
-  .ghost {
-    border: 1px solid color-mix(in srgb, var(--btn-tint) 24%, transparent);
+  .fill {
     background: transparent;
+    border: 1px solid color-mix(in srgb, var(--btn-tint) var(--btn-edge, 100%), transparent);
   }
 
-  .link {
-    border: none;
+  .bare {
     background: none;
-    padding: 0;
-    letter-spacing: normal;
-    text-transform: none;
-    color: var(--btn-tint);
+    border: none;
   }
 
-  .btn:not(.link):not(:disabled):hover {
-    transform: translateY(-0.2rem);
-    border-color: color-mix(in srgb, var(--btn-tint) 42%, transparent);
-    background: color-mix(in srgb, var(--btn-tint) 12%, var(--surface-raised));
-    box-shadow: var(--shadow-lg);
+  .btn:not(:disabled):hover {
+    transform: var(--btn-raise, none);
+    box-shadow: var(--btn-shadow-hover, var(--btn-shadow, none));
   }
 
-  .link:hover {
-    text-decoration: underline;
+  .tint:not(:disabled):hover {
+    background: color-mix(in srgb, var(--btn-tint) var(--btn-fill-hover, 20%), transparent);
+    border-color: color-mix(in srgb, var(--btn-tint) var(--btn-edge-hover, 55%), transparent);
+  }
+
+  .raised:not(:disabled):hover {
+    background: color-mix(in srgb, var(--btn-tint) var(--btn-fill-hover, 12%), var(--btn-surface, var(--surface-raised)));
+    border-color: color-mix(in srgb, var(--btn-tint) var(--btn-edge-hover, 42%), transparent);
+  }
+
+  .fill:not(:disabled):hover {
+    background: var(--btn-tint);
+    border-color: var(--btn-tint);
+    color: var(--btn-fill-text, var(--text-on-accent));
   }
 
   .btn:disabled {
