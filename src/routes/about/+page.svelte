@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { t } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import PageShell from '$lib/components/ui/PageShell.svelte';
 
   let visibleSections: Record<string, boolean> = $state({
     electris: false,
@@ -69,7 +70,7 @@ setTimeout(orbitReset, 10);
   <title>{t('about.title', 'About Us')} | ELECTRIS</title>
 </svelte:head>
 
-<div class="page-container">
+<PageShell align="center" class="page-container">
   <!-- Hero/Title -->
   <header class="page-header">
     <h1 class="main-title"><u>{t('about.hero')}</u></h1>
@@ -125,15 +126,10 @@ setTimeout(orbitReset, 10);
 
   </div>
 
-</div>
+</PageShell>
 
 <style>
-  .page-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
+  :global(.page-container) {
     position: relative;
     overflow-x: hidden;
   }
@@ -293,8 +289,9 @@ setTimeout(orbitReset, 10);
   }
 
   @media (max-width: 900px) {
-    .page-container {
-      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-5) var(--space-8);
+    :global(.page-container) {
+      --shell-pad-top: calc(var(--layout-page-top) + var(--space-4));
+      --shell-pad-inline: var(--space-5);
     }
 
     .page-header {
@@ -318,8 +315,10 @@ setTimeout(orbitReset, 10);
   }
 
   @media (max-width: 560px) {
-    .page-container {
-      padding: var(--layout-page-top) var(--space-4) var(--space-7);
+    :global(.page-container) {
+      --shell-pad-top: var(--layout-page-top);
+      --shell-pad-inline: var(--space-4);
+      --shell-pad-bottom: var(--space-7);
     }
 
     .main-title {

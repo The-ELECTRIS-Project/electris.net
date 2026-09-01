@@ -4,6 +4,7 @@
   import { themeState } from '$lib/state/theme.svelte';
   import { filterPosts, getAllTags, formatDate, resolveCover, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
+  import PageShell from '$lib/components/ui/PageShell.svelte';
   import TagFilter from './components/ui/TagFilter.svelte';
 
   let { data } = $props();
@@ -60,7 +61,7 @@
   <meta name="description" content="Thoughts and Ideas from the ELECTRIS Project" />
 </svelte:head>
 
-<div class="blog-container">
+<PageShell width="wide" class="blog-container">
 
   <div class="hero-section">
     <h1
@@ -149,14 +150,10 @@
       </div>
     {/if}
   </div>
-</div>
+</PageShell>
 
 <style>
-  .blog-container {
-    min-height: 100vh;
-    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
-    max-width: var(--layout-max);
-    margin: 0 auto;
+  :global(.blog-container) {
     position: relative;
   }
 
@@ -483,9 +480,10 @@
   }
 
   @media (max-width: 900px), (any-pointer: coarse) {
-    .blog-container {
-      padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
-      max-width: 48rem;
+    :global(.blog-container) {
+      --shell-pad-top: calc(var(--layout-page-top) + var(--space-4));
+      --shell-pad-inline: var(--space-4);
+      --shell-max: 48rem;
     }
 
     .hero-section {
@@ -560,8 +558,8 @@
   }
 
   @media (max-width: 640px) {
-    .blog-container {
-      padding-top: var(--layout-page-top);
+    :global(.blog-container) {
+      --shell-pad-top: var(--layout-page-top);
     }
 
     .controls-section {
