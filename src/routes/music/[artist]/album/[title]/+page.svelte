@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
     import { t, i18nState } from '$lib/state/i18n.svelte';
+    import PageShell from '$lib/components/ui/PageShell.svelte';
+    import Button from '$lib/components/ui/Button.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
@@ -24,7 +26,7 @@
     <title>{album.title} | {artist.name} | ELECTRIS</title>
 </svelte:head>
 
-<div class="album-detail">
+<PageShell class="album-detail">
     <div class="content-wrapper">
         <div class="album-sidebar">
             <div class="album-cover">
@@ -51,10 +53,10 @@
                 <div class="listen-links">
                     <div class="links-grid">
                         {#if album.links?.youtube}
-                            <a href={album.links.youtube} target="_blank" class="link-btn option">YouTube</a>
+                            <Button href={album.links.youtube} external variant="fill" class="link-btn option">YouTube</Button>
                         {/if}
                         {#if album.links?.spotify}
-                            <a href={album.links.spotify} target="_blank" class="link-btn option">Spotify</a>
+                            <Button href={album.links.spotify} external variant="fill" class="link-btn option">Spotify</Button>
                         {/if}
                     </div>
                 </div>
@@ -76,14 +78,9 @@
             </div>
         </div>
     </div>
-</div>
+</PageShell>
 
 <style>
-    .album-detail {
-        min-height: 100vh;
-        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
-    }
-
     .content-wrapper {
         display: grid;
         grid-template-columns: 27rem 1fr;
@@ -147,20 +144,13 @@
         gap: var(--space-4);
     }
 
-    .link-btn {
+    .links-grid :global(.link-btn) {
+        --btn-edge: 30%;
         padding: var(--space-2) var(--space-5);
-        border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
         border-radius: var(--radius-sm);
-        text-decoration: none;
         color: var(--accent);
         font-weight: bold;
         font-size: var(--text-sm);
-        transition: var(--transition-colors);
-    }
-
-    .link-btn:hover {
-        background: var(--accent);
-        color: var(--text-on-accent);
     }
 
     .tracklist-container h2 {
@@ -209,8 +199,9 @@
     }
 
     @media (max-width: 1000px) {
-        .album-detail {
-            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
+        :global(.album-detail) {
+            --shell-pad-top: calc(var(--layout-page-top) + var(--space-4));
+            --shell-pad-inline: var(--space-4);
         }
 
         .content-wrapper {
@@ -240,9 +231,7 @@
             align-items: stretch;
         }
 
-        .link-btn {
-            display: flex;
-            justify-content: center;
+        .links-grid :global(.link-btn) {
             padding: var(--space-3) var(--space-4);
             font-size: var(--text-base);
         }
