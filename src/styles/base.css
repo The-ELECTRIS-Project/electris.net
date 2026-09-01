@@ -1,7 +1,8 @@
 /* Element defaults and the shared classes that are not tied to one component. */
 
 html {
-  font-size: clamp(1vmin, 2.13vmin, 1.36vmin);
+  /* Bounded fluid. `rem` here is the user's own default size, so their preference still lands. */
+  font-size: clamp(0.875rem, 0.5rem + 0.75vmin, 1.25rem);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -280,24 +281,6 @@ main {
 .crown-image:hover,
 .crown-image.hovered {
   filter: var(--crown-filter-hover);
-}
-
-@media (max-width: 1024px) {
-  html {
-    font-size: clamp(14px, 1.45vw, 17px);
-  }
-}
-
-@media (max-width: 768px) {
-  html {
-    font-size: clamp(16px, 3.9vw, 18px);
-  }
-}
-
-@media (max-width: 480px) {
-  html {
-    font-size: clamp(16px, 4.4vw, 19px);
-  }
 }
 
 @media (any-pointer: coarse) {
