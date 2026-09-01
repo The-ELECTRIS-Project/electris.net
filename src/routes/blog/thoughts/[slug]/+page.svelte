@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import Button from '$lib/components/ui/Button.svelte';
+  import { slide } from 'svelte/transition';
   import { formatDate, resolveBlogLinks, resolveCover, resolveInfoCardStyle, resolvePostTypographyStyle } from '$lib/utils/blog';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import { i18nState, t, availableLocales } from '$lib/state/i18n.svelte';
   import { themeState } from '$lib/state/theme.svelte';
   import { toast } from '$lib/state/toast.svelte';
   import { page } from '$app/state';
+  import Button from '$lib/components/ui/Button.svelte';
   import GithubPreview from '$lib/components/ui/GithubPreview.svelte';
   import InfoIcon from '$lib/components/ui/icons/Info.svelte';
   import type { BlogVersion } from '$lib/types/blog';
@@ -45,6 +46,11 @@
   let hasHistory = $derived(versions.length > 1);
   let viewingIndex = $derived(versions.findIndex((version) => version.id === data.currentRevision));
   let replacedBy = $derived(viewingIndex > 0 ? versions[viewingIndex - 1] : undefined);
+  let historyOpen = $state(false);
+
+  // The site-wide reduced-motion rule only reaches CSS, and this transition is driven by script.
+  const motionDuration = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 220;
 
   function versionHref(version: BlogVersion) {
     const url = new URL(page.url);
@@ -215,8 +221,13 @@
         </div>
 
         {#if hasHistory}
-          <details class="version-history">
-            <summary>
+          <div class="version-history" class:expanded={historyOpen}>
+            <button
+              type="button"
+              class="version-summary"
+              onclick={() => (historyOpen = !historyOpen)}
+              aria-expanded={historyOpen}
+            >
               {t('blog.version.updated', 'Updated')} {formatDate(versions[0].date)}
               <span class="version-count">
                 {versions.length - 1}
@@ -224,32 +235,34 @@
                   ? t('blog.version.earlier.one', 'earlier version')
                   : t('blog.version.earlier.many', 'earlier versions')}
               </span>
-            </summary>
+            </button>
 
-            <ol class="version-list">
-              {#each versions as version, index (version.id ?? 'current')}
-                <li class:active={version.id === data.currentRevision}>
-                  <div class="version-row">
-                    {#if version.id === data.currentRevision}
-                      <span class="version-date">{formatDate(version.date)}</span>
-                    {:else}
-                      <a class="version-date" href={versionHref(version)}>{formatDate(version.date)}</a>
+            {#if historyOpen}
+              <ol class="version-list" transition:slide={{ duration: motionDuration() }}>
+                {#each versions as version, index (version.id ?? 'current')}
+                  <li class:active={version.id === data.currentRevision}>
+                    <div class="version-row">
+                      {#if version.id === data.currentRevision}
+                        <span class="version-date">{formatDate(version.date)}</span>
+                      {:else}
+                        <a class="version-date" href={versionHref(version)}>{formatDate(version.date)}</a>
+                      {/if}
+
+                      {#if version.isCurrent}
+                        <span class="version-tag">{t('blog.version.current', 'Current')}</span>
+                      {:else if index === versions.length - 1}
+                        <span class="version-tag">{t('blog.version.original', 'Original')}</span>
+                      {/if}
+                    </div>
+
+                    {#if version.motif && index < versions.length - 1}
+                      <p class="version-motif">{version.motif}</p>
                     {/if}
-
-                    {#if version.isCurrent}
-                      <span class="version-tag">{t('blog.version.current', 'Current')}</span>
-                    {:else if index === versions.length - 1}
-                      <span class="version-tag">{t('blog.version.original', 'Original')}</span>
-                    {/if}
-                  </div>
-
-                  {#if version.motif && index < versions.length - 1}
-                    <p class="version-motif">{version.motif}</p>
-                  {/if}
-                </li>
-              {/each}
-            </ol>
-          </details>
+                  </li>
+                {/each}
+              </ol>
+            {/if}
+          </div>
         {/if}
 
         {#if youtubeEmbedUrl}
@@ -423,26 +436,26 @@
     font-size: var(--text-sm);
   }
 
-  .version-history summary {
-    cursor: pointer;
-    list-style: none;
+  .version-summary {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
+    padding: 0;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
     opacity: 0.8;
   }
 
-  .version-history summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .version-history summary::before {
+  .version-summary::before {
     content: '▸';
     display: inline-block;
-    transition: transform var(--duration-fast) var(--ease-out);
+    transition: transform var(--duration-normal) var(--ease-out);
   }
 
-  .version-history[open] summary::before {
+  .expanded .version-summary::before {
     transform: rotate(90deg);
   }
 
