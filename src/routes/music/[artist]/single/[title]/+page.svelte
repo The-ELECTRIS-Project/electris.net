@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { gsap } from 'gsap';
     import { t } from '$lib/state/i18n.svelte';
+    import PageShell from '$lib/components/ui/PageShell.svelte';
     import type { PageData } from './$types';
 
     let { data } = $props<{ data: PageData }>();
@@ -27,7 +28,7 @@
     <title>{single.title} | {artist.name} | ELECTRIS</title>
 </svelte:head>
 
-<div class="single-detail">
+<PageShell class="single-detail">
     <div class="content-wrapper">
         <div class="cover-art">
             <img src={single.cover} alt={single.title} />
@@ -70,15 +71,13 @@
             </div>
         </div>
     </div>
-</div>
+</PageShell>
 
 <style>
-    .single-detail {
-        min-height: 100vh;
+    :global(.single-detail) {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
     }
 
     .content-wrapper {
@@ -190,8 +189,9 @@
     }
 
     @media (max-width: 900px) {
-        .single-detail {
-            padding: calc(var(--layout-page-top) + var(--space-4)) var(--space-4) var(--space-8);
+        :global(.single-detail) {
+            --shell-pad-top: calc(var(--layout-page-top) + var(--space-4));
+            --shell-pad-inline: var(--space-4);
             align-items: flex-start;
         }
 
