@@ -47,6 +47,8 @@
   let hoverConfigs = $derived(hoverConfigState.configs);
   const hoveredElements = new Set<HTMLElement>();
   let lastColorElement: HTMLElement | null = null;
+  let lastColorConfig: HoverConfig | null = null;
+  let lastAppliedColor: string | null = null;
 
   // Measurement and style caching
   let cachedRects = new Map<HTMLElement, DOMRect>();
@@ -198,27 +200,52 @@
     };
   }
 
+  function resolveOrbitColor(element: HTMLElement, config: HoverConfig): string {
+    if (!circleElement) return '';
+
+    if (config.color) return config.color;
+    if (config.wrapText && modsState.config.site.adaptiveOrbitColor) return getCachedStyle(element).color;
+
+    return getCachedStyle(circleElement).getPropertyValue('--orbit-border').trim();
+  }
+
+  // Hovered elements animate their own colour, so this is re-run every frame rather than
+  // sampled once, which would freeze the orbit on a half-finished interpolation.
+  function applyOrbitColor(element: HTMLElement, config: HoverConfig) {
+    if (!circleElement) return;
+
+    const color = resolveOrbitColor(element, config);
+    if (color === lastAppliedColor) return;
+    lastAppliedColor = color;
+
+    circleElement.style.color = color;
+
+    if (typeof config.shape === 'object' && config.shape.svg) {
+      circleElement.style.backgroundColor = color;
+      circleElement.style.borderColor = 'transparent';
+    } else if (config.color) {
+      circleElement.style.borderColor = config.color;
+    } else if (config.wrapText) {
+      circleElement.style.borderColor = color;
+    } else {
+      circleElement.style.borderColor = '';
+    }
+  }
+
   function updateOrbitLook(element: HTMLElement | null, config?: HoverConfig) {
     if (!circleElement) return;
 
     if (element && config) {
       if (lastColorElement === element) {
         // Even if the element is the same, we might need to update effects if the config changed
+        lastColorConfig = config;
+        applyOrbitColor(element, config);
         applyEffects(config);
         return;
       }
       lastColorElement = element;
-      
-      let color = '';
-      if (config.color) {
-        color = config.color;
-      } else if (config.wrapText && modsState.config.site.adaptiveOrbitColor) {
-        color = getCachedStyle(element).color;
-      } else {
-        color = getCachedStyle(circleElement).borderTopColor;
-      }
-
-      circleElement.style.color = color;
+      lastColorConfig = config;
+      lastAppliedColor = null;
 
       if (typeof config.shape === 'object' && config.shape.svg) {
         const maskUrl = `url(${config.shape.svg})`;
@@ -230,27 +257,19 @@
         circleElement.style.maskRepeat = 'no-repeat';
         circleElement.style.webkitMaskPosition = 'center';
         circleElement.style.maskPosition = 'center';
-        
-        circleElement.style.backgroundColor = color;
-        circleElement.style.borderColor = 'transparent';
       } else {
         circleElement.style.webkitMaskImage = '';
         circleElement.style.maskImage = '';
         circleElement.style.backgroundColor = '';
-        
-        if (config.color) {
-          circleElement.style.borderColor = config.color;
-        } else if (config.wrapText) {
-          circleElement.style.borderColor = color;
-        } else {
-          circleElement.style.borderColor = '';
-        }
       }
 
+      applyOrbitColor(element, config);
       applyEffects(config);
     } else {
       if (lastColorElement === null) return;
       lastColorElement = null;
+      lastColorConfig = null;
+      lastAppliedColor = null;
       circleElement.style.borderColor = '';
       circleElement.style.color = '';
       circleElement.style.webkitMaskImage = '';
@@ -1323,6 +1342,10 @@
         lastCheckY = mouse.y;
         lastScrollX = currentScrollX;
         lastScrollY = currentScrollY;
+      }
+
+      if (lastColorElement && lastColorConfig) {
+        applyOrbitColor(lastColorElement, lastColorConfig);
       }
 
       if (isTransitioning) {
