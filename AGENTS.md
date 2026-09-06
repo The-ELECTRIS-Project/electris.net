@@ -11,6 +11,9 @@ App code lives in `src/`:
  
 Build output such as `.svelte-kit/` and logs are generated artifacts and should not be edited directly.
 
+Detailed topic guidance lives in `.agents/`:
+ - `.agents/i18n.md` — read before touching translations, translation files, or any string rendered from them
+
 ## Build, Test, and Development Commands
  - `npm run dev` runs local development
  - `npm run preview` to inspect the production build locally

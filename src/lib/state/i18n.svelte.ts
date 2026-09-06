@@ -1,5 +1,6 @@
-import { browser } from '$app/environment';
+import { browser, dev } from '$app/environment';
 import { modsState } from '$lib/state/mods.svelte';
+import { hasRichMarkup } from '$lib/utils/i18n';
 
 export interface LocaleData {
   [key: string]: string;
@@ -42,6 +43,7 @@ class I18nState {
   reportedKeys = new Set<string>();
   suspectKeys = new Set<string>();
   reportTimer: ReturnType<typeof setTimeout> | null = null;
+  reportedRichKeys = new Set<string>();
 
   constructor() {
     if (browser) {
@@ -264,16 +266,31 @@ class I18nState {
     return undefined;
   }
 
-  translate(key: string, fallback?: string, localeOverride?: string): string {
+  translateRich(key: string, fallback?: string, localeOverride?: string): string {
     const locale = localeOverride || this.currentLocale;
     const value = this.getTranslation(key, locale);
-    
+
     if (value !== undefined) return value;
-    
+
     if (fallback !== undefined) return fallback;
 
     this.reportMissingKey(key, locale);
     return key;
+  }
+
+  translate(key: string, fallback?: string, localeOverride?: string): string {
+    const value = this.translateRich(key, fallback, localeOverride);
+    if (dev) this.reportRichMarkup(key, value);
+    return value;
+  }
+
+  // Markup only renders through <T>, so a plain lookup landing on a rich string means the
+  // call site would print the tags verbatim.
+  reportRichMarkup(key: string, value: string) {
+    if (!browser || this.reportedRichKeys.has(key) || !hasRichMarkup(value)) return;
+
+    this.reportedRichKeys.add(key);
+    console.warn(`[i18n] Translation key "${key}" contains markup; render it with <T> instead of t()`);
   }
 
   // A key can be missing simply because its file has not arrived yet, so the report waits
