@@ -428,7 +428,7 @@
     min-height: 100vh;
     max-width: var(--layout-max);
     margin: 0 auto;
-    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-8);
+    padding: var(--layout-page-top) var(--layout-page-inline) var(--space-5);
     position: relative;
     overflow: clip;
     isolation: isolate;
@@ -887,8 +887,8 @@
   }
 
   .snapshot-section {
+    margin-bottom: var(--space-5);
     margin-top: var(--space-8);
-    margin-bottom: var(--space-6);
   }
 
   .snapshot-header {
