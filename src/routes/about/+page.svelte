@@ -3,12 +3,12 @@
   import { t } from '$lib/state/i18n.svelte';
   import { useHoverConfig } from '$lib/state/hoverConfig.svelte';
   import PageShell from '$lib/components/ui/PageShell.svelte';
+  import T from '$lib/components/ui/T.svelte';
 
   let visibleSections: Record<string, boolean> = $state({
     electris: false,
     electro: false
   });
-  const withLineBreaks = (text: string): string => text.replace(/<br\s*\/?>/gi, '\n');
 
   useHoverConfig([
     {
@@ -84,7 +84,7 @@ setTimeout(orbitReset, 10);
         <p class="intro">{t('about.elts.intro')}</p>
         <p>{t('about.elts.p1')}</p>
         <p>{t('about.elts.p2')}</p>
-        <p class="statement">{withLineBreaks(t('about.elts.statement'))}</p>
+        <p class="statement"><T key="about.elts.statement" /></p>
       </div>
     </section>
 
@@ -214,7 +214,6 @@ setTimeout(orbitReset, 10);
     padding-left: var(--space-4);
     font-style: italic;
     margin-top: var(--space-5);
-    white-space: pre-line;
   }
 
   /* --- ELECTRO STYLES --- */

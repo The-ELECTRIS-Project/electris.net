@@ -1,67 +1,86 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { t, i18nState } from '$lib/state/i18n.svelte';
+  import T from '$lib/components/ui/T.svelte';
 
   let isPageArabic = $derived(i18nState.currentLocale === 'ar');
   let isPageJapanese = $derived(i18nState.currentLocale === 'ja-JP');
-  const withLineBreaks = (text: string): string => text.replace(/<br\s*\/?>/gi, '\n');
 
-  function glitchAction(node: HTMLElement, text: string) {
-    let currentText = text;
+  const glitchChars = '█▓▒░▄▀▐▌│┤┘┴┬├─┼╋╬╫╪╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌┐└┴┬├─┼';
+
+  interface GlitchTarget {
+    node: Text;
+    original: string;
+    written: string;
+  }
+
+  function glitchAction(node: HTMLElement) {
     let isCorrupted = false;
     let corruptInterval: ReturnType<typeof setInterval> | null = null;
+    let targets: GlitchTarget[] = [];
 
-    const corruptText = (html: string, intensity = 0.1): string => {
-      let result = '';
-      let inTag = false;
-      for (let i = 0; i < html.length; i++) {
-        const char = html[i];
-        if (char === '<') inTag = true;
+    const corruptText = (text: string, intensity: number): string =>
+      Array.from(text, char =>
+        char !== ' ' && Math.random() < intensity
+          ? glitchChars[Math.floor(Math.random() * glitchChars.length)]
+          : char
+      ).join('');
 
-        if (!inTag && Math.random() < intensity && char !== ' ') {
-          const glitchChars = '█▓▒░▄▀▐▌│┤┘┴┬├─┼╋╬╫╪╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌┐└┴┬├─┼';
-          result += glitchChars[Math.floor(Math.random() * glitchChars.length)];
-        } else {
-          result += char;
-        }
+    const collectTargets = () => {
+      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+      targets = [];
 
-        if (char === '>') inTag = false;
+      while (walker.nextNode()) {
+        const text = walker.currentNode as Text;
+        const original = text.nodeValue ?? '';
+        targets.push({ node: text, original, written: original });
       }
-      return result;
+    };
+
+    // A value that no longer matches what the glitch wrote came from a locale change, so it
+    // becomes the new original rather than being overwritten with stale text.
+    const corrupt = (intensity: number) => {
+      for (const target of targets) {
+        if (target.node.nodeValue !== target.written) target.original = target.node.nodeValue ?? '';
+
+        target.written = corruptText(target.original, intensity);
+        target.node.nodeValue = target.written;
+      }
+    };
+
+    const restore = () => {
+      for (const target of targets) {
+        if (target.node.nodeValue === target.written) target.node.nodeValue = target.original;
+      }
     };
 
     const handleMouseEnter = () => {
-      if (!isCorrupted) {
-        isCorrupted = true;
-        let corruptionLevel = 0;
+      if (isCorrupted) return;
 
-        corruptInterval = setInterval(() => {
-          corruptionLevel += 0.01;
-          node.innerHTML = corruptText(currentText, Math.min(corruptionLevel, 0.01));
+      isCorrupted = true;
+      collectTargets();
+      let corruptionLevel = 0;
 
-          if (corruptionLevel >= 0.15) {
-            setTimeout(() => {
-              node.innerHTML = currentText;
-              isCorrupted = false;
-            }, 100);
-            if (corruptInterval !== null) {
-              clearInterval(corruptInterval);
-              corruptInterval = null;
-            }
+      corruptInterval = setInterval(() => {
+        corruptionLevel += 0.01;
+        corrupt(Math.min(corruptionLevel, 0.01));
+
+        if (corruptionLevel >= 0.15) {
+          setTimeout(() => {
+            restore();
+            isCorrupted = false;
+          }, 100);
+          if (corruptInterval !== null) {
+            clearInterval(corruptInterval);
+            corruptInterval = null;
           }
-        }, 50);
-      }
+        }
+      }, 50);
     };
 
     node.addEventListener('mouseenter', handleMouseEnter);
 
     return {
-      update(newText: string) {
-        currentText = newText;
-        if (!isCorrupted) {
-          node.innerHTML = newText;
-        }
-      },
       destroy() {
         node.removeEventListener('mouseenter', handleMouseEnter);
         if (corruptInterval !== null) clearInterval(corruptInterval);
@@ -101,18 +120,14 @@
 <div class="content">
   <div class="main-section">
     <h2 class="section-header">{t('creator.standard.meaning.header')}</h2>
-    <p class="definition" use:glitchAction={t('creator.standard.definition')}>
+    <p class="definition" use:glitchAction>
       {t('creator.standard.definition')}
     </p>
 
     <div class="explanation">
-      <p use:glitchAction={t('creator.standard.explanation.p1')}>
-        {withLineBreaks(t('creator.standard.explanation.p1'))}
-      </p>
+      <p use:glitchAction><T key="creator.standard.explanation.p1" /></p>
 
-      <p use:glitchAction={t('creator.standard.explanation.p2')}>
-        {withLineBreaks(t('creator.standard.explanation.p2'))}
-      </p>
+      <p use:glitchAction><T key="creator.standard.explanation.p2" /></p>
     </div>
   </div>
 </div>
@@ -227,7 +242,6 @@
       var(--transition-colors),
       letter-spacing var(--duration-normal) var(--ease-out);
     cursor: default;
-    white-space: pre-line;
   }
 
   .explanation p:hover {
